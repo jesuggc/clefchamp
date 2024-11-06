@@ -1,0 +1,33 @@
+<header class="sticky-top pistachio" >
+  <div class="d-flex justify-content-between align-items-center">
+    <div >
+      <a href="/">Aqui va el logo</a>
+
+    </div>
+    <div>
+      <a href="/"><button class="btn btn-primary me-3">Perfil</button></a>
+    </div>
+    <% if(!user) { %>
+      <div>
+        <a href="/users/login"><button class="btn btn-primary me-3">Iniciar sesión</button></a>
+      </div>
+    <% } else { %>  
+      Hola <%=locals.user.tagname%>
+      <div class="dropdown me-3">
+        <button class="btn btn-secondary dropdown-toggle mh10vh" type="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
+            <img class="rounded-circle borderProfile mh8vh" src="/images/<%=locals.user.icon%>" alt="Imagen de perfil del usuario por defecto">
+        </button>
+        <ul class="dropdown-menu multi-level text-center">
+          <li><h5><%=locals.user.name%></h5><p><%=locals.user.email%></p></li>
+          <hr>
+          <li class="dropstart">
+            <ul id="multiLevel" class="dropdown-menu">
+            </ul>
+          </li>
+          <hr>
+          <li><a class="dropdown-item" href="/users/logout"><strong class="red">Cerrar sesión</strong></a></li>
+        </ul>
+      </div>
+    <% } %>
+  </div>
+</header>

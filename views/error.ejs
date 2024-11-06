@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="es">
+  <%-include('partials/head')%>
+  <body>
+    <div class="fakeBody pistachio">
+      <%#-include('partials/header')%>
+      <div class="d-flex align-items-center">
+          <div class="row pistachio text-center justify-content-center w-100">
+            <h1>Algo salio mal...</h1>
+            <p>Parece que ha habido algun problema, pero no te preocupes! Nuestros desarrolladores están trabajando para arreglarlo.</p>
+
+            <p><%= message %></h1>
+            <pre><%= error.stack %></pre>
+            <h5><%= error.status %></h2>
+          </div>   
+      </div>
+    </div>
+    <%#-include('partials/footer')%>
+  </body>
+</html>
+

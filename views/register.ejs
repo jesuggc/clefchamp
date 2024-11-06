@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="es">
+<%-include('partials/head') %>
+
+  <body>
+    <div class="fakeBody">
+      <%#-include('partials/header') %>
+      <div class=" loginHeight d-flex align-items-center">
+        <div class="col-lg-6 innerShadow mx-auto rounded-4 pt-4 px-4 my-2 scrollable">
+          <h1>Registro</h1>
+          <p class="rosaDayusky">Aviso: No voy a cifrar las contraseñas (vamos que las puedo ver) asi que no me pongais la contraseña que usais para todo desde los 12 años</p>
+          <form id="myForm" enctype="multipart/form-data">
+            <!--NOMBRE-->
+            <div class="row">
+              <div class="col" id="nameContainer">
+                <h4 class="my-2">Nombre</h4>
+                <input  class="w-100" id="name" type="text" name="nombre" placeholder="Nombre" required>
+              </div>
+              <div class="col" id="tagnameContainer">
+                <h4 class="my-2">Alias</h4>
+                <input  class="w-100" id="tagname" type="text" name="alias" placeholder="Alias" required>
+              </div>
+            </div>
+            <!--CORREO-->
+            <div class="row">
+              <div class="col" id="emailContainer">
+                <h4 class="my-3">Correo</h4>
+                <input id="email" class="w-100" type="text" name="email" placeholder="example@gmail.es" required>
+              </div>
+            </div>
+            <!--CONTRASEÑA-->
+            <div class="row">
+              <div class="col">
+                <h4 class="my-3">Contraseña</h4>
+                <div class="input-group" >
+                  <input class="w-75" type="password" name="contrasena" id="password" placeholder="Contraseña" required>
+                  <button type="button" class="passButton w-25" id="togglePassword">Mostrar</button>
+                </div>
+                <ul id="passContainer"></ul>
+              </div>
+              <div id="confirmContainer" class="col">
+                <h4 class="my-3">Confirma la contraseña</h4>
+                <div  class="input-group">
+                  <input class="w-75" type="password" name="contrasenaConf" id="confirmPassword" placeholder="Contraseña" required>
+                  <button type="button" class="passButton w-25" id="toggleConfirmPassword">Mostrar</button>
+                </div>
+              </div>
+            </div>
+              <!--BOTON-->
+            <div class="row d-flex my-4">
+              <input id="register" class="row w-50 bg-primary  mx-auto d-block" type="button" value="Registrarme">
+            </div>
+          </form>
+        </div>
+
+        <button hidden id="modalLaunch" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal"></button>
+        
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-sm  modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header ">
+                <h1 class="modal-title fs-5 text-center" id="exampleModalLabel">Registro</h1>
+              </div>
+              <div class="modal-body">
+                <p>La cuenta ha sido creada con éxito</p>
+              </div>
+              <div class="modal-footer">
+                <a href="/"><button type="button" class="btn btn-primary">Entendido</button></a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="/javascripts/showPswd.js"></script>
+    <script src="/javascripts/validateRegister.js"></script>
+  </body>
+</html>

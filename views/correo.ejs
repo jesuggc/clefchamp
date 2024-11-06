@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="es">
+  <%-include('partials/head') %>
+  <body>
+    <div class="fakeBody pistachio">
+      <%-include('partials/header') %>
+      <div class="col pistachio mb-4">
+        <div class="row">
+          <h1 class="ms-4 my-2">Mensajes</h1>        
+        </div>
+        <div class="row mx-4">
+          <div id="listar" class="col rounded-4 whitesmoke scrollable-correo ">
+            <div class="row text-center p-3">
+              <div id="listarPrincipal" class="col cursorPointer border-end"><h4>Principal</h4></div>
+              <div id="listarFavoritos" class="col cursorPointer border-end"><h4>Favoritos</h4></div>
+              <div id="listarArchivados" class="col cursorPointer "><h4>Archivados</h4></div>
+            </div>
+            <hr class="mt-0">
+            <% emails.forEach((ele,i) => { %>
+              <div class="border-bottom py-1 rowMail cursorPointer row mx-2 <%if(ele.leido===0) { %> noLeido <% } else { %> leido <% } %><%if(ele.favorito) { %> favorito <%}%><%if(ele.archivado) { %> archivado d-none <%}%>" data-id="<%=ele.id%>">
+                <div class="col-3"><span><%=ele.admin ? ele.nombreOrigen.toUpperCase() : ele.nombreOrigen%> <%=ele.admin ? ele.apellido1.toUpperCase() : ele.apellido1%> <%=ele.admin ? ele.apellido2.toUpperCase() : ele.apellido2%></span></div>
+                <div class="col-6"><span><%=ele.asunto %></div>
+                <div class="col-2"><span><%=ele.fecha%></div>
+                <div class="col-1"><span><%=ele.hora%></div>
+              </div>
+            <% }) %>
+            <br>
+          </div>
+          <div id="mostrar" class="col d-none rounded-end-4 scrollable whitesmoke">
+              <button id="btn-close" class="btn-close float-end me-2 mt-3" aria-label="Cerrar" data-bs-dismiss="lector"> </button>
+            <div id="asunto" class="row d-flex justify-content-between my-3" >
+                <h3></h3>
+            </div>
+            <div id="fondo" class="w-50 shadow-25 row ms-3 bg-secondary rounded-3 p-2 d-flex align-items-center">
+              <div class="col-2">
+                <img src="/images/noPicture.jpg" alt="imagen" class="rounded-circle mailImage" alt="Imagen de perfil de usuario por defecto">
+              </div>
+              <div class="col-10">
+                <div id="nombre" class="row ms-1">
+                  <h5></h5>
+                </div>
+                <div id="correo" class="row ms-1">
+                  <h5></h5>
+                </div>
+              </div>          
+            </div>
+            <div class="row my-3">
+              <div class="col"></div>
+              <div class="col"></div>
+              <div class="col">
+                <div id="fecha" class="row negrita justify-content-center"></div>
+                <hr class="m-0 me-2">
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <div class="row ms-5 d-flex justify-content-center fit-content">
+                  <div class="rounded-2 p-2 divActionsImage flex-column">
+                    <img id="favorito" class="mx-2 actionsImage cursorPointer" src="/images/estrella.png" alt="Icono de favoritos">
+                    <img id="archivar" class="mx-2 actionsImage cursorPointer" src="/images/archivar.png" alt="Icono de archivar">
+                    <img id="eliminar" class="mx-2 actionsImage cursorPointer" src="/images/eliminar.png" alt="Icono de eliminar">
+                  </div>  
+              </div>
+              </div>
+            </div>
+            <hr>
+            <div id="cuerpo" class="text-justify me-2 p-4 row rounded-1 ms-3">
+              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Corporis, eum cupiditate. Maiores facilis adipisci delectus qui. Vero facere omnis repellendus iste aliquid quia quos rem, quibusdam sunt! Impedit, reiciendis cupiditate!
+            </div>
+            <hr>
+          </div>
+        </div>
+      </div>   
+      <img class="nuevoCorreo" src="/images/nuevoCorreo.png" alt="Imagen de nuevo mensaje">
+      <div class="panelEnviar rounded-top-4 d-none">
+        <button id="closeEnviar" class="btn-close-white btn-close float-end me-3 mt-3" aria-label="Cerrar" data-bs-dismiss="panelEnviar"> </button>
+        <h5 class="claret rounded-top-4 text-white p-3">Nuevo mensaje </h5>
+        <div contenteditable id="enviarDestinatario" class="mx-3 ">
+          <p id="holderDestinatario">Para: </p>
+        </div>
+        <hr>
+        <div contenteditable id="enviarAsunto" class="mx-3">
+          <p id="holderAsunto">Asunto: </p>
+        </div>
+        <hr>
+        <div contenteditable id="enviarCuerpo" class=" mx-3 d-flex mailBody">
+          <p id="holderCuerpo">Cuerpo: </p>
+        </div>
+        <div class="d-flex align-items-center mx-4 mt-4">
+          <button id="sendMail" type="button" class="btn btn-primary w-100">Enviar mensaje</button>
+        </div>
+
+      </div>
+    </div>
+    <script src="/javascripts/mails.js"></script>
+    <%-include('partials/footer') %>
+  </body>
+</html>

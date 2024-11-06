@@ -1,0 +1,23 @@
+# Dependencias de Node
+node_modules/
+package-lock.json
+
+# Archivos de configuración específicos de entorno
+.env
+
+# Archivos de sistema (Mac, Windows)
+.DS_Store
+Thumbs.db
+
+# Archivos de compilación
+*.log
+*.pid
+*.pid.lock
+
+# Archivos temporales y de caché
+.tmp/
+.cache/
+.vscode/
+
+# Archivos específicos del IDE (Visual Studio Code)
+.vscode/

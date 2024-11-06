@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es">
+  <%-include('partials/head') %>
+  <body>
+    <div class="fakeBody ">
+      <%-include('partials/header') %>
+      <div class=" loginHeight d-flex align-items-center ">
+        <div class="row mx-4 ">
+          <div class="row-xs col-lg-3 innerShadow rounded-4 p-4 my-4 mx-auto d-flex">
+            <img class="img-fluid loginImage" src="/images/inicioDeSesion.png" alt="Ilustración decorativa para iniciar sesión de una persona con una llave">
+          </div>  
+          <div id="mainDiv" class="row-xs col-lg-6 innerShadow mx-auto rounded-4 p-4 my-4">
+            <h1>Inicio de sesión</h1>
+            <form>
+              <h4 class="my-3">Correo o alias</h4>
+              <div id="emailContainer">
+                <input class="w-100 " type="text" name="email" id="email" placeholder="example@example.es">
+              </div>
+              <h4 class="my-3">Contraseña</h4>
+              <div id="passContainer" class="input-group">
+                <input class="w-75" type="password" name="contrasena" id="password" placeholder="Contraseña">
+                <button type="button" class="passButton w-25" id="togglePassword">Mostrar</button>
+              </div>
+              <div class="row my-4 d-flex justify-content-center ">
+                <div class="col-8">
+                  <input id="login" class="bg-primary w-100" type="submit" value="Iniciar sesión">
+                </div>
+                <div class="col-4">
+                  <a class="btn btn-lg bg-secondary w-100 text-wrap" href="/users/register">¿No tienes cuenta?</a>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+  <script src="/javascripts/validateLogin.js"></script>
+  <script src="/javascripts/showPswd.js"></script>
+</html>

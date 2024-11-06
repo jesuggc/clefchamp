@@ -1,0 +1,30 @@
+Tabla de Códigos de Color
+Texto:
+Negro: 30
+Rojo: 31
+Verde: 32
+Amarillo: 33
+Azul: 34
+Magenta: 35
+Cian: 36
+Blanco: 37
+Fondo (sumar 10 al código de texto):
+Fondo negro: 40
+Fondo rojo: 41
+Fondo verde: 42
+Fondo amarillo: 43
+Fondo azul: 44
+Fondo magenta: 45
+Fondo cian: 46
+Fondo blanco: 47
+Negrita: Anteponer 1; al código del color.
+
+
+function colorLog(message, colorCode) {
+    console.log(`\x1b[${colorCode}m%s\x1b[0m`, message);
+}
+
+// Ejemplo de uso
+colorLog("Esto es un mensaje en rojo", "31"); // Texto rojo
+colorLog("Esto es un mensaje en verde", "32"); // Texto verde
+colorLog("Esto es un mensaje en amarillo con fondo azul", "33;44"); // Texto amarillo con fondo azul

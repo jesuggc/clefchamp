@@ -1,0 +1,414 @@
+/* ----------ELEMENTOS GENERALES---------- */
+
+body,html {
+  overflow-x: hidden;
+  padding:0;
+  margin:0;
+}
+
+select{
+  text-align:center;
+  height: 3em; 
+  border-radius: 12px;
+  width: 75%;
+}
+
+header {
+  height: 10vh;
+  max-height: 10vh;
+  position: sticky;
+  z-index: 999;
+  top: -10px;
+  box-shadow: 0 -6px 10px 5px rgba(0,0,0,0.5);
+}
+
+header img{
+  max-height: 8vh;
+}
+
+input {
+  border-radius: 12px;
+  padding: 8px; 
+  font-size: 20px;
+  border-width: 1px;
+  border-color: black;
+}
+
+a[href] {
+  /* color: #00B7FF; */
+  text-decoration: none;
+}
+
+a, div {
+  text-decoration: none;
+}
+
+dt {
+  width: 20px;
+  height: 20px;
+  display: inline-block;
+  overflow: hidden;
+}
+
+dd {
+  display: inline-block;
+  width: 10em;
+  margin: 0 0 0 1em;
+}
+
+footer {
+  width: 100%;
+  overflow: hidden;
+  box-shadow: 0 -6px 10px 5px rgba(0, 0, 0, 0.25);
+}
+
+footer ul{
+  list-style: none;
+}
+
+footer a{
+  text-decoration: none;
+  color: white;
+}
+
+/* ----------CLASES---------- */
+
+.shipGray { background-color: #8A8D91; }
+
+.claret { background-color: #990032; }
+
+.apricot { background-color: #FFCAB1; }
+
+.dartmouth { background-color: #0B5D1E; }
+
+.smoky { background-color: #231C07; }
+
+.pistachio { background-color: #BFB48F; }
+
+.whitesmoke { background-color: whitesmoke; } 
+
+.red { color: red; } 
+.green { color: green; } 
+
+.errorText {
+  font-size:12px;
+  color:red
+}
+
+.negrita{
+  font-weight: bold;
+}
+.leido{
+  background-color: #e8e8e8;
+}
+
+.divImage {
+  background-color: #990033;
+  height:12em;
+  display: flex;
+  align-items: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  background-blend-mode:multiply; 
+}
+
+.prueba {
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
+.innerShadow {
+  box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+}
+
+.redInput {
+  font-size: 1.4vw;
+}
+
+.passButton {
+  border-radius: 0px 12px 12px 0px;
+}
+
+.scrollable {
+  max-height: 90vh;
+  overflow-y:scroll;
+}
+
+.scrollable-listar{
+  max-height: 52vh;
+  overflow-y:scroll;
+}
+
+.scrollable-listar::-webkit-scrollbar { display: none; }
+
+.scrollable-bookings{
+  max-height: 81vh;
+  overflow-y:scroll;
+}
+
+.scrollable-bookings::-webkit-scrollbar { display: none; }
+
+.scrollable-info{
+  max-height: 83vh;
+  overflow-y:scroll;
+}
+
+.scrollable-info::-webkit-scrollbar { display: none; }
+
+.scrollable-correo {
+  max-height: 81vh;
+  overflow-y:scroll;
+}
+
+.scrollable-correo::-webkit-scrollbar {
+  display: none;
+}
+.scrollable-admin {
+  max-height: 70vh;
+  overflow-y:scroll;
+}
+
+.scrollable-admin::-webkit-scrollbar {
+  display: none;
+}
+body::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollable::-webkit-scrollbar {
+  display: none;
+}
+
+.noDisponible {
+  background-color: black;
+  cursor: not-allowed;
+}
+
+.ocupado {
+  background-color: rgb(112, 111, 111);
+  cursor:not-allowed;
+}
+
+.seleccionado {
+  background-color: #094963;
+  cursor:pointer;
+}
+
+.disponible {
+  background-color: white;
+  cursor:pointer;
+}
+
+.reservado {
+  background-color: rgb(189, 213, 11);
+  cursor:not-allowed;
+}
+
+.noLeido {
+  font-weight: bold;
+}
+
+.shadow-25 {
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+}
+
+.abierto {
+  margin-right: -20em;
+  transform: translateX(25px); 
+}
+
+.rowMail {
+  transition: transform 0.3s ease; /* Agregar transición para suavizar el desplazamiento */
+}
+
+.rowMail:hover {
+  transform: translateX(20px); /* Desplazar 20px a la derecha al pasar el ratón sobre el elemento */
+}
+
+.eliminado {
+  transition: transform 1.5s ease;
+  transform: translateX(-1200px);
+} 
+
+.archivadoT {
+  transition: transform 1.5s ease;
+  transform: translateX(1200px);
+}
+.favoritoT {
+  transition: transform 1.5s ease;
+  transform: translateX(1200px);
+}
+
+.panelEnviar {
+  position: fixed;
+  bottom: 0;
+  right:0;
+  margin-right:3vw;
+  width: 31%;
+  height: 60vh;
+  background-color: whitesmoke;
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 12px 28px 0px, rgba(0, 0, 0, 0.1) 0px 2px 4px 0px, rgba(255, 255, 255, 0.05) 0px 0px 0px 1px inset;
+}
+
+.nuevoCorreo {
+  position: fixed;
+  bottom: 0;
+  right:0;
+  margin-bottom: 1.5em;
+  margin-right: 2em;
+  max-width: 6em;
+  cursor:pointer;
+}
+
+.instalacion:hover{
+  border: 2px solid black;
+} 
+
+.marcado{
+  border: 2px solid black;
+} 
+
+.scrollable-x {
+  max-width: 100vw;
+  overflow-x:auto;
+}
+
+.scrollable-x::-webkit-scrollbar {
+  display: none;
+}
+
+.cursorPointer {
+  cursor: pointer;
+}
+ 
+.borderProfile {
+  max-width: 3em;
+  border: 2px solid black;
+}
+
+.alignJustify {
+  text-align: justify;
+}
+
+.hoursDiv {
+  max-width: 50px;
+  height :45px;
+}
+
+.hoursText {
+  margin-left: -35px;
+  margin-top: -30px;
+}
+
+.installationCard {
+  background-color:whitesmoke;
+  height:200px;
+  width:200px;
+  max-width:200px;
+  min-width:200px;
+}
+
+.reservationCard {
+  background-color:whitesmoke;
+  height:150px;
+  width:250px;
+  max-width:150px;
+  min-width:250px;
+}
+
+.mailImage {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  object-position: center;
+}
+
+.fit-content{
+  width:fit-content;
+}
+
+.divActionsImage {
+  width:fit-content;
+  box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+}
+.actionsImage {
+  height: 1.5em;
+}
+
+.mailBody {
+  max-height:23vh;
+  overflow-y: auto;
+}
+
+.fakeBody {
+  height:100vh
+}
+
+.loginImage {
+  object-fit: contain;
+}
+
+.loginHeight {
+  height:90%;
+}
+
+.navAdminHeight {
+  height: 10vh;
+  max-height: 10vh;
+}
+
+.statsImage{
+  height: 40vh;
+}
+.asistencia {
+  background-color: #0B5D1E;
+}
+.cancelada {
+  background-color: #ff6250;
+}
+
+.centerInfo {
+  height: 88%;
+}
+
+.detailsWidth{
+  width: fit-content;
+}
+
+.mh10vh {
+  max-height: 10vh
+}
+.mh8vh {
+  max-height: 8vh
+}
+
+.petitionsImg {
+  width: 12em;
+  mix-blend-mode: darken;
+}
+
+.listImg {
+  width: 4em;
+  mix-blend-mode: darken;
+}
+
+.cadetblue {
+  background-color: cadetblue;
+}
+
+/* -------------ID------------- */
+#cuerpo {
+  text-align: justify;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+#showUsers {
+  max-height: 13vh;
+  height: 13vh;
+}
+
+.rosaDayusky {
+  background-color: #c98484;
+}
