@@ -64,15 +64,25 @@ class DAO {
                     if (err) callback(err, null)
                     else if (resultado.length === 0) callback()
                     else {
+                        let date = new Date(resultado[0].joindate);
+
+                        let day = date.getDate();          // Día del mes (1-31)
+                        let month = date.getMonth() + 1;   // Mes (0-11, por lo que sumamos 1 para que sea 1-12)
+                        let year = date.getFullYear();
+                        let joindate = {
+                            day,
+                            month,
+                            year
+                        }
                         let user = { 
                             id:resultado[0].id,
                             name:resultado[0].name,
                             tagname:resultado[0].tagname,
                             email:resultado[0].email,
                             icon:resultado[0].icon,
-                            joindate:resultado[0].joindate
+                            friendCode:resultado[0].friendCode,
+                            joindate
                         }
-                        console.log(user)
                         callback(null, user)
                     } 
                 })

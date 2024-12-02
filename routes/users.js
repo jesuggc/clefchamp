@@ -29,6 +29,10 @@ router.get("/profilePhoto/:id", isLoggedIn, (request,response) => {
   })
 })
 
+router.get("/profile", isLoggedIn, (request,response) => {
+  response.render('profile')
+})
+
 router.get("/logout", isLoggedIn, (request, response) => { //Redirige a pagina principal, cerrando sesion en locals y session
   request.session.destroy()
   response.locals.user = request.session
@@ -49,10 +53,8 @@ router.post("/login", function (request, response) {//Inicia sesion
     if (err) console.log("Error: ", err)
     else if(!res) response.json(false)
     else {
-      console.log("ANTeS",response.locals.user)
       request.session.user = res
       response.locals.user = res
-      console.log("DESPUES",response.locals.user)
       response.json({existe:true, nombre:res.nombre,correo:res.correo})
     }
   })

@@ -28,3 +28,10 @@ function colorLog(message, colorCode) {
 colorLog("Esto es un mensaje en rojo", "31"); // Texto rojo
 colorLog("Esto es un mensaje en verde", "32"); // Texto verde
 colorLog("Esto es un mensaje en amarillo con fondo azul", "33;44"); // Texto amarillo con fondo azul
+
+
+#8C7785
+#3C2040
+#1E0126
+#350D40
+#F2E7DC
