@@ -1,17 +1,17 @@
-<header class="sticky-top colorNuevo2" >
+<header class="sticky-top colorNuevo2 vh-10" >
   <div class="d-flex justify-content-between align-items-center">
     <div >
-      <a href="/">Aqui va el logo</a>
+      <a href="/"><img src="/images/homeIcon.png"></a>
 
-    </div>
-    <div>
-      <a href="/users/profile"><button style="background-color:#1E0126" class="btn btn-secondary me-3">Perfil</button></a>
     </div>
     <% if(!user) { %>
       <div>
         <a href="/users/login"><button class="btn btn-primary me-3">Iniciar sesión</button></a>
       </div>
-    <% } else { %>  
+      <% } else { %>  
+        <div>
+          <a href="/users/profile"><button style="background-color:#1E0126" class="btn btn-secondary me-3">Perfil</button></a>
+        </div>
       Hola <%=locals.user.tagname%>
       <div class="dropdown me-3">
         <button class="btn btn-secondary dropdown-toggle mh10vh" type="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
