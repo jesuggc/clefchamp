@@ -42,6 +42,11 @@ router.get("/informacion", function (request, response) {
   response.render("informacion", {pag})
 });
 
+router.get("/moreInformation", function (request, response) {
+  response.status(200)
+  response.render("moreInformation")
+});
+
 router.get("/getLogo", (request,response) => {
   midao.getLogo((err,foto) => {
     if (err) console.log(err)
