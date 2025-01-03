@@ -10,7 +10,13 @@ const passLocals = (req, res, next) => {
 router.use(passLocals)
 
 router.get('/', function(req, res, next) {
+  
   res.render('index');
+});
+
+router.get('/loading', (req, res) => {
+  const redirectUrl = req.query.redirect || '/'; // URL de redirección, por defecto al inicio
+  res.render('loadingScreen', { redirectUrl }); // Pasamos la URL como variable a la vista
 });
 
 router.get('/headerOptions', function(req, res, next) {
@@ -45,6 +51,7 @@ router.get("/informacion", function (request, response) {
 router.get("/moreInformation", function (request, response) {
   response.status(200)
   response.render("moreInformation")
+  res.redirect('/loading?redirect=/moreInformation');
 });
 
 router.get("/getLogo", (request,response) => {
