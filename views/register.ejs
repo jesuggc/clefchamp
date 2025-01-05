@@ -1,20 +1,30 @@
 <!DOCTYPE html>
 <html lang="es">
 <%-include('partials/head') %>
-
-  <body>
-    <div class="fakeBody">
-      <%#-include('partials/header') %>
-      <div class=" loginHeight d-flex align-items-center">
-        <div class="col-lg-6 innerShadow mx-auto rounded-4 pt-4 px-4 my-2 scrollable">
+  <body class="colorNuevo5">
+    <%-include('partials/headerLogo') %>
+    <div class="vh-90">
+      <div class="d-flex align-items-center">
+        <div class="colorNuevo1 col-lg-6 mx-auto rounded-4 pt-4 px-4 my-2 scrollable">
           <h1>Registro</h1>
           <p class="rosaDayusky">Aviso: No voy a cifrar las contraseñas (vamos que las puedo ver) asi que no me pongais la contraseña que usais para todo desde los 12 años</p>
           <form id="myForm" enctype="multipart/form-data">
             <!--NOMBRE-->
-            <div class="row">
+            <!-- <div class="row">
               <div class="col" id="nameContainer">
                 <h4 class="my-2">Nombre</h4>
                 <input  class="w-100" id="name" type="text" name="nombre" placeholder="Nombre" required>
+              </div>
+              <div class="col" id="tagnameContainer">
+                <h4 class="my-2">Alias</h4>
+                <input  class="w-100" id="tagname" type="text" name="alias" placeholder="Alias" required>
+              </div>
+            </div> -->
+              
+            <div class="row">
+              <div class="col">
+                <h4 class="my-2">Nombre</h4>
+                <input  class="" id="name" type="text" name="nombre" placeholder="Nombre" required>
               </div>
               <div class="col" id="tagnameContainer">
                 <h4 class="my-2">Alias</h4>
@@ -48,7 +58,6 @@
             </div>
               <!--BOTON-->
             <div class="row d-flex my-4">
-              <a style="text-decoration:none" class="row w-25" href="/"><input id="register" class="bg-danger mx-auto " type="button" value="Cancelar"></a>
               <input id="register" class="row w-50 bg-primary  mx-auto d-block" type="button" value="Registrarme">
             </div>
           </form>

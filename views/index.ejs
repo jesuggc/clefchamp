@@ -2,23 +2,29 @@
 <html lang="es">
   <%-include('partials/head') %>
   <body class="colorNuevo5">
-    <div class="vh-5 d-flex align-items-center justify-content-end">
-      <a style="color: #1E0126;" href="/users/register" class="me-3 mt-2"><h5>Registro</h5></a>
-      <a style="color: #1E0126;" href="/users/login"  class="me-3 mt-2"><h5>Iniciar sesión</h5></a>
+    <%-include('partials/header') %>
+    <div class="form-control">
+      <input type="value" required="">
+      <label>
+        <span style="transition-delay:0ms">U</span><span style="transition-delay:50ms">s</span><span style="transition-delay:100ms">e</span><span style="transition-delay:150ms">r</span><span style="transition-delay:200ms">n</span><span style="transition-delay:250ms">a</span><span style="transition-delay:300ms">m</span><span style="transition-delay:350ms">e</span>
+      </label>
     </div>
-    <div class="d-flex align-items-center justify-content-center vh-95" id="mainContent">
+    <div class="d-flex align-items-center justify-content-center vh-90" id="mainContent">
       <div>
-          <!-- <h1 class="text-center" style="font-size: 14em;color: #1E0126;">𝄞champ</h1> -->
-          <h1 class="text-center" style="font-size: 14em;color: #1E0126;">Clefchamp</h1>
-          <h2 class="text-center"> Plataforma de aprendizaje musical mediante gamificación</h2>
-          <div class="d-flex justify-content-center mt-5">
-            <!-- <a href="/"><button class="btn btn-outline-primary btn-lg me-3">Prueba de nivel</button></a> -->
-            <!-- <a href="/moreInformation"><button class="btn btn-primary btn-lg">Saber más</button></a> -->
-            <a href="/"><button class="cancelButton me-5">Prueba de nivel</button></a>
-            <a href="/loading?redirect=/moreInformation"><button class="acceptButton">Saber más</button></a>
-          </div>
+        <h1 class="text-center" style="font-size: 14em;color: #1E0126;">Clefchamp</h1>
+        <h2 class="text-center"> Plataforma de aprendizaje musical mediante gamificación</h2>
+        <div class="d-flex justify-content-center mt-5">
+          <a href="/"><button class="cancelButton me-5">Prueba de nivel</button></a>
+          <a href="/loading?redirect=/moreInformation"><button class="acceptButton">Saber más</button></a>
         </div>
+      </div>
     </div>
     <%-include('partials/footer') %>
+    <script>
+      // Configurar la recarga cada 5 segundos (5000 ms)
+      // setInterval(() => {
+      //   window.location.reload();
+      // }, 1500);
+    </script>
   </body>
 </html>

@@ -3,37 +3,37 @@
   <%-include('partials/head') %>
   <body class="colorNuevo5">
       <%-include('partials/header') %>
-      
-      <div class="row bg-dark">
-        <div class="col p-4 m-4 rounded-3 bg-danger">
-          <div class=" bg-warning rounded-circle">
-            <img class="rounded-circle" src="/images/github_jesus.jpg">
+      <div class="vh-90 d-flex flex-column">
+        <div class="row formulario" style="margin-left:10em;margin-right: 10em;">
+          <div class="col p-4 mt-4 mx-5 colorNuevo3" style="border-radius: 2em;">
+            <div class="colorNuevo5 rounded-circle ratio ratio-1x1">
+              <img class="rounded-circle p-2" src="/images/github_jesus.jpg">
+            </div>
+            <div class="mt-4 text-center">
+              <h3 class="infoDescriptor">Aprende a través de diferentes juegos</h3>
+            </div>
           </div>
-          <div>
-            <h3>Aprende a través de diferentes juegos</h3>
+          <div class="col p-4 mt-4 mx-5 colorNuevo3" style="border-radius: 2em;">
+            <div class="colorNuevo5 rounded-circle ratio ratio-1x1">
+              <img class="rounded-circle p-2" src="/images/github_jesus.jpg">
+            </div>
+            <div class="mt-4 text-center">
+              <h3 class="infoDescriptor">Consigue experiencia y sube de nivel</h3>
+            </div>
+          </div>
+          <div class="col p-4 mt-4 mx-5 colorNuevo3" style="border-radius: 2em;">
+            <div class="colorNuevo5 rounded-circle ratio ratio-1x1">
+              <img class="rounded-circle p-2" src="/images/github_jesus.jpg">
+            </div>
+            <div class="mt-4 text-center">
+              <h3 class="infoDescriptor">Compite contra tus amigos y contra ti mismo</h3>
+            </div>
           </div>
         </div>
-        <div class="col p-4 m-4 rounded-3 bg-danger">
-          <div class=" bg-warning rounded-circle justify-content-center">
-            <img class="rounded-circle" src="/images/github_jesus.jpg">
-          </div>
-          <div>
-            <h3>Consigue experiencia y sube de nivel</h3>
-          </div>
-        </div>
-        <div class="col p-4 m-4 rounded-3 bg-danger">
-          <div class=" bg-warning rounded-circle">
-            <img class="rounded-circle" src="/images/github_jesus.jpg">
-          </div>
-          <div>
-            <h3>Compite contra tus amigos y contra ti mismo</h3>
-          </div>
+        <div class="d-flex justify-content-center align-items-center result ">
+          <a href="/"><button class="cancelButton me-5">Prueba de nivel</button></a>
+          <a href="/users/register"><button class="acceptButton">Crear cuenta</button></a>
         </div>
       </div>
-      <div class="d-flex justify-content-center mt-5">
-        <a href="/"><button class="cancelButton me-5">Prueba de nivel</button></a>
-        <a href="/users/register"><button class="acceptButton">Crear cuenta</button></a>
-      </div>
-      <%#-include('partials/footer') %>
   </body>
 </html>

@@ -1,26 +1,20 @@
-<footer>
-   <div class="footer text-white bg-dark">
-        <div class="d-flex justify-content-center">         
-            <ul class="d-flex" style="list-style-type: disc;">
-                <li class="mx-3"><a href="" >Idioma</a></li>
-                <li class="mx-3"><a href="" >Reportar un error</a></li>
-                <li class="mx-3"><a href="/informacion?data=aboutus">Quienes somos</a></li>
-                <li class="mx-3"><a href="/informacion?data=ourteam">Nuestro equipo</a></li>
-                <li class="mx-3"><a href="/informacion?data=legalpolicy">Aviso legal</a></li> 
-                <li class="mx-3"><a href="/informacion?data=cookies">Cookies</a></li>
-                <li class="mx-3"><a href="/informacion?data=privacy">Política de privacidad</a></li>
-            </ul>
-        </div>
-        <div class="d-flex justify-content-center">
-            <ul>
-                <li>Clefchamp.com © 2025</li>
-            </ul>
-        </div>
-        <div class="d-flex justify-content-center">
-            <ul class="d-flex">
-                <li><a target="_blank" href="https://github.com/jesuggc" ><img style="max-width: 2em; min-width: 2em;max-height: 2em; min-height: 2em;" src="/images/githubLogo.png" ></a></li>
-                <li><a target="_blank" href="https://www.linkedin.com/in/jesuggc/" ><img style="max-width: 2em; min-width: 2em;max-height: 2em; min-height: 2em;" src="/images/linkedinLogo.png" ></a></li>
-            </ul>
-        </div>
-   </div>
+<footer class="footer text-white pt-3" style="background-color: #302e2b;">
+    <div class="d-flex justify-content-center">         
+        <ul class="d-flex" style="font-size: 0.9em;">
+            <li class="mx-3" ><a href="" >Idioma</a></li>
+            <li class="linkList mx-3"><a href="" >Reportar un error</a></li>
+            <li class="linkList mx-3"><a href="/informacion?data=aboutus">Quienes somos</a></li>
+            <li class="linkList mx-3"><a href="/informacion?data=ourteam">Nuestro equipo</a></li>
+            <li class="linkList mx-3"><a href="/informacion?data=legalpolicy">Aviso legal</a></li> 
+            <li class="linkList mx-3"><a href="/informacion?data=cookies">Cookies</a></li>
+            <li class="linkList mx-3"><a href="/informacion?data=privacy">Política de privacidad</a></li>
+            <li class="linkList mx-3"><a href="/informacion?data=privacy">Clefchamp.com © 2025</a></li>
+        </ul>
+    </div>
+    <div class="d-flex justify-content-center">
+        <ul class="d-flex" style="list-style: none;">
+            <li class="me-2"><a target="_blank" href="https://github.com/jesuggc"><%-include('svg/githubLogo') %></a></li>
+            <li><a target="_blank" href="https://www.linkedin.com/in/jesuggc/"><%-include('svg/linkedInLogo') %></a></li>
+        </ul>
+    </div>
 </footer>
