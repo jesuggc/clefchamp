@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 30-10-2024 a las 11:38:46
+-- Tiempo de generación: 07-01-2025 a las 09:31:33
 -- Versión del servidor: 10.4.28-MariaDB
 -- Versión de PHP: 8.2.4
 
@@ -24,6 +24,19 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `icons`
+--
+
+CREATE TABLE `icons` (
+  `id` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `path` varchar(255) NOT NULL,
+  `unlockCondition` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `sessions`
 --
 
@@ -38,7 +51,21 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`session_id`, `expires`, `data`) VALUES
-('GaI_MSG-7MIn6yKz4_KxFnP2MEdM9PGO', 1730336367, '{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"user\":{\"id\":1,\"name\":\"\",\"tagname\":\"jesuggc\",\"email\":\"jesuggcc@gmail.com\",\"icon\":\"default.png\",\"joindate\":\"2024-10-28T19:50:26.000Z\"}}');
+('CifdCTgCugAWHbkUBWqkT0kE2W18Afsd', 1736290137, '{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"user\":{\"id\":1,\"name\":\"\",\"tagname\":\"jesuggc\",\"email\":\"jesuggcc@gmail.com\",\"icon\":\"default.png\",\"joindate\":{\"day\":28,\"month\":10,\"year\":2024}}}');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `usericons`
+--
+
+CREATE TABLE `usericons` (
+  `userIconId` int(11) NOT NULL,
+  `userId` int(11) NOT NULL,
+  `iconId` int(11) NOT NULL,
+  `isSelected` tinyint(1) NOT NULL,
+  `bgColor` varchar(7) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -70,10 +97,22 @@ INSERT INTO `usuarios` (`id`, `tagname`, `email`, `password`, `name`, `icon`, `j
 --
 
 --
+-- Indices de la tabla `icons`
+--
+ALTER TABLE `icons`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indices de la tabla `sessions`
 --
 ALTER TABLE `sessions`
   ADD PRIMARY KEY (`session_id`);
+
+--
+-- Indices de la tabla `usericons`
+--
+ALTER TABLE `usericons`
+  ADD PRIMARY KEY (`userIconId`);
 
 --
 -- Indices de la tabla `usuarios`
@@ -84,6 +123,18 @@ ALTER TABLE `usuarios`
 --
 -- AUTO_INCREMENT de las tablas volcadas
 --
+
+--
+-- AUTO_INCREMENT de la tabla `icons`
+--
+ALTER TABLE `icons`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `usericons`
+--
+ALTER TABLE `usericons`
+  MODIFY `userIconId` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `usuarios`
