@@ -3,12 +3,7 @@
   <%-include('partials/head') %>
   <body class="colorNuevo5">
     <%-include('partials/header') %>
-    <!-- <div class="form-control">
-      <input type="value" required="">
-      <label>
-        <span style="transition-delay:0ms">U</span><span style="transition-delay:50ms">s</span><span style="transition-delay:100ms">e</span><span style="transition-delay:150ms">r</span><span style="transition-delay:200ms">n</span><span style="transition-delay:250ms">a</span><span style="transition-delay:300ms">m</span><span style="transition-delay:350ms">e</span>
-      </label>
-    </div> -->
+    <% if(!user) { %>
     <div class="d-flex align-items-center justify-content-center vh-90" id="mainContent">
       <div>
         <h1 class="text-center" style="font-size: 14em;color: #1E0126;">Clefchamp</h1>
@@ -19,6 +14,38 @@
         </div>
       </div>
     </div>
+    <% } else { %>  
+    <div class="bg-secondary rightRounded  row" style="width:40%">
+      <div class="col">
+        <div class="rightRounded justify-content-end mt-3 pt-2 pb-2 pe-4 d-flex " style="width:60%; background-color: white;">
+          <h3><%=locals.user.name%></h3>
+        </div>
+        <div class="d-flex justify-content-end pt-3" style="width:90%;">
+          56/80
+        </div>
+        <div class="bg-success rightRounded d-flex justify-content-center align-items-center" style="width:85%;">
+          <h3>Nivel 2</h3>
+        </div>
+      </div>
+      <div class="col-3 d-flex align-items-center justify-content-center">
+        <img src="/images/<%=locals.user.icon%>" class="rounded-circle mb-1 mt-1 me-2" style="max-height: 10em;">
+      </div>
+
+    </div>
+      
+    <div class="d-flex align-items-center justify-content-center vh-90" id="mainContent">
+      <div>
+        <h1 class="text-center" style="font-size: 14em;color: #1E0126;">Clefchamp</h1>
+        <h2 class="text-center"> Plataforma de aprendizaje musical mediante gamificación</h2>
+        <div class="d-flex justify-content-center mt-5">
+          <a href="/"><button class="cancelButton me-5">Jugar</button></a>
+        </div>
+        <audio src="/audio/FurElise.mp3" controls>
+          Your browser does not support the <code>audio</code> element.
+        </audio>
+      </div>
+    </div>
+    <% } %>
     <%-include('partials/footer') %>
     <script>
       // Configurar la recarga cada 5 segundos (5000 ms)

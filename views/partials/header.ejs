@@ -2,8 +2,22 @@
   <div class=" d-flex align-items-center justify-content-begin ms-4 mb-2">
     <a href="/" style="font-size: 1.5em;color: #1E0126;text-decoration: none;">Cle𝄞champ</a>
   </div>
-  <div class="d-flex justify-content-end pe-3">
-    <a href="/users/register" class="me-3 slideButton"><h5 class="m-3">Registro</h5></a>
-    <a href="/users/login"  class="slideButton"><h5 class="m-3">Iniciar sesión</h5></a>
-  </div>
+  <% if(!user) { %>
+    <div class="d-flex justify-content-end pe-3">
+      <a href="/users/register" class="me-3 slideButton"><h5 class="m-3">Registro</h5></a>
+      <a href="/users/login"  class="slideButton"><h5 class="m-3">Iniciar sesión</h5></a>
+    </div>
+  <% } else { %>  
+    <div class="dropdown me-3">
+      <button class="btn btn-secondary dropdown-toggle mh10vh" type="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
+          <img class="rounded-circle borderProfile mh8vh" src="/images/<%=locals.user.icon%>" alt="Imagen de perfil del usuario por defecto">
+      </button>
+      <ul class="dropdown-menu multi-level text-center">
+        <li><h5><%=locals.user.name%></h5><p><%=locals.user.email%></p></li>
+        <li><a class="dropdown-item" href="/users/profile">Mi perfil</a></li>
+        <hr>
+        <li><a class="dropdown-item" href="/users/logout"><strong class="red">Cerrar sesión</strong></a></li>
+      </ul>
+    </div>
+  <% } %>
 </header>

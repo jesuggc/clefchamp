@@ -21,6 +21,11 @@ const alreadyLoggedIn = (req, res, next) => {
 
 router.use(passLocals)
 
+router.get("/", isLoggedIn, (request,response) => {
+  response.render('home')
+})
+
+
 router.get("/profilePhoto/:id", isLoggedIn, (request,response) => {
   let id = Number(request.params.id)
   midao.getProfilePhoto(id,(err,foto) => {
