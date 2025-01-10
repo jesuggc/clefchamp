@@ -105,6 +105,33 @@
   border-radius: 0 10em 10em 0;
 }
 
+.svgIcons {
+  max-width: 20em;
+  max-height: 20em;
+  height:20em;
+  width:20em;
+}
+.profileIcon {
+  background-size: cover;
+}
+/* .profileIcon:hover {
+  opacity: 0.4;
+} */
+
+.editIcon:hover {
+  opacity: 0.6;
+  background-color: white;
+  cursor:pointer;
+}
+.editIcon {
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 20%;
+  opacity: 0;
+  
+  position:absolute;
+}
+
 
 /* ----------ELEMENTOS GENERALES---------- */
 
