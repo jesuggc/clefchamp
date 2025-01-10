@@ -25,6 +25,9 @@
 .vh-10 {
   height:10vh;
 }
+.vh-85 {
+  height:85vh;
+}
 .vh-90 {
   height:90vh;
 }
@@ -106,10 +109,10 @@
 }
 
 .svgIcons {
-  max-width: 20em;
-  max-height: 20em;
-  height:20em;
-  width:20em;
+  max-width: 15em;
+  max-height: 15em;
+  height:15em;
+  width:15em;
 }
 .profileIcon {
   background-size: cover;
@@ -153,77 +156,9 @@ header {
   position: sticky;
 }
 
-header img{
-  max-height: 8vh;
-}
-.form-control {
-  position: relative;
-  margin: 20px 0 40px;
-  width: 190px;
-}
-.form-control input {
-  background-color: transparent;
-  border: 0;
-  border-bottom: 2px black solid;
-  display: block;
-  width: 100%;
-  padding: 15px 0;
-  font-size: 18px;
-  color: black; 
-}
-.form-control input:focus,
-.form-control input:valid {
-  outline: 0;
-  /* border-bottom-color: lightblue; Cambiar el color de la linea de abajo */
-}
 
-.form-control label {
-  position: absolute;
-  top: 15px;
-  left: 0;
-  pointer-events: none;
-}
-
-.form-control label span {
-  display: inline-block;
-  font-size: 18px;
-  min-width: 5px;
-  color: black;
-  transition: 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-}
-.form-control input:focus+label span,
-.form-control input:valid+label span {
-  color: lightblue;
-  transform: translateY(-30px);
-} 
-  /*
-
-
-
-/* input {
-  border-radius: 12px;
-  padding: 8px; 
-  font-size: 20px;
-  border-width: 1px;
-  border-color: black;
-} */
-
-/* input:focus {
-  border-width: 0;
-  color: yellow; 
-}
-input::placeholder {
-  color: red;
-}
-input {
-  background-color: transparent;
-  border-width: 0 0 2px 0;  
-  border-color:black;
-  color: red;
-} */
 
 a[href] {
-  /* color: #00B7FF; */
   text-decoration: none;
 }
 
@@ -231,22 +166,11 @@ a, div {
   text-decoration: none;
 }
 
-dt {
-  width: 20px;
-  height: 20px;
-  display: inline-block;
-  overflow: hidden;
-}
-
-dd {
-  display: inline-block;
-  width: 10em;
-  margin: 0 0 0 1em;
-}
 
 ul li{
   list-style: none;
 }
+
 .linkList::before {
   content: "•"; 
   color: #989795;
@@ -280,55 +204,29 @@ footer a{
   border-radius: 0px 12px 12px 0px;
 }
 
-.scrollable {
-  max-height: 90vh;
-  overflow-y:scroll;
-}
-
-.scrollable-listar{
-  max-height: 52vh;
-  overflow-y:scroll;
-}
-
-.scrollable-listar::-webkit-scrollbar { display: none; }
-
-.scrollable-bookings{
-  max-height: 81vh;
-  overflow-y:scroll;
-}
-
-.scrollable-bookings::-webkit-scrollbar { display: none; }
-
-.scrollable-info{
-  max-height: 83vh;
-  overflow-y:scroll;
-}
-
-.scrollable-info::-webkit-scrollbar { display: none; }
-
-.scrollable-correo {
-  max-height: 81vh;
-  overflow-y:scroll;
-}
-
-.scrollable-correo::-webkit-scrollbar {
-  display: none;
-}
-.scrollable-admin {
-  max-height: 70vh;
-  overflow-y:scroll;
-}
-
-.scrollable-admin::-webkit-scrollbar {
-  display: none;
-}
 body::-webkit-scrollbar {
   display: none;
 }
 
-.scrollable::-webkit-scrollbar {
-  display: none;
+.scrollable {
+  overflow-y:scroll;
 }
+
+.scrollable::-webkit-scrollbar {
+  width: 8px; /* Ancho del scroll vertical */
+  margin-right: 2em;
+  
+}
+
+.scrollable::-webkit-scrollbar-thumb {
+  background-color: #555; /* Color de la barra de desplazamiento */
+  border-radius: 4px; /* Bordes redondeados */
+}
+
+.scrollable::-webkit-scrollbar-thumb:hover {
+  background-color: #444; /* Color cuando el cursor está encima */
+}
+
 
 .noLeido {
   font-weight: bold;
@@ -369,14 +267,6 @@ body::-webkit-scrollbar {
   cursor:pointer;
 }
 
-.scrollable-x {
-  max-width: 100vw;
-  overflow-x:auto;
-}
-
-.scrollable-x::-webkit-scrollbar {
-  display: none;
-}
 
 .cursorPointer {
   cursor: pointer;
