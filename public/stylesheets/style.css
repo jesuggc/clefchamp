@@ -117,9 +117,6 @@
 .profileIcon {
   background-size: cover;
 }
-/* .profileIcon:hover {
-  opacity: 0.4;
-} */
 
 .editIcon:hover {
   opacity: 0.6;
@@ -135,6 +132,12 @@
   position:absolute;
 }
 
+.purpleCard {
+  background-color: #8C7785;
+  border-color:#1E0126;
+  border-width: 3px;
+  border-style: solid; 
+}
 
 /* ----------ELEMENTOS GENERALES---------- */
 
