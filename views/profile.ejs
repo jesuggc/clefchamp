@@ -3,10 +3,7 @@
   <%-include('partials/head') %>
   <body class="colorNuevo5">
     <%-include('partials/header') %>
-    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-      Launch demo modal
-    </button>
-    <div class="row d-flex">
+    <div clasds="row d-flex">
       <div class="col-4 vh-90" >
         <div class="purpleCard rounded-4 p-4 mx-1 mb-1  text-center d-flex flex-column align-items-center ">
           <div class="rounded-circle svgIcons profileIcon" style="background-image: url('/images/<%=locals.user.icon%>'); "></div>
@@ -78,7 +75,9 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-            <p>Modal body text goes here.</p>
+            <div id="mainCol" class="col">
+
+            </div>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -89,6 +88,39 @@
     </div>
   <script src="/javascripts/clipboard.js"></script>
   <script>
+    $(".svgIcons").on("click", function(){
+      $("#exampleModal").modal("show")
+
+      $.ajax({
+        url: "/application/getIcons",
+        type: "GET",
+        success: function(response) {
+            if(!response) console.log("Sin response vamos bien")
+            else {
+              let size = response.length
+              let rows = size / 4;
+              let cols = size % 4;
+              console.log(rows)
+              console.log(cols)
+                $("#mainCol").empty()
+                for(let i = 0; i < rows; i++) {
+                  $("#mainCol").append('<div class="row">')
+                    for(let j = 0; j < 4; j++) {
+                      $(this).append('<div class="col">')
+                      $(this).append('</div>')
+                      
+                    }
+                  $("#mainCol").append('</div>')
+                }
+                // console.log()
+            }
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            console.log(textStatus, errorThrown);
+        }
+      })
+
+    })
     // setInterval(() => {
     //   window.location.reload();
     // }, 1500);

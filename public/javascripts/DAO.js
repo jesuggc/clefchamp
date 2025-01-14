@@ -178,5 +178,24 @@ class DAO {
         })
     }
 
+    getIcons(callback) {
+        this.pool.getConnection((err, connection) => {
+            if (err) callback(err, null)
+            else {
+                let stringQuery = "SELECT * FROM icons"
+                connection.query(stringQuery, (err, resultado) => {
+                    connection.release();
+                    if (err) callback(err)
+                    else callback(null, resultado.map(ele => ({  
+                        id:ele.id,
+                        name:ele.name,
+                        path:ele.path,
+                        unlockCondition: ele.unlockCondition
+                    })))
+                })
+            }
+        })
+    }
+
 }
 module.exports = DAO

@@ -7,6 +7,7 @@ var logger = require('morgan');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var adminRouter = require('./routes/admin');
+var applicationRouter = require('./routes/application');
 var app = express();
 
 const dao = require('./public/javascripts/DAO')
@@ -57,6 +58,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/admin', adminRouter);
+app.use('/application', applicationRouter);
 
 
 // midao.getConfiguration((err,res)=> {
