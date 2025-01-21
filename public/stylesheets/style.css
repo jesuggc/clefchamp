@@ -107,7 +107,12 @@
 .rightRounded {
   border-radius: 0 10em 10em 0;
 }
-
+.svgProfile {
+  max-width:  5em;
+  max-height: 5em;
+  height:     5em;
+  width:      5em;
+}
 .svgIcons {
   max-width: 15em;
   max-height: 15em;
@@ -117,6 +122,9 @@
 .profileIcon {
   background-size: cover;
 }
+/* .profileIcon:hover {
+  opacity: 0.4;
+} */
 
 .editIcon:hover {
   opacity: 0.6;
@@ -131,13 +139,13 @@
   
   position:absolute;
 }
-
 .purpleCard {
   background-color: #8C7785;
   border-color:#1E0126;
   border-width: 3px;
   border-style: solid; 
 }
+
 
 /* ----------ELEMENTOS GENERALES---------- */
 
@@ -212,6 +220,7 @@ body::-webkit-scrollbar {
 }
 
 .scrollable {
+  overflow-y:scroll;
   overflow-y:scroll;
 }
 
@@ -322,14 +331,49 @@ body::-webkit-scrollbar {
 }
 
 
-
 .mh10vh {
   max-height: 10vh
 }
 .mh8vh {
   max-height: 8vh
 }
+.cards {
+  height:10em;
+  width:8em;
+  position: absolute;
+  padding:2em;
+  text-align: center;
+  margin:2em;
+  border:1px solid black;
+  
+}
+.cards:hover {
+  /* scale:1.1; */
+  
+}
 
+.card0 {
+  z-index: 0;
+  right:40em;
+  scale:0.9;
+}
+.card1 {
+  z-index: 1;
+  right:36em;
+  scale:1;
+}
+
+.card2{
+  right:30em;
+  z-index: 2;
+  scale:1.132;
+}
+
+
+.card3 {
+  right:24em;
+  z-index: 1;
+}
 
 /* -------------ID------------- */
 #cuerpo {

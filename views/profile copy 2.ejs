@@ -40,11 +40,10 @@
       <div class="col-8 vh-85 scrollable container-fluid">
         <h1 class="rounded-4">Mejores partidas</h1>
         <h1 class="rounded-4">Historial</h1>
-        <div class="" style="border: 1px solid black; height:30em">
-          <div class="bg-light opacity-50 rounded-4 card0 cards">Card 0</div>
-          <div class="bg-danger opacity-50 rounded-4 card1 cards">Card 1</div>
-          <div class="bg-warning opacity-50 rounded-4 card2 cards">Card 2</div>
-          <div class="bg-success opacity-50 rounded-4 card3 cards">Card 3</div>
+        <div class="" style="border: 1px solid black; height:30em; ">
+          <div class="bg-danger rounded-4 card1 cards">Card 1</div>
+          <div class="bg-danger rounded-4 card2 cards">Card 2</div>
+          <div class="bg-danger rounded-4 card3 cards">Card 3</div>
           
         </div>
         <button id="izquierda">Izquierda</button>
@@ -74,60 +73,18 @@
       </div>
     </div>
   <script>
-    function moveLeft($element, duration, direction) {
-    const fontSize = parseFloat($element.css("font-size"));
-    const initialRightPx = parseFloat($element.css("right"));
-    const initialRight = initialRightPx / fontSize;
-    const initialScale = parseFloat($element.css("scale"));
+     let rotationAngle = 0;
 
-    // Calcular los valores objetivo
-    let targetRight = 0;
-    if(direction==="left") targetRight = initialRight + 6;
-    else targetRight = initialRight - 6;
-    
-    const targetScale = initialScale - 0.1;
-
-    // Calcular el umbral para z-index
-    const zIndexThreshold = (initialScale + targetScale) / 2;
-
-    const startTime = performance.now();
-
-    function animateStep() {
-      const elapsedTime = performance.now() - startTime;
-      const progress = Math.min(elapsedTime / duration, 1);
-      const currentRight = initialRight + (targetRight - initialRight) * progress;
-      const currentScale = initialScale + (targetScale - initialScale) * progress;
-      const currentZIndex = currentScale <= zIndexThreshold ? 0 : 1;
-
-      // Aplicar estilos al elemento
-      $element.css({
-        right: `${currentRight}em`,
-        scale: `${currentScale}`,
-        zIndex: currentZIndex,
-      });
-
-      // Continuar animación si no ha terminado
-      if (progress < 1) {
-        console.log("Bueno bueno bueeno")
-        requestAnimationFrame(animateStep);
-      }
-    }
-
-  requestAnimationFrame(animateStep);
-}
-    $("#izquierda").on("click", function() {
-      moveLeft($(".card0"),500,"left")
-      moveLeft($(".card1"),500,"left")
-      moveLeft($(".card2"),500,"left")
-      moveLeft($(".card3"),500,"left")
-    })
-
-    $("#derecha").on("click", function() {
-      moveLeft($(".card0"),500,"right")
-      moveLeft($(".card1"),500,"right")
-      moveLeft($(".card2"),500,"right")
-      moveLeft($(".card3"),500,"right")
-    })
+    $('#izquierda').click(function () {
+      rotationAngle += 45;
+      // if(rotationAngle===360) rotationAngle = 0;
+      $('.card1').css('transform', `rotateY(${rotationAngle}deg)`);
+    });
+    $('#derecha').click(function () {
+      rotationAngle -= 45;
+      // if(rotationAngle===360) rotationAngle = 0;
+      $('.card1').css('transform', `rotateY(${rotationAngle}deg)`);
+    });
   </script>
   <script src="/javascripts/clipboard.js"></script>
   <script>

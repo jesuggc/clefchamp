@@ -8,6 +8,7 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var adminRouter = require('./routes/admin');
 var applicationRouter = require('./routes/application');
+var playRouter = require('./routes/play');
 var app = express();
 
 const dao = require('./public/javascripts/DAO')
@@ -59,6 +60,7 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/admin', adminRouter);
 app.use('/application', applicationRouter);
+app.use('/play', playRouter);
 
 
 // midao.getConfiguration((err,res)=> {
