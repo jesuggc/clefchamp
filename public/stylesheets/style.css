@@ -388,3 +388,47 @@ body::-webkit-scrollbar {
 #myCanvas {
   background-color: red;
 }
+
+/* .slider {
+
+} */
+
+input[type="range"] {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 10px;
+  background: #e5e5e5;
+  border-radius: 5px;
+  outline: none;
+  margin: 10px 0;
+}
+
+/* Estilo del thumb (el botón que se arrastra) */
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 40px;
+  height: 15px;
+  background: #8cc63f;
+  border-radius: 20px;
+  cursor: pointer;
+  border: 2px solid #8cc63f;
+}
+
+/* Para navegadores basados en Firefox */
+input[type="range"]::-moz-range-thumb {
+  width: 40px;
+  height: 15px;
+  background: #8cc63f;
+  border-radius: 20px;
+  cursor: pointer;
+  border: 2px solid #8cc63f;
+}
+
+/* Estilo de la barra antes del thumb */
+input[type="range"]::-webkit-slider-runnable-track {
+  height: 10px;
+  background: #e5e5e5;
+  border-radius: 5px;
+}
+
