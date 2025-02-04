@@ -347,10 +347,10 @@ body::-webkit-scrollbar {
   border:1px solid black;
   
 }
-.cards:hover {
+/* .cards:hover {
   /* scale:1.1; */
   
-}
+/* } */ */
 
 .card0 {
   z-index: 0;
@@ -383,4 +383,8 @@ body::-webkit-scrollbar {
 
 .rosaDayusky {
   background-color: #c98484;
+}
+
+#myCanvas {
+  background-color: red;
 }

@@ -3,83 +3,92 @@
   <%-include('partials/head') %>
   <body class="colorNuevo5">
     <%-include('partials/header') %>
-    <div class="d-flex align-items-center justify-content-center vh-90" id="mainContent">
-      <div id="myCanvas" class="colorNuevo1">
-        
+    <div class="vh-90" id="mainContent">
+      <h1 class="bg-info">Prueba de nivel</h1>
+      <div id="canvasParent" class="bg-dark">
+    
       </div>
+      <h2 id="timer"></h2>
+      <button id="play">Play</button>
+      <button id="pause">Pause</button>
+      <button id="reset">Restart</button>
+      <button id="empezar">Empezar</button>
     </div>
     <%-include('partials/footer') %>
+    <!-- <div id="exampleModal" class="modal" tabindex="-1">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Modal title</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div id="mainCol" class="col">
+
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary">Save changes</button>
+          </div>
+        </div>
+      </div>
+    </div> -->
     <script src="https://cdn.jsdelivr.net/npm/vexflow@4.2.2/build/cjs/vexflow.js"></script>
+    <script type="module" src="/javascripts/vexManager.js"></script>
+    <script type="module" src="/javascripts/trial.js"></script>
+
     <script>
-    //   VF = Vex.Flow;
+      class Cronometro {
+      constructor(displayElement) {
+        this.displayElement = displayElement;
+        this.startTime = 0;
+        this.elapsedTime = 0;
+        this.timerInterval = null;
+      }
 
-    //   // We created an object to store the information about the workspace
-    //   // We created an object to store the information about the workspace
-    //   let canvasWidth = 500;
-    //   let canvasHeight = 500;
-    //   let div = $("#myCanvas").get(0);
+      start() {
+        if (this.timerInterval) return;
+        this.startTime = Date.now() - this.elapsedTime;
+        this.timerInterval = setInterval(() => {
+          this.elapsedTime = Date.now() - this.startTime;
+          this.updateDisplay();
+        }, 10);
+      }
 
-    //   // Create a renderer with SVG
-    //   var renderer = new VF.Renderer(
-    //       div,
-    //       VF.Renderer.Backends.SVG
-    //   );
-    //   renderer.resize(canvasWidth, canvasHeight);
-    //   var context = renderer.getContext();
+      pause() {
+        clearInterval(this.timerInterval);
+        this.timerInterval = null;
+      }
 
-    //   // And give some style to our SVG
-    //   context.setFont("Arial", 20, "").setBackgroundFillStyle("#eed");
+      reset() {
+        this.pause();
+        this.elapsedTime = 0;
+        this.updateDisplay();
+      }
 
+      updateDisplay() {
+        const totalMilliseconds = this.elapsedTime;
+        const minutes = Math.floor(totalMilliseconds / 60000).toString().padStart(2, '0');
+        const seconds = Math.floor((totalMilliseconds % 60000) / 1000).toString().padStart(2, '0');
+        const milliseconds = Math.floor((totalMilliseconds % 1000) / 10).toString().padStart(2, '0');
+        this.displayElement.textContent = `${minutes}:${seconds}:${milliseconds}`;
+      }
+    }
 
-    //   //  Creating a new stave
-    //   // Create a stave of width 400 at position x10, y40 on the SVG.
-    //   var stave = new VF.Stave(10, 0, 400);
+    // Uso
+    const display = document.getElementById("timer");
+    const cronometro = new Cronometro(display);
 
-    //   stave.addClef("treble").addTimeSignature("4/4");
-    //   // stave.addClef("baritone-g").addTimeSignature("4/4");
-    //   // Set the context of the stave our previous exposed context and execute the method draw !
-    //   stave.setContext(context).draw();
-    //   var notes = [
-    //     // A quarter-note C.
-    //     new VF.StaveNote({clef: "treble", keys: ["c/4"], duration: "q" }),
+    document.getElementById("play").addEventListener("click", () => cronometro.start());
+    document.getElementById("pause").addEventListener("click", () => cronometro.pause());
+    document.getElementById("reset").addEventListener("click", () => cronometro.reset());
 
-    //     // A quarter-note D.
-    //     // new VF.StaveNote({clef: "treble", keys: ["d/4"], duration: "q" }),
-
-    //     // // A quarter-note rest. Note that the key (b/4) specifies the vertical
-    //     // // position of the rest.
-    //     // new VF.StaveNote({clef: "treble", keys: ["b/4"], duration: "qr" }),
-
-    //     // // A C-Major chord.
-    //     // new VF.StaveNote({clef: "treble", keys: ["c/4", "e/4", "g/4"], duration: "q" })
-    // ];
-
-    //   var voice = new VF.Voice({num_beats: 1,  beat_value: 4});
-    //   voice.addTickables(notes);
-    //   var formatter = new VF.Formatter().joinVoices([voice]).format([voice], 400);
-    //   voice.draw(context, stave);
     </script>
     <script>
-    const { Factory, EasyScore, System } = Vex.Flow;
-
-const vf = new Factory({
-  renderer: { elementId: 'myCanvas', width: 500, height: 200 },
-});
-
-const score = vf.EasyScore();
-const system = vf.System();
-
-system
-  .addStave({
-    voices: [
-      score.voice(score.notes('C4/w')),
-    ],
-  })
-  .addClef('treble')
-  .addTimeSignature('4/4');
-
-vf.draw();
-
+      // setInterval(() => {
+      //   window.location.reload();
+      // }, 1000);    
     </script>
   </body>
 </html>
