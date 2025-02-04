@@ -79,10 +79,9 @@
     // Uso
     const display = document.getElementById("timer");
     const cronometro = new Cronometro(display);
-
-    document.getElementById("play").addEventListener("click", () => cronometro.start());
-    document.getElementById("pause").addEventListener("click", () => cronometro.pause());
-    document.getElementById("reset").addEventListener("click", () => cronometro.reset());
+    $("#play").on("click", () => cronometro.start());
+    $("#pause").on("click", () => cronometro.pause());
+    $("#reset").on("click", () => cronometro.reset());
 
     </script>
     <script>
