@@ -4,11 +4,14 @@
   <body class="colorNuevo5">
     <%-include('partials/header') %>
     <div class="vh-90" id="mainContent">
+      <h1>Aciertos: <span id="aciertos">0</span></h1>
+      <h1>Fallos: <span id="fallos">0</span></h1>
+      <input type="range" class="slider" min="0" step="1" disabled>
       <h1 class="bg-info">Prueba de nivel</h1>
       <div id="canvasParent" class="bg-dark">
     
       </div>
-      <h2 id="timer"></h2>
+      <h2 id="timer">00:00:00</h2>
       <button id="play">Play</button>
       <button id="pause">Pause</button>
       <button id="reset">Restart</button>
@@ -76,7 +79,6 @@
       }
     }
 
-    // Uso
     const display = document.getElementById("timer");
     const cronometro = new Cronometro(display);
 

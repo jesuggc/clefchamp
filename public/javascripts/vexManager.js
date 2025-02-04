@@ -54,4 +54,4 @@ function getOctave(note, clef) {
   return getNoteAndOctave(note, clef)[1]
 }
 
-export { dibujarNota, randomNote, randomClef, getNote, getOctave, resetCanvas };
+export { dibujarNota, randomNote, randomClef, getNoteAndOctave, getNote, getOctave, resetCanvas };
