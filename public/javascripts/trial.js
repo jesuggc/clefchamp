@@ -1,10 +1,10 @@
 import { dibujarNota, randomNote, randomClef, getNoteAndOctave, getNote, getOctave, resetCanvas } from './vexManager.js';
 import { Cronometro } from './cronometro.js';
 
-
 let TRIAL_CLEF = 1
 let TRIAL_MAX_DISPERSION = 3
 let TRIAL_ROUNDS = 20
+let DEBUG_MODE = false
 let contador = 0;
 let expectedNote = ""
 let aciertos = 0
@@ -20,14 +20,13 @@ let keyMap = {
         'h': 'a',
         'j': 'b'
     };
-// $('.slider').attr('max', TRIAL_ROUNDS); 
-// $('.slider').val(0); 
 dibujarNota("","")
 const cronometro = new Cronometro($($("#timer"))[0])
+if(!DEBUG_MODE) $("#debugDiv").hide()
 
 
 $("#empezar").on("click", function() {
-    $("#empezar").prop("disabled",true)
+    $(this).prop("disabled",true)
     cronometro.start()
     updateGame()
     $(document).on("keydown", function(event) {
@@ -39,6 +38,7 @@ $("#empezar").on("click", function() {
                 checkCorrect(event.key)
                 updateGame()
                 updateUI()
+                debugginTool()
             }
         }
     });
@@ -51,7 +51,6 @@ function updateGame() {
         let clef = randomClef(0) // bass
         let realNote = getNoteAndOctave(note,clef) // e5 + bass = g3
         dibujarNota(realNote,clef)
-        $("#esperada").text(note)
         expectedNote = getNote(note,clef) //g
     }
 }
@@ -65,8 +64,9 @@ function endGame() {
     cronometro.pause()
     resetCanvas()
     dibujarNota("","")
-    times.forEach((ele) => console.log(ele))
-    individualTimes.forEach((ele) => console.log(ele))
+
+    // times.forEach((ele) => console.log(ele))
+    // individualTimes.forEach((ele) => console.log(ele))
 }
 
 function getTime() {
@@ -76,14 +76,14 @@ function getTime() {
 }
 
 function updateUI() {
-    // $(".slider").val(contador)
-    let percentage = (contador/TRIAL_ROUNDS)*100
-    console.log(percentage)
-    $(".slider").css("width",percentage + "%")
+    $(".slider").css("width",((contador/TRIAL_ROUNDS)*100) + "%")
+}
 
-    $("#aciertos").text(aciertos)
-    $("#fallos").text(fallos)
-    
-    // $("#noteTime").append(cronometro.getTime() + "  \n")
-
+function debugginTool() {
+    if(DEBUG_MODE) {
+        $("#aciertos").text(aciertos)
+        $("#fallos").text(fallos)
+        $("#noteTime").append(cronometro.getTime() + "  \n")
+        $("#esperada").text(note)
+    } 
 }
