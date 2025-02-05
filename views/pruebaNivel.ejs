@@ -6,16 +6,18 @@
     <div class="vh-90" id="mainContent">
       <h1>Aciertos: <span id="aciertos">0</span></h1>
       <h1>Fallos: <span id="fallos">0</span></h1>
-      <input type="range" class="slider" min="0" step="1" disabled>
+      <div class="progress">
+        <div class="progress-bar progress-bar-striped bg-success slider" role="progressbar" aria-label="Success striped example" style="width: 0%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+      </div>
+      <!-- <input type="range" class="slider" min="0" step="1" disabled> -->
       <h1 class="bg-info">Prueba de nivel</h1>
       <div id="canvasParent" class="bg-dark">
     
       </div>
       <h2 id="timer">00:00:00</h2>
-      <button id="play">Play</button>
-      <button id="pause">Pause</button>
-      <button id="reset">Restart</button>
       <button id="empezar">Empezar</button>
+      <h2 id="noteTime"></h2>
+      <h2>Nota esperada: <span id="esperada"></span></h2>
     </div>
     <%-include('partials/footer') %>
     <!-- <div id="exampleModal" class="modal" tabindex="-1">
@@ -39,53 +41,8 @@
     </div> -->
     <script src="https://cdn.jsdelivr.net/npm/vexflow@4.2.2/build/cjs/vexflow.js"></script>
     <script type="module" src="/javascripts/vexManager.js"></script>
+    <script type="module" src="/javascripts/cronometro.js"></script>
     <script type="module" src="/javascripts/trial.js"></script>
-
-    <script>
-      class Cronometro {
-      constructor(displayElement) {
-        this.displayElement = displayElement;
-        this.startTime = 0;
-        this.elapsedTime = 0;
-        this.timerInterval = null;
-      }
-
-      start() {
-        if (this.timerInterval) return;
-        this.startTime = Date.now() - this.elapsedTime;
-        this.timerInterval = setInterval(() => {
-          this.elapsedTime = Date.now() - this.startTime;
-          this.updateDisplay();
-        }, 10);
-      }
-
-      pause() {
-        clearInterval(this.timerInterval);
-        this.timerInterval = null;
-      }
-
-      reset() {
-        this.pause();
-        this.elapsedTime = 0;
-        this.updateDisplay();
-      }
-
-      updateDisplay() {
-        const totalMilliseconds = this.elapsedTime;
-        const minutes = Math.floor(totalMilliseconds / 60000).toString().padStart(2, '0');
-        const seconds = Math.floor((totalMilliseconds % 60000) / 1000).toString().padStart(2, '0');
-        const milliseconds = Math.floor((totalMilliseconds % 1000) / 10).toString().padStart(2, '0');
-        this.displayElement.textContent = `${minutes}:${seconds}:${milliseconds}`;
-      }
-    }
-
-    const display = document.getElementById("timer");
-    const cronometro = new Cronometro(display);
-    $("#play").on("click", () => cronometro.start());
-    $("#pause").on("click", () => cronometro.pause());
-    $("#reset").on("click", () => cronometro.reset());
-
-    </script>
     <script>
       // setInterval(() => {
       //   window.location.reload();

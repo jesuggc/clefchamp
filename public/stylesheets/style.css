@@ -386,7 +386,7 @@ body::-webkit-scrollbar {
 }
 
 #myCanvas {
-  background-color: red;
+  background-color: #F2E7DC;
 }
 
 /* .slider {
@@ -431,4 +431,3 @@ input[type="range"]::-webkit-slider-runnable-track {
   background: #e5e5e5;
   border-radius: 5px;
 }
-
