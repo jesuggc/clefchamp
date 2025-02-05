@@ -4,15 +4,19 @@
   <body class="colorNuevo5">
     <%-include('partials/header') %>
     <div class="vh-90" id="mainContent">
-      <div class="progress">
-        <div class="progress-bar progress-bar-striped bg-success slider" role="progressbar" aria-label="Success striped example" style="width: 0%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+      <h1 class="">Prueba de nivel</h1>
+      <div class="bg-danger d-flex flex-column align-items-center justify-content-center">
+        <div id="divFeedback" style="background-color: white" class=" rounded-4">
+
+          <div class="progress m-4" style="min-width: 80em;">
+            <div class="progress-bar progress-bar-striped bg-success slider" role="progressbar" aria-label="Success striped example" style="width: 0%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+          </div>
+          <div id="canvasParent" class="mb-4 bg-dark">
+            
+          </div>
+        </div>
       </div>
-      <!-- <input type="range" class="slider" min="0" step="1" disabled> -->
-      <h1 class="bg-info">Prueba de nivel</h1>
-      <div id="canvasParent" class="bg-dark">
-        
-      </div>
-      <button id="empezar">Empezar</button>
+      <button id="empezar" class="acceptButton">Comenzar</button>
       <div id="debugDiv">
         <h2 id="timer">00:00:00</h2>
         <h1>Aciertos: <span id="aciertos">0</span></h1>
@@ -22,17 +26,43 @@
       </div>
     </div>
     <%-include('partials/footer') %>
-    <!-- <div id="exampleModal" class="modal" tabindex="-1">
-      <div class="modal-dialog modal-dialog-centered">
+    <div id="tutorialModal" class="modal" tabindex="-1">
+      <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title">Modal title</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <h3 class="modal-title mx-auto">¿Como funciona?</h3>
+            <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
           </div>
           <div class="modal-body">
-            <div id="mainCol" class="col">
-
+            <!-- -- -->
+            <div id="carouselExampleIndicators" class="carousel slide">
+              <div class="carousel-indicators">
+                <button style="filter: invert(100%);" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                <button style="filter: invert(100%);" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                <button style="filter: invert(100%);" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+              </div>
+              <div class="carousel-inner">
+                <div class="carousel-item active row">
+                  <p class="text-center my-5">Irán apareciendo distintas notas en pantalla </p>
+                  <!-- <img src="/images/ejemploJuego.png"> -->
+                </div>
+                <div class="carousel-item">
+                  <p class="text-center my-5">Las teclas estan asociadas a una nota tal y como se muestra</p>
+                </div>
+                <div class="carousel-item">
+                  <p class="text-center my-5">Adivina el mayor numero de notas en el menor tiempo posible</p>
+                </div>
+              </div>
+              <button class="carousel-control-prev" style="filter: invert(100%);" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+              </button>
+              <button class="carousel-control-next" style="filter: invert(100%);" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+              </button>
             </div>
+          <!-- -- -->
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -40,7 +70,7 @@
           </div>
         </div>
       </div>
-    </div> -->
+    </div>
     <script src="https://cdn.jsdelivr.net/npm/vexflow@4.2.2/build/cjs/vexflow.js"></script>
     <script type="module" src="/javascripts/vexManager.js"></script>
     <script type="module" src="/javascripts/cronometro.js"></script>

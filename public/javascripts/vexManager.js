@@ -24,8 +24,8 @@ const noteTranslationMap = {
 };
 
 function dibujarNota(nota, clef) {
-  resetCanvas()
   try {
+    resetCanvas()
     let voice = score.voice(score.notes(`${nota}/w`))
 
     system.addStave({

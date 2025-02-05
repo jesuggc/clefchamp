@@ -12,17 +12,19 @@ let fallos = 0
 let times = []
 let individualTimes = []
 let keyMap = {
-        'a': 'c',
-        's': 'd',
-        'd': 'e',
-        'f': 'f',
-        'g': 'g',
-        'h': 'a',
-        'j': 'b'
-    };
+    'a': 'c',
+    's': 'd',
+    'd': 'e',
+    'f': 'f',
+    'g': 'g',
+    'h': 'a',
+    'j': 'b'
+};
 dibujarNota("","")
 const cronometro = new Cronometro($($("#timer"))[0])
 if(!DEBUG_MODE) $("#debugDiv").hide()
+// new bootstrap.Modal($("#tutorialModal")).show();
+
 
 
 $("#empezar").on("click", function() {
@@ -34,7 +36,6 @@ $("#empezar").on("click", function() {
             if (keyMap[event.key]) {
                 getTime()
                 contador++
-                resetCanvas()
                 checkCorrect(event.key)
                 updateGame()
                 updateUI()
@@ -56,17 +57,23 @@ function updateGame() {
 }
 
 function checkCorrect(keyevent) {
-    if (keyMap[keyevent] === expectedNote) aciertos++
-    else fallos++
+    if (keyMap[keyevent] === expectedNote) {
+        aciertos++
+        flashBackground("#d7ffb8")
+    } 
+    else {
+        fallos++
+        flashBackground("#ffdfe0")
+    
+    }
 }
 
 function endGame() {
     cronometro.pause()
-    resetCanvas()
     dibujarNota("","")
 
     // times.forEach((ele) => console.log(ele))
-    // individualTimes.forEach((ele) => console.log(ele))
+    individualTimes.forEach((ele) => console.log(ele))
 }
 
 function getTime() {
@@ -87,3 +94,16 @@ function debugginTool() {
         $("#esperada").text(note)
     } 
 }
+
+
+function flashBackground(color) {
+    const div = document.getElementById("divFeedback");
+    if (!div) return;
+    div.style.transition = 'none';
+    div.style.backgroundColor =color; // Cambia a verde claro
+  
+    setTimeout(() => {
+      div.style.transition = "background-color 1s ease-in-out";
+      div.style.backgroundColor = "white"; // Vuelve a blanco
+    }, 250);
+  }
