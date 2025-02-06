@@ -4,13 +4,14 @@ import { Cronometro } from './cronometro.js';
 let TRIAL_CLEF = 1
 let TRIAL_MAX_DISPERSION = 3
 let TRIAL_ROUNDS = 20
-let DEBUG_MODE = false
+let DEBUG_MODE = true
 let contador = 0;
 let expectedNote = ""
 let aciertos = 0
 let fallos = 0
 let times = []
 let individualTimes = []
+let cronometro;
 let keyMap = {
     'a': 'c',
     's': 'd',
@@ -20,12 +21,13 @@ let keyMap = {
     'h': 'a',
     'j': 'b'
 };
-dibujarNota("","")
-const cronometro = new Cronometro($($("#timer"))[0])
-if(!DEBUG_MODE) $("#debugDiv").hide()
-// new bootstrap.Modal($("#tutorialModal")).show();
 
-
+$(function() {
+    dibujarNota("","")
+    cronometro = new Cronometro($($("#timer"))[0])
+    if(!DEBUG_MODE) $("#debugDiv").hide()
+    // new bootstrap.Modal($("#tutorialModal")).show();
+});
 
 $("#empezar").on("click", function() {
     $(this).prop("disabled",true)
@@ -64,13 +66,13 @@ function checkCorrect(keyevent) {
     else {
         fallos++
         flashBackground("#ffdfe0")
-    
     }
 }
 
 function endGame() {
     cronometro.pause()
     dibujarNota("","")
+    new bootstrap.Modal($("#resultModal")).show();
 
     // times.forEach((ele) => console.log(ele))
     individualTimes.forEach((ele) => console.log(ele))
@@ -86,6 +88,18 @@ function updateUI() {
     $(".slider").css("width",((contador/TRIAL_ROUNDS)*100) + "%")
 }
 
+function flashBackground(color) {
+    const div = document.getElementById("divFeedback");
+    if (!div) return;
+    div.style.transition = 'none';
+    div.style.backgroundColor =color;
+    
+    setTimeout(() => {
+        div.style.transition = "background-color 1s ease-in-out";
+        div.style.backgroundColor = "white";
+    }, 250);
+}
+
 function debugginTool() {
     if(DEBUG_MODE) {
         $("#aciertos").text(aciertos)
@@ -95,15 +109,30 @@ function debugginTool() {
     } 
 }
 
-
-function flashBackground(color) {
-    const div = document.getElementById("divFeedback");
-    if (!div) return;
-    div.style.transition = 'none';
-    div.style.backgroundColor =color; // Cambia a verde claro
+$(document).ready(function () {
+    // Mapeo de teclas del teclado a las notas
+    const keyMap = {
+      "a": ".DO4",
+      "s": ".RE4",
+      "d": ".MI4",
+      "f": ".FA4",
+      "g": ".SOL4",
+      "h": ".LA4",
+      "j": ".SI4",
+    };
   
-    setTimeout(() => {
-      div.style.transition = "background-color 1s ease-in-out";
-      div.style.backgroundColor = "white"; // Vuelve a blanco
-    }, 250);
-  }
+    $(document).on("keydown", function (event) {
+      let tecla = keyMap[event.key.toLowerCase()];
+      if (tecla) {
+        $(tecla).addClass("pressed");
+      }
+    });
+  
+    $(document).on("keyup", function (event) {
+      let tecla = keyMap[event.key.toLowerCase()];
+      if (tecla) {
+        $(tecla).removeClass("pressed");
+      }
+    });
+  });
+  
