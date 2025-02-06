@@ -386,10 +386,7 @@ body::-webkit-scrollbar {
 
 
 #contenedor {
-  height: 90%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  height: 50%;
 }
 
 #piano {
@@ -411,6 +408,22 @@ body::-webkit-scrollbar {
   border: 1.5px solid black;
   border-radius: 0 0 8px 8px;
   box-shadow: 0px 6px 0px rgb(20,52,90);
+  padding-top: 80px
+}
+.tecla-guia.pressed {
+  box-shadow: 0px 0px 0px ;
+  background-color: rgb(235, 235, 235);
+  transform: translateY(6px);
+}
+.tecla-guia {
+  background-color: white;
+  height: 40px;
+  width: 40px;
+  z-index: 0;
+  border: 1.5px solid black;
+  border-radius:8px;
+  /* box-shadow: 0px 6px 0px rgb(20,52,90); */
+  box-shadow: 0px 6px 0px black
 }
 
 .tecla-negra {
@@ -449,4 +462,19 @@ body::-webkit-scrollbar {
 
 .MIb5 {
   left: 350px;
+}
+
+.successMessages{
+  -webkit-text-stroke-width: 1px;
+  -webkit-text-stroke-color: black;
+}
+.acceptButton-sm {
+  color: #F2E7DC;
+  background-color: #350D40;
+  border-color: #350D40;
+  border-style: solid;
+  border-width: 0.1em;
+  border-radius: 1em;
+  /* font-size: 2em; */
+  padding: 0.5em 1em 0.5em 1em;
 }

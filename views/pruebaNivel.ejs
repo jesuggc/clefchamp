@@ -4,35 +4,48 @@
   <body class="colorNuevo5">
     <%-include('partials/header') %>
     <div class="vh-90" id="mainContent">
-      <h1 class="">Prueba de nivel</h1>
-      <div class="bg-danger d-flex flex-column align-items-center justify-content-center">
-        <div id="divFeedback" style="background-color: white" class=" rounded-4">
-
-          <div class="progress m-4" style="min-width: 80em;">
+      <div class="d-flex flex-column align-items-center justify-content-center mt-5">
+        <div id="divFeedback" style="background-color: white" class=" rounded-4 ">
+          <div class="progress m-4" style="min-width: 60em;">
             <div class="progress-bar progress-bar-striped bg-success slider" role="progressbar" aria-label="Success striped example" style="width: 0%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
           </div>
-          <div id="canvasParent" class="mb-4 d-flex justify-content-center gap-4">
-            <div id="contenedor" class="mx-5">
-              <div id="piano">
-                <button class="tecla-blanca DO4" disabled></button>
-                <button class="tecla-negra REb4" disabled></button>
-                <button class="tecla-blanca RE4" disabled></button>
-                <button class="tecla-negra MIb4" disabled></button>
-                <button class="tecla-blanca MI4" disabled></button>
-                <button class="tecla-blanca FA4" disabled></button>
-                <button class="tecla-negra SOLb4" disabled></button>
-                <button class="tecla-blanca SOL4" disabled></button>
-                <button class="tecla-negra LAb4" disabled></button>
-                <button class="tecla-blanca LA4" disabled></button>
-                <button class="tecla-negra SIb4" disabled></button>
-                <button class="tecla-blanca SI4" disabled></button>
+          <h1 class="text-center successMessages" style="opacity:0;">Mejorable</h1>
+          <div class="row">
+            <div id="canvasParent" style="max-width: 20em;" class="d-flex justify-content-center col">
+            </div>
+            <div class="col">
+              <div id="contenedor" class="mt-4 mb-4 ">
+                <div id="piano">
+                  <button class="tecla-blanca noteC" disabled>Do</button>
+                  <button class="tecla-negra REb4" disabled></button>
+                  <button class="tecla-blanca noteD" disabled>Re</button>
+                  <button class="tecla-negra MIb4" disabled></button>
+                  <button class="tecla-blanca noteE" disabled>Mi</button>
+                  <button class="tecla-blanca noteF" disabled>Fa</button>
+                  <button class="tecla-negra SOLb4" disabled></button>
+                  <button class="tecla-blanca noteG" disabled>Sol</button>
+                  <button class="tecla-negra LAb4" disabled></button>
+                  <button class="tecla-blanca noteA" disabled>La</button>
+                  <button class="tecla-negra SIb4" disabled></button>
+                  <button class="tecla-blanca noteB" disabled>Si</button>
+                </div>
+              </div>
+              <div id="contenedor">
+                <div id="piano">
+                  <button class="tecla-guia noteC" disabled>A</button>
+                  <button class="tecla-guia noteD" disabled>S</button>
+                  <button class="tecla-guia noteE" disabled>D</button>
+                  <button class="tecla-guia noteF" disabled>F</button>
+                  <button class="tecla-guia noteG" disabled>G</button>
+                  <button class="tecla-guia noteA" disabled>H</button>
+                  <button class="tecla-guia noteB" disabled>J</button>
+                </div>
               </div>
             </div>
-            
           </div>
         </div>
+        <button id="empezar" class="acceptButton mt-4">Comenzar</button>
       </div>
-      <button id="empezar" class="acceptButton">Comenzar</button>
       
     </div>
     <%-include('partials/footer') %>
@@ -41,7 +54,6 @@
         <div class="modal-content">
           <div class="modal-header">
             <h3 class="modal-title mx-auto">¿Como funciona?</h3>
-            <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
           </div>
           <div class="modal-body">
             <!-- -- -->
@@ -54,7 +66,6 @@
               <div class="carousel-inner">
                 <div class="carousel-item active row">
                   <p class="text-center my-5">Irán apareciendo distintas notas en pantalla </p>
-                  <!-- <img src="/images/ejemploJuego.png"> -->
                 </div>
                 <div class="carousel-item">
                   <p class="text-center my-5">Las teclas estan asociadas a una nota tal y como se muestra</p>
@@ -74,9 +85,8 @@
             </div>
           <!-- -- -->
           </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary">Save changes</button>
+          <div class="modal-footer justify-content-center">
+            <button type="button" data-bs-dismiss="modal" class="acceptButton-sm">Aceptar</button>
           </div>
         </div>
       </div>
@@ -85,21 +95,17 @@
       <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
           <div class="modal-header">
-            <h3 class="modal-title mx-auto">¿Como funciona?</h3>
-            <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
+            <h3 class="modal-title mx-auto">Resultados</h3>
           </div>
           <div class="modal-body">
             <div id="debugDiv">
               <h2 id="timer">00:00:00</h2>
               <h1>Aciertos: <span id="aciertos">0</span></h1>
               <h1>Fallos: <span id="fallos">0</span></h1>
-              <!-- <h2 id="noteTime"></h2> -->
-              <!-- <h2>Nota esperada: <span id="esperada"></span></h2> -->
             </div>
           </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary">Save changes</button>
+          <div class="modal-footer justify-content-center">
+            <button type="button" data-bs-dismiss="modal" class="acceptButton-sm">Aceptar</button>
           </div>
         </div>
       </div>
