@@ -1,9 +1,38 @@
 import { dibujarNota, emptyClef, randomNote, randomClef, getNoteAndOctave, getNote, getOctave, resetCanvas } from './vexManager.js';
 import { Cronometro } from './cronometro.js';
 
+const PERFORMANCE = {
+    PERFECT: {
+        THRESHOLD: 1000,
+        COLOR: 'rgb(255, 251, 0)',
+        TITLE: 'Perfecto'
+    },
+    EXCELLENT: {
+        THRESHOLD: 2000,
+        COLOR: 'rgb(174, 0, 255)',
+        TITLE: 'Excelente'
+    },
+    GREAT: {
+        THRESHOLD: 4000,
+        COLOR: 'rgb(0, 162, 255)',
+        TITLE: 'Genial'
+    },
+    GOOD: {
+        THRESHOLD: 8000,
+        COLOR: 'rgb(0, 255, 55)',
+        TITLE: 'Bien'
+    },
+    OK: {
+        THRESHOLD: Infinity,
+        COLOR: 'rgb(255, 102, 0)',
+        TITLE: 'Ok'
+    }
+};
+
+let COLOR_CORRECT = "#d7ffb8"
+let COLOR_WRONG = "#ffdfe0"
 let TRIAL_CLEF = 0
 let TRIAL_ROUNDS = 20
-let DEBUG_MODE = true
 let contador = 0;
 let expectedNote = ""
 let aciertos = 0
@@ -12,127 +41,123 @@ let times = []
 let individualTimes = []
 let individualTime = 0;
 let cronometro;
-let keyMap = {
-    'a': 'c',
-    's': 'd',
-    'd': 'e',
-    'f': 'f',
-    'g': 'g',
-    'h': 'a',
-    'j': 'b'
-};
+let gameStarted = false
+
+let KEYCODE_1 = 'a'
+let KEYCODE_2 = 's'
+let KEYCODE_3 = 'd'
+let KEYCODE_4 = 'f'
+let KEYCODE_5 = 'j'
+let KEYCODE_6 = 'k'
+let KEYCODE_7 = 'l'
+
+
+const notes = [
+    { key: KEYCODE_1, note: 'c' },
+    { key: KEYCODE_2, note: 'd' },
+    { key: KEYCODE_3, note: 'e' },
+    { key: KEYCODE_4, note: 'f' },
+    { key: KEYCODE_5, note: 'g' },
+    { key: KEYCODE_6, note: 'a' },
+    { key: KEYCODE_7, note: 'b' }
+];
+
+const keyMap = Object.fromEntries(notes.map(({ key, note }) => [key, note]));
+const visualKeyMap = Object.fromEntries(notes.map(({ key, note }) => [key, `.note${note}`]));
 
 $(function() {
     emptyClef()
     cronometro = new Cronometro($($("#timer"))[0])
-    if(!DEBUG_MODE) $("#debugDiv").hide()
     // new bootstrap.Modal($("#tutorialModal")).show();
-    const keyMap = {
-        "a": ".noteC",
-        "s": ".noteD",
-        "d": ".noteE",
-        "f": ".noteF",
-        "g": ".noteG",
-        "h": ".noteA",
-        "j": ".noteB",
-      };
-    
-      $(document).on("keydown", function (event) {
-        let tecla = keyMap[event.key.toLowerCase()];
-        if (tecla) {
-          $(tecla).addClass("pressed");
+
+    $(document).on("keydown", function (event) {
+        if (visualKeyMap[event.key.toLowerCase()]) $(visualKeyMap[event.key.toLowerCase()]).addClass("pressed");
+
+        if (gameStarted && contador < TRIAL_ROUNDS && keyMap[event.key]) {
+            getTime()
+            contador++
+            checkCorrect(event.key)
+            updateGame()
+            updateUI()
         }
-      });
-    
-      $(document).on("keyup", function (event) {
-        let tecla = keyMap[event.key.toLowerCase()];
-        if (tecla) {
-          $(tecla).removeClass("pressed");
-        }
-      });
+    });
+
+    $(document).on("keyup", function (event) {
+        if (visualKeyMap[event.key.toLowerCase()]) $(visualKeyMap[event.key.toLowerCase()]).removeClass("pressed");
+    });
 });
 
 $("#empezar").on("click", function() {
-
     $(this).prop("disabled",true)
     cronometro.start()
     updateGame()
-    $(document).on("keydown", function(event) {
-        if (contador < TRIAL_ROUNDS) {
-            if (keyMap[event.key]) {
-                flashBackground($($("#canvasParent"))[0],"red")
-                getTime()
-                contador++
-                checkCorrect(event.key)
-                updateGame()
-                updateUI()
-                debugginTool()
-            }
-        }
-    });
+    gameStarted = true
 })
 
 function updateGame() {
-    if (contador === TRIAL_ROUNDS) endGame()
-    else {
-        let note = randomNote() // e5
-        let clef = randomClef(TRIAL_CLEF) // bass
-        let realNote = getNoteAndOctave(note,clef) // e5 + bass = g3
-        dibujarNota(realNote,clef)
-        expectedNote = getNote(note,clef) //g
-    }
+    if (contador === TRIAL_ROUNDS) {
+        endGame()
+        return
+    } 
+    let note = randomNote() 
+    let clef = randomClef(TRIAL_CLEF) 
+    let realNote = getNoteAndOctave(note,clef)
+    dibujarNota(getNoteAndOctave(note,clef),clef)
+    expectedNote = getNote(note,clef)
 }
 
 function checkCorrect(keyevent) {
-    let $tecla = $($(".note"+expectedNote[0].toUpperCase()))[0] 
-    let $tecla2 = $($(".note"+expectedNote[0].toUpperCase()))[1] 
-    flashBackground($tecla,"#d7ffb8")
-    flashBackground($tecla2,"#d7ffb8")
-    let $wrongtecla = $($(".note"+keyMap[keyevent][0].toUpperCase()))[0] 
-    let $wrongtecla2 = $($(".note"+keyMap[keyevent][0].toUpperCase()))[1] 
-    if (keyMap[keyevent] === expectedNote) {
-        aciertos++
-        let $message =  $($(".successMessages"))[0]
-    if (individualTime < 1000) {
-        $($message).text("Perfecto")
-        $($message).css("color","rgb(255, 251, 0)")
-    } else if (individualTime < 2000) {
-        $($message).text("Excelente")
-        $($message).css("color","rgb(174, 0, 255)")
-    } else if (individualTime < 4000) {
-        $($message).text("Genial")
-        $($message).css("color","rgb(0, 162, 255)")
-    } else if (individualTime < 8000) {
-        $($message).text("Bien")
-        $($message).css("color","rgb(0, 255, 55)")
-    } else {
-        $($message).text("Ok")
-        $($message).css("color","rgb(255, 102, 0)")
-    }
+    const pressedNote = keyMap[keyevent]
+    $(".note"+expectedNote).each((_, ele) => flashBackground(ele, COLOR_CORRECT));
+    
+    if (pressedNote === expectedNote) handleCorrectNote()
+    else handleWrongNote(pressedNote)
+    
+}
+
+function handleCorrectNote() {
+    aciertos++
+    const feedback = getFeedback(individualTime)
+    let $message =  $($("#successMessage"))[0]
+    $($message).text(feedback.TITLE).css("color",feedback.COLOR)
     fadeOutBackground($message)
-    } 
-    else {
-        fallos++
-        flashBackground($wrongtecla,"#ffdfe0")
-        flashBackground($wrongtecla2,"#ffdfe0")
-    }
+}
+
+function getFeedback(time) {
+    if (time < PERFORMANCE.PERFECT.THRESHOLD) 
+        return PERFORMANCE.PERFECT
+    if (time < PERFORMANCE.EXCELLENT.THRESHOLD) 
+        return PERFORMANCE.EXCELLENT 
+    if (time < PERFORMANCE.GREAT.THRESHOLD) 
+        return PERFORMANCE.GREAT
+    if (time < PERFORMANCE.GOOD.THRESHOLD) 
+        return PERFORMANCE.GOOD
+    return PERFORMANCE.OK
+}
+
+function handleWrongNote(pressedNote) {
+    fallos++
+    $(".note"+pressedNote).each((_, ele) => flashBackground(ele, COLOR_WRONG));
 }
 
 function endGame() {
     cronometro.pause()
-    dibujarNota("","")
-    new bootstrap.Modal($("#resultModal")).show();
-
-    // times.forEach((ele) => console.log(ele))
+    emptyClef()
+    // new bootstrap.Modal($("#resultModal")).show();
     individualTimes.forEach((ele) => console.log(ele))
 }
+
 
 function getTime() {
     let totalTime = cronometro.getTime()
     times.push(totalTime)
-    if(contador === 0) individualTimes.push(totalTime)
-    individualTime = (times[contador] - times[contador-1])
-    if(contador > 0) individualTimes.push(individualTime)
+    if(contador === 0) {
+        individualTimes.push(totalTime)
+        individualTime = totalTime
+    } else {
+        individualTime = (times[contador] - times[contador-1])
+        individualTimes.push(individualTime)
+    }
 }
 
 function updateUI() {
@@ -141,40 +166,32 @@ function updateUI() {
 
 function flashBackground(div, color) {
     if (!div) return;
-    div.style.transition = 'none';
-    div.style.backgroundColor =color;
     
-    setTimeout(() => {
-        div.style.transition = "background-color 1s ease-in-out";
-        div.style.backgroundColor = "white";
-    }, 250);
+    $(div)
+    .css({ transition: 'none', backgroundColor: color })
+    .delay(250)
+    .queue(function(next) {
+        $(this).css({
+            transition: 'background-color 1s ease-in-out',
+            backgroundColor: 'white'
+        });
+        next();
+    });
 }
 function fadeOutBackground(div) {
     if (!div) return;
     
-    div.style.transition = 'none';
-    div.style.opacity = "1"; 
-
-    setTimeout(() => {
-        div.style.transition = "opacity 1s ease-in-out";
-        div.style.opacity = "0";
-    }, 100);
+    $(div)
+    .css({ transition: 'none', opacity: 1 })
+    .delay(100)
+    .queue(function(next) {
+        $(this).css({
+            transition: 'opacity 1s ease-in-out',
+            opacity: 0
+        });
+        next();
+    });
 }
-
-function debugginTool() {
-    if(DEBUG_MODE) {
-        $("#aciertos").text(aciertos)
-        $("#fallos").text(fallos)
-        $("#noteTime").append(cronometro.getTime() + "  \n")
-    } 
-}
-
-
-
-
-
-
-
 
 
 

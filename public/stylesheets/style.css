@@ -464,7 +464,7 @@ body::-webkit-scrollbar {
   left: 350px;
 }
 
-.successMessages{
+#successMessage{
   -webkit-text-stroke-width: 1px;
   -webkit-text-stroke-color: black;
 }
