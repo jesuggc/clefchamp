@@ -478,3 +478,34 @@ body::-webkit-scrollbar {
   /* font-size: 2em; */
   padding: 0.5em 1em 0.5em 1em;
 }
+
+@keyframes pop {
+  0% { transform: scale(1); }
+  50% { transform: scale(2.5); }
+  100% { transform: scale(1); }
+}
+.pop-animation {
+  animation: pop 0.1s ease-out;
+}
+
+@keyframes floatUp {
+  0% { transform: translateY(0); opacity: 1; }
+  100% { transform: translateY(-30px); opacity: 0; }
+}
+.point-animation {
+  position: absolute;
+  font-size: 20px;
+  font-weight: bold;
+  animation: floatUp 0.3s ease-out;
+  pointer-events: none;
+}
+
+.pianoOriginal {
+  /* transform: scale(2);   */
+  /* transform-origin: top left; */
+}
+#myCanvas {
+  /* transform: scale(2);   */
+  /* transform-origin: top left; */
+  /* background-color: red; */
+}

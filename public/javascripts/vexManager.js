@@ -22,12 +22,16 @@ const noteTranslationMap = {
   "a3 treble": "a3", "a3 bass": "c2",
   
 };
-
+function emptyClef (){
+  resetCanvas()
+  system.addStave({ voices: [] }).addClef("treble").addTimeSignature("4/4")
+  system.addStave({ voices: [] }).addClef("bass").addTimeSignature("4/4")
+  vf.draw()
+}
 function dibujarNota(nota, clef) {
   try {
     resetCanvas()
     let voice = score.voice(score.notes(`${nota}/w`))
-
     system.addStave({
         voices: clef === "treble" ? [voice] : []
     }).addClef("treble").addTimeSignature("4/4")
@@ -70,4 +74,4 @@ function getOctave(note, clef) {
   return getNoteAndOctave(note, clef)[1]
 }
 
-export { dibujarNota, randomNote, randomClef, getNoteAndOctave, getNote, getOctave, resetCanvas };
+export { dibujarNota, emptyClef, randomNote, randomClef, getNoteAndOctave, getNote, getOctave, resetCanvas };

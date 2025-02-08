@@ -1,8 +1,7 @@
-import { dibujarNota, randomNote, randomClef, getNoteAndOctave, getNote, getOctave, resetCanvas } from './vexManager.js';
+import { dibujarNota, emptyClef, randomNote, randomClef, getNoteAndOctave, getNote, getOctave, resetCanvas } from './vexManager.js';
 import { Cronometro } from './cronometro.js';
 
-let TRIAL_CLEF = 1
-let TRIAL_MAX_DISPERSION = 3
+let TRIAL_CLEF = 0
 let TRIAL_ROUNDS = 20
 let DEBUG_MODE = true
 let contador = 0;
@@ -24,10 +23,10 @@ let keyMap = {
 };
 
 $(function() {
-    dibujarNota("","")
+    emptyClef()
     cronometro = new Cronometro($($("#timer"))[0])
     if(!DEBUG_MODE) $("#debugDiv").hide()
-    new bootstrap.Modal($("#tutorialModal")).show();
+    // new bootstrap.Modal($("#tutorialModal")).show();
     const keyMap = {
         "a": ".noteC",
         "s": ".noteD",
@@ -61,6 +60,7 @@ $("#empezar").on("click", function() {
     $(document).on("keydown", function(event) {
         if (contador < TRIAL_ROUNDS) {
             if (keyMap[event.key]) {
+                flashBackground($($("#canvasParent"))[0],"red")
                 getTime()
                 contador++
                 checkCorrect(event.key)
@@ -76,7 +76,7 @@ function updateGame() {
     if (contador === TRIAL_ROUNDS) endGame()
     else {
         let note = randomNote() // e5
-        let clef = randomClef(0) // bass
+        let clef = randomClef(TRIAL_CLEF) // bass
         let realNote = getNoteAndOctave(note,clef) // e5 + bass = g3
         dibujarNota(realNote,clef)
         expectedNote = getNote(note,clef) //g
@@ -106,7 +106,7 @@ function checkCorrect(keyevent) {
         $($message).text("Bien")
         $($message).css("color","rgb(0, 255, 55)")
     } else {
-        $($message).text("Mejorable")
+        $($message).text("Ok")
         $($message).css("color","rgb(255, 102, 0)")
     }
     fadeOutBackground($message)
@@ -168,3 +168,50 @@ function debugginTool() {
         $("#noteTime").append(cronometro.getTime() + "  \n")
     } 
 }
+
+
+
+
+
+
+
+
+
+
+// ---------------
+let score = 300;
+$("#try").on("click", function() {
+    let pointsAdded = 50;
+    $("#score").addClass("pop-animation")
+    setTimeout(() => {
+        $("#score").removeClass("pop-animation")
+    }, 350);
+    animateScore(score, score+pointsAdded, 100);
+    score+=pointsAdded
+    addPointsAnimation(pointsAdded);
+})
+
+function addPointsAnimation(points) {
+    let newPoints = $("#scoreAdded")
+    
+    $(newPoints).show();
+
+    $(newPoints).text(`+${points}`)
+    $(newPoints).addClass("point-animation");
+  
+    
+    setTimeout(() => {$(newPoints).hide();$(newPoints).removeClass("point-animation")}, 200);
+  } 
+function animateScore(start, end, duration) {
+    let current = start;
+    let increment = (end - start) / (duration / 16); // Aproximadamente 60 FPS
+    let interval = setInterval(() => {
+      current += increment;
+      if (current >= end) {
+        current = end;
+        clearInterval(interval);
+      }
+      document.getElementById("score").textContent = Math.round(current);
+    }, 16);
+  }
+  
