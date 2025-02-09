@@ -1,5 +1,6 @@
 import { dibujarNota, emptyClef, randomNote, randomClef, getNoteAndOctave, getNote, getOctave, resetCanvas } from './vexManager.js';
 import { Cronometro } from './cronometro.js';
+import { flashBackground, fadeOut, addPointsAnimation, addProgresively } from './animations.js'
 
 const PERFORMANCE = {
     PERFECT: {
@@ -42,7 +43,6 @@ let individualTimes = []
 let individualTime = 0;
 let cronometro;
 let gameStarted = false
-
 let KEYCODE_1 = 'a'
 let KEYCODE_2 = 's'
 let KEYCODE_3 = 'd'
@@ -50,8 +50,7 @@ let KEYCODE_4 = 'f'
 let KEYCODE_5 = 'j'
 let KEYCODE_6 = 'k'
 let KEYCODE_7 = 'l'
-
-
+ 
 const notes = [
     { key: KEYCODE_1, note: 'c' },
     { key: KEYCODE_2, note: 'd' },
@@ -163,72 +162,3 @@ function getTime() {
 function updateUI() {
     $(".slider").css("width",((contador/TRIAL_ROUNDS)*100) + "%")
 }
-
-function flashBackground(div, color) {
-    if (!div) return;
-    
-    $(div)
-    .css({ transition: 'none', backgroundColor: color })
-    .delay(250)
-    .queue(function(next) {
-        $(this).css({
-            transition: 'background-color 1s ease-in-out',
-            backgroundColor: 'white'
-        });
-        next();
-    });
-}
-function fadeOutBackground(div) {
-    if (!div) return;
-    
-    $(div)
-    .css({ transition: 'none', opacity: 1 })
-    .delay(100)
-    .queue(function(next) {
-        $(this).css({
-            transition: 'opacity 1s ease-in-out',
-            opacity: 0
-        });
-        next();
-    });
-}
-
-
-
-// ---------------
-let score = 300;
-$("#try").on("click", function() {
-    let pointsAdded = 50;
-    $("#score").addClass("pop-animation")
-    setTimeout(() => {
-        $("#score").removeClass("pop-animation")
-    }, 350);
-    animateScore(score, score+pointsAdded, 100);
-    score+=pointsAdded
-    addPointsAnimation(pointsAdded);
-})
-
-function addPointsAnimation(points) {
-    let newPoints = $("#scoreAdded")
-    
-    $(newPoints).show();
-
-    $(newPoints).text(`+${points}`)
-    $(newPoints).addClass("point-animation");
-  
-    
-    setTimeout(() => {$(newPoints).hide();$(newPoints).removeClass("point-animation")}, 200);
-  } 
-function animateScore(start, end, duration) {
-    let current = start;
-    let increment = (end - start) / (duration / 16); // Aproximadamente 60 FPS
-    let interval = setInterval(() => {
-      current += increment;
-      if (current >= end) {
-        current = end;
-        clearInterval(interval);
-      }
-      document.getElementById("score").textContent = Math.round(current);
-    }, 16);
-  }
-  

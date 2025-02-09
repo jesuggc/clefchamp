@@ -4,12 +4,15 @@
   <body class="colorNuevo5">
     <%-include('partials/header') %>
     <div class="vh-90" id="mainContent">
-      <div class="d-flex flex-column align-items-center justify-content-center mt-5">
-        <div id="divFeedback" style="background-color: white" class=" rounded-4 ">
-          <div class="progress m-4" style="min-width: 60em;">
+      <div class="d-flex flex-column align-items-center justify-content-center">
+        <div id="divFeedback" style="background-color: white" class=" rounded-4 p-4 ">
+          <div class="progress" style="min-width: 60em;">
             <div class="progress-bar progress-bar-striped progress-bar-animated bg-success slider" role="progressbar" aria-label="Success striped example" style="width: 0%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
           </div>
-          <h1 id="successMessage" class="text-center" style="opacity:0;">Placeholder</h1>
+          <div class="row bg-warning">
+            <h1 id="successMessage" class="text-center" style="opacity:1;">Placeholder</h1>
+
+          </div>
           <!-- <div class="d-flex justify-content-center">
             <h1 id="score" style="position: absolute;" class="text-center " >300</h1>
             <h1 id="scoreAdded" style="position: absolute;" class="text-center " style="opacity: 0;">0</h1>
@@ -18,9 +21,10 @@
           <div class="row">
             <div id="canvasParent" style="max-width: 20em;" class="d-flex justify-content-center col">
             </div>
-            <div class="col">
-              <div id="contenedor" class="mt-4 mb-4 ">
-                <div id="piano" class="pianoOriginal">
+            <div class="col bg-danger">
+              
+              <div class="contenedor mb-5 ">
+                <div class="piano">
                   <button class="tecla-blanca notec" disabled>Do</button>
                   <button class="tecla-negra REb4" disabled></button>
                   <button class="tecla-blanca noted" disabled>Re</button>
@@ -35,21 +39,21 @@
                   <button class="tecla-blanca noteb" disabled>Si</button>
                 </div>
               </div>
-              <div id="contenedor">
-                <div id="piano">
+              <div class="contenedor">
+                <div class="piano">
                   <button class="tecla-guia notec" disabled>A</button>
                   <button class="tecla-guia noted" disabled>S</button>
                   <button class="tecla-guia notee" disabled>D</button>
                   <button class="tecla-guia notef" disabled>F</button>
-                  <button class="tecla-guia noteg" disabled>G</button>
-                  <button class="tecla-guia notea" disabled>H</button>
-                  <button class="tecla-guia noteb" disabled>J</button>
+                  <button class="tecla-guia noteg" disabled>J</button>
+                  <button class="tecla-guia notea" disabled>K</button>
+                  <button class="tecla-guia noteb" disabled>L</button>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <button id="empezar" class="acceptButton mt-4">Comenzar</button>
+        <button id="empezar" class="acceptButton mt-5">Comenzar</button>
       </div>
       
     </div>
@@ -118,6 +122,7 @@
     <script src="https://cdn.jsdelivr.net/npm/vexflow@4.2.2/build/cjs/vexflow.js"></script>
     <script type="module" src="/javascripts/vexManager.js"></script>
     <script type="module" src="/javascripts/cronometro.js"></script>
+    <script type="module" src="/javascripts/animations.js"></script>
     <script type="module" src="/javascripts/trial.js"></script>
     <script>
       // setInterval(() => {

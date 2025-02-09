@@ -384,12 +384,12 @@ body::-webkit-scrollbar {
   background-color: #c98484;
 }
 
-
-#contenedor {
+ 
+.contenedor {
   height: 50%;
-}
+} 
 
-#piano {
+.piano {
   display: flex;
   position: relative;
 }
@@ -398,70 +398,68 @@ body::-webkit-scrollbar {
   box-shadow: 0px 0px 0px ;
   background-color: rgb(235, 235, 235);
   transform: translateY(2px);
-  height: 128px
+  height: 153.6px
 }
 .tecla-blanca {
   background-color: white;
-  height: 120px;
-  width: 40px;
+  height: 144px;
+  width: 48px;
   z-index: 0;
   border: 1.5px solid black;
   border-radius: 0 0 8px 8px;
-  box-shadow: 0px 6px 0px rgb(20,52,90);
-  padding-top: 80px
+  box-shadow: 0px 7.2px 0px rgb(20,52,90);
+  padding-top: 96px
 }
 .tecla-guia.pressed {
   box-shadow: 0px 0px 0px ;
   background-color: rgb(235, 235, 235);
-  transform: translateY(6px);
+  transform: translateY(7.2px);
 }
 .tecla-guia {
   background-color: white;
-  height: 40px;
-  width: 40px;
+  height: 48px;
+  width: 48px;
   z-index: 0;
   border: 1.5px solid black;
   border-radius:8px;
-  /* box-shadow: 0px 6px 0px rgb(20,52,90); */
-  box-shadow: 0px 6px 0px black
+  box-shadow: 0px 7.2px 0px black
 }
 
 .tecla-negra {
   z-index: 1;
   background-color: black;
-  height: 80px;
-  width: 20px;
-  border: 1.5px black solid;
+  height: 96px;
+  width: 24px;
   position: absolute;
   border-radius: 0 0 5px 5px;
 }
 
 .REb4 {
-  left: 30px;
+  left: 36px;
 }
 
 .MIb4 {
-  left: 70px;
+  left: 84px;
 }
 
 .SOLb4 {
-  left: 150px;
+  left: 180px;
 }
 
 .LAb4 {
-  left: 190px;
+  left: 228px;
 }
 
 .SIb4 {
-  left: 230px;
+  left: 276px;
 }
 
 .REb5 {
-  left: 310px;
+  left: 372px;
 }
 
 .MIb5 {
-  left: 350px;
+  left: 420px;
 }
 
 #successMessage{
@@ -471,11 +469,7 @@ body::-webkit-scrollbar {
 .acceptButton-sm {
   color: #F2E7DC;
   background-color: #350D40;
-  border-color: #350D40;
-  border-style: solid;
-  border-width: 0.1em;
   border-radius: 1em;
-  /* font-size: 2em; */
   padding: 0.5em 1em 0.5em 1em;
 }
 
@@ -500,12 +494,13 @@ body::-webkit-scrollbar {
   pointer-events: none;
 }
 
-.pianoOriginal {
-  /* transform: scale(2);   */
-  /* transform-origin: top left; */
-}
 #myCanvas {
-  /* transform: scale(2);   */
-  /* transform-origin: top left; */
-  /* background-color: red; */
+  /* transform: scale(1.4);   */
+  /* transform-origin: top; */
+  background-color: green;
+  display: inline-block;
+}
+
+#divFeedback {
+  /* display: inline-block; */
 }

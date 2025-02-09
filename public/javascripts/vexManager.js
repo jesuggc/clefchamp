@@ -49,7 +49,7 @@ function dibujarNota(nota, clef) {
 function resetCanvas() {
   $('#myCanvas').remove()
   $('#canvasParent').append('<div id="myCanvas"></div>')
-  vf = new Vex.Flow.Factory({renderer:  { elementId: 'myCanvas', width: 106, height: 260 }})
+  vf = new Vex.Flow.Factory({renderer:  { elementId: 'myCanvas', width: 106, height: 230 }})
   score = vf.EasyScore()
   system = vf.System()
 }
