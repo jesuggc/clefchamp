@@ -5,13 +5,12 @@
     <%-include('partials/header') %>
     <div class="vh-90" id="mainContent">
       <div class="d-flex flex-column align-items-center justify-content-center">
-        <div id="divFeedback" style="background-color: white" class=" rounded-4 p-4 ">
+        <div id="divFeedback" style="background-color: white" class=" rounded-4 px-4 pt-4 ">
           <div class="progress" style="min-width: 60em;">
             <div class="progress-bar progress-bar-striped progress-bar-animated bg-success slider" role="progressbar" aria-label="Success striped example" style="width: 0%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
           </div>
-          <div class="row bg-warning">
-            <h1 id="successMessage" class="text-center" style="opacity:1;">Placeholder</h1>
-
+          <div class="row mt-3 ">
+            <h1 id="successMessage" class="text-center" style="opacity:0">Placeholder</h1>
           </div>
           <!-- <div class="d-flex justify-content-center">
             <h1 id="score" style="position: absolute;" class="text-center " >300</h1>
@@ -19,9 +18,11 @@
           </div>
           <button id="try" >Ganar puntos :D</button> -->
           <div class="row">
-            <div id="canvasParent" style="max-width: 20em;" class="d-flex justify-content-center col">
+            <div class="col-1">
             </div>
-            <div class="col bg-danger">
+            <div id="canvasParent" class="col-3 d-flex justify-content-center pb-5 ">
+            </div>
+            <div class="col-8 ps-5 pt-4">
               
               <div class="contenedor mb-5 ">
                 <div class="piano">
@@ -52,10 +53,12 @@
               </div>
             </div>
           </div>
+          <div class="row pb-1 ">
+            <h1 id="streak" class="text-center" style="opacity:0">Racha: <span id="streakNumber">3</span></h1>
+          </div>
         </div>
-        <button id="empezar" class="acceptButton mt-5">Comenzar</button>
+        <button id="empezar" class="acceptButton mt-4">Comenzar</button>
       </div>
-      
     </div>
     <%-include('partials/footer') %>
     <div id="tutorialModal" class="modal" tabindex="-1">
@@ -124,6 +127,29 @@
     <script type="module" src="/javascripts/cronometro.js"></script>
     <script type="module" src="/javascripts/animations.js"></script>
     <script type="module" src="/javascripts/trial.js"></script>
+    <script>
+      $(document).on("keydown", function() {
+        if (event.key === "F2") {
+
+          $("#myCanvas").css("background-color","green")
+          $("#successMessage").css("opacity",1)
+          $("#successMessage").addClass("bg-warning")
+          $(".col-8").addClass("bg-danger")
+          $("#streak").css("opacity",1)
+          $("#streak").addClass("bg-warning")
+        }
+      })
+      $(document).on("keyup", function() {
+        if (event.key === "F2") {
+          $("#myCanvas").css("background-color","")
+          $("#successMessage").removeClass("bg-warning")
+          $("#successMessage").css("opacity",0)
+          $(".col-8").removeClass("bg-danger")
+          $("#streak").css("opacity",0)
+          $("#streak").removeClass("bg-warning")
+        }
+      })
+    </script>
     <script>
       // setInterval(() => {
       //   window.location.reload();

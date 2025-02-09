@@ -1,6 +1,6 @@
 import { dibujarNota, emptyClef, randomNote, randomClef, getNoteAndOctave, getNote, getOctave, resetCanvas } from './vexManager.js';
 import { Cronometro } from './cronometro.js';
-import { flashBackground, fadeOut, addPointsAnimation, addProgresively } from './animations.js'
+import { flashBackground, fadeOut, addPointsAnimation, addProgresively, growAndBack } from './animations.js'
 
 const PERFORMANCE = {
     PERFECT: {
@@ -43,6 +43,7 @@ let individualTimes = []
 let individualTime = 0;
 let cronometro;
 let gameStarted = false
+let streak = 0;
 let KEYCODE_1 = 'a'
 let KEYCODE_2 = 's'
 let KEYCODE_3 = 'd'
@@ -116,10 +117,11 @@ function checkCorrect(keyevent) {
 
 function handleCorrectNote() {
     aciertos++
+    streak++
     const feedback = getFeedback(individualTime)
     let $message =  $($("#successMessage"))[0]
     $($message).text(feedback.TITLE).css("color",feedback.COLOR)
-    fadeOutBackground($message)
+    fadeOut($message)
 }
 
 function getFeedback(time) {
@@ -136,6 +138,7 @@ function getFeedback(time) {
 
 function handleWrongNote(pressedNote) {
     fallos++
+    streak=0
     $(".note"+pressedNote).each((_, ele) => flashBackground(ele, COLOR_WRONG));
 }
 
@@ -161,4 +164,10 @@ function getTime() {
 
 function updateUI() {
     $(".slider").css("width",((contador/TRIAL_ROUNDS)*100) + "%")
+    console.log(streak)
+    if(streak > 2)  {
+        $("#streakNumber").text(streak) 
+        $("#streak").css("opacity",1)
+    } else $("#streak").css("opacity",0)
+    growAndBack($("#divFeedback"))
 }

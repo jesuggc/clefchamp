@@ -70,5 +70,12 @@ function addPointsAnimation(element, points) {
     }, frameDuration);
 }
   
+function growAndBack (div) {
+    div.addClass("pulse-animation");
 
-export { flashBackground, fadeOut, addPointsAnimation, addProgresively };
+    setTimeout(() => {
+        div.removeClass("pulse-animation");
+    }, 100);
+}
+
+export { flashBackground, fadeOut, addPointsAnimation, addProgresively, growAndBack};
