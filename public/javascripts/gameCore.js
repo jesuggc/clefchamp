@@ -52,6 +52,17 @@ let KEYCODE_5 = 'j'
 let KEYCODE_6 = 'k'
 let KEYCODE_7 = 'l'
  
+// ----
+let $startBtn = $("#empezar")
+let $successMessage = $("#successMessage")
+let $resultModal = $("#resultModal")
+let $tutorialModal = $("#tutorialModal")
+let $progressBar = $("#progressBar")
+let $divFeedback = $("#divFeedback")
+let $streak = $("#streak")
+let $streakNumber = $("#streakNumber")
+// ----
+
 const notes = [
     { key: KEYCODE_1, note: 'c' },
     { key: KEYCODE_2, note: 'd' },
@@ -68,7 +79,7 @@ const visualKeyMap = Object.fromEntries(notes.map(({ key, note }) => [key, `.not
 $(function() {
     emptyClef()
     cronometro = new Cronometro($($("#timer"))[0])
-    // new bootstrap.Modal($("#tutorialModal")).show();
+    // new bootstrap.Modal($tutorialModal).show();
 
     $(document).on("keydown", function (event) {
         if (visualKeyMap[event.key.toLowerCase()]) $(visualKeyMap[event.key.toLowerCase()]).addClass("pressed");
@@ -87,7 +98,7 @@ $(function() {
     });
 });
 
-$("#empezar").on("click", function() {
+$startBtn.on("click", function() {
     $(this).prop("disabled",true)
     cronometro.start()
     updateGame()
@@ -119,9 +130,8 @@ function handleCorrectNote() {
     aciertos++
     streak++
     const feedback = getFeedback(individualTime)
-    let $message =  $($("#successMessage"))[0]
-    $($message).text(feedback.TITLE).css("color",feedback.COLOR)
-    fadeOut($message)
+    $($successMessage).text(feedback.TITLE).css("color",feedback.COLOR)
+    fadeOut($successMessage)
 }
 
 function getFeedback(time) {
@@ -145,7 +155,7 @@ function handleWrongNote(pressedNote) {
 function endGame() {
     cronometro.pause()
     emptyClef()
-    // new bootstrap.Modal($("#resultModal")).show();
+    new bootstrap.Modal($resultModal).show();
     individualTimes.forEach((ele) => console.log(ele))
 }
 
@@ -163,11 +173,10 @@ function getTime() {
 }
 
 function updateUI() {
-    $("#progressBar").css("width",((contador/TRIAL_ROUNDS)*100) + "%")
-    console.log(streak)
+    $($progressBar).css("width",((contador/TRIAL_ROUNDS)*100) + "%")
     if(streak > 2)  {
         $("#streakNumber").text(streak) 
         $("#streak").css("opacity",1)
     } else $("#streak").css("opacity",0)
-    growAndBack($("#divFeedback"))
+    growAndBack($($divFeedback))
 }
