@@ -58,9 +58,21 @@ router.post("/login", function (request, response) {//Inicia sesion
     if (err) console.log("Error: ", err)
     else if(!res) response.json(false)
     else {
-      request.session.user = res
-      response.locals.user = res
-      response.json({existe:true, nombre:res.nombre,correo:res.correo})
+    let userId = res.id
+    midao.getUserLevel(userId, (error, result) => {
+      if (error) console.log("Error: ", error)
+      else if(!res) response.json(false)
+      else {
+        const user = {
+          ...res,
+          ...result[0]
+        };
+        
+        request.session.user = user
+        response.locals.user = user
+        response.json({existe:true, nombre:res.nombre,correo:res.correo})
+        }
+      })
     }
   })
 });

@@ -196,6 +196,24 @@ class DAO {
             }
         })
     }
+    
+    getUserLevel(userId, callback) {
+        this.pool.getConnection((err, connection) => {
+            if (err) callback(err, null)
+            else {
+                let stringQuery = "SELECT * FROM userlevel WHERE idUser = ?"
+                connection.query(stringQuery, [userId], (err, resultado) => {
+                    connection.release();
+                    if (err) callback(err)
+                    else callback(null, resultado.map(ele => ({  
+                            level:ele.level,
+                            experience:ele.experience,
+                            experienceToNext: ele.experienceToNext
+                    })))
+                })
+            }
+        })
+    }
 
 }
 module.exports = DAO
