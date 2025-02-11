@@ -515,3 +515,8 @@ body::-webkit-scrollbar {
   animation: pulse 100ms ease-in-out;
   box-shadow: rgba(149, 157, 165, 0.4) 0px 8px 24px;
 }
+
+#levelText{
+  -webkit-text-stroke-width: 1px;
+  -webkit-text-stroke-color: black;
+}
