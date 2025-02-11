@@ -24,7 +24,7 @@
           <span><%=locals.user.experience%>/<%=locals.user.experience + locals.user.experienceToNext%></span>
         </div>
         <div class="progress" style="border-radius: 0 2em 2em 0 ; width:85%;height:3em" role="progressbar" aria-label="Success striped example" aria-valuenow="<%=locals.user.experience+30%>" aria-valuemin="0" aria-valuemax="<%=locals.user.experience + locals.user.experienceToNext%>">
-          <div id="levelBar" class="progress-bar bg-success slider overflow-visible text-dark" style="width: <%=((locals.user.experience+14)/(locals.user.experience + locals.user.experienceToNext))*100%>%" >
+          <div id="levelBar" class="progress-bar bg-success slider overflow-visible text-dark" style="width: <%=((locals.user.experience)/(locals.user.experience + locals.user.experienceToNext))*100%>%" >
             <h3 id="levelText" class="ps-5 pt-1">Nivel <span><%=locals.user.level%></span></h3>
           </div>
         </div>
