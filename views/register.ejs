@@ -84,20 +84,5 @@
     </div>
     <script src="/javascripts/showPswd.js"></script>
     <script src="/javascripts/validateRegister.js"></script>
-    <script>
-      $(document).on("keydown", function(event) {
-        if(event.key === "F2") console.log(generarCodigo())
-      })
-      function generarCodigo() {
-        const caracteres = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-        let codigo = '';
-        for (let i = 0; i < 9; i++) {
-            const randomIndex = Math.floor(Math.random() * caracteres.length);
-            codigo += caracteres[randomIndex];
-        }
-        return codigo;
-      }
-
-    </script>
   </body>
 </html>

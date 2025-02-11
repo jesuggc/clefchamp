@@ -165,7 +165,7 @@ class DAO {
         this.pool.getConnection((err, connection) => {
             if (err) callback(err, null)
             else {
-                let stringQuery = "INSERT INTO usuarios (tagname, email, password, name, icon) VALUES (?,?,?,?,?)"
+                let stringQuery = "INSERT INTO usuarios (tagname, email, password, name, friendCode, icon) VALUES (?,?,?,?,?,?)"
                 connection.query(stringQuery, Object.values(user), (err, resultado) => {
                     connection.release();
                     if (err) callback(err, null)

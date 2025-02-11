@@ -116,11 +116,14 @@ $("#register").on("click", () => {
     let email = $("#email").val()
     let password = $("#password").val()
     let name = $("#name").val()
+    let friendCode = generarCodigo()
+    
     let user = {
         tagname,
         email,  
         password,    
-        name
+        name,
+        friendCode
     }
     $.ajax({
         url: "/users/checkEmail",
@@ -145,7 +148,15 @@ $("#register").on("click", () => {
     })
 })
 
-
+function generarCodigo() {
+    const caracteres = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    let codigo = '#';
+    for (let i = 0; i < 9; i++) {
+        const randomIndex = Math.floor(Math.random() * caracteres.length);
+        codigo += caracteres[randomIndex];
+    }
+    return codigo;
+  }
 
 var formulario = document.getElementById("myForm");
 
