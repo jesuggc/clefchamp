@@ -1,6 +1,6 @@
 export class Cronometro {
-    constructor(displayElement) {
-        this.displayElement = displayElement;
+    constructor() {
+        // this.displayElement = displayElement;
         this.startTime = 0;
         this.elapsedTime = 0;
         this.timerInterval = null;
@@ -35,6 +35,6 @@ export class Cronometro {
         const minutes = Math.floor(totalMilliseconds / 60000).toString().padStart(2, '0');
         const seconds = Math.floor((totalMilliseconds % 60000) / 1000).toString().padStart(2, '0');
         const milliseconds = Math.floor((totalMilliseconds % 1000) / 10).toString().padStart(2, '0');
-        this.displayElement.textContent = `${minutes}:${seconds}:${milliseconds}`;
+        // this.displayElement.textContent = `${minutes}:${seconds}:${milliseconds}`;
     }
 }

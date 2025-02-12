@@ -53,7 +53,7 @@ let KEYCODE_6 = 'k'
 let KEYCODE_7 = 'l'
  
 // ----
-let $startBtn = $("#empezar")
+let $startBtn = $("#start")
 let $successMessage = $("#successMessage")
 let $resultModal = $("#resultModal")
 let $tutorialModal = $("#tutorialModal")
@@ -78,8 +78,8 @@ const visualKeyMap = Object.fromEntries(notes.map(({ key, note }) => [key, `.not
 
 $(function() {
     emptyClef()
-    cronometro = new Cronometro($($("#timer"))[0])
-    // new bootstrap.Modal($tutorialModal).show();
+    cronometro = new Cronometro()
+    new bootstrap.Modal($tutorialModal).show();
 
     $(document).on("keydown", function (event) {
         if (visualKeyMap[event.key.toLowerCase()]) $(visualKeyMap[event.key.toLowerCase()]).addClass("pressed");
@@ -175,8 +175,8 @@ function getTime() {
 function updateUI() {
     $($progressBar).css("width",((contador/TRIAL_ROUNDS)*100) + "%")
     if(streak > 2)  {
-        $("#streakNumber").text(streak) 
-        $("#streak").css("opacity",1)
-    } else $("#streak").css("opacity",0)
+        $($streakNumber).text(streak) 
+        $($streak).css("opacity",1)
+    } else $($streak).css("opacity",0)
     growAndBack($($divFeedback))
 }
