@@ -30,6 +30,10 @@ router.get("/pruebaNivel", (request,response) => {
     response.render("pruebaNivel")
 })
 
+router.get("/selectGame", (request,response) => {
+  response.render("selectGame")
+})
+
 // This is probably the worst way to do this...
 function errorHandler(err) {
   console.log("\x1b[41m%s\x1b[0m",  "-----------------------------------------------------------")

@@ -496,8 +496,6 @@ body::-webkit-scrollbar {
 
 #myCanvas {
   transform: scale(1.4);  
-  /* transform-origin: top; */
-  /* background-color: green; */
   display: inline-block;
 }
 
@@ -516,7 +514,25 @@ body::-webkit-scrollbar {
   box-shadow: rgba(149, 157, 165, 0.4) 0px 8px 24px;
 }
 
-#levelText{
-  -webkit-text-stroke-width: 1px;
-  -webkit-text-stroke-color: black;
+
+.btn-hover-text {
+  position: relative;
+}
+
+.btn-hover-text::after {
+  content: "Nuevo texto"; /* Texto que aparece al hacer hover */
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.btn-hover-text:hover::after {
+  opacity: 1;
+}
+
+.btn-hover-text:hover span {
+  opacity: 0;
 }
