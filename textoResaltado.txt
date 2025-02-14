@@ -68,3 +68,10 @@ d4 + bass = g2
 c4 + bass = f2
 b3 + bass = e2
 a3 + bass = d2
+
+
+<!-- <div class="d-flex justify-content-center">
+            <h1 id="score" style="position: absolute;" class="text-center " >300</h1>
+            <h1 id="scoreAdded" style="position: absolute;" class="text-center " style="opacity: 0;">0</h1>
+          </div>
+          <button id="try" >Ganar puntos :D</button> -->

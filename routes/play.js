@@ -34,6 +34,18 @@ router.get("/selectGame", (request,response) => {
   response.render("selectGame")
 })
 
+router.get("/atrapado/easy", (request,response) => {
+  response.render("pruebaNivel")
+})
+
+router.get("/atrapado/normal", (request,response) => {
+  response.render("pruebaNivel")
+})
+
+router.get("/atrapado/hard", (request,response) => {
+  response.render("pruebaNivel")
+})
+
 // This is probably the worst way to do this...
 function errorHandler(err) {
   console.log("\x1b[41m%s\x1b[0m",  "-----------------------------------------------------------")
