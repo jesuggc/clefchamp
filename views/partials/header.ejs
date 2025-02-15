@@ -9,13 +9,12 @@
     </div>
   <% } else { %>  
     <div class="dropdown me-3">
-      <button class="btn btn-secondary dropdown-toggle mh10vh" type="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
-          <img class="rounded-circle borderProfile mh8vh" src="/images/<%=locals.user.icon%>" alt="Imagen de perfil del usuario por defecto">
+      <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
+          <img class="rounded-circle " style="max-width: 2em;" src="/images/userSvg.svg" alt="Icono que representa a un usuario">
       </button>
       <ul class="dropdown-menu multi-level text-center">
-        <li><h5><%=locals.user.name%></h5><p><%=locals.user.email%></p></li>
         <li><a class="dropdown-item" href="/users/profile">Mi perfil</a></li>
-        <hr>
+        <!-- <hr> -->
         <li><a class="dropdown-item" href="/users/logout"><strong class="red">Cerrar sesión</strong></a></li>
       </ul>
     </div>

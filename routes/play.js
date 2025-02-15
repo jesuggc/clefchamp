@@ -26,7 +26,7 @@ router.get("/", isLoggedIn, (request,response) => {
 })
 
 
-router.get("/pruebaNivel", (request,response) => {
+router.get("/atrapado/trial", (request,response) => {
     response.render("pruebaNivel")
 })
 

@@ -78,4 +78,14 @@ function growAndBack (div) {
     }, 100);
 }
 
-export { flashBackground, fadeOut, addPointsAnimation, addProgresively, growAndBack};
+function secuencialShow(selector) {
+    setTimeout(() => {
+        $(selector).each(function(index) {
+        setTimeout(() => {
+            $(this).css('opacity', 1);
+        }, 500 * index);
+        });
+    }, 500); 
+}
+
+export { flashBackground, fadeOut, addPointsAnimation, addProgresively, growAndBack, secuencialShow};

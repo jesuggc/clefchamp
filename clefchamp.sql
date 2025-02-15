@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 11-02-2025 a las 11:32:08
+-- Tiempo de generación: 15-02-2025 a las 16:43:33
 -- Versión del servidor: 10.4.28-MariaDB
 -- Versión de PHP: 8.2.4
 
@@ -140,7 +140,7 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`session_id`, `expires`, `data`) VALUES
-('W9cNL9gLvnJElQUJFmbz0R-8lmQD5oGt', 1739318449, '{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"user\":{\"id\":1,\"name\":\"Jesús\",\"tagname\":\"jesuggc\",\"email\":\"jesuggcc@gmail.com\",\"icon\":\"default.png\",\"joindate\":{\"day\":28,\"month\":10,\"year\":2024},\"level\":3,\"experience\":0,\"experienceToNext\":150}}');
+('wKDGI6S0fvqoMFXNTcjr6ZRca7dUzFb4', 1739720442, '{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"user\":{\"id\":1,\"name\":\"Jesús\",\"tagname\":\"jesuggc\",\"email\":\"jesuggcc@gmail.com\",\"icon\":\"default.png\",\"friendCode\":\"#J35U5J4J4\",\"joindate\":{\"day\":28,\"month\":10,\"year\":2024},\"level\":3,\"experience\":0,\"experienceToNext\":150}}');
 
 -- --------------------------------------------------------
 

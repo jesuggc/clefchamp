@@ -4,8 +4,19 @@
   <body class="colorNuevo5">
     <%-include('partials/header') %>
     <div class="vh-90" id="mainContent">
-      <div class="d-flex flex-column align-items-center justify-content-center">
+      <div class="d-flex align-items-center justify-content-center gap-4">
+
         <%-include('partials/playground') %>
+        <div id="divResultados" class="box rounded-4 p-4 d-flex flex-column text-center">
+          <div>
+            <h2>Has acertado un <span id="resultSpan"> </span></h2>
+          </div> 
+          <div>
+            <h2 id="experienceSpan"> </h2>
+          </div>
+        </div>
+      </div>
+      <div class="d-flex align-items-center justify-content-center">
         <button id="startBtn" class="acceptButton mt-4">Comenzar</button>
       </div>
     </div>
@@ -75,9 +86,9 @@
     <script type="module" src="/javascripts/vexManager.js"></script>
     <script type="module" src="/javascripts/cronometro.js"></script>
     <script type="module" src="/javascripts/animations.js"></script>
-    <!-- <script type="module" src="/javascripts/trial.js"></script> -->
     <script type="module" src="/javascripts/gameCore.js"></script>
     <script>
+      
       $(document).on("keydown", function() {
         if (event.key === "F2") {
 

@@ -499,9 +499,6 @@ body::-webkit-scrollbar {
   display: inline-block;
 }
 
-#divFeedback {
-  /* display: inline-block; */
-}
 
 @keyframes pulse {
   0% { transform: scale(1); }
@@ -535,4 +532,22 @@ body::-webkit-scrollbar {
 
 .btn-hover-text:hover span {
   opacity: 0;
+}
+
+.box {
+  width: 0;
+  height: 0;
+  padding: 0;
+  margin: 0;
+  visibility: hidden;
+  background-color: white;
+  transition: width 0.5s ease-out;
+}
+.box.show {
+  width: 35em;
+  visibility: visible;
+}
+
+#divResultados div {
+  opacity:0;
 }

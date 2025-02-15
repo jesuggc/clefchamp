@@ -1,7 +1,7 @@
 import { dibujarNota, emptyClef, randomNote, randomClef, getNote, getOctave, resetCanvas } from './vexManager.js';
 import { Cronometro } from './cronometro.js';
-import { flashBackground, fadeOut, addPointsAnimation, addProgresively, growAndBack } from './animations.js'
-import { getTrialConfig } from './levelConfig.js'
+import { flashBackground, fadeOut, addPointsAnimation, addProgresively, growAndBack, secuencialShow} from './animations.js'
+import { getConfig } from './levelConfig.js'
 
 
 let PERFORMANCE
@@ -27,15 +27,7 @@ let KEYCODE_5 = 'j'
 let KEYCODE_6 = 'k'
 let KEYCODE_7 = 'l'
 
-let difficulty = "HARD"
- 
-const path = window.location.pathname; 
-
-if (path.startsWith("/play/atrapado/")) {
-    const difficulty = path.split("/")[3]; // Obtiene la parte después de "/play/atrapado/"
-    console.log(difficulty); // "easy", "normal" o "hard"
-}
-
+let difficulty = window.location.pathname.split("/")[3].toUpperCase()
 
 // ----
 let $startBtn = $("#startBtn")
@@ -61,10 +53,10 @@ const keyMap = Object.fromEntries(notes.map(({ key, note }) => [key, note]));
 const visualKeyMap = Object.fromEntries(notes.map(({ key, note }) => [key, `.note${note}`]));
 
 $(function() {
-    ({ ROUNDS, CLEF_PROB, PERFORMANCE } = getTrialConfig(difficulty));
+    ({ ROUNDS, CLEF_PROB, PERFORMANCE } = getConfig(difficulty));
     emptyClef()
     cronometro = new Cronometro()
-    new bootstrap.Modal($tutorialModal).show();
+    // new bootstrap.Modal($tutorialModal).show();
 
     $(document).on("keydown", function (event) {
         if (visualKeyMap[event.key.toLowerCase()]) $(visualKeyMap[event.key.toLowerCase()]).addClass("pressed");
@@ -84,7 +76,7 @@ $(function() {
 });
 
 $startBtn.on("click", function() {
-    $(this).prop("disabled",true)
+    $(this).hide()
     cronometro.start()
     updateGame()
     gameStarted = true
@@ -138,8 +130,20 @@ function handleWrongNote(pressedNote) {
 function endGame() {
     cronometro.pause()
     emptyClef()
-    new bootstrap.Modal($resultModal).show();
+    showResults()
+    // getRewards()
+    // new bootstrap.Modal($resultModal).show();
     individualTimes.forEach((ele) => console.log(ele))
+}
+let experienceThreshold = 40
+function showResults() {
+    $("#divResultados").css("height", $('#divFeedback').css("height")).addClass('show');
+    $("#startBtn").hide()
+    secuencialShow('#divResultados div')
+    let percentage = (aciertos/fallos)*100
+    $("#experienceSpan").text(percentage > experienceThreshold ? "Has ganado experiencia" : "Para conseguir experiencia supera el "+  experienceThreshold + "%")
+    $("#resultSpan").text(percentage+"%")
+    
 }
 
 
