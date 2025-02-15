@@ -26,6 +26,8 @@ let KEYCODE_4 = 'f'
 let KEYCODE_5 = 'j'
 let KEYCODE_6 = 'k'
 let KEYCODE_7 = 'l'
+let experienceThreshold = 50
+let EXPERIENCE
 
 let difficulty = window.location.pathname.split("/")[3].toUpperCase()
 
@@ -53,7 +55,7 @@ const keyMap = Object.fromEntries(notes.map(({ key, note }) => [key, note]));
 const visualKeyMap = Object.fromEntries(notes.map(({ key, note }) => [key, `.note${note}`]));
 
 $(function() {
-    ({ ROUNDS, CLEF_PROB, PERFORMANCE } = getConfig(difficulty));
+    ({ ROUNDS, CLEF_PROB, EXPERIENCE, PERFORMANCE } = getConfig(difficulty));
     emptyClef()
     cronometro = new Cronometro()
     // new bootstrap.Modal($tutorialModal).show();
@@ -135,14 +137,16 @@ function endGame() {
     // new bootstrap.Modal($resultModal).show();
     individualTimes.forEach((ele) => console.log(ele))
 }
-let experienceThreshold = 40
+
 function showResults() {
     $("#divResultados").css("height", $('#divFeedback').css("height")).addClass('show');
     $("#startBtn").hide()
     secuencialShow('#divResultados div')
-    let percentage = (aciertos/fallos)*100
-    $("#experienceSpan").text(percentage > experienceThreshold ? "Has ganado experiencia" : "Para conseguir experiencia supera el "+  experienceThreshold + "%")
+    let percentage = Math.round((aciertos/ROUNDS)*100)
+    $("#experienceSpan").text(percentage > experienceThreshold ? `Has ganado ${EXPERIENCE} experiencia` : "Para conseguir experiencia supera el "+  experienceThreshold + "%")
     $("#resultSpan").text(percentage+"%")
+    $("#resultSpan").css("color", percentage > experienceThreshold ? COLOR_CORRECT : COLOR_WRONG)
+
     
 }
 

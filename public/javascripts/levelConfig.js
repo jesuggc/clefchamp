@@ -1,7 +1,8 @@
-const GAME_CONFIG = {
+ const GAME_CONFIG = {
     TRIAL: {
         ROUNDS: 20,
         CLEF_PROB: 0,
+        EXPERIENCE: 0,
         PERFORMANCE: {
             PERFECT: { THRESHOLD: 1000, COLOR: 'rgb(255, 251, 0)', TITLE: 'Perfecto' },
             EXCELLENT: { THRESHOLD: 2000, COLOR: 'rgb(174, 0, 255)', TITLE: 'Excelente' },
@@ -11,8 +12,9 @@ const GAME_CONFIG = {
         }
     },
     EASY: {
-        ROUNDS: 3,
+        ROUNDS: 15,
         CLEF_PROB: 0,
+        EXPERIENCE: 10,
         PERFORMANCE: {
             PERFECT: { THRESHOLD: 1000, COLOR: 'rgb(255, 251, 0)', TITLE: 'Perfecto' },
             EXCELLENT: { THRESHOLD: 2000, COLOR: 'rgb(174, 0, 255)', TITLE: 'Excelente' },
@@ -24,6 +26,7 @@ const GAME_CONFIG = {
     NORMAL: {
         ROUNDS: 20,
         CLEF_PROB: 0.25,
+        EXPERIENCE: 17,
         PERFORMANCE: {
             PERFECT: { THRESHOLD: 1000, COLOR: 'rgb(255, 251, 0)', TITLE: 'Perfecto' },
             EXCELLENT: { THRESHOLD: 2000, COLOR: 'rgb(174, 0, 255)', TITLE: 'Excelente' },
@@ -35,6 +38,7 @@ const GAME_CONFIG = {
     HARD: {
         ROUNDS: 30,
         CLEF_PROB: 0.5,
+        EXPERIENCE: 35,
         PERFORMANCE: {
             PERFECT: { THRESHOLD: 1000, COLOR: 'rgb(255, 251, 0)', TITLE: 'Perfecto' },
             EXCELLENT: { THRESHOLD: 2000, COLOR: 'rgb(174, 0, 255)', TITLE: 'Excelente' },
