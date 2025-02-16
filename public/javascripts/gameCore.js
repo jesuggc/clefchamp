@@ -147,7 +147,7 @@ function showResults() {
     $("#experienceSpan").text(percentage > experienceThreshold ? `Has ganado ${EXPERIENCE} experiencia` : "Para conseguir experiencia supera el "+  experienceThreshold + "%")
     $("#resultSpan").text(percentage+"%")
     $("#resultSpan").css("color", percentage > experienceThreshold ? COLOR_CORRECT : COLOR_WRONG)
- 
+    let experienceInNext
     // fetch('/users/api/getLocals')
     // .then(response => response.json())
     // .then(data => {
@@ -160,7 +160,22 @@ function showResults() {
     //     .catch(error => console.error('Error:', error));
     // })
     // .catch(error => console.error('Error:', error));
+
+    // locals.userExp = 17 -> 27
+    // locals.experienceLeft 133 -> 
+    // experienceInNext = 150
+    // experienceToAdd = 10
     fetchData()
+    let experienceToAdd = EXPERIENCE
+    if(experienceToAdd >= locals.experienceToNext) {
+        locals.level++
+        locals.experience = experienceToAdd - locals.experienceLeft
+        locals.experienceLeft = experienceInNext - locals.experience
+        
+    } else {
+        locals.experience += EXPERIENCE;
+        locals.experienceToNext -= EXPERIENCE
+    }
     
   
     
@@ -175,10 +190,10 @@ async function fetchData() {
       
       const response2 = await fetch(`/play/getExperienceRequired/${data1.locals.level}`);
       const data2 = await response2.json(); 
-      console.log(data2)
+      experienceInNext = data2.experienceRequired
   
     } catch (error) {
-      console.error('Error:', error);  // Si hay algún error, lo capturamos aquí
+      console.error('Error:', error); 
     }
   }
 
