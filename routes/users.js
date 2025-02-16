@@ -25,6 +25,10 @@ router.get("/", isLoggedIn, (request,response) => {
   response.render('home')
 })
 
+router.get('/api/getLocals', (req, res) => {
+  res.json({ locals: res.locals.user });
+});
+
 
 router.get("/profilePhoto/:id", isLoggedIn, (request,response) => {
   let id = Number(request.params.id)

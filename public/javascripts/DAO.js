@@ -215,5 +215,34 @@ class DAO {
         })
     }
 
+    updateUserLevel(userId, level, experience, experienceToNext, callback) {
+        this.pool.getConnection((err, connection) => {
+            if (err) callback(err);
+            else {
+                let stringQuery = ` UPDATE userlevel SET level = ?, experience = ?, experienceToNext = ? WHERE idUser = ?`;
+                connection.query(stringQuery, [level, experience, experienceToNext, userId], (err, result) => {
+                    connection.release();
+                    if (err) callback(err);
+                    else callback(null, true);
+                });
+            }
+        });
+    }
+    
+    getExperienceByLevel(level, callback) {
+        this.pool.getConnection((err, connection) => {
+            if (err) callback(err);
+            else {
+                let stringQuery = "SELECT experienceRequired FROM levelprogression WHERE level = ?";
+                
+                connection.query(stringQuery, [level], (err, result) => {
+                    connection.release();
+                    if (err) callback(err);
+                    else  callback(null, result[0].experienceRequired);
+                });
+            }
+        });
+    }
 }
+
 module.exports = DAO

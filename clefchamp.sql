@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 15-02-2025 a las 16:43:33
+-- Tiempo de generación: 16-02-2025 a las 03:00:09
 -- Versión del servidor: 10.4.28-MariaDB
 -- Versión de PHP: 8.2.4
 
@@ -52,14 +52,14 @@ INSERT INTO `icons` (`id`, `name`, `path`, `unlockCondition`) VALUES
 
 CREATE TABLE `levelprogression` (
   `level` int(11) NOT NULL,
-  `experienceRequiered` int(11) NOT NULL
+  `experienceRequired` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `levelprogression`
 --
 
-INSERT INTO `levelprogression` (`level`, `experienceRequiered`) VALUES
+INSERT INTO `levelprogression` (`level`, `experienceRequired`) VALUES
 (2, 150),
 (3, 150),
 (4, 150),
@@ -140,7 +140,11 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`session_id`, `expires`, `data`) VALUES
-('wKDGI6S0fvqoMFXNTcjr6ZRca7dUzFb4', 1739720442, '{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"user\":{\"id\":1,\"name\":\"Jesús\",\"tagname\":\"jesuggc\",\"email\":\"jesuggcc@gmail.com\",\"icon\":\"default.png\",\"friendCode\":\"#J35U5J4J4\",\"joindate\":{\"day\":28,\"month\":10,\"year\":2024},\"level\":3,\"experience\":0,\"experienceToNext\":150}}');
+('dVkAkNeuCfDV4ukUH9MW9UvxPnjfQTEs', 1739744532, '{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"user\":{\"id\":1,\"name\":\"Jesús\",\"tagname\":\"jesuggc\",\"email\":\"jesuggcc@gmail.com\",\"icon\":\"default.png\",\"friendCode\":\"#J35U5J4J4\",\"joindate\":{\"day\":28,\"month\":10,\"year\":2024},\"level\":3,\"experience\":0,\"experienceToNext\":150}}'),
+('gFjV4yqVD5ftabSQUCd7L5jEMP8ql6Hl', 1739744532, '{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"user\":{\"id\":1,\"name\":\"Jesús\",\"tagname\":\"jesuggc\",\"email\":\"jesuggcc@gmail.com\",\"icon\":\"default.png\",\"friendCode\":\"#J35U5J4J4\",\"joindate\":{\"day\":28,\"month\":10,\"year\":2024},\"level\":3,\"experience\":0,\"experienceToNext\":150}}'),
+('kwfkpAJf1mQnojP6mDVrrlQLdqCfEpvr', 1739757565, '{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"user\":{\"id\":1,\"name\":\"Jesús\",\"tagname\":\"jesuggc\",\"email\":\"jesuggcc@gmail.com\",\"icon\":\"default.png\",\"friendCode\":\"#J35U5J4J4\",\"joindate\":{\"day\":28,\"month\":10,\"year\":2024},\"level\":3,\"experience\":0,\"experienceToNext\":150}}'),
+('nj9jzCt4Mhoa1hKqJc29dUNGbT5ziIbr', 1739744532, '{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"user\":{\"id\":1,\"name\":\"Jesús\",\"tagname\":\"jesuggc\",\"email\":\"jesuggcc@gmail.com\",\"icon\":\"default.png\",\"friendCode\":\"#J35U5J4J4\",\"joindate\":{\"day\":28,\"month\":10,\"year\":2024},\"level\":3,\"experience\":0,\"experienceToNext\":150}}'),
+('wKDGI6S0fvqoMFXNTcjr6ZRca7dUzFb4', 1739721140, '{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"user\":{\"id\":1,\"name\":\"Jesús\",\"tagname\":\"jesuggc\",\"email\":\"jesuggcc@gmail.com\",\"icon\":\"default.png\",\"friendCode\":\"#J35U5J4J4\",\"joindate\":{\"day\":28,\"month\":10,\"year\":2024},\"level\":3,\"experience\":0,\"experienceToNext\":150}}');
 
 -- --------------------------------------------------------
 

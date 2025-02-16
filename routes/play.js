@@ -46,6 +46,20 @@ router.get("/atrapado/hard", (request,response) => {
   response.render("pruebaNivel")
 })
 
+router.get('/getExperienceRequired/:level', (request,response) => {
+  const level = request.params.level; 
+  midao.getExperienceByLevel(level,(err,result) => {
+    if(err) errorHandler(err)
+    else response.json(result)
+  })
+});
+
+router.put('/addExperience', (request,response) => {
+  // midao.updateUserLevel(,(err,result) => {
+    // console.log(result)
+  // })
+});
+
 // This is probably the worst way to do this...
 function errorHandler(err) {
   console.log("\x1b[41m%s\x1b[0m",  "-----------------------------------------------------------")

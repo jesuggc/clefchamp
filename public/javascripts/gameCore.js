@@ -28,8 +28,9 @@ let KEYCODE_6 = 'k'
 let KEYCODE_7 = 'l'
 let experienceThreshold = 50
 let EXPERIENCE
-
+let locals
 let difficulty = window.location.pathname.split("/")[3].toUpperCase()
+
 
 // ----
 let $startBtn = $("#startBtn")
@@ -58,7 +59,7 @@ $(function() {
     ({ ROUNDS, CLEF_PROB, EXPERIENCE, PERFORMANCE } = getConfig(difficulty));
     emptyClef()
     cronometro = new Cronometro()
-    // new bootstrap.Modal($tutorialModal).show();
+    new bootstrap.Modal($tutorialModal).show();
 
     $(document).on("keydown", function (event) {
         if (visualKeyMap[event.key.toLowerCase()]) $(visualKeyMap[event.key.toLowerCase()]).addClass("pressed");
@@ -135,8 +136,8 @@ function endGame() {
     showResults()
     // getRewards()
     // new bootstrap.Modal($resultModal).show();
-    individualTimes.forEach((ele) => console.log(ele))
-}
+    // individualTimes.forEach((ele) => console.log(ele))
+} 
 
 function showResults() {
     $("#divResultados").css("height", $('#divFeedback').css("height")).addClass('show');
@@ -146,11 +147,42 @@ function showResults() {
     $("#experienceSpan").text(percentage > experienceThreshold ? `Has ganado ${EXPERIENCE} experiencia` : "Para conseguir experiencia supera el "+  experienceThreshold + "%")
     $("#resultSpan").text(percentage+"%")
     $("#resultSpan").css("color", percentage > experienceThreshold ? COLOR_CORRECT : COLOR_WRONG)
-
+ 
+    // fetch('/users/api/getLocals')
+    // .then(response => response.json())
+    // .then(data => {
+    //     locals = data.locals;
+    //     fetch(`/play/getExperienceRequired/${locals.level}`)
+    //     .then(response => response.json())
+    //     .then(data => {
+    //         console.log(data)
+    //     })
+    //     .catch(error => console.error('Error:', error));
+    // })
+    // .catch(error => console.error('Error:', error));
+    fetchData()
+    
+  
     
 }
 
+async function fetchData() {
+    try {
+      const response1 = await fetch('/users/api/getLocals');
+      const data1 = await response1.json();
+      locals = data1.locals
+      console.log(locals)
+      
+      const response2 = await fetch(`/play/getExperienceRequired/${data1.locals.level}`);
+      const data2 = await response2.json(); 
+      console.log(data2)
+  
+    } catch (error) {
+      console.error('Error:', error);  // Si hay algún error, lo capturamos aquí
+    }
+  }
 
+  
 function getTime() {
     let totalTime = cronometro.getTime()
     times.push(totalTime)
