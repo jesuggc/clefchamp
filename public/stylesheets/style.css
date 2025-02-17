@@ -553,5 +553,5 @@ body::-webkit-scrollbar {
 }
 
 .experienceBar {
-  transition: width 4s ease-in-out; /* Transición suave */
+  transition: width 2s ease-in-out; /* Transición suave */
 }

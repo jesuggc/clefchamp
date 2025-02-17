@@ -8,16 +8,16 @@
 
         <%-include('partials/playground') %>
         <div id="divResultados" class="box rounded-4 p-4 d-flex flex-column text-center">
-          <div>
+          <div id="resultDiv">
             <h2>Has acertado un <span id="resultSpan"> </span></h2>
           </div> 
-          <div>
+          <div id="experienceDiv">
             <h4 id="experienceSpan"> </h4>
           </div>
-          <div class="colorNuevo5 rounded-4 p-2">
+          <div id="totalExpDiv" class="colorNuevo5 rounded-4 p-2">
             <h2>Nivel <%=locals.user.level%> </h2>
             <div class="progress" role="progressbar" aria-label="Example 1px high" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" style="height: 8px; background-color: white;">
-              <div id="experienceBar" class="progress-bar" style="width: '<%=((locals.user.experience)/(locals.user.experience + locals.user.experienceToNext))*100%>%'"></div>
+              <div id="experienceBar" class="progress-bar" style="width: <%=((locals.user.experience)/(locals.user.experience + locals.user.experienceToNext))*100%>%"></div>
             </div>
           </div>
           

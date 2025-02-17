@@ -43,8 +43,17 @@ function randomClef(trebleRatio) {
   return Math.random() > trebleRatio ? "treble" : "bass"
 }
 
-function getNote(note) {
+function getNote(note, clef) {
+  if(clef === "bass") return notaDesplazada(note[0])
   return note[0]
+}
+
+function notaDesplazada(nota) {
+  const notas = ['c', 'd', 'e', 'f', 'g', 'a', 'b'];
+  const indice = notas.indexOf(nota);
+  if (indice === -1) return null; 
+  const nuevaPosicion = (indice + 2) % notas.length;
+  return notas[nuevaPosicion];
 }
 
 function getOctave(note) {

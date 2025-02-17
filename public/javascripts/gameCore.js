@@ -29,6 +29,7 @@ let KEYCODE_7 = 'l'
 let experienceThreshold = 50
 let EXPERIENCE
 let locals
+let experienceInNext
 let difficulty = window.location.pathname.split("/")[3].toUpperCase()
 
 
@@ -78,6 +79,7 @@ $(function() {
 });
 
 $startBtn.on("click", function() {
+    growAndBack($($divFeedback))
     $(this).hide()
     cronometro.start()
     updateGame()
@@ -89,9 +91,10 @@ function updateGame() {
         endGame()
         return
     }
-    let note = randomNote() 
-    dibujarNota(note ,randomClef(CLEF_PROB) )
-    expectedNote = getNote(note)
+    let note = randomNote()
+    let clef = randomClef(CLEF_PROB)
+    dibujarNota(note ,clef )
+    expectedNote = getNote(note, clef)
 }
 
 function checkCorrect(keyevent) {
@@ -132,25 +135,43 @@ function handleWrongNote(pressedNote) {
 function endGame() {
     cronometro.pause()
     emptyClef()
-    showResults()
+    openResultDiv()
+    setTimeout(() => {
+        showResults()
+    }, 500);
     // getRewards()
     // individualTimes.forEach((ele) => console.log(ele))
 } 
 
-let experienceInNext
+function openResultDiv() {
+    $("#divResultados").css("height", $('#divFeedback').css("height")).addClass('show');
+}
 async function showResults() {
     let percentage = Math.round((aciertos/ROUNDS)*100)
-    // let winExp = percentage > experienceThreshold
     let winExp = true
+    // let winExp = percentage > experienceThreshold
     let experienceToAdd = winExp ? EXPERIENCE : 0 
-    $("#divResultados").css("height", $('#divFeedback').css("height")).addClass('show');
-    secuencialShow('#divResultados > div')
+    
+    await handleExperience(winExp,experienceToAdd)
+    
     $("#experienceSpan").text(winExp ? `Has ganado ${EXPERIENCE} experiencia` : "Para conseguir experiencia supera el "+  experienceThreshold + "%")
     $("#resultSpan").text(percentage+"%")
     $("#resultSpan").css("color", winExp ? COLOR_CORRECT : COLOR_WRONG)
-
-    await getLocals()
+    
+    
     let experiencePercentage = (locals.experience / (locals.experience + locals.experienceToNext)) * 100
+    // let experiencePercentage = 75
+    
+    setTimeout(() => $("#resultDiv").css('opacity', 1), 500);
+    setTimeout(() => $("#experienceDiv").css('opacity', 1), 1000);
+    setTimeout(() => $("#totalExpDiv").css('opacity', 1), 1500);
+    setTimeout(() => $("#experienceBar").css("width",experiencePercentage + "%") , 12500);
+    
+    
+}
+
+async function handleExperience(winExp, experienceToAdd) {
+    await getLocals()
     let totalExp = locals.experience + locals.experienceToNext
     locals.experience += experienceToAdd;
     locals.experienceToNext -= experienceToAdd;
@@ -161,12 +182,7 @@ async function showResults() {
         locals.experienceToNext = experienceInNext + locals.experienceToNext;
         locals.experience -= totalExp
     }
-    $("#experienceBar").css("width",experiencePercentage + "%")
-
-
     updateUserLevel(locals.id, locals.level, locals.experience, locals.experienceToNext)
-  
-    
 }
 
 async function getLocals() {
@@ -182,7 +198,7 @@ async function getLocals() {
   
 async function getExpNextLevel() {
     try {  
-        const response2 = await fetch(`/play/getExperienceRequired/${data1.locals.level}`);
+        const response2 = await fetch(`/play/getExperienceRequired/${(locals.level+2)}`);
         const data2 = await response2.json(); 
         experienceInNext = data2
 
@@ -191,7 +207,7 @@ async function getExpNextLevel() {
     }
 } 
 
-  async function updateUserLevel(userId, level, experience, experienceToNext) {
+async function updateUserLevel(userId, level, experience, experienceToNext) {
     try {
         await fetch('/play/addExperience', {
             method: 'PUT',
@@ -208,7 +224,7 @@ async function getExpNextLevel() {
 
     } catch (error) {
         console.error('Error:', error.message);
-    }
+}
 }
   
   
