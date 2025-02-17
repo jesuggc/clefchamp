@@ -16,8 +16,8 @@
           </div>
           <div class="colorNuevo5 rounded-4 p-2">
             <h2>Nivel <%=locals.user.level%> </h2>
-            <div class="progress" role="progressbar" aria-label="Example 1px high" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" style="height: 4px; background-color: white;">
-              <!-- <div class="progress-bar" style="width: <%= ((locals.user.experience) / (locals.user.experience + locals.user.experienceToNext) * 100)%>%"> -->
+            <div class="progress" role="progressbar" aria-label="Example 1px high" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" style="height: 8px; background-color: white;">
+              <div id="experienceBar" class="progress-bar" style="width: '<%=((locals.user.experience)/(locals.user.experience + locals.user.experienceToNext))*100%>%'"></div>
             </div>
           </div>
           
@@ -70,54 +70,11 @@
         </div>
       </div>
     </div>
-    <div id="resultModal" class="modal" tabindex="-1">
-      <div class="modal-dialog modal-dialog-centered modal-lg">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h3 class="modal-title mx-auto">Resultados</h3>
-          </div>
-          <div class="modal-body">
-            <div id="debugDiv">
-              <h2 id="timer">00:00:00</h2>
-              <h1>Aciertos: <span id="aciertos">0</span></h1>
-              <h1>Fallos: <span id="fallos">0</span></h1>
-            </div>
-          </div>
-          <div class="modal-footer justify-content-center">
-            <button type="button" data-bs-dismiss="modal" class="acceptButton-sm">Aceptar</button>
-          </div>
-        </div>
-      </div>
-    </div>
     <script src="https://cdn.jsdelivr.net/npm/vexflow@4.2.2/build/cjs/vexflow.js"></script>
     <script type="module" src="/javascripts/vexManager.js"></script>
     <script type="module" src="/javascripts/cronometro.js"></script>
     <script type="module" src="/javascripts/animations.js"></script>
     <script type="module" src="/javascripts/gameCore.js"></script>
-    <script>
-      
-      $(document).on("keydown", function() {
-        if (event.key === "F2") {
-
-          $("#myCanvas").css("background-color","green")
-          $("#successMessage").css("opacity",1)
-          $("#successMessage").addClass("bg-warning")
-          $(".col-8").addClass("bg-danger")
-          $("#streak").css("opacity",1)
-          $("#streak").addClass("bg-warning")
-        }
-      })
-      $(document).on("keyup", function() {
-        if (event.key === "F2") {
-          $("#myCanvas").css("background-color","")
-          $("#successMessage").removeClass("bg-warning")
-          $("#successMessage").css("opacity",0)
-          $(".col-8").removeClass("bg-danger")
-          $("#streak").css("opacity",0)
-          $("#streak").removeClass("bg-warning")
-        }
-      })
-    </script>
     <script>
       // setInterval(() => {
       //   window.location.reload();

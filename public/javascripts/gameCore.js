@@ -35,7 +35,6 @@ let difficulty = window.location.pathname.split("/")[3].toUpperCase()
 // ----
 let $startBtn = $("#startBtn")
 let $successMessage = $("#successMessage")
-let $resultModal = $("#resultModal")
 let $tutorialModal = $("#tutorialModal")
 let $progressBar = $("#progressBar")
 let $divFeedback = $("#divFeedback")
@@ -135,7 +134,6 @@ function endGame() {
     emptyClef()
     showResults()
     // getRewards()
-    // new bootstrap.Modal($resultModal).show();
     // individualTimes.forEach((ele) => console.log(ele))
 } 
 
@@ -151,75 +149,67 @@ async function showResults() {
     $("#resultSpan").text(percentage+"%")
     $("#resultSpan").css("color", winExp ? COLOR_CORRECT : COLOR_WRONG)
 
-    await fetchData()
-    await getUserLevel(1)
-    
-    
+    await getLocals()
+    let experiencePercentage = (locals.experience / (locals.experience + locals.experienceToNext)) * 100
+    let totalExp = locals.experience + locals.experienceToNext
     locals.experience += experienceToAdd;
     locals.experienceToNext -= experienceToAdd;
     
     if (locals.experienceToNext <= 0) {
+        await getExpNextLevel()
         locals.level++;
         locals.experienceToNext = experienceInNext + locals.experienceToNext;
+        locals.experience -= totalExp
     }
+    $("#experienceBar").css("width",experiencePercentage + "%")
 
 
-    await updateUserLevel(locals.id, locals.level, locals.experience, locals.experienceToNext)
+    updateUserLevel(locals.id, locals.level, locals.experience, locals.experienceToNext)
   
     
 }
 
-async function getUserLevel(userId) {
-    fetch(`/play/getUserLevel/${userId}`)
-        .then(response => {
-        if (!response.ok) throw new Error('User not found or error occurred');
-
-        return response.json();
-        })
-        .then(data => {
-            console.log('User level data:', data);
-            locals.experience = data.experience
-            locals.experienceToNext = data.experienceToNext
-            locals.level = data.level
-        })
-        .catch(error => {
-            console.error('Error:', error);
-        });
+async function getLocals() {
+    try {
+        const response1 = await fetch('/users/api/getLocals');
+        const data1 = await response1.json();
+        locals = data1.locals
+    } catch (error) {
+        console.error('Error:', error); 
+    }
 }
 
-async function fetchData() {
-    try {
-      const response1 = await fetch('/users/api/getLocals');
-      const data1 = await response1.json();
-      locals = data1.locals
-      
-      const response2 = await fetch(`/play/getExperienceRequired/${data1.locals.level}`);
-      const data2 = await response2.json(); 
-      experienceInNext = data2
   
+async function getExpNextLevel() {
+    try {  
+        const response2 = await fetch(`/play/getExperienceRequired/${data1.locals.level}`);
+        const data2 = await response2.json(); 
+        experienceInNext = data2
+
     } catch (error) {
-      console.error('Error:', error); 
+        console.error('Error:', error); 
     }
-  }
+} 
+
   async function updateUserLevel(userId, level, experience, experienceToNext) {
     try {
-      await fetch('/play/addExperience', {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          userId: userId,
-          level: level,
-          experience: experience,
-          experienceToNext: experienceToNext,
-        }),
-      });
-  
+        await fetch('/play/addExperience', {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                userId: userId,
+                level: level,
+                experience: experience,
+                experienceToNext: experienceToNext,
+            }),
+        });
+
     } catch (error) {
-      console.error('Error:', error.message);
+        console.error('Error:', error.message);
     }
-  }
+}
   
   
 function getTime() {

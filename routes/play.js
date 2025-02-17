@@ -69,6 +69,7 @@ router.put('/addExperience', (request,response) => {
     response.locals.user.level = level
     response.locals.user.experience = experience
     response.locals.user.experienceToNext = experienceToNext
+    response.json(true)
   })
 });
 

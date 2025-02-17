@@ -551,3 +551,7 @@ body::-webkit-scrollbar {
 #divResultados > div {
   opacity:0;
 }
+
+.experienceBar {
+  transition: width 4s ease-in-out; /* Transición suave */
+}
