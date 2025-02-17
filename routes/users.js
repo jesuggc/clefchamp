@@ -179,10 +179,13 @@ router.post("/sendMessage", isLoggedIn, (request,response) => {
 
 // This is probably the worst way to do this...
 function errorHandler(err) {
-  console.log("\x1b[41m%s\x1b[0m",  "-----------------------------------------------------------")
-  console.log("\x1b[41m%s\x1b[0m",  "CÓDIGO DE ERROR: ",err.code)
-  console.log("\x1b[41m%s\x1b[0m",  "MENSAJE SQL: ",err.sqlMessage)
-  console.log("\x1b[41m%s\x1b[0m",  "SQL: ",err.sql)
-  console.log("\x1b[41m%s\x1b[0m",  "-----------------------------------------------------------")
+  if (err.code === "ECONNREFUSED") console.log("/n/nArranca xampp máquina/n/n")
+  else {
+    console.log("\x1b[41m%s\x1b[0m",  "-----------------------------------------------------------")
+    console.log("\x1b[41m%s\x1b[0m",  "CÓDIGO DE ERROR: ",err.code)
+    console.log("\x1b[41m%s\x1b[0m",  "MENSAJE SQL: ",err.sqlMessage)
+    console.log("\x1b[41m%s\x1b[0m",  "SQL: ",err.sql)
+    console.log("\x1b[41m%s\x1b[0m",  "-----------------------------------------------------------")
+  }
 }
 module.exports = router;

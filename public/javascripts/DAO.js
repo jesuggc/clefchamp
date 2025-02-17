@@ -229,6 +229,20 @@ class DAO {
         });
     }
     
+    getUserLevel(userId, callback) {
+        this.pool.getConnection((err, connection) => {
+            if (err) callback(err);
+            else {
+                let stringQuery = `SELECT level, experience, experienceToNext FROM userlevel WHERE idUser = ?`;
+                connection.query(stringQuery, [userId], (err, result) => {
+                    connection.release();
+                    if (err) callback(err);
+                    else callback(null, result);
+                });
+            }
+        });
+    }
+
     getExperienceByLevel(level, callback) {
         this.pool.getConnection((err, connection) => {
             if (err) callback(err);

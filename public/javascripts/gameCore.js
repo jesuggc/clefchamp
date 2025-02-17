@@ -139,46 +139,52 @@ function endGame() {
     // individualTimes.forEach((ele) => console.log(ele))
 } 
 
-function showResults() {
-    $("#divResultados").css("height", $('#divFeedback').css("height")).addClass('show');
-    $("#startBtn").hide()
-    secuencialShow('#divResultados div')
+let experienceInNext
+async function showResults() {
     let percentage = Math.round((aciertos/ROUNDS)*100)
-    $("#experienceSpan").text(percentage > experienceThreshold ? `Has ganado ${EXPERIENCE} experiencia` : "Para conseguir experiencia supera el "+  experienceThreshold + "%")
+    // let winExp = percentage > experienceThreshold
+    let winExp = true
+    let experienceToAdd = winExp ? EXPERIENCE : 0 
+    $("#divResultados").css("height", $('#divFeedback').css("height")).addClass('show');
+    secuencialShow('#divResultados > div')
+    $("#experienceSpan").text(winExp ? `Has ganado ${EXPERIENCE} experiencia` : "Para conseguir experiencia supera el "+  experienceThreshold + "%")
     $("#resultSpan").text(percentage+"%")
-    $("#resultSpan").css("color", percentage > experienceThreshold ? COLOR_CORRECT : COLOR_WRONG)
-    let experienceInNext
-    // fetch('/users/api/getLocals')
-    // .then(response => response.json())
-    // .then(data => {
-    //     locals = data.locals;
-    //     fetch(`/play/getExperienceRequired/${locals.level}`)
-    //     .then(response => response.json())
-    //     .then(data => {
-    //         console.log(data)
-    //     })
-    //     .catch(error => console.error('Error:', error));
-    // })
-    // .catch(error => console.error('Error:', error));
+    $("#resultSpan").css("color", winExp ? COLOR_CORRECT : COLOR_WRONG)
 
-    // locals.userExp = 17 -> 27
-    // locals.experienceLeft 133 -> 
-    // experienceInNext = 150
-    // experienceToAdd = 10
-    fetchData()
-    let experienceToAdd = EXPERIENCE
-    if(experienceToAdd >= locals.experienceToNext) {
-        locals.level++
-        locals.experience = experienceToAdd - locals.experienceLeft
-        locals.experienceLeft = experienceInNext - locals.experience
-        
-    } else {
-        locals.experience += EXPERIENCE;
-        locals.experienceToNext -= EXPERIENCE
-    }
+    await fetchData()
+    await getUserLevel(1)
     
+    
+    locals.experience += experienceToAdd;
+    locals.experienceToNext -= experienceToAdd;
+    
+    if (locals.experienceToNext <= 0) {
+        locals.level++;
+        locals.experienceToNext = experienceInNext + locals.experienceToNext;
+    }
+
+
+    await updateUserLevel(locals.id, locals.level, locals.experience, locals.experienceToNext)
   
     
+}
+
+async function getUserLevel(userId) {
+    fetch(`/play/getUserLevel/${userId}`)
+        .then(response => {
+        if (!response.ok) throw new Error('User not found or error occurred');
+
+        return response.json();
+        })
+        .then(data => {
+            console.log('User level data:', data);
+            locals.experience = data.experience
+            locals.experienceToNext = data.experienceToNext
+            locals.level = data.level
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
 }
 
 async function fetchData() {
@@ -186,17 +192,35 @@ async function fetchData() {
       const response1 = await fetch('/users/api/getLocals');
       const data1 = await response1.json();
       locals = data1.locals
-      console.log(locals)
       
       const response2 = await fetch(`/play/getExperienceRequired/${data1.locals.level}`);
       const data2 = await response2.json(); 
-      experienceInNext = data2.experienceRequired
+      experienceInNext = data2
   
     } catch (error) {
       console.error('Error:', error); 
     }
   }
-
+  async function updateUserLevel(userId, level, experience, experienceToNext) {
+    try {
+      await fetch('/play/addExperience', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          userId: userId,
+          level: level,
+          experience: experience,
+          experienceToNext: experienceToNext,
+        }),
+      });
+  
+    } catch (error) {
+      console.error('Error:', error.message);
+    }
+  }
+  
   
 function getTime() {
     let totalTime = cronometro.getTime()

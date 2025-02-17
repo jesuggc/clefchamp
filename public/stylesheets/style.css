@@ -548,6 +548,6 @@ body::-webkit-scrollbar {
   visibility: visible;
 }
 
-#divResultados div {
+#divResultados > div {
   opacity:0;
 }

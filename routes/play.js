@@ -54,10 +54,22 @@ router.get('/getExperienceRequired/:level', (request,response) => {
   })
 });
 
+router.get('/getUserLevel/:userId', (request, response) => {
+  const userId = request.params.userId;
+  midao.getUserLevel(userId, (err, result) => {
+    if (err) errorHandler(err, response);
+    else response.json(result[0]); 
+  });
+});
+
 router.put('/addExperience', (request,response) => {
-  // midao.updateUserLevel(,(err,result) => {
-    // console.log(result)
-  // })
+  const { userId, level, experience, experienceToNext } = request.body;
+  midao.updateUserLevel(userId, level, experience, experienceToNext, (err, result) => {
+    console.log(result)
+    response.locals.user.level = level
+    response.locals.user.experience = experience
+    response.locals.user.experienceToNext = experienceToNext
+  })
 });
 
 // This is probably the worst way to do this...
