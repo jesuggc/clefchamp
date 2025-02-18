@@ -25,25 +25,24 @@ router.get("/", isLoggedIn, (request,response) => {
   response.render('home')
 })
 
-
-router.get("/atrapado/trial", (request,response) => {
-    response.render("pruebaNivel")
-})
-
 router.get("/selectGame", (request,response) => {
   response.render("selectGame")
 })
 
+router.get("/atrapado/trial", (request,response) => {
+    response.render("gameScreen")
+})
+
 router.get("/atrapado/easy", (request,response) => {
-  response.render("pruebaNivel")
+  response.render("gameScreen")
 })
 
 router.get("/atrapado/normal", (request,response) => {
-  response.render("pruebaNivel")
+  response.render("gameScreen")
 })
 
 router.get("/atrapado/hard", (request,response) => {
-  response.render("pruebaNivel")
+  response.render("gameScreen")
 })
 
 router.get('/getExperienceRequired/:level', (request,response) => {
@@ -65,12 +64,18 @@ router.get('/getUserLevel/:userId', (request, response) => {
 router.put('/addExperience', (request,response) => {
   const { userId, level, experience, experienceToNext } = request.body;
   midao.updateUserLevel(userId, level, experience, experienceToNext, (err, result) => {
-    console.log(result)
     response.locals.user.level = level
     response.locals.user.experience = experience
     response.locals.user.experienceToNext = experienceToNext
     response.json(true)
   })
+});
+
+router.post('/updatePreferences', (req, res) => {
+  const preferences = req.body;
+  console.log(preferences.showModal)
+  res.locals.preferences = preferences.showModal;
+  res.json(true);
 });
 
 // This is probably the worst way to do this...

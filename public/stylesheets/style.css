@@ -469,6 +469,7 @@ body::-webkit-scrollbar {
 .acceptButton-sm {
   color: #F2E7DC;
   background-color: #350D40;
+  border: #350D40 solid;
   border-radius: 1em;
   padding: 0.5em 1em 0.5em 1em;
 }

@@ -32,7 +32,6 @@ let locals
 let experienceInNext
 let difficulty = window.location.pathname.split("/")[3].toUpperCase()
 
-
 // ----
 let $startBtn = $("#startBtn")
 let $successMessage = $("#successMessage")
@@ -84,6 +83,7 @@ $startBtn.on("click", function() {
     cronometro.start()
     updateGame()
     gameStarted = true
+    endGame()
 })
 
 function updateGame() {
@@ -152,9 +152,9 @@ async function showResults() {
     // let winExp = percentage > experienceThreshold
     let experienceToAdd = winExp ? EXPERIENCE : 0 
     
-    await handleExperience(winExp,experienceToAdd)
+    let levelUp = await handleExperience(winExp,experienceToAdd)
     
-    $("#experienceSpan").text(winExp ? `Has ganado ${EXPERIENCE} experiencia` : "Para conseguir experiencia supera el "+  experienceThreshold + "%")
+    $("#experienceSpan").text(winExp ? EXPERIENCE : "Para conseguir experiencia supera el "+  experienceThreshold + "%")
     $("#resultSpan").text(percentage+"%")
     $("#resultSpan").css("color", winExp ? COLOR_CORRECT : COLOR_WRONG)
     
@@ -165,9 +165,15 @@ async function showResults() {
     setTimeout(() => $("#resultDiv").css('opacity', 1), 500);
     setTimeout(() => $("#experienceDiv").css('opacity', 1), 1000);
     setTimeout(() => $("#totalExpDiv").css('opacity', 1), 1500);
-    setTimeout(() => $("#experienceBar").css("width",experiencePercentage + "%") , 12500);
-    
-    
+    if(levelUp) {
+        setTimeout(() => $("#experienceBar").css("width","100%") , 2000);
+        setTimeout(() => $("#levelSpan").text(locals.level) , 2600);
+        setTimeout(() => $("#experienceBar").css("width",experiencePercentage + "%") , 2600);
+    } else {
+        setTimeout(() => $("#experienceBar").css("width",experiencePercentage + "%") , 2000);
+    }
+    // 1 6 232 8
+    // UPDATE userlevel SET level = 6, experience = 232, experienceToNext = 8 WHERE idUser = 1
 }
 
 async function handleExperience(winExp, experienceToAdd) {
@@ -175,14 +181,15 @@ async function handleExperience(winExp, experienceToAdd) {
     let totalExp = locals.experience + locals.experienceToNext
     locals.experience += experienceToAdd;
     locals.experienceToNext -= experienceToAdd;
-    
-    if (locals.experienceToNext <= 0) {
+    let levelUp = locals.experienceToNext <= 0 
+    if (levelUp) {
         await getExpNextLevel()
         locals.level++;
         locals.experienceToNext = experienceInNext + locals.experienceToNext;
         locals.experience -= totalExp
     }
     updateUserLevel(locals.id, locals.level, locals.experience, locals.experienceToNext)
+    return levelUp
 }
 
 async function getLocals() {
