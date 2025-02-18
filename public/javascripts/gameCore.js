@@ -3,255 +3,415 @@ import { Cronometro } from './cronometro.js';
 import { flashBackground, fadeOut, addPointsAnimation, addProgresively, growAndBack, secuencialShow} from './animations.js'
 import { getConfig } from './levelConfig.js'
 
+// Configuración y estado del juego
+const GameState = {
+    // Configuración que se inicializará desde el nivel
+    config: {
+        ROUNDS: 0,
+        CLEF_PROB: 0,
+        EXPERIENCE: 0,
+        PERFORMANCE: null,
+        COLOR_CORRECT: "#d7ffb8",
+        COLOR_WRONG: "#ffdfe0",
+        experienceThreshold: 50
+    },
+    
+    // Estado del juego actual
+    current: {
+        contador: 0,
+        expectedNote: "",
+        aciertos: 0,
+        fallos: 0,
+        times: [],
+        individualTimes: [],
+        individualTime: 0,
+        gameStarted: false,
+        streak: 0,
+        difficulty: null
+    },
 
-let PERFORMANCE
-let CLEF_PROB 
-let ROUNDS
-let COLOR_CORRECT = "#d7ffb8"
-let COLOR_WRONG = "#ffdfe0"
-let contador = 0;
-let expectedNote = ""
-let aciertos = 0
-let fallos = 0
-let times = []
-let individualTimes = []
-let individualTime = 0;
-let cronometro;
-let gameStarted = false
-let streak = 0;
-let KEYCODE_1 = 'a'
-let KEYCODE_2 = 's'
-let KEYCODE_3 = 'd'
-let KEYCODE_4 = 'f'
-let KEYCODE_5 = 'j'
-let KEYCODE_6 = 'k'
-let KEYCODE_7 = 'l'
-let experienceThreshold = 50
-let EXPERIENCE
-let locals
-let experienceInNext
-let difficulty = window.location.pathname.split("/")[3].toUpperCase()
+    // Referencias a elementos del DOM
+    elements: {},
 
-// ----
-let $startBtn = $("#startBtn")
-let $successMessage = $("#successMessage")
-let $tutorialModal = $("#tutorialModal")
-let $progressBar = $("#progressBar")
-let $divFeedback = $("#divFeedback")
-let $streak = $("#streak")
-let $streakNumber = $("#streakNumber")
+    // Mapeo de teclas
+    keyMapping: {
+        notes: [
+            { key: 'a', note: 'c' },
+            { key: 's', note: 'd' },
+            { key: 'd', note: 'e' },
+            { key: 'f', note: 'f' },
+            { key: 'j', note: 'g' },
+            { key: 'k', note: 'a' },
+            { key: 'l', note: 'b' }
+        ],
+        keyMap: {},
+        visualKeyMap: {}
+    },
 
-const notes = [
-    { key: KEYCODE_1, note: 'c' },
-    { key: KEYCODE_2, note: 'd' },
-    { key: KEYCODE_3, note: 'e' },
-    { key: KEYCODE_4, note: 'f' },
-    { key: KEYCODE_5, note: 'g' },
-    { key: KEYCODE_6, note: 'a' },
-    { key: KEYCODE_7, note: 'b' }
-];
+    // Datos de usuario
+    userData: {
+        locals: null,
+        experienceInNext: 0
+    },
 
-const keyMap = Object.fromEntries(notes.map(({ key, note }) => [key, note]));
-const visualKeyMap = Object.fromEntries(notes.map(({ key, note }) => [key, `.note${note}`]));
+    // Cronómetro del juego
+    cronometro: null,
 
-$(function() {
-    ({ ROUNDS, CLEF_PROB, EXPERIENCE, PERFORMANCE } = getConfig(difficulty));
-    emptyClef()
-    cronometro = new Cronometro()
-    new bootstrap.Modal($tutorialModal).show();
+    // Inicializa el juego
+    initialize() {
+        this.current.difficulty = window.location.pathname.split("/")[3].toUpperCase();
+        Object.assign(this.config, getConfig(this.current.difficulty));
+        
+        // Inicializar mapeos de teclas
+        this.keyMapping.keyMap = Object.fromEntries(this.keyMapping.notes.map(({ key, note }) => [key, note]));
+        this.keyMapping.visualKeyMap = Object.fromEntries(this.keyMapping.notes.map(({ key, note }) => [key, `.note${note}`]));
 
-    $(document).on("keydown", function (event) {
-        if (visualKeyMap[event.key.toLowerCase()]) $(visualKeyMap[event.key.toLowerCase()]).addClass("pressed");
+        // Inicializar referencias a elementos
+        this.elements = {
+            $startBtn: $("#startBtn"),
+            $successMessage: $("#successMessage"),
+            $tutorialModal: $("#tutorialModal"),
+            $progressBar: $("#progressBar"),
+            $divFeedback: $("#divFeedback"),
+            $streak: $("#streak"),
+            $streakNumber: $("#streakNumber"),
+            $divResultados: $("#divResultados"),
+            $resultDiv: $("#resultDiv"),
+            $experienceDiv: $("#experienceDiv"),
+            $totalExpDiv: $("#totalExpDiv"),
+            $experienceBar: $("#experienceBar"),
+            $levelSpan: $("#levelSpan"),
+            $experienceSpan: $("#experienceSpan"),
+            $resultSpan: $("#resultSpan"),
+            $playAgainBtn: $("#playAgainBtn"), 
+            $playAgainDiv: $("#playAgainDiv") 
+        };
 
-        if (gameStarted && contador < ROUNDS && keyMap[event.key]) {
-            getTime()
-            contador++
-            checkCorrect(event.key)
-            updateGame()
-            updateUI()
+        // Inicializar cronómetro
+        this.cronometro = new Cronometro();
+        
+        // Mostrar tutorial
+        emptyClef();
+        new bootstrap.Modal(this.elements.$tutorialModal).show();
+        
+        // Configurar eventos
+        this.setupEventListeners();
+    },
+
+    // Configurar eventos
+    setupEventListeners() {
+        $(document).on("keydown", (event) => this.handleKeyDown(event));
+        $(document).on("keyup", (event) => this.handleKeyUp(event));
+        this.elements.$startBtn.on("click", () => this.startGame());
+        
+        // Agregar el evento para volver a jugar
+        this.elements.$playAgainBtn.on("click", () => this.resetGame());
+    },
+
+    // Manejar evento de tecla presionada
+    handleKeyDown(event) {
+        const key = event.key.toLowerCase();
+        if (this.keyMapping.visualKeyMap[key]) {
+            $(this.keyMapping.visualKeyMap[key]).addClass("pressed");
         }
-    });
 
-    $(document).on("keyup", function (event) {
-        if (visualKeyMap[event.key.toLowerCase()]) $(visualKeyMap[event.key.toLowerCase()]).removeClass("pressed");
-    });
+        if (this.current.gameStarted && this.current.contador < this.config.ROUNDS && this.keyMapping.keyMap[key]) {
+            this.getTime();
+            this.current.contador++;
+            this.checkCorrect(key);
+            this.updateGame();
+            this.updateUI();
+        }
+    },
+
+    // Manejar evento de tecla liberada
+    handleKeyUp(event) {
+        const key = event.key.toLowerCase();
+        if (this.keyMapping.visualKeyMap[key]) {
+            $(this.keyMapping.visualKeyMap[key]).removeClass("pressed");
+        }
+    },
+
+    // Iniciar el juego
+    startGame() {
+        growAndBack(this.elements.$divFeedback);
+        this.elements.$startBtn.hide();
+        this.cronometro.start();
+        this.updateGame();
+        this.current.gameStarted = true;
+    },
+
+    // Actualizar el estado del juego
+    updateGame() {
+        if (this.current.contador === this.config.ROUNDS) {
+            this.endGame();
+            return;
+        }
+        let note = randomNote();
+        let clef = randomClef(this.config.CLEF_PROB);
+        dibujarNota(note, clef);
+        this.current.expectedNote = getNote(note, clef);
+    },
+
+    // Verificar si la nota presionada es correcta
+    checkCorrect(keyEvent) {
+        const pressedNote = this.keyMapping.keyMap[keyEvent];
+        $(`.note${this.current.expectedNote}`).each((_, ele) => flashBackground(ele, this.config.COLOR_CORRECT));
+        
+        if (pressedNote === this.current.expectedNote) {
+            this.handleCorrectNote();
+        } else {
+            this.handleWrongNote(pressedNote);
+        }
+    },
+
+    // Manejar nota correcta
+    handleCorrectNote() {
+        this.current.aciertos++;
+        this.current.streak++;
+        const feedback = this.getFeedback(this.current.individualTime);
+        this.elements.$successMessage.text(feedback.TITLE).css("color", feedback.COLOR);
+        fadeOut(this.elements.$successMessage);
+    },
+
+    // Obtener feedback basado en tiempo de respuesta
+    getFeedback(time) {
+        if (time < this.config.PERFORMANCE.PERFECT.THRESHOLD) 
+            return this.config.PERFORMANCE.PERFECT;
+        if (time < this.config.PERFORMANCE.EXCELLENT.THRESHOLD) 
+            return this.config.PERFORMANCE.EXCELLENT;
+        if (time < this.config.PERFORMANCE.GREAT.THRESHOLD) 
+            return this.config.PERFORMANCE.GREAT;
+        if (time < this.config.PERFORMANCE.GOOD.THRESHOLD) 
+            return this.config.PERFORMANCE.GOOD;
+        return this.config.PERFORMANCE.OK;
+    },
+
+    // Manejar nota incorrecta
+    handleWrongNote(pressedNote) {
+        this.current.fallos++;
+        this.current.streak = 0;
+        $(`.note${pressedNote}`).each((_, ele) => flashBackground(ele, this.config.COLOR_WRONG));
+    },
+
+    // Finalizar el juego
+    endGame() {
+        this.cronometro.pause();
+        emptyClef();
+        this.openResultDiv();
+        if(this.current.difficulty === "TRIAL") setTimeout(() => this.showFidelization(), 500);
+        else setTimeout(() => this.showResults(), 500);
+    },
+
+    // Abrir div de resultados
+    openResultDiv() {
+        this.elements.$divResultados.css("height", this.elements.$divFeedback.css("height")).addClass('show');
+    },
+
+    // Mostrar resultados
+    async showResults() {
+        let percentage = Math.round((this.current.aciertos / this.config.ROUNDS) * 100);
+        let winExp = true; // Siempre gana experiencia por ahora
+        let experienceToAdd = winExp ? this.config.EXPERIENCE : 0;
+        
+        let levelUp = await this.handleExperience(winExp, experienceToAdd);
+        
+        this.elements.$experienceSpan.text(
+            winExp ? this.config.EXPERIENCE : `Para conseguir experiencia supera el ${this.config.experienceThreshold}%`
+        );
+        this.elements.$resultSpan.text(percentage + "%");
+        this.elements.$resultSpan.css("color", winExp ? this.config.COLOR_CORRECT : this.config.COLOR_WRONG);
+        
+        let experiencePercentage = (this.userData.locals.experience / (this.userData.locals.experience + this.userData.locals.experienceToNext)) * 100;
+        
+        setTimeout(() => this.elements.$resultDiv.css('opacity', 1), 500);
+        setTimeout(() => this.elements.$experienceDiv.css('opacity', 1), 1000);
+        setTimeout(() => this.elements.$totalExpDiv.css('opacity', 1), 1500);
+        
+        if (levelUp) {
+            this.showLevelUpModal();
+            setTimeout(() => this.elements.$experienceBar.css("width", "100%"), 2000);
+            setTimeout(() => this.elements.$levelSpan.text(this.userData.locals.level), 2600);
+            setTimeout(() => this.elements.$experienceBar.css("opacity", 0), 2600);
+            setTimeout(() => this.elements.$experienceBar.css("width", "0%"), 2600);
+            setTimeout(() => this.elements.$experienceBar.css("opacity", 1), 3200);
+            setTimeout(() => this.elements.$experienceBar.css("width", experiencePercentage + "%"), 3200);
+        } else {
+            setTimeout(() => this.elements.$experienceBar.css("width", experiencePercentage + "%"), 2000);
+        }
+        
+        // Mostrar el botón para volver a jugar
+        setTimeout(() => this.elements.$playAgainDiv.css('opacity', 1), 3500);
+    },
+
+    showFidelization() {
+        let percentage = Math.round((this.current.aciertos / this.config.ROUNDS) * 100);
+        // let winExp = true; // Siempre gana experiencia por ahora
+        // let experienceToAdd = winExp ? this.config.EXPERIENCE : 0;
+        // 
+        // let levelUp = await this.handleExperience(winExp, experienceToAdd);
+        
+        this.elements.$experienceSpan.text(
+           "Unete porfa"
+        );
+        this.elements.$resultSpan.text(percentage + "%");
+        
+        // let experiencePercentage = (this.userData.locals.experience / (this.userData.locals.experience + this.userData.locals.experienceToNext)) * 100;
+        
+        setTimeout(() => this.elements.$resultDiv.css('opacity', 1), 500);
+        setTimeout(() => this.elements.$experienceDiv.css('opacity', 1), 1000);
+        // setTimeout(() => this.elements.$totalExpDiv.css('opacity', 1), 1500);
+        
+        // if (levelUp) {
+        //     this.showLevelUpModal();
+        //     setTimeout(() => this.elements.$experienceBar.css("width", "100%"), 2000);
+        //     setTimeout(() => this.elements.$levelSpan.text(this.userData.locals.level), 2600);
+        //     setTimeout(() => this.elements.$experienceBar.css("opacity", 0), 2600);
+        //     setTimeout(() => this.elements.$experienceBar.css("width", "0%"), 2600);
+        //     setTimeout(() => this.elements.$experienceBar.css("opacity", 1), 3200);
+        //     setTimeout(() => this.elements.$experienceBar.css("width", experiencePercentage + "%"), 3200);
+        // } else {
+        //     setTimeout(() => this.elements.$experienceBar.css("width", experiencePercentage + "%"), 2000);
+        // }
+        
+        // // Mostrar el botón para volver a jugar
+        // setTimeout(() => this.elements.$playAgainDiv.css('opacity', 1), 3500);
+    },
+
+    // Manejar la experiencia ganada
+    async handleExperience(winExp, experienceToAdd) {
+        await this.getLocals();
+        let totalExp = this.userData.locals.experience + this.userData.locals.experienceToNext;
+        this.userData.locals.experience += experienceToAdd;
+        this.userData.locals.experienceToNext -= experienceToAdd;
+        let levelUp = this.userData.locals.experienceToNext <= 0;
+        
+        if (levelUp) {
+            await this.getExpNextLevel();
+            this.userData.locals.level++;
+            this.userData.locals.experienceToNext = this.userData.experienceInNext + this.userData.locals.experienceToNext;
+            this.userData.locals.experience -= totalExp;
+        }
+        
+        await this.updateUserLevel(
+            this.userData.locals.id,
+            this.userData.locals.level,
+            this.userData.locals.experience,
+            this.userData.locals.experienceToNext
+        );
+        
+        return levelUp;
+    },
+
+    // Obtener datos locales del usuario
+    async getLocals() {
+        try {
+            const response = await fetch('/users/api/getLocals');
+            const data = await response.json();
+            this.userData.locals = data.locals;
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    },
+
+    // Obtener experiencia necesaria para el siguiente nivel
+    async getExpNextLevel() {
+        try {
+            const response = await fetch(`/play/getExperienceRequired/${(this.userData.locals.level + 2)}`);
+            const data = await response.json();
+            this.userData.experienceInNext = data;
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    },
+
+    // Actualizar nivel de usuario en el servidor
+    async updateUserLevel(userId, level, experience, experienceToNext) {
+        try {
+            await fetch('/play/addExperience', {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    userId,
+                    level,
+                    experience,
+                    experienceToNext,
+                }),
+            });
+        } catch (error) {
+            console.error('Error:', error.message);
+        }
+    },
+
+    // Mostrar modal de subida de nivel
+    showLevelUpModal() {
+        // Implementación del modal de nivel
+    },
+
+    // Obtener tiempo de respuesta
+    getTime() {
+        let totalTime = this.cronometro.getTime();
+        this.current.times.push(totalTime);
+        
+        if (this.current.contador === 0) {
+            this.current.individualTimes.push(totalTime);
+            this.current.individualTime = totalTime;
+        } else {
+            this.current.individualTime = (this.current.times[this.current.contador] - this.current.times[this.current.contador - 1]);
+            this.current.individualTimes.push(this.current.individualTime);
+        }
+    },
+
+    // Actualizar interfaz de usuario
+    updateUI() {
+        this.elements.$progressBar.css("width", ((this.current.contador / this.config.ROUNDS) * 100) + "%");
+        
+        if (this.current.streak > 2) {
+            this.elements.$streakNumber.text(this.current.streak);
+            this.elements.$streak.css("opacity", 1);
+        } else {
+            this.elements.$streak.css("opacity", 0);
+        }
+        
+        growAndBack(this.elements.$divFeedback);
+    },
+
+    // Reiniciar el juego (nueva funcionalidad)
+    resetGame() {
+        // Ocultar resultados
+        this.elements.$divResultados.removeClass('show');
+        this.elements.$resultDiv.css('opacity', 0);
+        this.elements.$experienceDiv.css('opacity', 0);
+        this.elements.$totalExpDiv.css('opacity', 0);
+        this.elements.$playAgainBtn.hide();
+        
+        // Reiniciar estado del juego
+        this.current.contador = 0;
+        this.current.expectedNote = "";
+        this.current.aciertos = 0;
+        this.current.fallos = 0;
+        this.current.times = [];
+        this.current.individualTimes = [];
+        this.current.individualTime = 0;
+        this.current.gameStarted = false;
+        this.current.streak = 0;
+        
+        // Reiniciar interfaz
+        this.elements.$progressBar.css("width", "0%");
+        this.elements.$streak.css("opacity", 0);
+        this.elements.$startBtn.show();
+        
+        // Reiniciar cronómetro
+        this.cronometro = new Cronometro();
+        
+        // Vaciar pentagrama
+        emptyClef();
+    }
+};
+
+// Inicializar el juego cuando el documento esté listo
+$(function() {
+    GameState.initialize();
 });
-
-$startBtn.on("click", function() {
-    growAndBack($($divFeedback))
-    $(this).hide()
-    cronometro.start()
-    updateGame()
-    gameStarted = true
-    endGame()
-})
-
-function updateGame() {
-    if (contador === ROUNDS) {
-        endGame()
-        return
-    }
-    let note = randomNote()
-    let clef = randomClef(CLEF_PROB)
-    dibujarNota(note ,clef )
-    expectedNote = getNote(note, clef)
-}
-
-function checkCorrect(keyevent) {
-    const pressedNote = keyMap[keyevent]
-    $(".note"+expectedNote).each((_, ele) => flashBackground(ele, COLOR_CORRECT));
-    
-    if (pressedNote === expectedNote) handleCorrectNote()
-    else handleWrongNote(pressedNote)
-    
-}
-
-function handleCorrectNote() {
-    aciertos++
-    streak++
-    const feedback = getFeedback(individualTime)
-    $($successMessage).text(feedback.TITLE).css("color",feedback.COLOR)
-    fadeOut($successMessage)
-}
-
-function getFeedback(time) {
-    if (time < PERFORMANCE.PERFECT.THRESHOLD) 
-        return PERFORMANCE.PERFECT
-    if (time < PERFORMANCE.EXCELLENT.THRESHOLD) 
-        return PERFORMANCE.EXCELLENT 
-    if (time < PERFORMANCE.GREAT.THRESHOLD) 
-        return PERFORMANCE.GREAT
-    if (time < PERFORMANCE.GOOD.THRESHOLD) 
-        return PERFORMANCE.GOOD
-    return PERFORMANCE.OK
-}
-
-function handleWrongNote(pressedNote) {
-    fallos++
-    streak=0
-    $(".note"+pressedNote).each((_, ele) => flashBackground(ele, COLOR_WRONG));
-}
-
-function endGame() {
-    cronometro.pause()
-    emptyClef()
-    openResultDiv()
-    setTimeout(() => {
-        showResults()
-    }, 500);
-    // getRewards()
-    // individualTimes.forEach((ele) => console.log(ele))
-} 
-
-function openResultDiv() {
-    $("#divResultados").css("height", $('#divFeedback').css("height")).addClass('show');
-}
-async function showResults() {
-    let percentage = Math.round((aciertos/ROUNDS)*100)
-    let winExp = true
-    // let winExp = percentage > experienceThreshold
-    let experienceToAdd = winExp ? EXPERIENCE : 0 
-    
-    let levelUp = await handleExperience(winExp,experienceToAdd)
-    
-    $("#experienceSpan").text(winExp ? EXPERIENCE : "Para conseguir experiencia supera el "+  experienceThreshold + "%")
-    $("#resultSpan").text(percentage+"%")
-    $("#resultSpan").css("color", winExp ? COLOR_CORRECT : COLOR_WRONG)
-    
-    
-    let experiencePercentage = (locals.experience / (locals.experience + locals.experienceToNext)) * 100
-    // let experiencePercentage = 75
-    
-    setTimeout(() => $("#resultDiv").css('opacity', 1), 500);
-    setTimeout(() => $("#experienceDiv").css('opacity', 1), 1000);
-    setTimeout(() => $("#totalExpDiv").css('opacity', 1), 1500);
-    if(levelUp) {
-        setTimeout(() => $("#experienceBar").css("width","100%") , 2000);
-        setTimeout(() => $("#levelSpan").text(locals.level) , 2600);
-        setTimeout(() => $("#experienceBar").css("width",experiencePercentage + "%") , 2600);
-    } else {
-        setTimeout(() => $("#experienceBar").css("width",experiencePercentage + "%") , 2000);
-    }
-    // 1 6 232 8
-    // UPDATE userlevel SET level = 6, experience = 232, experienceToNext = 8 WHERE idUser = 1
-}
-
-async function handleExperience(winExp, experienceToAdd) {
-    await getLocals()
-    let totalExp = locals.experience + locals.experienceToNext
-    locals.experience += experienceToAdd;
-    locals.experienceToNext -= experienceToAdd;
-    let levelUp = locals.experienceToNext <= 0 
-    if (levelUp) {
-        await getExpNextLevel()
-        locals.level++;
-        locals.experienceToNext = experienceInNext + locals.experienceToNext;
-        locals.experience -= totalExp
-    }
-    updateUserLevel(locals.id, locals.level, locals.experience, locals.experienceToNext)
-    return levelUp
-}
-
-async function getLocals() {
-    try {
-        const response1 = await fetch('/users/api/getLocals');
-        const data1 = await response1.json();
-        locals = data1.locals
-    } catch (error) {
-        console.error('Error:', error); 
-    }
-}
-
-  
-async function getExpNextLevel() {
-    try {  
-        const response2 = await fetch(`/play/getExperienceRequired/${(locals.level+2)}`);
-        const data2 = await response2.json(); 
-        experienceInNext = data2
-
-    } catch (error) {
-        console.error('Error:', error); 
-    }
-} 
-
-async function updateUserLevel(userId, level, experience, experienceToNext) {
-    try {
-        await fetch('/play/addExperience', {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                userId: userId,
-                level: level,
-                experience: experience,
-                experienceToNext: experienceToNext,
-            }),
-        });
-
-    } catch (error) {
-        console.error('Error:', error.message);
-}
-}
-  
-  
-function getTime() {
-    let totalTime = cronometro.getTime()
-    times.push(totalTime)
-    if(contador === 0) {
-        individualTimes.push(totalTime)
-        individualTime = totalTime
-    } else {
-        individualTime = (times[contador] - times[contador-1])
-        individualTimes.push(individualTime)
-    }
-}
-
-function updateUI() {
-    $($progressBar).css("width",((contador/ROUNDS)*100) + "%")
-    if(streak > 2)  {
-        $($streakNumber).text(streak) 
-        $($streak).css("opacity",1)
-    } else $($streak).css("opacity",0)
-    growAndBack($($divFeedback))
-}

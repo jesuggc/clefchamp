@@ -556,3 +556,8 @@ body::-webkit-scrollbar {
 .experienceBar {
   transition: width 2s ease-in-out; /* Transición suave */
 }
+
+#sadClef {
+  /* mask-image: radial-gradient(circle, rgba(0, 0, 0, 1) 30%, rgba(0, 0, 0, 0) 100%); */
+  -webkit-mask-image: radial-gradient(circle, rgba(0, 0, 0, 1) 20%, rgba(0, 0, 0, 0) 70%);
+}

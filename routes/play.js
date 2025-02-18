@@ -30,19 +30,19 @@ router.get("/selectGame", (request,response) => {
 })
 
 router.get("/atrapado/trial", (request,response) => {
-    response.render("gameScreen")
+    response.render("gameScreen", {mode:"TRIAL"})
 })
 
 router.get("/atrapado/easy", (request,response) => {
-  response.render("gameScreen")
+  response.render("gameScreen", {mode:"EASY"})
 })
 
 router.get("/atrapado/normal", (request,response) => {
-  response.render("gameScreen")
+  response.render("gameScreen", {mode:"NORMAL"})
 })
 
 router.get("/atrapado/hard", (request,response) => {
-  response.render("gameScreen")
+  response.render("gameScreen", {mode:"HARD"})
 })
 
 router.get('/getExperienceRequired/:level', (request,response) => {
