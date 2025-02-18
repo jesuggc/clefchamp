@@ -1,4 +1,4 @@
-const sql = require("mysql")
+const sql = require("mysql2")
 
 class DAO {
     constructor(host, user, password, database,port) {

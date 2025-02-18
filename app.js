@@ -11,35 +11,40 @@ var applicationRouter = require('./routes/application');
 var playRouter = require('./routes/play');
 var app = express();
 
-const dao = require('./public/javascripts/DAO')
-const midao = new dao("localhost","root","","clefchamp","3306");
+// const dao = require('./public/javascripts/DAO')
+// const midao = new dao("localhost","root","","clefchamp","3306");
 
 const session = require("express-session")
 const sessionSQL = require("express-mysql-session")
 const bodyParser = require("body-parser")
 const mysqlStore = sessionSQL(session)
 
-// var conn=mysql.createConnection({
-//     host:"clefchamp-server.mysql.database.azure.com",
-//     user:"ojwsqsqlej",
-//     password:"{your_password}",
-//     database:"{your_database}",
-//     port:3306,
-//     ssl:{ca:fs.readFileSync("{ca-cert filename}")}});
 
+// require('dotenv').config({
+//   path: process.env.NODE_ENV === 'production' ? '.env.production' : '.env'
+// });
 
-const sessionStore = new mysqlStore({
-  host: "localhost",
-  user: "root",
-  password: "",
-  database: "clefchamp"
-})
+// Configuración de la sesión
+// const sessionStore = new mysqlStore({
+//   host: "interchange.proxy.rlwy.net",
+//   port: 57391,
+//   user: "root",
+//   password: "OJSOuUDafqUzdKRiRGJIWeRxcAMgBsZT",
+//   database: "railway"
+// });
+
+// const sessionStore = new mysqlStore({
+//   host: "localhost",
+//   user: "root",
+//   password: "",
+//   database: "clefchamp"
+// })
 
 const middlewareSession = session({
   saveUninitialized: false,
   secret: "1234", 
   resave: false,  
-  store: sessionStore
+  // store: sessionStore
 })
 
 app.use(middlewareSession)
