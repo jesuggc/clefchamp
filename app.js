@@ -18,35 +18,25 @@ const sessionSQL = require("express-mysql-session")
 const bodyParser = require("body-parser")
 const mysqlStore = sessionSQL(session)
 
+console.log(process.env.NODE_ENV);
+require('dotenv').config();
+console.log(process.env.NODE_ENV);
 
-// require('dotenv').config({
-//   path: process.env.NODE_ENV === 'production' ? '.env.production' : '.env'
-// });
-
-// Configuración de la sesión
-// const sessionStore = new mysqlStore({
-//   host: "interchange.proxy.rlwy.net",
-//   port: 57391,
-//   user: "root",
-//   password: "OJSOuUDafqUzdKRiRGJIWeRxcAMgBsZT",
-//   database: "railway"
-// });
-
-// const sessionStore = new mysqlStore({
-//   host: "localhost",
-//   user: "root",
-//   password: "",
-//   database: "clefchamp"
-// })
+const sessionStore = new mysqlStore({
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME,
+})
 
 const middlewareSession = session({
   saveUninitialized: false,
   secret: "1234", 
   resave: false,  
-  // store: sessionStore
+  store: sessionStore
 })
 
-app.use(middlewareSession)
+// app.use(middlewareSession)
 app.use(bodyParser.json())
 
 
@@ -65,12 +55,6 @@ app.use('/users', usersRouter);
 app.use('/application', applicationRouter);
 app.use('/play', playRouter);
 
-
-// midao.getConfiguration((err,res)=> {
-//   if(err) console.log(err)
-//   else app.locals.configuration = res
-// })
-
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   res.render("404")
@@ -78,7 +62,6 @@ app.use(function(req, res, next) {
 
 // error handler
 app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
 

@@ -11,8 +11,8 @@ class DAO {
             waitForConnections: true,
             connectionLimit: 10,
             queueLimit: 0
-        }) // Habilita async/await
-        // }).promise(); // Habilita async/await
+        // })
+        }).promise(); // Habilita async/await
     }
 //USUARIOS
       
