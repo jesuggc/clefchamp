@@ -4,6 +4,7 @@ package-lock.json
 
 # Archivos de configuración específicos de entorno
 .env
+.env.production
 
 # Archivos de sistema (Mac, Windows)
 .DS_Store
@@ -17,7 +18,8 @@ Thumbs.db
 # Archivos temporales y de caché
 .tmp/
 .cache/
-.vscode/
 
 # Archivos específicos del IDE (Visual Studio Code)
 .vscode/
+
+notas.txt
