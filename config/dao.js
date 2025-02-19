@@ -1,14 +1,18 @@
-const sql = require("mysql2")
+const mysql = require("mysql2")
 
 class DAO {
-    constructor(host, user, password, database,port) {
-        this.pool = sql.createPool({
-            host: host,
-            user: user,
-            password: password,
-            database: database,
-            port: port
-        })
+    constructor(host, user, password, database, port) {
+        this.pool = mysql.createPool({
+            host,
+            user,
+            password,
+            database,
+            port,
+            waitForConnections: true,
+            connectionLimit: 10,
+            queueLimit: 0
+        }) // Habilita async/await
+        // }).promise(); // Habilita async/await
     }
 //USUARIOS
       

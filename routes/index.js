@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-const dao = require("../public/javascripts/DAO.js");
+const dao = require("../config/dao.js");
 const midao = new dao("localhost","root","","clefchamp","3306")
 
 const passLocals = (req, res, next) => {

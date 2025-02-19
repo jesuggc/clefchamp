@@ -1,10 +1,6 @@
 var express = require('express');
 var router = express.Router();
-const dao = require("../public/javascripts/DAO.js");
-const { error } = require('jquery');
-const midao = new dao("localhost","root","","clefchamp","3306")
-
-
+const db = require("../config/db");
 
 router.get("/getIcons", (request,response) => {
   midao.getIcons((err,icons) => {
