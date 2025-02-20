@@ -2,13 +2,18 @@ var express = require('express');
 var router = express.Router();
 const db = require("../config/db");
 
-const passLocals = (req, res, next) => {
+router.use((req, res, next) => {
   res.locals.user = req.session.user;
   next();
-};
+})
 
 const isLoggedIn = (req, res, next) => {
   if (res.locals.user) return next();
+  res.redirect('/users/login');
+};
+
+const isNotLoggedIn = (req, res, next) => {
+  if (!res.locals.user) return next();
   res.redirect('/users/login');
 };
 
@@ -17,33 +22,31 @@ const alreadyLoggedIn = (req, res, next) => {
   res.redirect('/');
 };
 
-router.use(passLocals)
-
 router.get("/", isLoggedIn, (request,response) => {
   response.render('home')
 })
 
-router.get("/selectGame", (request,response) => {
+router.get("/selectGame",isLoggedIn, (request,response) => {
   response.render("selectGame")
 })
 
-router.get("/atrapado/trial", (request,response) => {
+router.get("/atrapado/trial", isNotLoggedIn, (request,response) => {
     response.render("gameScreen", {mode:"TRIAL"})
 })
 
-router.get("/atrapado/easy", (request,response) => {
+router.get("/atrapado/easy",isLoggedIn, (request,response) => {
   response.render("gameScreen", {mode:"EASY"})
 })
 
-router.get("/atrapado/normal", (request,response) => {
+router.get("/atrapado/normal",isLoggedIn, (request,response) => {
   response.render("gameScreen", {mode:"NORMAL"})
 })
 
-router.get("/atrapado/hard", (request,response) => {
+router.get("/atrapado/hard",isLoggedIn, (request,response) => {
   response.render("gameScreen", {mode:"HARD"})
 })
 
-router.get('/getExperienceRequired/:level', (request,response) => {
+router.get('/getExperienceRequired/:level',isLoggedIn, (request,response) => {
   const level = request.params.level; 
   midao.getExperienceByLevel(level,(err,result) => {
     if(err) errorHandler(err)
@@ -51,7 +54,7 @@ router.get('/getExperienceRequired/:level', (request,response) => {
   })
 });
 
-router.get('/getUserLevel/:userId', (request, response) => {
+router.get('/getUserLevel/:userId',isLoggedIn, (request, response) => {
   const userId = request.params.userId;
   midao.getUserLevel(userId, (err, result) => {
     if (err) errorHandler(err, response);
@@ -59,7 +62,7 @@ router.get('/getUserLevel/:userId', (request, response) => {
   });
 });
 
-router.put('/addExperience', (request,response) => {
+router.put('/addExperience',isLoggedIn, (request,response) => {
   const { userId, level, experience, experienceToNext } = request.body;
   midao.updateUserLevel(userId, level, experience, experienceToNext, (err, result) => {
     response.locals.user.level = level

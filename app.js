@@ -10,17 +10,15 @@ var applicationRouter = require('./routes/application');
 var playRouter = require('./routes/play');
 var app = express();
 
-// const dao = require('./public/javascripts/DAO')
-// const midao = new dao("localhost","root","","clefchamp","3306");
 
 const session = require("express-session")
 const sessionSQL = require("express-mysql-session")
 const bodyParser = require("body-parser")
 const mysqlStore = sessionSQL(session)
 
-console.log(process.env.NODE_ENV);
-require('dotenv').config();
-console.log(process.env.NODE_ENV);
+// console.log(process.env.NODE_ENV);
+// require('dotenv').config();
+// console.log(process.env.NODE_ENV);
 
 const sessionStore = new mysqlStore({
   host: process.env.DB_HOST,
@@ -36,7 +34,7 @@ const middlewareSession = session({
   store: sessionStore
 })
 
-// app.use(middlewareSession)
+app.use(middlewareSession)
 app.use(bodyParser.json())
 
 

@@ -2,10 +2,10 @@ var express = require('express');
 var router = express.Router();
 const db = require("../config/db");
 
-const passLocals = (req, res, next) => {
+router.use((req, res, next) => {
   res.locals.user = req.session.user;
   next();
-};
+})
 
 const isLoggedIn = (req, res, next) => {
   if (res.locals.user) return next();
@@ -17,24 +17,14 @@ const alreadyLoggedIn = (req, res, next) => {
   res.redirect('/');
 };
 
-router.use(passLocals)
-
 router.get("/", isLoggedIn, (request,response) => {
   response.render('home')
 })
 
-router.get('/api/getLocals', (req, res) => {
+router.get('/api/getLocals',isLoggedIn, (req, res) => {
   res.json({ locals: res.locals.user });
 });
 
-
-router.get("/profilePhoto/:id", isLoggedIn, (request,response) => {
-  let id = Number(request.params.id)
-  midao.getProfilePhoto(id,(err,foto) => {
-    if(err) console.log(err)
-    else response.end(foto)
-  })
-})
 
 router.get("/profile", isLoggedIn, (request,response) => {
   response.render('profile')
@@ -116,64 +106,6 @@ router.get("/checkEmailOrTagname", function (request, response) {
       else response.json({existe:res})
   })
 });
-
-router.get("/correo", isLoggedIn, (request, response) => { //Renderiza pagina de correo
-  response.status(200)
-  
-  midao.getEmails(response.locals.user.id, (err,emails) => {
-    if(err) console.log(err)
-    else {
-      emails.forEach(ele => {
-        ele.hora = ele.fecha.toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: '2-digit', hour: '2-digit', minute: '2-digit' }).split(",")[1].trim()
-        ele.fecha = ele.fecha.toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: '2-digit', hour: '2-digit', minute: '2-digit' }).split(",")[0]
-      });
-      response.render("correo",{emails})
-    } 
-  })
-})
-
-router.get("/emailContent", isLoggedIn, (request, response) => { //Renderiza pagina de correo
-  response.status(200)
-  midao.getEmail(request.query.id ,(err,email) => {
-    if(err) console.log(err)
-    else {
-        email.hora = email.fecha.toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: '2-digit', hour: '2-digit', minute: '2-digit' }).split(",")[1].trim()
-        email.fecha = email.fecha.toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: '2-digit', hour: '2-digit', minute: '2-digit' }).split(",")[0]
-        response.json(email)
-    };
-  })
-})
-
-router.post("/updateEmail", isLoggedIn, (request,response) => {
-  let id = request.body.id
-  let callback = (err,res) => {
-    if(err) console.log(err)
-    else response.json(res)
-  }
-  if(request.body.action === "fav") {
-    midao.toggleFavEmail(id,callback)
-  } else if (request.body.action === "archive") {
-    midao.toggleArchiveEmail(id,callback)
-  } else if (request.body.action === "delete") {
-    midao.deleteEmail(id,callback)
-  } else {
-    midao.readEmail(id,callback)  
-  }
-})
-
-router.post("/sendMessage", isLoggedIn, (request,response) => {
-  response.status(200)
-  let id = response.locals.user.id
-  midao.getIdByEmail(request.body.email, (err,idDestino) => {
-    if(err) console.log(err)
-    else {
-      midao.createMessage(id, idDestino, request.body.asunto, request.body.cuerpo, (err,res) => {
-        if(err) console.log(err)
-        else response.json(res)
-      })
-    }
-  })
-})
 
 // This is probably the worst way to do this...
 function errorHandler(err) {

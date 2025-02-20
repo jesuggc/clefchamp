@@ -2,12 +2,12 @@
   <div class=" d-flex align-items-center justify-content-begin ms-4 mb-2">
     <a href="/" style="font-size: 1.5em;color: #1E0126;text-decoration: none;">Cle𝄞champ</a>
   </div>
-  <% if(!user) { %>
+  <%# if(!user) { %>
     <div class="d-flex justify-content-end pe-3">
       <a href="/users/register" class="me-3 slideButton"><h5 class="m-3">Registro</h5></a>
       <a href="/users/login"  class="slideButton"><h5 class="m-3">Iniciar sesión</h5></a>
     </div>
-  <% } else { %>  
+  <%# } else { %>  
     <div class="dropdown me-3">
       <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
           <img class="rounded-circle " style="max-width: 2em;" src="/images/userSvg.svg" alt="Icono que representa a un usuario">
@@ -18,5 +18,5 @@
         <li><a class="dropdown-item" href="/users/logout"><strong class="red">Cerrar sesión</strong></a></li>
       </ul>
     </div>
-  <% } %>
+  <%# } %>
 </header>
