@@ -1,8 +1,11 @@
-var createError = require('http-errors');
 var express = require('express');
+var createError = require('http-errors');
 var path = require('path');
 var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+var fs = require('fs');
+var mysql = require('mysql');
+var bodyParser = require("body-parser")
+var morgan = require('morgan');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -11,14 +14,15 @@ var playRouter = require('./routes/play');
 var app = express();
 
 
-const session = require("express-session")
-const sessionSQL = require("express-mysql-session")
-const bodyParser = require("body-parser")
-const mysqlStore = sessionSQL(session)
+const session = require('express-session')
+var mysqlStore = require('express-mysql-session')(session);
 
-// console.log(process.env.NODE_ENV);
-// require('dotenv').config();
-// console.log(process.env.NODE_ENV);
+
+// Configurar morgan para que registre en la consola y en el archivo
+
+require("dotenv").config({
+  path: process.env.NODE_ENV === "development" ? '.env' : '.env.production' 
+});
 
 const sessionStore = new mysqlStore({
   host: process.env.DB_HOST,
@@ -27,14 +31,14 @@ const sessionStore = new mysqlStore({
   database: process.env.DB_NAME,
 })
 
-const middlewareSession = session({
-  saveUninitialized: false,
+app.use(session({
   secret: "1234", 
   resave: false,  
+  saveUninitialized: false,
   store: sessionStore
-})
+}))
 
-app.use(middlewareSession)
+app.use(morgan('dev'));  // Esto muestra los logs en la consola
 app.use(bodyParser.json())
 
 
@@ -42,7 +46,7 @@ app.use(bodyParser.json())
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
-app.use(logger('dev'));
+// app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
@@ -68,6 +72,6 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-app.listen()
+// app.listen(process.env.PORT || 3000)
 
 module.exports = app;

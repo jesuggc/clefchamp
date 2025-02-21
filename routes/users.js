@@ -1,11 +1,11 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
 const db = require("../config/db");
 
 router.use((req, res, next) => {
   res.locals.user = req.session.user;
   next();
-})
+});
 
 const isLoggedIn = (req, res, next) => {
   if (res.locals.user) return next();
@@ -17,111 +17,138 @@ const alreadyLoggedIn = (req, res, next) => {
   res.redirect('/');
 };
 
-router.get("/", isLoggedIn, (request,response) => {
-  response.render('home')
-})
+router.get("/", isLoggedIn, (req, res) => {
+  res.render('home');
+});
 
-router.get('/api/getLocals',isLoggedIn, (req, res) => {
+router.get('/api/getLocals', isLoggedIn, (req, res) => {
   res.json({ locals: res.locals.user });
 });
 
-
-router.get("/profile", isLoggedIn, (request,response) => {
-  response.render('profile')
-})
-
-router.get("/logout", isLoggedIn, (request, response) => { //Redirige a pagina principal, cerrando sesion en locals y session
-  request.session.destroy()
-  response.locals.user = request.session
-  response.status(200)
-  response.redirect('/');
-})
-
-router.get("/login", alreadyLoggedIn, (request, response) => {//Renderiza pagina de login
-  response.status(200)
-  response.render('login');
-})
-
-router.post("/login", function (request, response) {//Inicia sesion
-  response.status(200)
-  let email = request.body.email
-  let contrasena = request.body.password
-  midao.checkUser(email,contrasena,(err, res) => {
-    if (err) console.log("Error: ", err)
-    else if(!res) response.json(false)
-    else {
-    let userId = res.id
-    midao.getUserLevel(userId, (error, result) => {
-      if (error) console.log("Error: ", error)
-      else if(!res) response.json(false)
-      else {
-        const user = {
-          ...res,
-          ...result[0]
-        };
-        
-        request.session.user = user
-        response.locals.user = user
-        response.json({existe:true, nombre:res.nombre,correo:res.correo})
-        }
-      })
-    }
-  })
+router.get("/profile", isLoggedIn, (req, res) => {
+  res.render('profile');
 });
 
-router.get("/register", alreadyLoggedIn ,(request, response) => {//Renderiza pagina de register
-  response.render('register');
-})
+router.get("/logout", isLoggedIn, (req, res) => {
+  req.session.destroy((err) => {
+    if (err) return res.status(500).json({ message: "Error al cerrar sesión" });
+    res.clearCookie("connect.sid"); // Elimina la cookie de sesión
+    res.redirect('/');
+  });
+});
 
-router.post("/register", (request, response) => { //Crea el nuevo usuario tras submit en vista de register
-  let user = request.body
-  user.icon = "default.png"
-  midao.createUser(user, (err,res) => {
-    if (err) console.log("Error: ", err)
-    else response.json(true)
-  })
+router.get("/login", alreadyLoggedIn, (req, res) => {
+  res.render('login');
+});
+
+// router.post("/login", async (req, res) => {
+//   try {
+//     const { email, password } = req.body;
+//     const user = await db.checkUser(email, password,null);
+//     if(!user) console.log("no user")
+//     if (!user) return res.json({ existe: false });
+
+//     const userLevel = await db.getUserLevel(user.id);
+
+//     const sessionUser = {
+//       ...user,
+//       ...userLevel[0],
+//     };
+
+//     req.session.user = sessionUser;
+//     res.locals.user = sessionUser;
+
+//     res.json({ existe: true, nombre: user.nombre, correo: user.correo });
+
+//   } catch (error) {
+//     console.error("Error en login:", error);
+//     res.status(500).json({ message: "Error en el inicio de sesión" });
+//   }
+// });
+// En tu archivo de rutas para login
+router.post('/login', async (req, res) => {
+  console.log("Intentando login con datos:", req.body);  // Log de entrada
+
+  const { email, password } = req.body;
   
+  console.log("Verificando usuario en la base de datos...");
+  try {
+      const user = await db.checkUser(email, password);  // Aquí pones la función para verificar al usuario
+      console.log("Usuario encontrado:", user);  // Ver qué devuelve la función
+
+      if (user) {
+          // Si el usuario existe, proceder con la sesión
+          req.session.user = user;
+          res.redirect('/');
+      } else {
+          console.log("Credenciales incorrectas.");
+          res.status(400).send('Credenciales incorrectas');
+      }
+  } catch (err) {
+      console.error("Error al verificar el usuario:", err);
+      res.status(500).send("Error interno del servidor");
+  }
 });
 
-router.get("/checkTagname", (request, response) => { //Crea el nuevo usuario tras submit en vista de register
-  let tagname = request.query.tagname
-  midao.checkTagname(tagname, (err,res) => {
-    if (err) errorHandler(err)
-    else response.json({valido:res})
-  })
-  
+
+router.get("/register", alreadyLoggedIn, (req, res) => {
+  res.render('register');
 });
 
-router.get("/checkEmail", function (request, response) {//En validar login y register
-  midao.checkEmail(request.query, (err, res) => {
-      if(err) errorHandler(err)
-      else response.json({valido:res})
-  })
+router.post("/register", async (req, res) => {
+  try {
+    const user = { ...req.body, icon: "default.png" };
+    await db.createUser(user);
+    res.json(true);
+  } catch (error) {
+    console.error("Error en registro:", error);
+    res.status(500).json({ message: "Error al registrar usuario" });
+  }
 });
 
-
-router.get("/checkEmailOrTagname", function (request, response) {
-  midao.checkEmailOrTagname(request.query.email, (err, res) => {
-      if(err) errorHandler(err)
-      else response.json({existe:res})
-  })
+router.get("/checkTagname", async (req, res) => {
+  try {
+    const tagname = req.query.tagname;
+    const valido = await db.checkTagname(tagname);
+    res.json({ valido });
+  } catch (error) {
+    errorHandler(error);
+    res.status(500).json({ message: "Error en checkTagname" });
+  }
 });
 
-// This is probably the worst way to do this...
+router.get("/checkEmail", async (req, res) => {
+  try {
+    const valido = await db.checkEmail(req.query);
+    res.json({ valido });
+  } catch (error) {
+    errorHandler(error);
+    res.status(500).json({ message: "Error en checkEmail" });
+  }
+});
+
+router.get("/checkEmailOrTagname", async (req, res) => {
+  try {
+    const existe = await db.checkEmailOrTagname(req.query.email);
+    res.json({ existe });
+  } catch (error) {
+    errorHandler(error);
+    res.status(500).json({ message: "Error en checkEmailOrTagname" });
+  }
+});
+
 function errorHandler(err) {
   if (err.code === "ECONNREFUSED") {
-    console.log("")
-    console.log("")
-    console.log("Arranca xampp máquina")
-    console.log("")
-    console.log("")
-  }
-  else {
-    console.log("\x1b[41m%s\x1b[0m",  "-----------------------------------------------------------")
-    console.log("\x1b[41m%s\x1b[0m",  "CÓDIGO DE ERROR: ",err.code)
-    console.log("\x1b[41m%s\x1b[0m",  "MENSAJE SQL: ",err.sqlMessage)
-    console.log("\x1b[41m%s\x1b[0m",  "SQL: ",err.sql)
-    console.log("\x1b[41m%s\x1b[0m",  "-----------------------------------------------------------")
+    console.log("\n\nArranca XAMPP máquina\n\n");
+  } else {
+    console.error(`
+      \x1b[41m-----------------------------------------------------------\x1b[0m
+      \x1b[41mCÓDIGO DE ERROR: ${err.code}\x1b[0m
+      \x1b[41mMENSAJE SQL: ${err.sqlMessage || "No disponible"}\x1b[0m
+      \x1b[41mSQL: ${err.sql || "No disponible"}\x1b[0m
+      \x1b[41m-----------------------------------------------------------\x1b[0m
+    `);
   }
 }
+
 module.exports = router;

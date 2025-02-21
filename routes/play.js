@@ -1,90 +1,83 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
 const db = require("../config/db");
 
 router.use((req, res, next) => {
   res.locals.user = req.session.user;
   next();
-})
-
-const isLoggedIn = (req, res, next) => {
-  if (res.locals.user) return next();
-  res.redirect('/users/login');
-};
-
-const isNotLoggedIn = (req, res, next) => {
-  if (!res.locals.user) return next();
-  res.redirect('/users/login');
-};
-
-const alreadyLoggedIn = (req, res, next) => {
-  if (!res.locals.user) return next();
-  res.redirect('/');
-};
-
-router.get("/", isLoggedIn, (request,response) => {
-  response.render('home')
-})
-
-router.get("/selectGame",isLoggedIn, (request,response) => {
-  response.render("selectGame")
-})
-
-router.get("/atrapado/trial", isNotLoggedIn, (request,response) => {
-    response.render("gameScreen", {mode:"TRIAL"})
-})
-
-router.get("/atrapado/easy",isLoggedIn, (request,response) => {
-  response.render("gameScreen", {mode:"EASY"})
-})
-
-router.get("/atrapado/normal",isLoggedIn, (request,response) => {
-  response.render("gameScreen", {mode:"NORMAL"})
-})
-
-router.get("/atrapado/hard",isLoggedIn, (request,response) => {
-  response.render("gameScreen", {mode:"HARD"})
-})
-
-router.get('/getExperienceRequired/:level',isLoggedIn, (request,response) => {
-  const level = request.params.level; 
-  midao.getExperienceByLevel(level,(err,result) => {
-    if(err) errorHandler(err)
-    else response.json(result)
-  })
 });
 
-router.get('/getUserLevel/:userId',isLoggedIn, (request, response) => {
-  const userId = request.params.userId;
-  midao.getUserLevel(userId, (err, result) => {
-    if (err) errorHandler(err, response);
-    else response.json(result[0]); 
-  });
+// Middlewares de autenticación
+const isLoggedIn = (req, res, next) => res.locals.user ? next() : res.redirect('/users/login');
+const isNotLoggedIn = (req, res, next) => !res.locals.user ? next() : res.redirect('/users/login');
+const alreadyLoggedIn = (req, res, next) => !res.locals.user ? next() : res.redirect('/');
+
+router.get("/", isLoggedIn, (req, res) => res.render('home'));
+
+router.get("/selectGame", isLoggedIn, (req, res) => res.render("selectGame"));
+
+router.get("/atrapado/trial", isNotLoggedIn, (req, res) => res.render("gameScreen", { mode: "TRIAL" }));
+router.get("/atrapado/easy", isLoggedIn, (req, res) => res.render("gameScreen", { mode: "EASY" }));
+router.get("/atrapado/normal", isLoggedIn, (req, res) => res.render("gameScreen", { mode: "NORMAL" }));
+router.get("/atrapado/hard", isLoggedIn, (req, res) => res.render("gameScreen", { mode: "HARD" }));
+
+router.get('/getExperienceRequired/:level', isLoggedIn, async (req, res) => {
+  try {
+    const level = req.params.level;
+    const result = await db.getExperienceByLevel(level);
+    res.json(result);
+  } catch (error) {
+    errorHandler(error, res);
+  }
 });
 
-router.put('/addExperience',isLoggedIn, (request,response) => {
-  const { userId, level, experience, experienceToNext } = request.body;
-  midao.updateUserLevel(userId, level, experience, experienceToNext, (err, result) => {
-    response.locals.user.level = level
-    response.locals.user.experience = experience
-    response.locals.user.experienceToNext = experienceToNext
-    response.json(true)
-  })
+router.get('/getUserLevel/:userId', isLoggedIn, async (req, res) => {
+  try {
+    const userId = req.params.userId;
+    const result = await db.getUserLevel(userId);
+    res.json(result[0]);
+  } catch (error) {
+    errorHandler(error, res);
+  }
+});
+
+router.put('/addExperience', isLoggedIn, async (req, res) => {
+  try {
+    const { userId, level, experience, experienceToNext } = req.body;
+    await db.updateUserLevel(userId, level, experience, experienceToNext);
+
+    res.locals.user = {
+      ...res.locals.user,
+      level,
+      experience,
+      experienceToNext,
+    };
+
+    res.json(true);
+  } catch (error) {
+    errorHandler(error, res);
+  }
 });
 
 router.post('/updatePreferences', (req, res) => {
-  const preferences = req.body;
-  console.log(preferences.showModal)
-  res.locals.preferences = preferences.showModal;
-  res.json(true);
+  try {
+    res.locals.preferences = req.body.showModal;
+    res.json(true);
+  } catch (error) {
+    errorHandler(error, res);
+  }
 });
 
-// This is probably the worst way to do this...
-function errorHandler(err) {
-  console.log("\x1b[41m%s\x1b[0m",  "-----------------------------------------------------------")
-  console.log("\x1b[41m%s\x1b[0m",  "CÓDIGO DE ERROR: ",err.code)
-  console.log("\x1b[41m%s\x1b[0m",  "MENSAJE SQL: ",err.sqlMessage)
-  console.log("\x1b[41m%s\x1b[0m",  "SQL: ",err.sql)
-  console.log("\x1b[41m%s\x1b[0m",  "-----------------------------------------------------------")
+// Manejo de errores
+function errorHandler(err, res) {
+  console.error(`
+    \x1b[41m-----------------------------------------------------------\x1b[0m
+    \x1b[41mCÓDIGO DE ERROR: ${err.code || "Desconocido"}\x1b[0m
+    \x1b[41mMENSAJE SQL: ${err.sqlMessage || "No disponible"}\x1b[0m
+    \x1b[41mSQL: ${err.sql || "No disponible"}\x1b[0m
+    \x1b[41m-----------------------------------------------------------\x1b[0m
+  `);
+  res.status(500).json({ message: "Error en la operación" });
 }
+
 module.exports = router;

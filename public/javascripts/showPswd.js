@@ -8,7 +8,7 @@ togglePassword.addEventListener("click", () => {
   password.setAttribute("type", type);
 });
 
-toggleConfirmPassword.addEventListener("click", () => {
-  const type = confirmPassword.getAttribute("type") === "password" ? "text" : "password";
-  confirmPassword.setAttribute("type", type);
-});
+// toggleConfirmPassword.addEventListener("click", () => {
+//   const type = confirmPassword.getAttribute("type") === "password" ? "text" : "password";
+//   confirmPassword.setAttribute("type", type);
+// });
