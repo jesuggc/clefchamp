@@ -82,7 +82,17 @@
         </div>
       </div>
     </div>
-    <script src="/javascripts/showPswd.js"></script>
+    <script>
+      $("#togglePassword").on("click", function() {
+        const type = $("#password").attr("type") === "password" ? "text" : "password";
+        $("#password").attr("type", type);
+      });
+
+      $("#toggleConfirmPassword").on("click", function() {
+        const type = $("#confirmPassword").attr("type") === "password" ? "text" : "password";
+        $("#confirmPassword").attr("type", type);
+      });
+    </script>
     <script src="/javascripts/validateRegister.js"></script>
   </body>
 </html>

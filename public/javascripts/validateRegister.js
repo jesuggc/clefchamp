@@ -104,7 +104,7 @@ $("#tagname").on("keyup",() => {
 
 })
 
-$('#myForm input, #myForm select').on('change', function() {
+$('#myForm input, #myForm select').on('keyup', function() {
     if(nombreBool && passwordBool && passwordCheckBool && emailBool ) $('#register').prop('disabled', false);
     else $('#register').prop('disabled', true);
 });
@@ -160,22 +160,18 @@ function generarCodigo() {
 
 var formulario = document.getElementById("myForm");
 
-// Deshabilitar la funcionalidad de copiar
 formulario.addEventListener("copy", function (e) {
     e.preventDefault();
 });
 
-// Deshabilitar la funcionalidad de pegar
 formulario.addEventListener("paste", function (e) {
     e.preventDefault();
 });
 
-// Deshabilitar la funcionalidad de cortar
 formulario.addEventListener("cut", function (e) {
     e.preventDefault();
 });
 document.addEventListener('keydown', function (e) {
-    // Desactivar pegar (Ctrl+V) y cortar (Ctrl+X)
     if (e.ctrlKey && (e.key === 'v' || e.key === 'V' || e.key === 'x' || e.key === 'X'|| e.key === 'p' || e.key === 'P')) {
         e.preventDefault();
     }

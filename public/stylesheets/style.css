@@ -34,6 +34,9 @@
 .vh-95 {
   height:95vh;
 }
+.vh-100 {
+  height:100vh;
+}
 
 .infoDescriptor {
   color: #F2E7DC;
@@ -557,7 +560,21 @@ body::-webkit-scrollbar {
   transition: width 2s ease-in-out; /* Transición suave */
 }
 
-#sadClef {
-  /* mask-image: radial-gradient(circle, rgba(0, 0, 0, 1) 30%, rgba(0, 0, 0, 0) 100%); */
-  -webkit-mask-image: radial-gradient(circle, rgba(0, 0, 0, 1) 20%, rgba(0, 0, 0, 0) 70%);
+.musicIcons {
+  max-width: 2em;
+  max-height: 2em;
+  cursor: pointer;
 }
+
+.musicControl::-webkit-slider-thumb {
+  -webkit-appearance: none; 
+    /* display: none; Oculta la bola en Webkit (Chrome, Safari, Edge) */
+}
+
+.musicControl::-moz-range-thumb {
+  display: none; /* Oculta la bola en Firefox */
+}
+
+.musicControl::-ms-thumb {
+  display: none; /* Oculta la bola en Internet Explorer */
+} 

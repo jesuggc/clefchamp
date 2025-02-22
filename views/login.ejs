@@ -3,7 +3,7 @@
   <%-include('partials/head') %>
   <body>
     <div class="fakeBody ">
-      <%-include('partials/header') %>
+      <%-include('partials/headerLogo') %>
       <div class=" loginHeight d-flex align-items-center ">
         <div class="row mx-4 ">
           <div class="row-xs col-lg-3 rounded-4 p-4 my-4 mx-auto d-flex">
@@ -36,5 +36,10 @@
     </div>
   </body>
   <script src="/javascripts/validateLogin.js"></script>
-  <script src="/javascripts/showPswd.js"></script>
+  <script>
+    $("#togglePassword").on("click", function() {
+        const type = $("#password").attr("type") === "password" ? "text" : "password";
+        $("#password").attr("type", type);
+    });
+  </script>
 </html>

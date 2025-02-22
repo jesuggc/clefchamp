@@ -1,6 +1,12 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const db = require("../config/db");
+const mysql = require("mysql");
+
+const mysqlConfig = require("../config/db");
+const DAO = require("../config/dao");
+
+const pool = mysql.createPool(mysqlConfig);
+const dao = new DAO(pool);
 
 router.use((req, res, next) => {
   res.locals.user = req.session.user;
@@ -9,132 +15,124 @@ router.use((req, res, next) => {
 
 const isLoggedIn = (req, res, next) => {
   if (res.locals.user) return next();
-  res.redirect('/users/login');
+  res.redirect("/users/login");
 };
 
 const alreadyLoggedIn = (req, res, next) => {
   if (!res.locals.user) return next();
-  res.redirect('/');
+  res.redirect("/");
 };
 
 router.get("/", isLoggedIn, (req, res) => {
-  res.render('home');
+  res.render("home");
 });
 
-router.get('/api/getLocals', isLoggedIn, (req, res) => {
+router.get("/api/getLocals", isLoggedIn, (req, res) => {
   res.json({ locals: res.locals.user });
 });
 
 router.get("/profile", isLoggedIn, (req, res) => {
-  res.render('profile');
+  res.render("profile");
 });
 
 router.get("/logout", isLoggedIn, (req, res) => {
   req.session.destroy((err) => {
     if (err) return res.status(500).json({ message: "Error al cerrar sesión" });
     res.clearCookie("connect.sid"); // Elimina la cookie de sesión
-    res.redirect('/');
+    res.redirect("/");
   });
 });
 
 router.get("/login", alreadyLoggedIn, (req, res) => {
-  res.render('login');
+  res.render("login");
 });
 
-// router.post("/login", async (req, res) => {
-//   try {
-//     const { email, password } = req.body;
-//     const user = await db.checkUser(email, password,null);
-//     if(!user) console.log("no user")
-//     if (!user) return res.json({ existe: false });
-
-//     const userLevel = await db.getUserLevel(user.id);
-
-//     const sessionUser = {
-//       ...user,
-//       ...userLevel[0],
-//     };
-
-//     req.session.user = sessionUser;
-//     res.locals.user = sessionUser;
-
-//     res.json({ existe: true, nombre: user.nombre, correo: user.correo });
-
-//   } catch (error) {
-//     console.error("Error en login:", error);
-//     res.status(500).json({ message: "Error en el inicio de sesión" });
-//   }
-// });
-// En tu archivo de rutas para login
-router.post('/login', async (req, res) => {
-  console.log("Intentando login con datos:", req.body);  // Log de entrada
-
+router.post("/login", (req, res) => {
   const { email, password } = req.body;
-  
-  console.log("Verificando usuario en la base de datos...");
-  try {
-      const user = await db.checkUser(email, password);  // Aquí pones la función para verificar al usuario
-      console.log("Usuario encontrado:", user);  // Ver qué devuelve la función
 
-      if (user) {
-          // Si el usuario existe, proceder con la sesión
-          req.session.user = user;
-          res.redirect('/');
-      } else {
-          console.log("Credenciales incorrectas.");
-          res.status(400).send('Credenciales incorrectas');
+  dao.checkUser(email, password, (err, user) => {
+    if (err) {
+      console.error("Error en login:", err);
+      return res.status(500).json({ message: "Error en el inicio de sesión" });
+    }
+
+    if (!user) return res.json({ existe: false });
+
+    dao.getUserLevel(user.id, (err, userLevel) => {
+      if (err) {
+        console.error("Error obteniendo nivel del usuario:", err);
+        return res.status(500).json({ message: "Error en login" });
       }
-  } catch (err) {
-      console.error("Error al verificar el usuario:", err);
-      res.status(500).send("Error interno del servidor");
-  }
-});
 
+      const sessionUser = {
+        ...user,
+        ...userLevel[0],
+      };
+
+      req.session.user = sessionUser;
+      res.locals.user = sessionUser;
+
+      res.json({ existe: true, nombre: user.nombre, correo: user.correo });
+    });
+  });
+});
 
 router.get("/register", alreadyLoggedIn, (req, res) => {
-  res.render('register');
+  res.render("register");
 });
 
-router.post("/register", async (req, res) => {
-  try {
-    const user = { ...req.body, icon: "default.png" };
-    await db.createUser(user);
-    res.json(true);
-  } catch (error) {
-    console.error("Error en registro:", error);
-    res.status(500).json({ message: "Error al registrar usuario" });
-  }
+router.post("/register", (req, res) => {
+  const user = { ...req.body, icon: "default.png" };
+
+  dao.createUser(user, (err, userId) => {
+    if (err) return res.status(500).json({ message: "Error al registrar usuario" });
+    dao.unlockIcon(userId,1, (err) => {
+      if (err) return res.status(500).json({ message: "Error en registro" });
+    })
+    dao.unlockIcon(userId,2, (err) => {
+      if (err) return res.status(500).json({ message: "Error en registro" });
+    })
+    dao.unlockIcon(userId,3, (err) => {
+      if (err) return res.status(500).json({ message: "Error en registro" });
+    })
+    dao.unlockIcon(userId,4, (err) => {
+      if (err) return res.status(500).json({ message: "Error en registro" });
+    })
+    res.json(true)
+  });
 });
 
-router.get("/checkTagname", async (req, res) => {
-  try {
-    const tagname = req.query.tagname;
-    const valido = await db.checkTagname(tagname);
-    res.json({ valido });
-  } catch (error) {
-    errorHandler(error);
-    res.status(500).json({ message: "Error en checkTagname" });
-  }
+router.get("/checkTagname", (req, res) => {
+  let tagname = req.query.tagname;
+  dao.checkTagname(tagname, (err, isValid) => {
+    if (err) {
+      console.error("Error en checkTagname:", err);
+      return res.status(500).json({ message: "Error en checkTagname" });
+    }
+    res.json({ valido: isValid });
+  });
 });
 
-router.get("/checkEmail", async (req, res) => {
-  try {
-    const valido = await db.checkEmail(req.query);
-    res.json({ valido });
-  } catch (error) {
-    errorHandler(error);
-    res.status(500).json({ message: "Error en checkEmail" });
-  }
+router.get("/checkEmail", (req, res) => {
+  let email = req.query.email;
+  dao.checkEmail(email, (err, isValid) => {
+    if (err) {
+      console.error("Error en checkEmail:", err);
+      return res.status(500).json({ message: "Error en checkEmail" });
+    }
+    res.json({ valido: isValid });
+  });
 });
 
-router.get("/checkEmailOrTagname", async (req, res) => {
-  try {
-    const existe = await db.checkEmailOrTagname(req.query.email);
-    res.json({ existe });
-  } catch (error) {
-    errorHandler(error);
-    res.status(500).json({ message: "Error en checkEmailOrTagname" });
-  }
+router.get("/checkEmailOrTagname", (req, res) => {
+  let emailOrTagname = req.query.email;
+  dao.checkEmailOrTagname(emailOrTagname, (err, exists) => {
+    if (err) {
+      console.error("Error en checkEmailOrTagname:", err);
+      return res.status(500).json({ message: "Error en checkEmailOrTagname" });
+    }
+    res.json({ existe: exists });
+  });
 });
 
 function errorHandler(err) {

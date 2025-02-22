@@ -3,9 +3,7 @@ import { Cronometro } from './cronometro.js';
 import { flashBackground, fadeOut, addPointsAnimation, addProgresively, growAndBack, secuencialShow} from './animations.js'
 import { getConfig } from './levelConfig.js'
 
-// Configuración y estado del juego
 const GameState = {
-    // Configuración que se inicializará desde el nivel
     config: {
         ROUNDS: 0,
         CLEF_PROB: 0,
@@ -16,7 +14,6 @@ const GameState = {
         experienceThreshold: 50
     },
     
-    // Estado del juego actual
     current: {
         contador: 0,
         expectedNote: "",
@@ -30,7 +27,6 @@ const GameState = {
         difficulty: null
     },
 
-    // Referencias a elementos del DOM
     elements: {},
 
     // Mapeo de teclas
