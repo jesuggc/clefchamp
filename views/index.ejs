@@ -24,8 +24,8 @@
           <div class="d-flex justify-content-end pt-3 text-white" style="width:75%;">
             <span><%=user.experience%>/<%=user.experience + user.experienceToNext%></span>
           </div>
-          <div class="progress" style="border-radius: 0 2em 2em 0 ; width:85%;height:3em" role="progressbar" aria-label="Success striped example" aria-valuenow="<%=user.experience+30%>" aria-valuemin="0" aria-valuemax="<%=user.experience + user.experienceToNext%>">
-            <div id="levelBar" class="progress-bar bg-success slider overflow-visible text-dark" style="width: '<%=((user.experience)/(user.experience + user.experienceToNext))*100%>%'" >
+          <div class="progress" style="border-radius: 0 2em 2em 0 ; width:85%;height:3em" role="progressbar" aria-label="Success striped example" aria-valuenow="<%=user.experience%>" aria-valuemin="0" aria-valuemax="<%=user.experience + user.experienceToNext%>">
+            <div id="levelBar" class="progress-bar bg-success slider overflow-visible text-dark" style="width: <%=((user.experience)/(user.experience + user.experienceToNext))*100%>%" >
               <h3 id="levelText" class="ps-5 pt-1">Nivel <span><%=user.level%></span></h3>
             </div>
           </div>
@@ -78,7 +78,7 @@
     </div>
     <% } %>
     <%-include('partials/footer') %>
-    <script src="/javascripts/musicPlayer.js"></script>
+    <% if(user) { %> <script src="/javascripts/musicPlayer.js"></script> <% } %>
     <script>
       // Configurar la recarga cada 5 segundos (5000 ms)
       // setInterval(() => {

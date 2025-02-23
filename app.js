@@ -14,7 +14,6 @@ const session = require('express-session')
 var mysqlStore = require('express-mysql-session')(session);
 
 require("dotenv").config({ path: process.env.NODE_ENV === "development" ? '.env' : '.env.production' });
-console.log(process.env.DB_HOST)
 var app = express();
 
 const sessionStore = new mysqlStore(mysqlConfig)

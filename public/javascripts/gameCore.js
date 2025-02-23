@@ -54,7 +54,9 @@ const GameState = {
     cronometro: null,
 
     // Inicializa el juego
-    initialize() {
+    async initialize() {
+        await this.getLocals()
+        console.log(this.userData.locals)
         this.current.difficulty = window.location.pathname.split("/")[3].toUpperCase();
         Object.assign(this.config, getConfig(this.current.difficulty));
         
@@ -88,7 +90,9 @@ const GameState = {
         
         // Mostrar tutorial
         emptyClef();
-        new bootstrap.Modal(this.elements.$tutorialModal).show();
+        console.log(this.userData.locals.preferences)
+        console.log(this.userData.locals.preferences.showTutorial)
+        if(this.userData.locals.preferences.showTutorial) new bootstrap.Modal(this.elements.$tutorialModal).show();
         
         // Configurar eventos
         this.setupEventListeners();
@@ -218,7 +222,7 @@ const GameState = {
         this.elements.$resultSpan.text(percentage + "%");
         this.elements.$resultSpan.css("color", winExp ? this.config.COLOR_CORRECT : this.config.COLOR_WRONG);
         
-        let experiencePercentage = (this.userData.locals.experience / (this.userData.locals.experience + this.userData.locals.experienceToNext)) * 100;
+        let experiencePercentage = (this.userData.locals.user.experience / (this.userData.locals.user.experience + this.userData.locals.user.experienceToNext)) * 100;
         
         setTimeout(() => this.elements.$resultDiv.css('opacity', 1), 500);
         setTimeout(() => this.elements.$experienceDiv.css('opacity', 1), 1000);
@@ -227,7 +231,7 @@ const GameState = {
         if (levelUp) {
             this.showLevelUpModal();
             setTimeout(() => this.elements.$experienceBar.css("width", "100%"), 2000);
-            setTimeout(() => this.elements.$levelSpan.text(this.userData.locals.level), 2600);
+            setTimeout(() => this.elements.$levelSpan.text(this.userData.locals.user.level), 2600);
             setTimeout(() => this.elements.$experienceBar.css("opacity", 0), 2600);
             setTimeout(() => this.elements.$experienceBar.css("width", "0%"), 2600);
             setTimeout(() => this.elements.$experienceBar.css("opacity", 1), 3200);
@@ -252,7 +256,7 @@ const GameState = {
         );
         this.elements.$resultSpan.text(percentage + "%");
         
-        // let experiencePercentage = (this.userData.locals.experience / (this.userData.locals.experience + this.userData.locals.experienceToNext)) * 100;
+        // let experiencePercentage = (this.userData.locals.user.experience / (this.userData.locals.user.experience + this.userData.locals.user.experienceToNext)) * 100;
         
         setTimeout(() => this.elements.$resultDiv.css('opacity', 1), 500);
         setTimeout(() => this.elements.$experienceDiv.css('opacity', 1), 1000);
@@ -261,7 +265,7 @@ const GameState = {
         // if (levelUp) {
         //     this.showLevelUpModal();
         //     setTimeout(() => this.elements.$experienceBar.css("width", "100%"), 2000);
-        //     setTimeout(() => this.elements.$levelSpan.text(this.userData.locals.level), 2600);
+        //     setTimeout(() => this.elements.$levelSpan.text(this.userData.locals.user.level), 2600);
         //     setTimeout(() => this.elements.$experienceBar.css("opacity", 0), 2600);
         //     setTimeout(() => this.elements.$experienceBar.css("width", "0%"), 2600);
         //     setTimeout(() => this.elements.$experienceBar.css("opacity", 1), 3200);
@@ -277,23 +281,23 @@ const GameState = {
     // Manejar la experiencia ganada
     async handleExperience(winExp, experienceToAdd) {
         await this.getLocals();
-        let totalExp = this.userData.locals.experience + this.userData.locals.experienceToNext;
-        this.userData.locals.experience += experienceToAdd;
-        this.userData.locals.experienceToNext -= experienceToAdd;
-        let levelUp = this.userData.locals.experienceToNext <= 0;
+        let totalExp = this.userData.locals.user.experience + this.userData.locals.user.experienceToNext;
+        this.userData.locals.user.experience += experienceToAdd;
+        this.userData.locals.user.experienceToNext -= experienceToAdd;
+        let levelUp = this.userData.locals.user.experienceToNext <= 0;
         
         if (levelUp) {
             await this.getExpNextLevel();
-            this.userData.locals.level++;
-            this.userData.locals.experienceToNext = this.userData.experienceInNext + this.userData.locals.experienceToNext;
-            this.userData.locals.experience -= totalExp;
+            this.userData.locals.user.level++;
+            this.userData.locals.user.experienceToNext = this.userData.experienceInNext + this.userData.locals.user.experienceToNext;
+            this.userData.locals.user.experience -= totalExp;
         }
         
         await this.updateUserLevel(
-            this.userData.locals.id,
-            this.userData.locals.level,
-            this.userData.locals.experience,
-            this.userData.locals.experienceToNext
+            this.userData.locals.user.id,
+            this.userData.locals.user.level,
+            this.userData.locals.user.experience,
+            this.userData.locals.user.experienceToNext
         );
         
         return levelUp;
@@ -304,6 +308,7 @@ const GameState = {
         try {
             const response = await fetch('/users/api/getLocals');
             const data = await response.json();
+            console.log(data.locals)
             this.userData.locals = data.locals;
         } catch (error) {
             console.error('Error:', error);
@@ -313,7 +318,7 @@ const GameState = {
     // Obtener experiencia necesaria para el siguiente nivel
     async getExpNextLevel() {
         try {
-            const response = await fetch(`/play/getExperienceRequired/${(this.userData.locals.level + 2)}`);
+            const response = await fetch(`/play/getExperienceRequired/${(this.userData.locals.user.level + 2)}`);
             const data = await response.json();
             this.userData.experienceInNext = data;
         } catch (error) {

@@ -1,21 +1,24 @@
 <!DOCTYPE html>
 <html lang="es">
   <%-include('partials/head')%>
-  <body>
-    <div class="fakeBody pistachio">
-      <%#-include('partials/header')%>
-      <div class="d-flex align-items-center">
-          <div class="row pistachio text-center justify-content-center w-100">
-            <h1>Algo salio mal...</h1>
-            <p>Parece que ha habido algun problema, pero no te preocupes! Nuestros desarrolladores están trabajando para arreglarlo.</p>
-
-            <p><%= message %></h1>
-            <pre><%= error.stack %></pre>
-            <h5><%= error.status %></h2>
-          </div>   
-      </div>
+  <body style="background-color: #ffa919;">
+    <%-include('partials/headerLogo')%>
+    <div class="d-flex align-items-center">
+      <div class="row justify-content-center text-center w-100">
+          <h1 class="pb-4">Por las barbas de Johannes Brahms</h1>
+          <div class="col">
+            <img src="/images/error500.jpg" style="max-width: 40em; max-height: 30em;">
+          </div>
+          <% if(message) { %>
+            <div class="col text-start">
+              <p><%= message %></h1>
+              <pre><%= error.stack %></pre>
+              <h5><%= error.status %></h2>
+            </div>
+          <% } %>
+          <h1 class="pt-4">Parece que la música ha dejado de sonar...</h1>
+        </div>
     </div>
-    <%#-include('partials/footer')%>
   </body>
 </html>
 

@@ -36,7 +36,6 @@ $(function() {
     songArtist.text(song.autor);
     audio.load();
   }
-  console.log("Cargo")
   loadSong(currentSongIndex);
   // Reproducir o pausar
   playPauseBtn.on("click", function () {
@@ -65,21 +64,14 @@ $(function() {
       playPauseBtn.text('Pause');
   });
   audio.addEventListener("loadedmetadata", function () {
-    console.log("Metadata cargada. Duración:", audio.duration);
-  
-    // Agregar listener para actualizar la barra de progreso
     audio.addEventListener("timeupdate", function () {
       if (!isNaN(audio.duration) && audio.duration > 0) {
-        console.log(audio.currentTime);
-        console.log(audio.duration);
   
         const progress = (audio.currentTime / audio.duration) * 100;
-        console.log("PROGRESS " + progress);
         $("#progressBar").val(progress);
       }
     });
     const progress = (audio.currentTime / audio.duration) * 100;
-        console.log("PROGRESS " + progress);
   });
   
   progressBar.on('input', function() {

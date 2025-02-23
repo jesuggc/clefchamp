@@ -1,31 +1,24 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const db = require("../config/db");
+const mysql = require("mysql");
+
+const mysqlConfig = require("../config/db");
+const DAO = require("../config/dao");
+
+const pool = mysql.createPool(mysqlConfig);
+const dao = new DAO(pool);
 
 router.use((req, res, next) => {
   res.locals.user = req.session.user;
   next();
 });
 
-router.get("/getIcons", async (req, res) => {
-  try {
-    const icons = await db.getIcons();
-    res.json(icons);
-  } catch (error) {
-    errorHandler(error);
-    res.status(500).json({ message: "Error al obtener los íconos" });
-  }
-});
+router.get("/getIcons", (request,response) => {
+  dao.getIcons((err,icons) => {
+    if(err) console.log(err)
+    else response.json(icons)
+  })
+})
 
-// Manejo de errores
-function errorHandler(err) {
-  console.error(`
-    \x1b[41m-----------------------------------------------------------\x1b[0m
-    \x1b[41mCÓDIGO DE ERROR: ${err.code}\x1b[0m
-    \x1b[41mMENSAJE SQL: ${err.sqlMessage || "No disponible"}\x1b[0m
-    \x1b[41mSQL: ${err.sql || "No disponible"}\x1b[0m
-    \x1b[41m-----------------------------------------------------------\x1b[0m
-  `);
-}
 
 module.exports = router;

@@ -3,14 +3,18 @@
   <%-include('partials/head') %>
   <body class="colorNuevo5">
     <%-include('partials/header') %>
-    <div class="row d-flex p-3">
-      <div class="col-4 vh-90" >
+    <div class="row d-flex">
+      <div class="col-4 vh-90 px-4 scrollable container-fluid" >
         <div class="purpleCard rounded-4 p-4 mx-1 mb-1  text-center d-flex flex-column align-items-center ">
           <div class="rounded-circle svgIcons profileIcon" style="background-image: url('/images/<%=locals.user.icon%>'); "></div>
           <div class="rounded-circle svgIcons editIcon" style="background-image: url('/images/editIcon.svg'); "></div>
           <h3 class="mt-3"><%=locals.user.name%></h3>
-          <h3 class="">Nivel 33</h3>
-          <div class="bg-success rounded-5 w-100" >12/20</div>
+          <h3>Nivel <%=locals.user.level%></h3>
+          <div class="progress rounded-5 w-100" style="height:1.8em;" role="progressbar" aria-label="Success striped example" aria-valuenow="<%=user.experience%>" aria-valuemin="0" aria-valuemax="<%=user.experience + user.experienceToNext%>">
+            <div id="levelBar" class="progress-bar bg-success slider overflow-visible text-dark" style="width: <%=((user.experience)/(user.experience + user.experienceToNext))*100%>%" >
+              <span id="levelText" style="font-size: 1.2em;" class="ps-5"><%=locals.user.experience%>/<%=(locals.user.experience+locals.user.experienceToNext) %></span>
+            </div>
+          </div>
         </div>
         <div class="purpleCard rounded-4 p-4 m-1 text-center">
             <h3>Te uniste el:</h3>
@@ -40,15 +44,6 @@
       <div class="col-8 vh-85 scrollable container-fluid">
         <h1 class="rounded-4">Mejores partidas</h1>
         <h1 class="rounded-4">Historial</h1>
-        <div class="" style="border: 1px solid black; height:30em">
-          <div class="bg-light opacity-50 rounded-4 card0 cards">Card 0</div>
-          <div class="bg-danger opacity-50 rounded-4 card1 cards">Card 1</div>
-          <div class="bg-warning opacity-50 rounded-4 card2 cards">Card 2</div>
-          <div class="bg-success opacity-50 rounded-4 card3 cards">Card 3</div>
-          
-        </div>
-        <button id="izquierda">Izquierda</button>
-        <button id="derecha">Derecha</button>
       </div>
     </div>  
     <%-include('partials/footer') %>
@@ -73,62 +68,6 @@
         </div>
       </div>
     </div>
-  <script>
-    function moveLeft($element, duration, direction) {
-    const fontSize = parseFloat($element.css("font-size"));
-    const initialRightPx = parseFloat($element.css("right"));
-    const initialRight = initialRightPx / fontSize;
-    const initialScale = parseFloat($element.css("scale"));
-
-    // Calcular los valores objetivo
-    let targetRight = 0;
-    if(direction==="left") targetRight = initialRight + 6;
-    else targetRight = initialRight - 6;
-    
-    const targetScale = initialScale - 0.1;
-
-    // Calcular el umbral para z-index
-    const zIndexThreshold = (initialScale + targetScale) / 2;
-
-    const startTime = performance.now();
-
-    function animateStep() {
-      const elapsedTime = performance.now() - startTime;
-      const progress = Math.min(elapsedTime / duration, 1);
-      const currentRight = initialRight + (targetRight - initialRight) * progress;
-      const currentScale = initialScale + (targetScale - initialScale) * progress;
-      const currentZIndex = currentScale <= zIndexThreshold ? 0 : 1;
-
-      // Aplicar estilos al elemento
-      $element.css({
-        right: `${currentRight}em`,
-        scale: `${currentScale}`,
-        zIndex: currentZIndex,
-      });
-
-      // Continuar animación si no ha terminado
-      if (progress < 1) {
-        console.log("Bueno bueno bueeno")
-        requestAnimationFrame(animateStep);
-      }
-    }
-
-  requestAnimationFrame(animateStep);
-}
-    $("#izquierda").on("click", function() {
-      moveLeft($(".card0"),500,"left")
-      moveLeft($(".card1"),500,"left")
-      moveLeft($(".card2"),500,"left")
-      moveLeft($(".card3"),500,"left")
-    })
-
-    $("#derecha").on("click", function() {
-      moveLeft($(".card0"),500,"right")
-      moveLeft($(".card1"),500,"right")
-      moveLeft($(".card2"),500,"right")
-      moveLeft($(".card3"),500,"right")
-    })
-  </script>
   <script src="/javascripts/clipboard.js"></script>
   <script>
     $(".svgIcons").on("click", function(){
@@ -156,7 +95,6 @@
                     }
                   $("#mainCol").append($row)
                 }
-                // console.log()
             }
         },
         error: function(jqXHR, textStatus, errorThrown) {

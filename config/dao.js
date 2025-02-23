@@ -7,7 +7,6 @@ class DAO {
         this.pool.getConnection((err, connection) => {
             if (err) callback(err, null)
             else {
-                console.log(email)
                 let stringQuery = "SELECT id FROM usuarios WHERE email LIKE ?"
                 connection.query(stringQuery, email, (err, resultado) => {
                     connection.release();
@@ -82,77 +81,6 @@ class DAO {
         })
     }
 
-    
-    getVerifiedUsers(callback){ //TODO CONFIRMAR CORREO ESTO ESTARIA GUAPO TAMBIEN Jaja
-        this.pool.getConnection((err, connection) => {
-            if (err) callback(err, null)
-            else {
-                let stringQuery = "SELECT u.id, u.nombre, u.apellido1, u.apellido2, u.correo, u.admin, u.curso, u.foto, f.nombre as nombreFacultad, g.nombre as nombreGrado FROM usuarios as u JOIN ucm_aw_riu_fac_facultades as f ON u.facultad = f.id JOIN ucm_aw_riu_gra_grados AS g ON u.grado = g.id WHERE verificado = 1 AND admin=0"
-                connection.query(stringQuery, (err, resultado) => {
-                    connection.release();
-                    if (err) callback(err, null)
-                    // else if (resultado.length === 0) callback(null,null)
-                    else {
-                        callback(null, resultado.map(ele => ({  
-                            id:ele.id,
-                            nombre:ele.nombre,
-                            apellido1:ele.apellido1,
-                            apellido2:ele.apellido2,
-                            correo:ele.correo,
-                            admin:ele.admin,
-                            grado:ele.nombreGrado, 
-                            curso:ele.curso,
-                            foto: ele.foto
-                        })))
-                        
-                    }
-                })
-            }
-        })
-    }
-   
-    getRequests(callback) { 
-        this.pool.getConnection((err, connection) => {
-            if (err) callback(err, null)
-            else {
-                let stringQuery = "SELECT u.id, u.nombre, u.apellido1, u.apellido2, u.correo, u.admin, u.curso, u.foto, f.nombre as nombreFacultad, g.nombre as nombreGrado FROM ucm_aw_riu_usu_usuarios as u JOIN ucm_aw_riu_fac_facultades as f ON u.facultad = f.id JOIN ucm_aw_riu_gra_grados AS g ON u.grado = g.id WHERE verificado = 0"
-                connection.query(stringQuery, (err, resultado) => {
-                    connection.release();
-                    if (err) callback(err, null)
-                    else if (resultado.length === 0) callback(null,null)
-                    else {
-                        callback(null, resultado.map(ele => ({  
-                            id:ele.id,
-                            nombre:ele.nombre,
-                            apellido1:ele.apellido1,
-                            apellido2:ele.apellido2,
-                            correo:ele.correo,
-                            admin:ele.admin,
-                            facultad:ele.nombreFacultad,
-                            grado:ele.nombreGrado, 
-                            curso:ele.curso,
-                            foto: ele.foto
-                        })))
-                    }
-                })
-            }
-        })
-    }
- 
-    dropRequest(id,callback) {  // TODO PERMITIR AL USUARIO DARSE DE BAJA ESTA ES BuEna
-        this.pool.getConnection((err, connection) => {
-            if (err) callback(err, null)
-            else {
-                let stringQuery = "DELETE FROM usuarios WHERE id = ?"
-                connection.query(stringQuery, id,(err, resultado) => {
-                    connection.release();
-                    if (err) callback(err)
-                    else callback(null, true)
-                })
-            }
-        })
-    }
-
     createUser(user,callback) {
         this.pool.getConnection((err, connection) => {
             if (err) callback(err, null)
@@ -207,6 +135,35 @@ class DAO {
         })
     }
 
+    updateUserLevel(userId, level, experience, experienceToNext, callback) {
+        this.pool.getConnection((err, connection) => {
+            if (err) callback(err);
+            else {
+                let stringQuery = ` UPDATE userlevel SET level = ?, experience = ?, experienceToNext = ? WHERE idUser = ?`;
+                connection.query(stringQuery, [level, experience, experienceToNext, userId], (err, result) => {
+                    connection.release();
+                    if (err) callback(err);
+                    else callback(null, true);
+                });
+            }
+        });
+    }
+
+    getExperienceByLevel(level, callback) {
+        this.pool.getConnection((err, connection) => {
+            if (err) callback(err);
+            else {
+                let stringQuery = "SELECT experienceRequired FROM levelprogression WHERE level = ?";
+                
+                connection.query(stringQuery, [level], (err, result) => {
+                    connection.release();
+                    if (err) callback(err);
+                    else  callback(null, result[0].experienceRequired);
+                });
+            }
+        });
+    }
+
     getInitialIcons(userId, callback) {
         this.pool.getConnection((err, connection) => {
             if (err) callback(err, null)
@@ -229,13 +186,56 @@ class DAO {
         this.pool.getConnection((err, connection) => {
             if (err) callback(err, null)
             else {
-                console.log("DAO" + userId)
-                console.log("DAO" + iconId)
                 let stringQuery = "INSERT INTO userIcons (userId, iconId, isSelected, bgColor) VALUES (?,?,?,?)"
                 connection.query(stringQuery, [userId, iconId, 0, "transparent"], (err, resultado) => {
                     connection.release();
                     if (err) return callback(err, null);
                     callback(null, true);
+                })
+            }
+        })
+    }
+
+    initializeExperience(userId, callback) {
+        this.pool.getConnection((err, connection) => {
+            if (err) callback(err, null)
+            else {
+                let stringQuery = "INSERT INTO userLevel (idUser, level, experience, experienceToNext) VALUES (?,?,?,?)"
+                connection.query(stringQuery, [userId, 1, 0, 150], (err, resultado) => {
+                    connection.release();
+                    if (err) callback(err, null);
+                    else callback(null, true);
+                })
+            }
+        })
+    }
+
+    getPreferences(userId, callback) {
+        this.pool.getConnection((err, connection) => {
+            if (err) callback(err, null)
+            else {
+                let stringQuery = "SELECT * FROM userpreferences WHERE idUser = ?"
+                connection.query(stringQuery, userId, (err, resultado) => {
+                    connection.release();
+                    if (err) callback(err, null);
+                    else if (resultado.length === 0) callback(null, null)
+                    else callback(null, resultado.map(ele => ({  
+                        showTutorial:ele.showTutorial,
+                    }))[0])
+                })
+            }
+        })
+    }
+
+    hideTutorial(userId, callback) {
+        this.pool.getConnection((err, connection) => {
+            if (err) callback(err, null)
+            else {
+                let stringQuery = "INSERT INTO userPreferences (idUser, showTutorial) VALUES (?,?)"
+                connection.query(stringQuery, [userId,0], (err, resultado) => {
+                    connection.release();
+                    if (err) callback(err, null);
+                    else callback(null,true)
                 })
             }
         })

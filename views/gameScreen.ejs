@@ -6,7 +6,7 @@
     <div class="vh-90" id="mainContent">
       <div class="d-flex align-items-center justify-content-center gap-4">
         <%-include('partials/playground') %>
-        <% if (mode !== "TRIAL" ) { %>
+        <% if (locals.mode !== "TRIAL" ) { %>
           <div id="divResultados" class="box rounded-4 p-4 d-flex flex-column text-center">
             <div id="resultDiv">
               <h2>Has acertado un <span id="resultSpan"> </span></h2>
@@ -84,7 +84,7 @@
           </div>
           <div class="row px-4 align-items-center py-2">
             <div class="col">
-              <input id="showModalCheck" type="checkbox">
+              <input id="showModalCheck" type="checkbox" class="form-check-input">
               <span>No volver a mostrar</span>
             </div>
             <div class="col d-flex justify-content-center">
@@ -125,6 +125,7 @@
     <script type="module" src="/javascripts/cronometro.js"></script>
     <script type="module" src="/javascripts/animations.js"></script>
     <script type="module" src="/javascripts/gameCore.js"></script>
+    <script src="/javascripts/dontShowAgain.js"></script>
     <script>
       // setInterval(() => {
       //   window.location.reload();

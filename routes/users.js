@@ -28,7 +28,8 @@ router.get("/", isLoggedIn, (req, res) => {
 });
 
 router.get("/api/getLocals", isLoggedIn, (req, res) => {
-  res.json({ locals: res.locals.user });
+  res.json({ locals: res.locals });
+  // res.json({ locals: res.locals.user });
 });
 
 router.get("/profile", isLoggedIn, (req, res) => {
@@ -72,8 +73,21 @@ router.post("/login", (req, res) => {
       req.session.user = sessionUser;
       res.locals.user = sessionUser;
 
-      res.json({ existe: true, nombre: user.nombre, correo: user.correo });
     });
+    
+    dao.getPreferences(user.id, (err, preferences) => {
+      if(err) {
+        console.log(err)
+        return res.status(500).json({ message: "Error en el inicio de sesión" }); 
+      }
+      if(preferences === null) {
+        preferences = {
+          showTutorial: true
+        }
+      }
+      res.locals.preferences = preferences
+      res.json({ existe: true, nombre: user.nombre, correo: user.correo });
+    })
   });
 });
 
@@ -96,6 +110,9 @@ router.post("/register", (req, res) => {
       if (err) return res.status(500).json({ message: "Error en registro" });
     })
     dao.unlockIcon(userId,4, (err) => {
+      if (err) return res.status(500).json({ message: "Error en registro" });
+    })
+    dao.initializeExperience(userId, (err) => {
       if (err) return res.status(500).json({ message: "Error en registro" });
     })
     res.json(true)
@@ -134,19 +151,5 @@ router.get("/checkEmailOrTagname", (req, res) => {
     res.json({ existe: exists });
   });
 });
-
-function errorHandler(err) {
-  if (err.code === "ECONNREFUSED") {
-    console.log("\n\nArranca XAMPP máquina\n\n");
-  } else {
-    console.error(`
-      \x1b[41m-----------------------------------------------------------\x1b[0m
-      \x1b[41mCÓDIGO DE ERROR: ${err.code}\x1b[0m
-      \x1b[41mMENSAJE SQL: ${err.sqlMessage || "No disponible"}\x1b[0m
-      \x1b[41mSQL: ${err.sql || "No disponible"}\x1b[0m
-      \x1b[41m-----------------------------------------------------------\x1b[0m
-    `);
-  }
-}
 
 module.exports = router;

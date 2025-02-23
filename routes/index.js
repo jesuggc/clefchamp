@@ -1,43 +1,38 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const db = require("../config/db");
+const mysql = require("mysql");
+
+const mysqlConfig = require("../config/db");
+const DAO = require("../config/dao");
+
+const pool = mysql.createPool(mysqlConfig);
+const dao = new DAO(pool);
 
 router.use((req, res, next) => {
   res.locals.user = req.session.user;
   next();
 });
 
-router.get('/', (req, res) => {
+router.get('/', function(req, res, next) {
   res.render('index');
 });
 
 router.get('/loading', (req, res) => {
-  try {
-    const redirectUrl = req.query.redirect || '/';
-    res.render('loadingScreen', { redirectUrl });
-  } catch (error) {
-    console.error("Error en /loading:", error);
-    res.status(500).json({ message: "Error al cargar la pantalla de carga" });
-  }
+  const redirectUrl = req.query.redirect || '/'; // URL de redirección, por defecto al inicio
+  res.render('loadingScreen', { redirectUrl }); // Pasamos la URL como variable a la vista
 });
 
-router.get("/informacion", (req, res) => {
-  try {
-    const pag = req.query.data;
-    res.render("informacion", { pag });
-  } catch (error) {
-    console.error("Error en /informacion:", error);
-    res.status(500).json({ message: "Error al cargar la información" });
-  }
+
+router.get("/informacion", function (request, response) {
+  response.status(200)
+  let pag = request.query.data
+  response.render("informacion", {pag})
 });
 
-router.get("/moreInformation", (req, res) => {
-  try {
-    res.render("moreInformation");
-  } catch (error) {
-    console.error("Error en /moreInformation:", error);
-    res.status(500).json({ message: "Error al cargar moreInformation" });
-  }
+router.get("/moreInformation", function (request, response) {
+  response.status(200)
+  response.render("moreInformation")
+  res.redirect('/loading?redirect=/moreInformation');
 });
 
 module.exports = router;

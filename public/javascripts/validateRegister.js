@@ -111,7 +111,6 @@ $('#myForm input, #myForm select').on('keyup', function() {
 
 
 $("#register").on("click", () => {
-    console.log("Estoy en register")
     let tagname = $("#tagname").val().trim()
     let email = $("#email").val()
     let password = $("#password").val()

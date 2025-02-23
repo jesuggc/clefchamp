@@ -85,7 +85,7 @@
   width: 100%;
   height: 100%;
   background-color: #350D40;
-  transition: left 0.8s ease;
+  transition: left 0.4s ease;
   z-index: 0;
 
 }
@@ -333,50 +333,6 @@ body::-webkit-scrollbar {
   height: 88%;
 }
 
-
-.mh10vh {
-  max-height: 10vh
-}
-.mh8vh {
-  max-height: 8vh
-}
-.cards {
-  height:10em;
-  width:8em;
-  position: absolute;
-  padding:2em;
-  text-align: center;
-  margin:2em;
-  border:1px solid black;
-  
-}
-/* .cards:hover {
-  /* scale:1.1; */
-  
-/* } */ */
-
-.card0 {
-  z-index: 0;
-  right:40em;
-  scale:0.9;
-}
-.card1 {
-  z-index: 1;
-  right:36em;
-  scale:1;
-}
-
-.card2{
-  right:30em;
-  z-index: 2;
-  scale:1.132;
-}
-
-.card3 {
-  right:24em;
-  z-index: 1;
-}
-
 /* -------------ID------------- */
 #cuerpo {
   text-align: justify;
@@ -565,16 +521,3 @@ body::-webkit-scrollbar {
   max-height: 2em;
   cursor: pointer;
 }
-
-.musicControl::-webkit-slider-thumb {
-  -webkit-appearance: none; 
-    /* display: none; Oculta la bola en Webkit (Chrome, Safari, Edge) */
-}
-
-.musicControl::-moz-range-thumb {
-  display: none; /* Oculta la bola en Firefox */
-}
-
-.musicControl::-ms-thumb {
-  display: none; /* Oculta la bola en Internet Explorer */
-} 
