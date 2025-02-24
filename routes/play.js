@@ -75,11 +75,4 @@ router.put('/addExperience', isLoggedIn, (request,response) => {
   })
 });
 
-router.post('/hideTutorial', isLoggedIn, (req, res) => {
-  dao.hideTutorial(res.locals.user.id, (err, res) => {
-    if(err) res.status(500).json({ message: "Error en hideTutorial" }); 
-    res.locals.preferences.showTutorial = false
-  })
-});
-
 module.exports = router;

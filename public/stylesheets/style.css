@@ -60,6 +60,16 @@
   padding: 1em 2em 1em 2em;
 }
 
+.acceptButton-lg {
+  color: #F2E7DC;
+  background-color: #350D40;
+  border-color: #350D40;
+  border-style: solid;
+  border-width: 0.1em;
+  border-radius: 0.6em;
+  font-size: 1.5em;
+}
+
 .cancelButton {
   color:  #350D40;
   background-color:#F2E7DC;
@@ -520,4 +530,10 @@ body::-webkit-scrollbar {
   max-width: 2em;
   max-height: 2em;
   cursor: pointer;
+}
+
+.myInvalidFeedback {
+  color: #dc3545;
+  font-size: 14px;
+  margin-top: 4px;
 }

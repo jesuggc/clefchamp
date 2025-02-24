@@ -2,22 +2,26 @@ $("#login").on("click", function(e) {
     e.preventDefault()
     var email = $('#email').val();
     var password = $('#password').val();
-    $('#wrongMail').remove();
-    $('#wrongPass').remove();
+    $("#email").removeClass("is-invalid")
+    $("#password").removeClass("is-invalid")  
+    $("#invalidMessage").attr("hidden",true)
     
     $.ajax({
         url: "/users/checkEmailOrTagname",
         type: "GET",
         data: {email,email},
         success: function(response) {
-            if(response.existe === false) $("#emailContainer").append(`<p id="wrongMail" class="red">Correo no existente</p>`)
+            if(response.existe === false) $("#email").addClass("is-invalid")
             else {
                 $.ajax({
                     url: "/users/login",
                     type: "POST",
                     data: {email,password},
                     success: function(response) {
-                        if (response === false) $("#passContainer").append(`<p id="wrongPass" class="red">Contraseña incorrecta</p>`)
+                        if (response.existe === false) {
+                            $("#invalidMessage").attr("hidden",false)
+                            $("#password").addClass("is-invalid")
+                        }
                         else window.location.href = "/"
                     }
                 })
@@ -27,4 +31,12 @@ $("#login").on("click", function(e) {
             console.log(textStatus, errorThrown);
         }
     })
+})
+
+$("#email").on("click", function() {
+    $("#email").removeClass("is-invalid")  
+})
+$("#password").on("click", function() {
+    $("#password").removeClass("is-invalid")  
+    $("#invalidMessage").attr("hidden",true)
 })

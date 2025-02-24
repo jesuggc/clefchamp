@@ -25,7 +25,7 @@
               <button id="playAgainBtn" class="acceptButton-sm">Volver a jugar</button>
             </div>
           </div>
-        <% } else  { %>
+        <% } else { %>
           <div id="divResultados" class="box rounded-4 p-4 d-flex flex-column text-center">
             <div id="resultDiv">
               <h2>Unete! <span id="resultSpan"> </span></h2>
@@ -83,15 +83,19 @@
             <!-- -- -->
           </div>
           <div class="row px-4 align-items-center py-2">
+            <% if (locals.mode !== "TRIAL" ) { %>
             <div class="col">
               <input id="showModalCheck" type="checkbox" class="form-check-input">
               <span>No volver a mostrar</span>
             </div>
+            <% } %>
             <div class="col d-flex justify-content-center">
               <button id="closeModal" type="button" data-bs-dismiss="modal" class="acceptButton-sm mx-auto">Aceptar</button>
             </div>
-            <div class="col">
-            </div>
+            <% if (locals.mode !== "TRIAL" ) { %>
+              <div class="col">
+              </div>
+            <% } %>
           </div>
         </div>
       </div>

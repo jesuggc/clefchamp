@@ -28,8 +28,7 @@ router.get("/", isLoggedIn, (req, res) => {
 });
 
 router.get("/api/getLocals", isLoggedIn, (req, res) => {
-  res.json({ locals: res.locals });
-  // res.json({ locals: res.locals.user });
+  res.json({ locals: res.locals.user });
 });
 
 router.get("/profile", isLoggedIn, (req, res) => {
@@ -50,44 +49,42 @@ router.get("/login", alreadyLoggedIn, (req, res) => {
 
 router.post("/login", (req, res) => {
   const { email, password } = req.body;
-
   dao.checkUser(email, password, (err, user) => {
     if (err) {
       console.error("Error en login:", err);
       return res.status(500).json({ message: "Error en el inicio de sesión" });
     }
-
+    
     if (!user) return res.json({ existe: false });
-
+    
     dao.getUserLevel(user.id, (err, userLevel) => {
       if (err) {
         console.error("Error obteniendo nivel del usuario:", err);
         return res.status(500).json({ message: "Error en login" });
       }
-
-      const sessionUser = {
-        ...user,
-        ...userLevel[0],
-      };
-
-      req.session.user = sessionUser;
-      res.locals.user = sessionUser;
-
-    });
-    
-    dao.getPreferences(user.id, (err, preferences) => {
-      if(err) {
-        console.log(err)
-        return res.status(500).json({ message: "Error en el inicio de sesión" }); 
-      }
-      if(preferences === null) {
-        preferences = {
-          showTutorial: true
+      
+      dao.getPreferences(user.id, (err, preferences) => {
+        if(err) {
+          console.log(err)
+          return res.status(500).json({ message: "Error en el inicio de sesión" }); 
         }
-      }
-      res.locals.preferences = preferences
-      res.json({ existe: true, nombre: user.nombre, correo: user.correo });
-    })
+        if(preferences === null) {
+          preferences = {
+            showTutorial: true
+          }
+        }
+        const sessionUser = {
+          ...user,
+          ...userLevel[0],
+          preferences
+        };
+        
+        req.session.user = sessionUser;
+        res.locals.user = sessionUser;
+        
+        res.json({ existe: true, nombre: user.nombre, correo: user.correo });
+      })
+    });
   });
 });
 
@@ -151,5 +148,15 @@ router.get("/checkEmailOrTagname", (req, res) => {
     res.json({ existe: exists });
   });
 });
+
+
+router.post('/hideTutorial', isLoggedIn, (req, res) => {
+  dao.hideTutorial(res.locals.user.id, (err, resultado) => {
+    if(err) res.status(500).json({ message: "Error en hideTutorial" }); 
+    res.locals.user.preferences.showTutorial = false //TODO mejorar esto
+    res.json(true)
+  })
+});
+
 
 module.exports = router;
