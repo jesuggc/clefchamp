@@ -24,7 +24,8 @@ const GameState = {
         individualTime: 0,
         gameStarted: false,
         streak: 0,
-        difficulty: null
+        difficulty: null,
+        points: 0
     },
 
     elements: {},
@@ -89,9 +90,11 @@ const GameState = {
         
         // Mostrar tutorial
         emptyClef();
-        if(this.current.difficulty !== "TRIAL") {
-            if(this.userData.locals.preferences.showTutorial) new bootstrap.Modal(this.elements.$tutorialModal).show();
-        } else new bootstrap.Modal(this.elements.$tutorialModal).show();
+        
+        if(this.current.difficulty === "TRIAL") {
+            new bootstrap.Modal(this.elements.$tutorialModal).show();
+        }  else if(this.userData.locals.preferences.showTutorial) new bootstrap.Modal(this.elements.$tutorialModal).show();
+        
         
         // Configurar eventos
         this.setupEventListeners();
@@ -166,6 +169,7 @@ const GameState = {
 
     // Manejar nota correcta
     handleCorrectNote() {
+        this.current.points +=;
         this.current.aciertos++;
         this.current.streak++;
         const feedback = this.getFeedback(this.current.individualTime);
@@ -384,7 +388,7 @@ const GameState = {
         this.elements.$resultDiv.css('opacity', 0);
         this.elements.$experienceDiv.css('opacity', 0);
         this.elements.$totalExpDiv.css('opacity', 0);
-        this.elements.$playAgainBtn.hide();
+        this.elements.$playAgainBtn.css('opacity', 0);
         
         // Reiniciar estado del juego
         this.current.contador = 0;
