@@ -25,7 +25,8 @@ const GameState = {
         gameStarted: false,
         streak: 0,
         difficulty: null,
-        points: 0
+        points: 0,
+        pointsToAdd: 0
     },
 
     elements: {},
@@ -56,8 +57,8 @@ const GameState = {
 
     // Inicializa el juego
     async initialize() {
-        await this.getLocals()
         this.current.difficulty = window.location.pathname.split("/")[3].toUpperCase();
+        if(this.current.difficulty !== "TRIAL") await this.getLocals()
         Object.assign(this.config, getConfig(this.current.difficulty));
         
         // Inicializar mapeos de teclas
@@ -82,7 +83,9 @@ const GameState = {
             $experienceSpan: $("#experienceSpan"),
             $resultSpan: $("#resultSpan"),
             $playAgainBtn: $("#playAgainBtn"), 
-            $playAgainDiv: $("#playAgainDiv") 
+            $playAgainDiv: $("#playAgainDiv"),
+            $pointsSpan: $("#pointsSpan"),
+            $scoreAdded: $("#scoreAdded") 
         };
 
         // Inicializar cronómetro
@@ -169,10 +172,11 @@ const GameState = {
 
     // Manejar nota correcta
     handleCorrectNote() {
-        this.current.points +=;
         this.current.aciertos++;
         this.current.streak++;
         const feedback = this.getFeedback(this.current.individualTime);
+        this.current.pointsToAdd = (feedback.BASE_POINTS + feedback.EXTRA_POINTS * (feedback.THRESHOLD - this.current.individualTime));
+        this.current.points += this.current.pointsToAdd
         this.elements.$successMessage.text(feedback.TITLE).css("color", feedback.COLOR);
         fadeOut(this.elements.$successMessage);
     },
@@ -195,6 +199,7 @@ const GameState = {
         this.current.fallos++;
         this.current.streak = 0;
         $(`.note${pressedNote}`).each((_, ele) => flashBackground(ele, this.config.COLOR_WRONG));
+        this.current.pointsToAdd = 0
     },
 
     // Finalizar el juego
@@ -249,58 +254,33 @@ const GameState = {
 
     showFidelization() {
         let percentage = Math.round((this.current.aciertos / this.config.ROUNDS) * 100);
-        // let winExp = true; // Siempre gana experiencia por ahora
-        // let experienceToAdd = winExp ? this.config.EXPERIENCE : 0;
-        // 
-        // let levelUp = await this.handleExperience(winExp, experienceToAdd);
-        
-        this.elements.$experienceSpan.text(
-           "Unete porfa"
-        );
         this.elements.$resultSpan.text(percentage + "%");
-        
-        // let experiencePercentage = (this.userData.locals.experience / (this.userData.locals.experience + this.userData.locals.experienceToNext)) * 100;
         
         setTimeout(() => this.elements.$resultDiv.css('opacity', 1), 500);
         setTimeout(() => this.elements.$experienceDiv.css('opacity', 1), 1000);
-        // setTimeout(() => this.elements.$totalExpDiv.css('opacity', 1), 1500);
-        
-        // if (levelUp) {
-        //     this.showLevelUpModal();
-        //     setTimeout(() => this.elements.$experienceBar.css("width", "100%"), 2000);
-        //     setTimeout(() => this.elements.$levelSpan.text(this.userData.locals.level), 2600);
-        //     setTimeout(() => this.elements.$experienceBar.css("opacity", 0), 2600);
-        //     setTimeout(() => this.elements.$experienceBar.css("width", "0%"), 2600);
-        //     setTimeout(() => this.elements.$experienceBar.css("opacity", 1), 3200);
-        //     setTimeout(() => this.elements.$experienceBar.css("width", experiencePercentage + "%"), 3200);
-        // } else {
-        //     setTimeout(() => this.elements.$experienceBar.css("width", experiencePercentage + "%"), 2000);
-        // }
-        
-        // // Mostrar el botón para volver a jugar
-        // setTimeout(() => this.elements.$playAgainDiv.css('opacity', 1), 3500);
+        setTimeout(() => this.elements.$totalExpDiv.css('opacity', 1), 1500);
     },
 
     // Manejar la experiencia ganada
     async handleExperience(winExp, experienceToAdd) {
         await this.getLocals();
-        let totalExp = this.userData.locals.experience + this.userData.locals.experienceToNext;
-        this.userData.locals.experience += experienceToAdd;
-        this.userData.locals.experienceToNext -= experienceToAdd;
-        let levelUp = this.userData.locals.experienceToNext <= 0;
+        let locals = this.userData.locals
+        let totalExp = this.userData.locals.experience + locals.experienceToNext;
+        locals.experience += experienceToAdd;
+        locals.experienceToNext -= experienceToAdd;
+        let levelUp = locals.experienceToNext <= 0;
         
         if (levelUp) {
             await this.getExpNextLevel();
-            this.userData.locals.level++;
-            this.userData.locals.experienceToNext = this.userData.experienceInNext + this.userData.locals.experienceToNext;
-            this.userData.locals.experience -= totalExp;
+            locals.level++;
+            locals.experienceToNext = this.userData.experienceInNext + locals.experienceToNext;
+            locals.experience -= totalExp;
         }
-        
         await this.updateUserLevel(
-            this.userData.locals.id,
-            this.userData.locals.level,
-            this.userData.locals.experience,
-            this.userData.locals.experienceToNext
+            locals.id,
+            locals.level,
+            locals.experience,
+            locals.experienceToNext
         );
         
         return levelUp;
@@ -377,6 +357,10 @@ const GameState = {
         } else {
             this.elements.$streak.css("opacity", 0);
         }
+        
+        addProgresively(this.elements.$pointsSpan, parseInt(this.elements.$pointsSpan.text()),this.current.points, 200)
+        
+        addPointsAnimation(this.elements.$scoreAdded, this.current.pointsToAdd)
         
         growAndBack(this.elements.$divFeedback);
     },
