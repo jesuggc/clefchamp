@@ -4,38 +4,47 @@
   <body class="colorNuevo5">
     <%-include('partials/header') %>
     <div class="vh-90" id="mainContent">
-      <div class="d-flex g-3">
-        <div class="col-4 bg-danger">
-          <div class="row justify-content-center mx-2 my-3">
+      <div class="d-flex">
+        <div class="col-4">
+          <div class="row p-1 bg-dark text-white text-center rounded-4 mx-1">
+            <h1>Elige un juego</h1>
+          </div>
+          <div id="easyBtn" class="row justify-content-center mx-2 my-3">
             <div class="col-auto text-center w-100">
-              <a href="./atrapado/easy" class="btn btn-primary w-100 py-4" style=" border-radius: 1em;">Atrapa-do</a>
-              <div class="bg-dark mx-auto w-75 text-white" style="height:1.5em; border-radius: 0 0 0.6em 0.6em">Facil</div>
+              <button class="py-4 gameSelectors">Atrapa-do</button>
+              <div class="bg-dark mx-auto w-75 text-white" style="height:1.5em; border-radius: 0 0 0.6em 0.6em; cursor:pointer">Fácil</div>
             </div>
           </div>
-          <div class="row justify-content-center mx-2 my-3">
+          <div id="normalBtn" class="row justify-content-center mx-2 my-3">
             <div class="col-auto text-center w-100">
-              <a href="./atrapado/normal" class="btn btn-primary w-100 py-4" style=" border-radius: 1em;">Atrapa-do</a>
-              <div class="bg-dark mx-auto w-75 text-white" style="height:1.5em; border-radius: 0 0 0.6em 0.6em">Normal</div>
+              <button class="py-4 gameSelectors">Atrapa-do</button>
+              <div class="bg-dark mx-auto w-75 text-white" style="height:1.5em; border-radius: 0 0 0.6em 0.6em; cursor:pointer">Normal</div>
             </div>
           </div>
-          <div class="row justify-content-center mx-2 my-3">
-            <div class="col-auto text-center w-100">
-              <a href="./atrapado/hard" class="btn btn-primary w-100 py-4" style=" border-radius: 1em;">Atrapa-do</a>
-              <div class="bg-dark mx-auto w-75 text-white" style="height:1.5em; border-radius: 0 0 0.6em 0.6em">Difícil</div>
+          <div id="hardBtn" class="row justify-content-center mx-2 my-3">
+            <div class="col-auto text-center w-100" >
+              <button class="py-4 gameSelectors">Atrapa-do</button>
+              <div class="bg-dark mx-auto w-75 text-white" style="height:1.5em; border-radius: 0 0 0.6em 0.6em; cursor:pointer">Difícil</div>
             </div>
           </div>
         </div>
-        <div class="col-8 bg-warning p-4">
-          <div>
-            <img src="/images/bandaFacil.png" style="max-width: 100%;" alt="">
+        <div class="col-8 px-4 vh-90">
+          <div class="bg-dark rounded-4 p-4 vh-60 d-flex justify-content-center">
+            <img id="gameImage" class="vh-55 m-a" alt="">
+          </div>
+          <div class="bg-secondary rounded-4 p-4 my-2 vh-15">
+            <div id="descriptionDiv" >
+            </div>
           </div>
           <div>
-            <a class="btn btn-primary">Jugar</a>
+            <a><button  id="playBtn" class=" w-100 p-2 vh-10 fs-1 cancelButton">Jugar</button></a>
           </div>
         </div>
       </div>
     </div>
     <%-include('partials/footer') %>
+    <script src="/javascripts/selectGame.js">
+    </script>
     <script>
       // Configurar la recarga cada 5 segundos (5000 ms)
       // setInterval(() => {

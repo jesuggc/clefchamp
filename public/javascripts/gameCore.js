@@ -359,8 +359,9 @@ const GameState = {
         }
         
         addProgresively(this.elements.$pointsSpan, parseInt(this.elements.$pointsSpan.text()),this.current.points, 200)
+        growAndBack(this.elements.$pointsSpan)
         
-        addPointsAnimation(this.elements.$scoreAdded, this.current.pointsToAdd)
+        if(this.current.pointsToAdd > 0) addPointsAnimation(this.elements.$scoreAdded, this.current.pointsToAdd)
         
         growAndBack(this.elements.$divFeedback);
     },

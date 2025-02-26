@@ -39,21 +39,7 @@ function addPointsAnimation(element, points) {
     });
 }
 
-
-// function animateScore(start, end, duration) {
-//     let current = start;
-//     let increment = (end - start) / (duration / 16); // Aproximadamente 60 FPS
-//     let interval = setInterval(() => {
-//       current += increment;
-//       if (current >= end) {
-//         current = end;
-//         clearInterval(interval);
-//       }
-//       document.getElementById("score").textContent = Math.round(current);
-//     }, 16);
-//   }
-
-  function addProgresively(element, start, end, duration) {
+function addProgresively(element, start, end, duration) {
     const fps = 60;
     const frameDuration = 1000 / fps;
     const frames = duration / frameDuration;

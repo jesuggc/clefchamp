@@ -25,6 +25,15 @@
 .vh-10 {
   height:10vh;
 }
+.vh-15 {
+  height:15vh;
+}
+.vh-55 {
+  height:55vh;
+}
+.vh-60 {
+  height:60vh;
+}
 .vh-85 {
   height:85vh;
 }
@@ -536,4 +545,21 @@ body::-webkit-scrollbar {
   color: #dc3545;
   font-size: 14px;
   margin-top: 4px;
+}
+
+.gameSelectors {
+  background-color: #3C2040;
+  border-color: #3C2040;
+  border-style: solid;
+  color: white;
+  border-radius: 0.8em;
+  font-size:2em;
+  width:100%;
+}
+
+.gameSelectors::selection {
+  border-color:red;  
+}
+.gameSelectors:hover {
+  border-color: red;
 }
