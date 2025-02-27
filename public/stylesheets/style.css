@@ -549,7 +549,7 @@ body::-webkit-scrollbar {
 
 .gameSelectors {
   background-color: #3C2040;
-  border-color: #3C2040;
+  /* border-color: #3C2040; */
   border-style: solid;
   color: white;
   border-radius: 0.8em;
@@ -557,9 +557,10 @@ body::-webkit-scrollbar {
   width:100%;
 }
 
-.gameSelectors::selection {
-  border-color:red;  
+.gameSelectors:hover   {
+  border:solid red;  
 }
-.gameSelectors:hover {
-  border-color: red;
+.gameSelectorsSelected {
+  border: solid red;
 }
+

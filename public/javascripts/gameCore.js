@@ -235,6 +235,7 @@ const GameState = {
         setTimeout(() => this.elements.$resultDiv.css('opacity', 1), 500);
         setTimeout(() => this.elements.$experienceDiv.css('opacity', 1), 1000);
         setTimeout(() => this.elements.$totalExpDiv.css('opacity', 1), 1500);
+
         
         if (levelUp) {
             this.showLevelUpModal();
@@ -244,12 +245,13 @@ const GameState = {
             setTimeout(() => this.elements.$experienceBar.css("width", "0%"), 2600);
             setTimeout(() => this.elements.$experienceBar.css("opacity", 1), 3200);
             setTimeout(() => this.elements.$experienceBar.css("width", experiencePercentage + "%"), 3200);
+            setTimeout(() => this.elements.$playAgainDiv.css('opacity', 1), 4200);
         } else {
             setTimeout(() => this.elements.$experienceBar.css("width", experiencePercentage + "%"), 2000);
+            setTimeout(() => this.elements.$playAgainDiv.css('opacity', 1), 3000);
         }
         
         // Mostrar el botón para volver a jugar
-        setTimeout(() => this.elements.$playAgainDiv.css('opacity', 1), 3500);
     },
 
     showFidelization() {
@@ -373,7 +375,7 @@ const GameState = {
         this.elements.$resultDiv.css('opacity', 0);
         this.elements.$experienceDiv.css('opacity', 0);
         this.elements.$totalExpDiv.css('opacity', 0);
-        this.elements.$playAgainBtn.css('opacity', 0);
+        this.elements.$playAgainDiv.css('opacity', 0);
         
         // Reiniciar estado del juego
         this.current.contador = 0;

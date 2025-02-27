@@ -9,54 +9,68 @@
           <h1>Registro</h1>
           <p class="rosaDayusky">Aviso: No voy a cifrar las contraseñas (vamos que las puedo ver) asi que no me pongais la contraseña que usais para todo desde los 12 años</p>
           <form id="myForm" enctype="multipart/form-data">
-            <!--NOMBRE-->
-            <!-- <div class="row">
-              <div class="col" id="nameContainer">
-                <h4 class="my-2">Nombre</h4>
-                <input  class="w-100" id="name" type="text" name="nombre" placeholder="Nombre" required>
-              </div>
-              <div class="col" id="tagnameContainer">
-                <h4 class="my-2">Alias</h4>
-                <input  class="w-100" id="tagname" type="text" name="alias" placeholder="Alias" required>
-              </div>
-            </div> -->
-              
             <div class="row">
               <div class="col">
-                <h4 class="my-2">Nombre</h4>
-                <input id="name" type="text" name="nombre" placeholder="Nombre" required>
+                <div class="form-floating my-4">
+                  <input id="name" type="text" class="form-control" name="nombre" placeholder="" required>
+                  <label for="email">Nombre</label>
+                  <div class="invalid-feedback">
+                    Correo o alias no existente
+                  </div> 
+                </div>
               </div>
-              <div class="col" id="tagnameContainer">
-                <h4 class="my-2">Alias</h4>
-                <input  class="w-100" id="tagname" type="text" name="alias" placeholder="Alias" required>
+              <div class="col">
+                <div class="form-floating my-4">
+                  <input id="tagname" type="text" class="form-control" name="alias" placeholder="" required>
+                  <label for="email">Alias</label>
+                  <div class="invalid-feedback">
+                    Correo o alias no existente
+                  </div> 
+                </div>
               </div>
             </div>
             <!--CORREO-->
             <div class="row">
-              <div class="col" id="emailContainer">
-                <h4 class="my-3">Correo</h4>
-                <input id="email" class="w-100" type="text" name="email" placeholder="example@gmail.es" required>
+              <div class="col">
+                <div class="form-floating my-4">
+                  <input id="email" type="text" class="form-control" name="email" placeholder="" required>
+                  <label for="email">Correo</label>
+                  <div class="invalid-feedback">
+                    Correo o alias no existente
+                  </div> 
+                </div>
               </div>
             </div>
             <!--CONTRASEÑA-->
             <div class="row">
               <div class="col">
-                <h4 class="my-3">Contraseña</h4>
-                <div class="input-group" >
-                  <input class="w-75" type="password" name="contrasena" id="password" placeholder="Contraseña" required>
-                  <button type="button" class="passButton w-25" id="togglePassword">Mostrar</button>
+
+                <div class="input-group mt-4">
+                  <div class="form-floating">
+                    <input id="password" type="password" name="contrasena" class="form-control" placeholder="Password">
+                    <label for="password">Contraseña</label>
+                  </div>
+                  <button class="btn btn-secondary" type="button" id="togglePassword">Mostrar</button>
                 </div>
-                <ul id="passContainer"></ul>
+                <div id="invalidMessage" class="myInvalidFeedback mb-4" hidden>
+                  Contraseña incorrecta
+                </div>
               </div>
-              <div id="confirmContainer" class="col">
-                <h4 class="my-3">Confirma la contraseña</h4>
-                <div  class="input-group">
-                  <input class="w-75" type="password" name="contrasenaConf" id="confirmPassword" placeholder="Contraseña" required>
-                  <button type="button" class="passButton w-25" id="toggleConfirmPassword">Mostrar</button>
+              <div class="col">
+
+                <div class="input-group mt-4">
+                  <div class="form-floating">
+                    <input id="confirmPassword" type="password" name="contrasenaConf" class="form-control" placeholder="">
+                    <label for="password">Confirmar contraseña</label>
+                  </div>
+                  <button class="btn btn-secondary" type="button" id="toggleConfirmPassword">Mostrar</button>
+                </div>
+                <div id="invalidMessage" class="myInvalidFeedback mb-4" hidden>
+                  Contraseña incorrecta
                 </div>
               </div>
             </div>
-              <!--BOTON-->
+            <!--BOTON-->
             <div class="row d-flex my-4">
               <input id="register" class="row w-50 bg-primary  mx-auto d-block" type="button" value="Registrarme">
             </div>

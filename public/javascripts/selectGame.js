@@ -16,6 +16,9 @@ let textToHard = "Atrapa-do es un interactivo juego musical en el que tienes que
 "En este divertido juego se premian los aciertos y el tiempo que tardes en responder.<br>" + 
 "<strong>Difícil:</strong> en este modo aparecen notas en la clave de sol y fa indistintamente. Las notas aparecen en intervalos mínimos de quinta.";
 
+let pathToEasy = "/images/bandaFacil.png"
+let pathToNormal = "/images/bandaNormal.png"
+let pathToHard = "/images/bandaDificil.png"
 $("#playBtn").prop("disabled", true);
 
 function changeImageWithFade(src) {
@@ -29,52 +32,61 @@ function changeTextWithFade(text) {
       $(this).html(text).fadeIn(150);
   });
 }
-
+// -----------------------------------------------------------------
 $("#easyBtn").on("mouseenter", function() {
-  changeImageWithFade("/images/bandaFacil.png");
-  changeTextWithFade(textToEasy);
+  if(selected !== pathToEasy) changeImageWithFade(pathToEasy);
+  if(textSelected !== textToEasy) changeTextWithFade(textToEasy);
 });
 $("#easyBtn").on("mouseleave", function() {
-  changeImageWithFade(selected);
-  changeTextWithFade(textSelected);
+  if(selected !== pathToEasy) changeImageWithFade(selected);
+  if(textSelected !== textToEasy) changeTextWithFade(textSelected);
 });
 $("#easyBtn").on("click", function() {
-  selected = "/images/bandaFacil.png";
+  selected = pathToEasy
   textSelected = textToEasy;
-  changeImageWithFade(selected);
-  $("#playBtn").attr("href", linkToEasy);
-  $("#playBtn").prop("disabled", false);
-  changeTextWithFade(textSelected);
+  activatePlayBtn(linkToEasy)
+  handleSelection("#easyBtn")
 });
-
+// -----------------------------------------------------------------
 $("#normalBtn").on("mouseenter", function() {
-  changeImageWithFade("/images/bandaNormal.png");
-  changeTextWithFade(textToNormal);
+  if(selected !== pathToNormal) changeImageWithFade(pathToNormal);
+  if(textSelected !== textToNormal) changeTextWithFade(textToNormal);
 });
 $("#normalBtn").on("mouseleave", function() {
-  changeImageWithFade(selected);
-  changeTextWithFade(textSelected);
+  if(selected !== pathToNormal) changeImageWithFade(selected);
+  if(textSelected !== textToNormal) changeTextWithFade(textSelected);
 });
 $("#normalBtn").on("click", function() {
-  selected = "/images/bandaNormal.png";
+  selected = pathToNormal
   textSelected = textToNormal;
-  changeImageWithFade(selected);
-  $("#playBtn").attr("href", linkToNormal);
-  changeTextWithFade(textSelected);
+  activatePlayBtn(linkToNormal)
+  handleSelection("#normalBtn")
 });
-
+// -----------------------------------------------------------------
 $("#hardBtn").on("mouseenter", function() {
-  changeImageWithFade("/images/bandaDificil.png");
-  changeTextWithFade(textToHard);
+  if(selected !== pathToHard) changeImageWithFade(pathToHard);
+  if(textSelected !== textToHard) changeTextWithFade(textToHard);
 });
 $("#hardBtn").on("mouseleave", function() {
-  changeImageWithFade(selected);
-  changeTextWithFade(textSelected);
+  if(selected !== pathToHard) changeImageWithFade(selected);
+  if(textSelected !== textToHard) changeTextWithFade(textSelected);
 });
 $("#hardBtn").on("click", function() {
-    selected = "/images/bandaDificil.png";
-    textSelected = textToHard;
-    changeImageWithFade(selected);
-    $("#playBtn").attr("href", linkToHard);
-    changeTextWithFade(textSelected);
+  selected = pathToHard;
+  textSelected = textToHard;
+  activatePlayBtn(linkToHard)
+  handleSelection("#hardBtn")
 });
+// -----------------------------------------------------------------
+  
+function handleSelection(selection) {
+  $("#easyBtn").removeClass("gameSelectorsSelected")
+  $("#normalBtn").removeClass("gameSelectorsSelected")
+  $("#hardBtn").removeClass("gameSelectorsSelected")
+  $(selection).addClass("gameSelectorsSelected")
+}
+
+function activatePlayBtn(link) {
+  $("#playLink").attr("href", link);
+  $("#playBtn").prop("disabled", false);
+}
