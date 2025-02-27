@@ -2,15 +2,10 @@
 <html lang="es">
   <%-include('partials/head') %>
   <body class="colorNuevo5">
-    <div class="d-flex align-items-center justify-content-center vh-100" id="mainContent">
+    <div class="d-flex align-items-center justify-content-center vh-100">
       <div class="spinner-border m-5" role="status">
         <span class="visually-hidden">Loading...</span>
       </div>
     </div>
   </body>
-  <script>
-      setTimeout(() => {
-        window.location.href = "<%= redirectUrl %>";
-      }, 1000);
-    </script>
 </html>

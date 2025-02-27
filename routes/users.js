@@ -153,7 +153,7 @@ router.get("/checkEmailOrTagname", (req, res) => {
 router.post('/hideTutorial', isLoggedIn, (req, res) => {
   dao.hideTutorial(res.locals.user.id, (err, resultado) => {
     if(err) res.status(500).json({ message: "Error en hideTutorial" }); 
-    res.locals.user.preferences.showTutorial = false //TODO mejorar esto
+    res.locals.user.preferences.showTutorial = false
     res.json(true)
   })
 });

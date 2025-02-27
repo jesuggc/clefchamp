@@ -74,4 +74,12 @@ function secuencialShow(selector) {
     }, 500); 
 }
 
-export { flashBackground, fadeOut, addPointsAnimation, addProgresively, growAndBack, secuencialShow};
+function popAnimation($elemento) {
+    $elemento.addClass("pop-animation");
+    setTimeout(() => {
+        $elemento.removeClass("pop-animation");
+    }, 100);
+}
+
+
+export { flashBackground, fadeOut, addPointsAnimation, addProgresively, growAndBack, secuencialShow, popAnimation};

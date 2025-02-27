@@ -93,7 +93,7 @@ $("#tagname").on("keyup",() => {
                 $("#wrongTagname").remove()
                 tagnameBool = response.valido
                 if(response.valido === false) $("#tagnameContainer").append(`<p id="wrongTagname2" class="red">Ese alias ya está en uso</p>`)
-                else $("#tagnameContainer").append(`<p id="correctTagname" class="green">Alias disponible</p>`)
+                else $("#tagnameContainer").append(`<p id="correctTagname" style="background-color:green">Alias disponible</p>`)
                 
 
             }, error: function(jqXHR, textStatus, errorThrown) {

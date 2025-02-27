@@ -32,7 +32,6 @@ router.get("/informacion", function (request, response) {
 router.get("/moreInformation", function (request, response) {
   response.status(200)
   response.render("moreInformation")
-  res.redirect('/loading?redirect=/moreInformation');
 });
 
 module.exports = router;

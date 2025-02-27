@@ -1,6 +1,6 @@
 import { dibujarNota, emptyClef, randomNote, randomClef, getNote, getOctave, resetCanvas } from './vexManager.js';
 import { Cronometro } from './cronometro.js';
-import { flashBackground, fadeOut, addPointsAnimation, addProgresively, growAndBack, secuencialShow} from './animations.js'
+import { flashBackground, fadeOut, addPointsAnimation, addProgresively, growAndBack, secuencialShow, popAnimation} from './animations.js'
 import { getConfig } from './levelConfig.js'
 
 const GameState = {
@@ -241,9 +241,9 @@ const GameState = {
             this.showLevelUpModal();
             setTimeout(() => this.elements.$experienceBar.css("width", "100%"), 2000);
             setTimeout(() => this.elements.$levelSpan.text(this.userData.locals.level), 2600);
-            setTimeout(() => this.elements.$experienceBar.css("opacity", 0), 2600);
+            setTimeout(() => this.elements.$experienceBar.css('opacity', 0), 2600);
             setTimeout(() => this.elements.$experienceBar.css("width", "0%"), 2600);
-            setTimeout(() => this.elements.$experienceBar.css("opacity", 1), 3200);
+            setTimeout(() => this.elements.$experienceBar.css('opacity', 1), 3200);
             setTimeout(() => this.elements.$experienceBar.css("width", experiencePercentage + "%"), 3200);
             setTimeout(() => this.elements.$playAgainDiv.css('opacity', 1), 4200);
         } else {
@@ -355,17 +355,19 @@ const GameState = {
         
         if (this.current.streak > 2) {
             this.elements.$streakNumber.text(this.current.streak);
-            this.elements.$streak.css("opacity", 1);
+            this.elements.$streak.css('opacity', 1);
         } else {
-            this.elements.$streak.css("opacity", 0);
+            this.elements.$streak.css('opacity', 0);
         }
         
         addProgresively(this.elements.$pointsSpan, parseInt(this.elements.$pointsSpan.text()),this.current.points, 200)
-        growAndBack(this.elements.$pointsSpan)
-        
-        if(this.current.pointsToAdd > 0) addPointsAnimation(this.elements.$scoreAdded, this.current.pointsToAdd)
-        
         growAndBack(this.elements.$divFeedback);
+        
+        if(this.current.pointsToAdd > 0) {
+            addPointsAnimation(this.elements.$scoreAdded, this.current.pointsToAdd)
+            popAnimation(this.elements.$pointsSpan)
+        }
+        
     },
 
     // Reiniciar el juego (nueva funcionalidad)
@@ -390,7 +392,7 @@ const GameState = {
         
         // Reiniciar interfaz
         this.elements.$progressBar.css("width", "0%");
-        this.elements.$streak.css("opacity", 0);
+        this.elements.$streak.css('opacity', 0);
         this.elements.$startBtn.show();
         
         // Reiniciar cronómetro

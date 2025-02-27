@@ -4,34 +4,35 @@
   <body class="colorNuevo5">
     <%-include('partials/header') %>
     <% if(!user) { %>
-    <div class="d-flex align-items-center justify-content-center vh-90" id="mainContent">
+    <div class="d-flex align-items-center justify-content-center vh-90" >
       <div>
-        <h1 class="text-center" style="font-size: 14em;color: #1E0126;">Clefchamp</h1>
+        <h1 class="text-center indexTitle" >Clefchamp</h1>
         <h2 class="text-center"> Plataforma de aprendizaje musical mediante gamificación</h2>
         <div class="d-flex justify-content-center mt-5">
           <a href="/play/atrapado/trial"><button class="cancelButton me-5">Prueba de nivel</button></a>
-          <a href="/loading?redirect=/moreInformation"><button class="acceptButton">Saber más</button></a>
+          <a href="/moreInformation"><button class="acceptButton">Saber más</button></a>
         </div>
       </div>
     </div>
     <% } else { %>  
-    <div class="vh-90" id="mainContent">
-      <div class="bg-secondary rightRounded row" style="width:40%">
+    <div class="vh-90">
+      <div class="bg-secondary rightRounded row w-40">
         <div class="col">
-          <div class="rightRounded justify-content-end mt-3 pt-2 pb-2 pe-4 d-flex " style="width:60%; background-color: white;">
+          <div class="rightRounded justify-content-end mt-3 py-2 pe-4 d-flex w-60 bg-white">
             <h3><%=user.name%></h3>
           </div>
-          <div class="d-flex justify-content-end pt-3 text-white" style="width:75%;">
+          <div class="d-flex justify-content-end pt-3 text-white w-75">
             <span><%=user.experience%>/<%=user.experience + user.experienceToNext%></span>
           </div>
-          <div class="progress" style="border-radius: 0 2em 2em 0 ; width:85%;height:3em" role="progressbar" aria-label="Success striped example" aria-valuenow="<%=user.experience%>" aria-valuemin="0" aria-valuemax="<%=user.experience + user.experienceToNext%>">
-            <div id="levelBar" class="progress-bar bg-success slider overflow-visible text-dark" style="width: <%=((user.experience)/(user.experience + user.experienceToNext))*100%>%" >
+          <div class="progress" role="progressbar" aria-label="Success striped example" aria-valuenow="<%=user.experience%>" aria-valuemin="0" aria-valuemax="<%=user.experience + user.experienceToNext%>">
+            <% let percentage = ((user.experience)/(user.experience + user.experienceToNext))*100 %>
+            <div id="levelBar" class="progress-bar bg-success slider overflow-visible text-dark" style="width: <%=percentage%>%" >
               <h3 id="levelText" class="ps-5 pt-1">Nivel <span><%=user.level%></span></h3>
             </div>
           </div>
         </div>
         <div class="col-3 d-flex align-items-center justify-content-center">
-          <img src="/images/<%=user.icon%>" class="rounded-circle mb-1 mt-1 me-2" style="max-height: 10em;">
+          <img src="/images/<%=user.icon%>" class="rounded-circle my-1 me-2 userIcon" >
         </div>
       </div>
       <div class="d-flex justify-content-center m-5">
@@ -67,11 +68,11 @@
             </div>
           </div>
           <div class="row py-3">
-            <input class="musicControl" type="range" id="progressBar" value="0" step="1" max="100">
+            <input id="progressBar" class="musicControl" type="range" value="0" step="1" max="100">
           </div>
         </div>
         <div class="col">
-          <input class="musicControl" type="range" id="volumeControl" value="33" step="1" max="100">
+          <input id="volumeControl" class="musicControl" type="range" value="33" step="1" max="100">
         </div>
       </div>
         <!-- ----- -->

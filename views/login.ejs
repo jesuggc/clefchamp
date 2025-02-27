@@ -4,9 +4,6 @@
   <body class="colorNuevo5">
     <%-include('partials/headerLogo') %>
     <div class="vh-90 d-flex align-items-center ">
-      <div class="bg-danger rounded-4 p-4" style=" min-height: 70vh;">
-        <img class="loginImage" src="/images/inicioDeSesion.png" style="max-width: 30em;"  alt="Ilustración decorativa para iniciar sesión de una persona con una llave">
-      </div>
       <div id="mainDiv" class="bg-warning mx-auto rounded-4 p-4" style="max-width: 30em; min-height: 70vh;">
         <h1 class="my-4 mb-5 text-center">Inicio de sesión</h1>
         <form>
@@ -23,7 +20,7 @@
                 <input id="password" type="password" name="contrasena" class="form-control" placeholder="Password">
                 <label for="password">Contraseña</label>
             </div>
-            <button class="btn btn-outline-secondary" type="button" id="togglePassword">Mostrar</button>
+            <button id="togglePassword" class="btn btn-outline-secondary" type="button" >Mostrar</button>
           </div>
           <div id="invalidMessage" class="myInvalidFeedback mb-4" hidden>
               Contraseña incorrecta

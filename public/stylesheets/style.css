@@ -18,7 +18,12 @@
 .result {
   flex: 1 1 auto;
 }
-
+.w-40 {
+  width:40%;
+}
+.w-60 {
+  width:60%;
+}
 .vh-5 {
   height:5vh;
 }
@@ -122,10 +127,6 @@
   z-index: 1;
 }
 
-.noDisc {
-  list-style: none;
-}
-
 .rightRounded {
   border-radius: 0 10em 10em 0;
 }
@@ -144,9 +145,9 @@
 .profileIcon {
   background-size: cover;
 }
-/* .profileIcon:hover {
-  opacity: 0.4;
-} */
+.cursorPointer {
+  cursor:pointer;
+}
 
 .editIcon:hover {
   opacity: 0.6;
@@ -170,7 +171,10 @@
 
 
 /* ----------ELEMENTOS GENERALES---------- */
-
+body {
+  /* background-color: #F2E7DC; */
+  background-color: red;
+}
 body,html {
   overflow-x: hidden;
   padding:0;
@@ -210,32 +214,15 @@ ul li{
   position: relative;
   right:1.1em;
 }
-
+footer {
+  background-color: #302e2b;
+}
 footer a{
   text-decoration: none;
   color: #989795;
 }
 
 /* ----------CLASES---------- */
-
-.claret { background-color: #990032; }
-
-.pistachio { background-color: #BFB48F; }
-
-.whitesmoke { background-color: whitesmoke; } 
-
-.green { color: green; } 
-
-.negrita{
-  font-weight: bold;
-}
-.leido{
-  background-color: #e8e8e8;
-}
-
-.passButton {
-  border-radius: 0px 12px 12px 0px;
-}
 
 body::-webkit-scrollbar {
   display: none;
@@ -261,91 +248,20 @@ body::-webkit-scrollbar {
   background-color: #444; /* Color cuando el cursor está encima */
 }
 
-
-.noLeido {
-  font-weight: bold;
-}
-
 .shadow-25 {
   box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
-}
-
-
-.rowMail {
-  transition: transform 0.3s ease; /* Agregar transición para suavizar el desplazamiento */
-}
-
-.rowMail:hover {
-  transform: translateX(20px); /* Desplazar 20px a la derecha al pasar el ratón sobre el elemento */
-}
-
-
-.panelEnviar {
-  position: fixed;
-  bottom: 0;
-  right:0;
-  margin-right:3vw;
-  width: 31%;
-  height: 60vh;
-  background-color: whitesmoke;
-  box-shadow: rgba(0, 0, 0, 0.2) 0px 12px 28px 0px, rgba(0, 0, 0, 0.1) 0px 2px 4px 0px, rgba(255, 255, 255, 0.05) 0px 0px 0px 1px inset;
-}
-
-.nuevoCorreo {
-  position: fixed;
-  bottom: 0;
-  right:0;
-  margin-bottom: 1.5em;
-  margin-right: 2em;
-  max-width: 6em;
-  cursor:pointer;
-}
-
-
-.cursorPointer {
-  cursor: pointer;
-}
- 
-.borderProfile {
-  max-width: 3em;
-  border: 2px solid black;
 }
 
 .alignJustify {
   text-align: justify;
 }
 
-.mailImage {
-  width: 50px;
-  height: 50px;
-  object-fit: cover;
-  object-position: center;
-}
-
 .fit-content{
   width:fit-content;
 }
 
-.divActionsImage {
-  width:fit-content;
-  box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
-}
-.actionsImage {
-  height: 1.5em;
-}
-
-.mailBody {
-  max-height:23vh;
-  overflow-y: auto;
-}
-
 .loginImage {
   object-fit: contain;
-}
-
-.navAdminHeight {
-  height: 10vh;
-  max-height: 10vh;
 }
 
 .centerInfo {
@@ -353,10 +269,6 @@ body::-webkit-scrollbar {
 }
 
 /* -------------ID------------- */
-#cuerpo {
-  text-align: justify;
-  font-family: Arial, Helvetica, sans-serif;
-}
 
 .rosaDayusky {
   background-color: #c98484;
@@ -454,7 +366,7 @@ body::-webkit-scrollbar {
 
 @keyframes pop {
   0% { transform: scale(1); }
-  50% { transform: scale(2.5); }
+  50% { transform: scale(1.2); }
   100% { transform: scale(1); }
 }
 .pop-animation {
@@ -564,3 +476,88 @@ body::-webkit-scrollbar {
   border: solid red;
 }
 
+.error404Img {
+  max-width: 25em;
+  max-height: 25em;
+}
+
+.error500Img {
+  max-width: 40em;
+  max-height: 30em;
+}
+
+.indexTitle {
+  font-size: 14em;
+  color: #1E0126;
+}
+
+.indexProgressBar {
+  border-radius: 0 2em 2em 0;
+  width:85%;
+  height:3em
+}
+
+.filterInvert {
+  filter: invert(100%);
+}
+
+.roundedCard {
+  border-radius: 2em;
+}
+
+.levelDifficulty {
+  height:1.5em;
+  border-radius: 0 0 0.6em 0.6em;
+}
+
+.linkLogo {
+  font-size: 1.5em;color: #1E0126;
+  text-decoration: none;
+}
+
+.userImg {
+  max-width: 2em;
+}
+
+.friendCodeImg {
+  max-width: 3em;
+}
+
+#moreInformationDiv {
+  margin-left:10em;
+  margin-right: 10em;
+}
+
+#error500body{
+  background-color: #ffa919;
+}
+
+#tutorialContent {
+  border:0; 
+  background-color: #F2E7DC;
+}
+
+#footerList {
+  font-size: 0.9em;
+}
+
+.userIcon {
+  max-height: 10em;
+}
+
+#levelText {
+  font-size: 1.2em;
+}
+
+#profileProgress {
+  height:1.8em;
+}
+
+#pointsSpan{
+  position: absolute;
+}
+
+#scoreAdded {
+  position: absolute;
+  opacity: 0;
+}

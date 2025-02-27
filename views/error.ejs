@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="es">
   <%-include('partials/head')%>
-  <body style="background-color: #ffa919;">
+  <body id="error500body">
     <%-include('partials/headerLogo')%>
     <div class="d-flex align-items-center">
       <div class="row justify-content-center text-center w-100">
           <h1 class="pb-4">Por las barbas de Johannes Brahms</h1>
           <div class="col">
-            <img src="/images/error500.jpg" style="max-width: 40em; max-height: 30em;">
+            <img src="/images/error500.jpg" class="error500Img">
           </div>
           <% if(message) { %>
             <div class="col text-start">
