@@ -21,12 +21,19 @@ const GameState = {
         fallos: 0,
         times: [],
         individualTimes: [],
+        notes: [],
+        results: [],
         individualTime: 0,
         gameStarted: false,
         streak: 0,
         difficulty: null,
         points: 0,
-        pointsToAdd: 0
+        pointsToAdd: 0,
+        perfectCounter: 0,
+        excellentCounter: 0,
+        greatCounter: 0,
+        goodCounter: 0,
+        okCounter: 0
     },
 
     elements: {},
@@ -156,6 +163,7 @@ const GameState = {
         let clef = randomClef(this.config.CLEF_PROB);
         dibujarNota(note, clef);
         this.current.expectedNote = getNote(note, clef);
+        this.current.notes.push(getNote(note,clef) + getOctave(note,clef))
     },
 
     // Verificar si la nota presionada es correcta
@@ -172,6 +180,7 @@ const GameState = {
 
     // Manejar nota correcta
     handleCorrectNote() {
+        this.current.results.push(true)
         this.current.aciertos++;
         this.current.streak++;
         const feedback = this.getFeedback(this.current.individualTime);
@@ -183,19 +192,29 @@ const GameState = {
 
     // Obtener feedback basado en tiempo de respuesta
     getFeedback(time) {
-        if (time < this.config.PERFORMANCE.PERFECT.THRESHOLD) 
+        if (time < this.config.PERFORMANCE.PERFECT.THRESHOLD) {
+            this.current.perfectCounter++
             return this.config.PERFORMANCE.PERFECT;
-        if (time < this.config.PERFORMANCE.EXCELLENT.THRESHOLD) 
+        }
+        if (time < this.config.PERFORMANCE.EXCELLENT.THRESHOLD) {
+            this.current.excellentCounter++
             return this.config.PERFORMANCE.EXCELLENT;
-        if (time < this.config.PERFORMANCE.GREAT.THRESHOLD) 
+        } 
+        if (time < this.config.PERFORMANCE.GREAT.THRESHOLD) {
+            this.current.greatCounter++
             return this.config.PERFORMANCE.GREAT;
-        if (time < this.config.PERFORMANCE.GOOD.THRESHOLD) 
+        } 
+        if (time < this.config.PERFORMANCE.GOOD.THRESHOLD) {
+            this.current.goodCounter++
             return this.config.PERFORMANCE.GOOD;
+        } 
+        this.current.okCounter++
         return this.config.PERFORMANCE.OK;
     },
 
     // Manejar nota incorrecta
     handleWrongNote(pressedNote) {
+        this.current.results.push(false)
         this.current.fallos++;
         this.current.streak = 0;
         $(`.note${pressedNote}`).each((_, ele) => flashBackground(ele, this.config.COLOR_WRONG));
@@ -209,8 +228,22 @@ const GameState = {
         this.openResultDiv();
         if(this.current.difficulty === "TRIAL") setTimeout(() => this.showFidelization(), 500);
         else setTimeout(() => this.showResults(), 500);
-    },
+        console.log("id " + this.userData.locals.id)
+        console.log("dificultad " + this.current.difficulty)
+        console.log("perfectos " + this.current.perfectCounter)
+        console.log("excelentes " + this.current.excellentCounter)
+        console.log("genial " + this.current.greatCounter)
+        console.log("Bien " + this.current.goodCounter)
+        console.log("Ok " + this.current.okCounter)
+        console.log("Aciertos " + this.current.aciertos)
+        console.log("Fallos " + this.current.fallos)
+        console.log("puntuacion " + this.current.points)
+        console.log(JSON.stringify(this.current.individualTimes))
+        console.log(JSON.stringify(this.current.notes))
+        console.log(JSON.stringify(this.current.results))
 
+    },
+    
     // Abrir div de resultados
     openResultDiv() {
         this.elements.$divResultados.css("height", this.elements.$divFeedback.css("height")).addClass('show');
@@ -257,7 +290,7 @@ const GameState = {
     showFidelization() {
         let percentage = Math.round((this.current.aciertos / this.config.ROUNDS) * 100);
         this.elements.$resultSpan.text(percentage + "%");
-        
+        console.log("Puntuacion " + this.current.points)
         setTimeout(() => this.elements.$resultDiv.css('opacity', 1), 500);
         setTimeout(() => this.elements.$experienceDiv.css('opacity', 1), 1000);
         setTimeout(() => this.elements.$totalExpDiv.css('opacity', 1), 1500);
@@ -389,12 +422,19 @@ const GameState = {
         this.current.individualTime = 0;
         this.current.gameStarted = false;
         this.current.streak = 0;
-        
+        this.current.points = 0;
+        this.current.perfectCounter = 0;
+        this.current.excellentCounter = 0;
+        this.current.greatCounter = 0;
+        this.current.goodCounter = 0;
+        this.current.okCounter = 0;        
+        this.current.notes = [];        
+        this.current.results = [];        
         // Reiniciar interfaz
         this.elements.$progressBar.css("width", "0%");
         this.elements.$streak.css('opacity', 0);
         this.elements.$startBtn.show();
-        
+        this.elements.$pointsSpan.text(0)
         // Reiniciar cronómetro
         this.cronometro = new Cronometro();
         

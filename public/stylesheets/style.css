@@ -521,6 +521,7 @@ body::-webkit-scrollbar {
 
 .friendCodeImg {
   max-width: 3em;
+  cursor:pointer;
 }
 
 #moreInformationDiv {

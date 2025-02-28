@@ -56,8 +56,16 @@ function notaDesplazada(nota) {
   return notas[nuevaPosicion];
 }
 
-function getOctave(note) {
-  return note[1]
+function getOctave(note, clef) {
+  if (clef === "treble") return note[1]; // Mantiene la octava original en clave de sol
+
+  const octaveMap = {
+    "b5": 4, "a5": 4,
+    "g5": 3, "f5": 3, "e5": 3, "d5": 3, "c5": 3, "b4": 3, "a4": 3,
+    "g4": 2, "f4": 2, "e4": 2, "d4": 2, "c4": 2, "b3": 2
+  };
+
+  return octaveMap[note] || null;
 }
 
 export { dibujarNota, emptyClef, randomNote, randomClef, getNote, getOctave, resetCanvas };
