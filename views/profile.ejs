@@ -44,11 +44,51 @@
       </div>
       <div class="col-8 vh-85 scrollable container-fluid">
         <h1 class="rounded-4">Mejores partidas</h1>
+        <div class="row mx-5">
+          <div class="col my-4 text-center pt-3 secondPlaces" style="background-color: #C0BEBE; border-radius: 2em 2em 0 0;">
+            <div class="row rounded-5 p-2 bg-white mx-1">
+                <img src="/images/crown.svg" class="crownImg">
+                <h1><%=topRecords[1].points%> ptos.</h1>
+                <h2><%=topRecords[1].time.day%>/<%=topRecords[1].time.month%>/<%=topRecords[1].time.year%></h2>
+                <h2>Atrapa-do</h2>
+                <h4><%=topRecords[1].difficulty%></h4>
+            </div>
+            <div class="row my-2 p-1">
+              <h1>2º</h1>
+            </div>
+          </div>
+          <div class="col my-4 text-center pt-3" style="background-color: #EBD244; border-radius: 2em 2em 0 0;">
+            <div class="row rounded-5 p-2 bg-white mx-1">
+                <img src="/images/crown.svg" class="crownImg">
+                <h1><%=topRecords[0].points%> ptos.</h1>
+                <h2><%=topRecords[0].time.day%>/<%=topRecords[0].time.month%>/<%=topRecords[0].time.year%></h2>
+                <h2>Atrapa-do</h2>
+                <h4><%=topRecords[0].difficulty%></h4>
+            </div>
+            <div class="row my-2 p-1">
+              <h1>1º</h1>
+            </div>
+          </div>
+          <div class="col my-4 text-center pt-3 secondPlaces" style="background-color: #B75D0E; border-radius: 2em 2em 0 0;">
+            <div class="row rounded-5 p-2 bg-white mx-1">
+                <img src="/images/crown.svg" class="crownImg">
+                <h1><%=topRecords[2].points%> ptos.</h1>
+                <h2><%=topRecords[2].time.day%>/<%=topRecords[2].time.month%>/<%=topRecords[2].time.year%></h2>
+                <h2>Atrapa-do</h2>
+                <h4><%=topRecords[2].difficulty%></h4>
+            </div>
+            <div class="row my-2 p-1 " style="background-color: #B75D0E;">
+              <h1>3º</h1>
+            </div>
+          </div>
+        </div>
+        
         <h1 class="rounded-4">Historial</h1>
+        <h1><%=records[0].difficulty%></h1>
+        <h1><%=topRecords[0].difficulty%></h1>
       </div>
     </div>  
     <%-include('partials/footer') %>
-
 
     <div id="exampleModal" class="modal" tabindex="-1">
       <div class="modal-dialog modal-dialog-centered">

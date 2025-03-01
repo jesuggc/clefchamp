@@ -101,10 +101,9 @@ const GameState = {
         // Mostrar tutorial
         emptyClef();
         
-        if(this.current.difficulty === "TRIAL") {
+        if (this.current.difficulty === "TRIAL" || this.userData.locals.preferences.showTutorial) {
             new bootstrap.Modal(this.elements.$tutorialModal).show();
-        }  else if(this.userData.locals.preferences.showTutorial) new bootstrap.Modal(this.elements.$tutorialModal).show();
-        
+        }
         
         // Configurar eventos
         this.setupEventListeners();
@@ -228,19 +227,7 @@ const GameState = {
         this.openResultDiv();
         if(this.current.difficulty === "TRIAL") setTimeout(() => this.showFidelization(), 500);
         else setTimeout(() => this.showResults(), 500);
-        console.log("id " + this.userData.locals.id)
-        console.log("dificultad " + this.current.difficulty)
-        console.log("perfectos " + this.current.perfectCounter)
-        console.log("excelentes " + this.current.excellentCounter)
-        console.log("genial " + this.current.greatCounter)
-        console.log("Bien " + this.current.goodCounter)
-        console.log("Ok " + this.current.okCounter)
-        console.log("Aciertos " + this.current.aciertos)
-        console.log("Fallos " + this.current.fallos)
-        console.log("puntuacion " + this.current.points)
-        console.log(JSON.stringify(this.current.individualTimes))
-        console.log(JSON.stringify(this.current.notes))
-        console.log(JSON.stringify(this.current.results))
+        this.saveRecords()
 
     },
     
@@ -363,16 +350,42 @@ const GameState = {
         }
     },
 
+    async saveRecords() {
+        const userId = this.current.difficulty === "TRIAL" ? -1 : this.userData.locals.id
+        await fetch('/play/saveRecords', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                id: userId,
+                dificultad: this.current.difficulty,
+                perfecto: this.current.perfectCounter,
+                excelente: this.current.excellentCounter,
+                genial: this.current.greatCounter,
+                bien: this.current.goodCounter,
+                ok: this.current.okCounter,
+                aciertos: this.current.aciertos,
+                fallos: this.current.fallos,
+                puntuacion: this.current.points,
+                tiemposIndividuales: this.current.individualTimes,
+                notas: this.current.notes,
+                resultados: this.current.results
+            })
+        })
+        .then(response => response.json())
+        .then(data => console.log('Respuesta del servidor:', data.mensaje))
+        .catch(error => console.error('Error al enviar los datos:', error));
+    },
     // Mostrar modal de subida de nivel
     showLevelUpModal() {
         // Implementación del modal de nivel
     },
 
     // Obtener tiempo de respuesta
-    getTime() {
+    getTime() {  
         let totalTime = this.cronometro.getTime();
         this.current.times.push(totalTime);
-        
         if (this.current.contador === 0) {
             this.current.individualTimes.push(totalTime);
             this.current.individualTime = totalTime;

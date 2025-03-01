@@ -75,4 +75,33 @@ router.put('/addExperience', isLoggedIn, (request,response) => {
   })
 });
 
+router.post('/saveRecords', (req, res) => {
+  const {
+      id,
+      dificultad,
+      perfecto,
+      excelente,
+      genial,
+      bien,
+      ok,
+      aciertos,
+      fallos,
+      puntuacion,
+      tiemposIndividuales,
+      notas,
+      resultados
+  } = req.body;
+
+  dao.saveRecord(id,dificultad,perfecto,excelente,genial,bien,ok,aciertos,fallos,puntuacion,tiemposIndividuales,notas,resultados, (err,result) => {
+    if(err) {
+      console.log("ERROR: " + err)
+      res.status(500).json({ message: "Error en saveRecords" }); 
+    }
+    else res.json(true);
+  })
+
+});
+
+
+
 module.exports = router;

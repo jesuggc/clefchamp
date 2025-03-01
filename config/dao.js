@@ -240,6 +240,78 @@ class DAO {
             }
         })
     }
+
+    saveRecord( id, dificultad, perfecto, excelente, genial, bien, ok, aciertos, fallos, puntuacion, tiemposIndividuales, notas, resultados, callback) {
+        this.pool.getConnection((err, connection) => {
+            if (err) callback(err, null);
+            else {
+                let query = `INSERT INTO userrecord 
+                    (userId, difficulty, perfect, excellent, great, good, ok, success, error, points, notes, results, individualTimes) 
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+                
+                let values = [
+                    id,
+                    dificultad,
+                    perfecto,
+                    excelente,
+                    genial,
+                    bien,
+                    ok,
+                    aciertos,
+                    fallos,
+                    puntuacion,
+                    JSON.stringify(notas), 
+                    JSON.stringify(resultados),
+                    JSON.stringify(tiemposIndividuales)
+                ];
+                connection.query(query, values, (err, resultado) => {
+                    connection.release();
+                    if (err) callback(err, null);
+                    else callback(null, true);
+                });
+            }
+        });
+    }
+
+    getRecordsFromId(userId, callback) {
+        this.pool.getConnection((err, connection) => {
+            if (err) callback(err, null);
+            else {
+                let query = "SELECT * FROM userrecord WHERE userId = ?";
+                connection.query(query, [userId], (err, results) => {
+                    connection.release();
+                    if (err) callback(err, null);
+                    else callback(null, results);
+                });
+            }
+        });
+    }
+    
+    getTopRecordsFromId(userId, callback) {
+        this.pool.getConnection((err, connection) => {
+            if (err) callback(err, null);
+            else {
+                let query = "SELECT * FROM userrecord WHERE userId = ? ORDER BY points DESC LIMIT 3";
+                connection.query(query, [userId], (err, resultado) => {
+                    connection.release();
+                    if (err) callback(err, null);
+                    else {
+                        resultado = resultado.map(record => {
+                            let date = new Date(record.time);
+                            record.time = {
+                                day: date.getDate(), 
+                                month: date.getMonth() + 1, 
+                                year: date.getFullYear()
+                            };
+                            return record;
+                        });
+            
+                        callback(null, resultado);
+                    }
+                });
+            }
+        });
+    }
 }
    
 module.exports = DAO;

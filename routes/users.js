@@ -32,7 +32,17 @@ router.get("/api/getLocals", isLoggedIn, (req, res) => {
 });
 
 router.get("/profile", isLoggedIn, (req, res) => {
-  res.render("profile");
+  dao.getRecordsFromId(res.locals.user.id, (err, records) => {
+    if (err) res.status(500).json({ message: "Error al obtener los registros" });
+    else {
+      dao.getTopRecordsFromId(res.locals.user.id, (err, topRecords) => {
+        if (err) res.status(500).json({ message: "Error al obtener los registros" });
+        else {
+          res.render("profile", {records, topRecords});
+        }
+      });
+    }
+  });
 });
 
 router.get("/logout", isLoggedIn, (req, res) => {
