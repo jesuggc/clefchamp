@@ -277,11 +277,26 @@ class DAO {
         this.pool.getConnection((err, connection) => {
             if (err) callback(err, null);
             else {
-                let query = "SELECT * FROM userrecord WHERE userId = ?";
-                connection.query(query, [userId], (err, results) => {
+                let query = "SELECT * FROM userrecord WHERE userId = ? ORDER BY time DESC";
+                connection.query(query, [userId], (err, resultado) => {
                     connection.release();
                     if (err) callback(err, null);
-                    else callback(null, results);
+                    else {
+                        resultado = resultado.map(record => {
+                            let date = new Date(record.time);
+                            record.time = {
+                                seconds: date.getSeconds().toString().padStart(2, '0'),
+                                minutes: date.getMinutes().toString().padStart(2, '0'),
+                                hour: date.getHours().toString().padStart(2, '0'),
+                                day: date.getDate().toString().padStart(2, '0'), 
+                                month: (date.getMonth() + 1).toString().padStart(2, '0'), 
+                                year: date.getFullYear()
+                            };
+                            return record;
+                        });
+            
+                        callback(null, resultado);
+                    }
                 });
             }
         });
@@ -299,8 +314,8 @@ class DAO {
                         resultado = resultado.map(record => {
                             let date = new Date(record.time);
                             record.time = {
-                                day: date.getDate(), 
-                                month: date.getMonth() + 1, 
+                                day: date.getDate().toString().padStart(2, '0'), 
+                                month: (date.getMonth() + 1).toString().padStart(2, '0'), 
                                 year: date.getFullYear()
                             };
                             return record;
