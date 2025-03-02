@@ -26,7 +26,8 @@ router.use((req, res, next) => {
 })
 
 router.get("/", isLoggedIn, (request,response) => {
-  response.render('home')
+  console.log(lastPlayed)
+  response.render('home', {lastPlayed} )
 })
 
 router.get("/selectGame", isLoggedIn, (request,response) => {

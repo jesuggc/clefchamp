@@ -16,27 +16,70 @@
     </div>
     <% } else { %>  
     <div class="vh-90">
-      <div class="bg-secondary rightRounded row w-40">
+      <div class="row">
         <div class="col">
-          <div class="rightRounded justify-content-end mt-3 py-2 pe-4 d-flex w-60 bg-white">
-            <h3><%=user.name%></h3>
-          </div>
-          <div class="d-flex justify-content-end pt-3 text-white w-75">
-            <span><%=user.experience%>/<%=user.experience + user.experienceToNext%></span>
-          </div>
-          <div class="progress" role="progressbar" aria-label="Success striped example" aria-valuenow="<%=user.experience%>" aria-valuemin="0" aria-valuemax="<%=user.experience + user.experienceToNext%>">
-            <% let percentage = ((user.experience)/(user.experience + user.experienceToNext))*100 %>
-            <div id="levelBar" class="progress-bar bg-success slider overflow-visible text-dark" style="width: <%=percentage%>%" >
-              <h3 id="levelText" class="ps-5 pt-1">Nivel <span><%=user.level%></span></h3>
+          <div class="bg-secondary rightRounded row w-80">
+            <div class="col">
+              <div class="rightRounded justify-content-end mt-3 py-2 pe-4 d-flex w-60 bg-white">
+                <h3><%=user.name%></h3>
+              </div>
+              <div class="d-flex justify-content-end pt-3 text-white w-75">
+                <span><%=user.experience%>/<%=user.experience + user.experienceToNext%></span>
+              </div>
+              <div class="progress" role="progressbar" aria-label="Success striped example" aria-valuenow="<%=user.experience%>" aria-valuemin="0" aria-valuemax="<%=user.experience + user.experienceToNext%>">
+                <% let percentage = ((user.experience)/(user.experience + user.experienceToNext))*100 %>
+                <div id="levelBar" class="progress-bar bg-success slider overflow-visible text-dark" style="width: <%=percentage%>%" >
+                  <h3 id="levelText" class="ps-5 pt-1">Nivel <span><%=user.level%></span></h3>
+                </div>
+              </div>
+            </div>
+            <div class="col-3 d-flex align-items-center justify-content-center">
+              <img src="/images/<%=user.icon%>" class="rounded-circle my-1 me-2 userIcon" >
             </div>
           </div>
         </div>
-        <div class="col-3 d-flex align-items-center justify-content-center">
-          <img src="/images/<%=user.icon%>" class="rounded-circle my-1 me-2 userIcon" >
+        <div class="col">
+          <div class="row row-cols-2 g-2 me-2">
+            <div class="col">
+              <button class="acceptButton-sm w-100 p-4">Estadísticas</button>
+            </div>
+            <div class="col">
+              <button class="acceptButton-sm w-100 p-4">Perfil</button>
+            </div>
+            <div class="col">
+              <button class="acceptButton-sm w-100 p-4">Ajustes</button>
+            </div>
+            <div class="col">
+              <button class="acceptButton-sm w-100 p-4">Amigos</button>
+            </div>
+          </div>
         </div>
+      </div>
+      <div class="d-flex bg-white justify-content-center my-4">
+        <div class="bg-dark p-4 rounded-4" style="width:4vw; height: 4vw; margin-left:0.5vw; margin-right: 0.5vw;">.</div>
+        <div class="bg-dark p-4 rounded-4" style="width:4vw; height: 4vw; margin-left:0.5vw; margin-right: 0.5vw;">.</div>
+        <div class="bg-dark p-4 rounded-4" style="width:4vw; height: 4vw; margin-left:0.5vw; margin-right: 0.5vw;">.</div>
+        <div class="bg-dark p-4 rounded-4" style="width:4vw; height: 4vw; margin-left:0.5vw; margin-right: 0.5vw;">.</div>
+        <div class="bg-dark p-4 rounded-4" style="width:4vw; height: 4vw; margin-left:0.5vw; margin-right: 0.5vw;">.</div>
+        <div class="bg-dark p-4 rounded-4" style="width:4vw; height: 4vw; margin-left:0.5vw; margin-right: 0.5vw;">.</div>
+        <div class="bg-dark p-4 rounded-4" style="width:4vw; height: 4vw; margin-left:0.5vw; margin-right: 0.5vw;">.</div>
+        <div class="bg-dark p-4 rounded-4" style="width:4vw; height: 4vw; margin-left:0.5vw; margin-right: 0.5vw;">.</div>
+        <div class="bg-dark p-4 rounded-4" style="width:4vw; height: 4vw; margin-left:0.5vw; margin-right: 0.5vw;">.</div>
+        <div class="bg-dark p-4 rounded-4" style="width:4vw; height: 4vw; margin-left:0.5vw; margin-right: 0.5vw;">.</div>
+        <div class="bg-dark p-4 rounded-4" style="width:4vw; height: 4vw; margin-left:0.5vw; margin-right: 0.5vw;">.</div>
+        <div class="bg-dark p-4 rounded-4" style="width:4vw; height: 4vw; margin-left:0.5vw; margin-right: 0.5vw;">.</div>
+        <div class="bg-dark p-4 rounded-4" style="width:4vw; height: 4vw; margin-left:0.5vw; margin-right: 0.5vw;">.</div>
+        <div class="bg-dark p-4 rounded-4" style="width:4vw; height: 4vw; margin-left:0.5vw; margin-right: 0.5vw;">.</div>
+        <div class="bg-dark p-4 rounded-4" style="width:4vw; height: 4vw; margin-left:0.5vw; margin-right: 0.5vw;">.</div>
+        <div class="bg-dark p-4 rounded-4" style="width:4vw; height: 4vw; margin-left:0.5vw; margin-right: 0.5vw;">.</div>
+        <div class="bg-dark p-4 rounded-4" style="width:4vw; height: 4vw; margin-left:0.5vw; margin-right: 0.5vw;">.</div>
+        <div class="bg-dark p-4 rounded-4" style="width:4vw; height: 4vw; margin-left:0.5vw; margin-right: 0.5vw;">.</div>
+        <div class="bg-dark p-4 rounded-4" style="width:4vw; height: 4vw; margin-left:0.5vw; margin-right: 0.5vw;">.</div>
+        <div class="bg-dark p-4 rounded-4" style="width:4vw; height: 4vw; margin-left:0.5vw; margin-right: 0.5vw;">.</div>
       </div>
       <div class="d-flex justify-content-center m-5">
         <a href="/play/selectGame"><button class="cancelButton me-5">Jugar</button></a>
+        <a id="lastPlayed"><button id="lastPlayedBtn" class="cancelButton me-5"></button></a>
       </div>
         <!-- ----- -->
       <audio id="audio" ></audio>
@@ -81,10 +124,21 @@
     <%-include('partials/footer') %>
     <% if(user) { %> <script src="/javascripts/musicPlayer.js"></script> <% } %>
     <script>
-      // Configurar la recarga cada 5 segundos (5000 ms)
-      // setInterval(() => {
-      //   window.location.reload();
-      // }, 1500);
+      $(document).ready(function() {
+        let difficulty = localStorage.getItem("lastPlayed") || "EASY"; // Valor por defecto si es null
+        
+        // Configurar enlace dinámico
+        $("#lastPlayed").attr("href", "/play/atrapado/" + difficulty.toLowerCase());
+        
+        // Determinar el texto de la dificultad
+        let dificultad = "Fácil"; // Valor por defecto
+        if (difficulty === "NORMAL") dificultad = "Normal";
+        if (difficulty === "HARD") dificultad = "Difícil";
+        
+        // Actualizar el texto del botón
+        $("#lastPlayedBtn").text("Jugar a Atrapa-do " + dificultad);
+      })
+
     </script>
   </body>
 </html>

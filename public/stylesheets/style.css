@@ -18,11 +18,15 @@
 .result {
   flex: 1 1 auto;
 }
+
 .w-40 {
   width:40%;
 }
 .w-60 {
   width:60%;
+}
+.w-80 {
+  width:80%;
 }
 .vh-5 {
   height:5vh;

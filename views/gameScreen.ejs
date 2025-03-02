@@ -4,6 +4,12 @@
   <body class="colorNuevo5">
     <%-include('partials/header') %>
     <div class="vh-90">
+      <div class="mb-4 p-2">
+        <% if (locals.mode !== "TRIAL" ) { %>
+          <button class="acceptButton-sm"><a href="/play/selectGame">Volver</a></button>
+        <% } %>
+        <img id="helpBtn" src="/images/info.svg" class="cursorPointer" style="max-width: 3em">
+      </div>
       <div class="d-flex align-items-center justify-content-center gap-4">
         <%-include('partials/playground') %>
         <% if (locals.mode !== "TRIAL" ) { %>

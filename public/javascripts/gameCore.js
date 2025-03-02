@@ -67,7 +67,7 @@ const GameState = {
         this.current.difficulty = window.location.pathname.split("/")[3].toUpperCase();
         if(this.current.difficulty !== "TRIAL") await this.getLocals()
         Object.assign(this.config, getConfig(this.current.difficulty));
-        
+        localStorage.setItem("lastPlayed",this.current.difficulty)
         // Inicializar mapeos de teclas
         this.keyMapping.keyMap = Object.fromEntries(this.keyMapping.notes.map(({ key, note }) => [key, note]));
         this.keyMapping.visualKeyMap = Object.fromEntries(this.keyMapping.notes.map(({ key, note }) => [key, `.note${note}`]));
@@ -92,7 +92,8 @@ const GameState = {
             $playAgainBtn: $("#playAgainBtn"), 
             $playAgainDiv: $("#playAgainDiv"),
             $pointsSpan: $("#pointsSpan"),
-            $scoreAdded: $("#scoreAdded") 
+            $scoreAdded: $("#scoreAdded"),
+            $helpBtn: $("#helpBtn") 
         };
 
         // Inicializar cronómetro
@@ -114,7 +115,7 @@ const GameState = {
         $(document).on("keydown", (event) => this.handleKeyDown(event));
         $(document).on("keyup", (event) => this.handleKeyUp(event));
         this.elements.$startBtn.on("click", () => this.startGame());
-        
+        this.elements.$helpBtn.on("click", () => new bootstrap.Modal(this.elements.$tutorialModal).show());
         // Agregar el evento para volver a jugar
         this.elements.$playAgainBtn.on("click", () => this.resetGame());
     },
@@ -374,7 +375,6 @@ const GameState = {
             })
         })
         .then(response => response.json())
-        .then(data => console.log('Respuesta del servidor:', data.mensaje))
         .catch(error => console.error('Error al enviar los datos:', error));
     },
     // Mostrar modal de subida de nivel
