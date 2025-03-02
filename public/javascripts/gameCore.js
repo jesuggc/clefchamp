@@ -184,7 +184,8 @@ const GameState = {
         this.current.aciertos++;
         this.current.streak++;
         const feedback = this.getFeedback(this.current.individualTime);
-        this.current.pointsToAdd = (feedback.BASE_POINTS + feedback.EXTRA_POINTS * (feedback.THRESHOLD - this.current.individualTime));
+        if (feedback!=this.config.PERFORMANCE.OK )this.current.pointsToAdd = (feedback.BASE_POINTS + feedback.EXTRA_POINTS * (feedback.THRESHOLD  - this.current.individualTime));
+        else this.current.pointsToAdd = feedback.BASE_POINTS
         this.current.points += this.current.pointsToAdd
         this.elements.$successMessage.text(feedback.TITLE).css("color", feedback.COLOR);
         fadeOut(this.elements.$successMessage);

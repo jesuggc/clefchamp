@@ -3,13 +3,7 @@
   <%-include('partials/head') %>
   <body class="colorNuevo5">
     <%-include('partials/header') %>
-    <div class="vh-90">
-      <div class="mb-4 p-2">
-        <% if (locals.mode !== "TRIAL" ) { %>
-          <button class="acceptButton-sm"><a href="/play/selectGame">Volver</a></button>
-        <% } %>
-        <img id="helpBtn" src="/images/info.svg" class="cursorPointer" style="max-width: 3em">
-      </div>
+    <div class="vh-90" id="mainContent">
       <div class="d-flex align-items-center justify-content-center gap-4">
         <%-include('partials/playground') %>
         <% if (locals.mode !== "TRIAL" ) { %>
@@ -22,7 +16,7 @@
             </div>
             <div id="totalExpDiv" class="colorNuevo5 rounded-4 p-2">
               <h2>Nivel <span id="levelSpan"><%=locals.user.level%></span></h2>
-              <div class="progress bg-white" role="progressbar" aria-label="Example 1px high" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" style="height: 8px;">
+              <div class="progress" role="progressbar" aria-label="Example 1px high" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" style="height: 8px; background-color: white;">
                 <% const progress = ((locals.user.experience) / (locals.user.experience + locals.user.experienceToNext)) * 100; %>
                 <div id="experienceBar" class="progress-bar" style="width: <%=progress%>%"></div>
               </div>
@@ -34,13 +28,15 @@
         <% } else { %>
           <div id="divResultados" class="box rounded-4 p-4 d-flex flex-column text-center">
             <div id="resultDiv">
-              <h2>Has obtenido un <span id="resultSpan"> </span></h2>
+              <h2>Unete! <span id="resultSpan"> </span></h2>
             </div> 
             <div id="experienceDiv">
-              <h2><span id="experienceSpan">Crea una cuenta para seguir mejorando y guardar tu progreso</span></h2>
+              <h1><span id="experienceSpan"></span></h1>
             </div>
-            <div id="totalExpDiv" class="rounded-4 p-2">
-              <a href="/users/register"><button class="w-100 acceptButton-lg">Crear cuenta</button></a>
+            <div id="totalExpDiv" class="colorNuevo5 rounded-4 p-2">
+            </div>
+            <div id="playAgainDiv" class="p-2">
+              <button id="playAgainBtn" class="acceptButton-sm">Volver a jugar</button>
             </div>
           </div>
         <% } %>
@@ -52,7 +48,7 @@
     <%-include('partials/footer') %>
     <div id="tutorialModal" class="modal " tabindex="-1" >
       <div class="modal-dialog modal-dialog-centered modal-lg">
-        <div id="tutorialContent" class="modal-content rounded-4 colorNuevo5">
+        <div class="modal-content rounded-4 colorNuevo5" style="border:0; background-color: #F2E7DC">
           <div class="modal-body d-flex align-items-center">
             <h3 class="modal-title mx-auto">¿Como funciona?</h3>
           </div>
@@ -60,9 +56,9 @@
             <!-- -- -->
             <div id="carouselExampleIndicators" class="carousel slide">
               <div class="carousel-indicators">
-                <button class="filterInvert active" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" aria-current="true" aria-label="Slide 1"></button>
-                <button class="filterInvert" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
-                <button class="filterInvert" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                <button style="filter: invert(100%);" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                <button style="filter: invert(100%);" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                <button style="filter: invert(100%);" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
               </div>
               <div class="carousel-inner">
                 <div class="carousel-item active row">
@@ -75,11 +71,11 @@
                   <p class="text-center my-5">Adivina el mayor numero de notas en el menor tiempo posible</p>
                 </div>
               </div>
-              <button class="carousel-control-prev" class="filterInvert" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+              <button class="carousel-control-prev" style="filter: invert(100%);" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                 <span class="visually-hidden">Previous</span>
               </button>
-              <button class="carousel-control-next" class="filterInvert" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+              <button class="carousel-control-next" style="filter: invert(100%);" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
                 <span class="carousel-control-next-icon" aria-hidden="true"></span>
                 <span class="visually-hidden">Next</span>
               </button>
@@ -97,7 +93,8 @@
               <button id="closeModal" type="button" data-bs-dismiss="modal" class="acceptButton-sm mx-auto">Aceptar</button>
             </div>
             <% if (locals.mode !== "TRIAL" ) { %>
-              <div class="col"></div>
+              <div class="col">
+              </div>
             <% } %>
           </div>
         </div>
@@ -109,10 +106,10 @@
         if (event.key === "F2") {
 
           $("#myCanvas").css("background-color","green")
-          $("#successMessage").css('opacity',1)
+          $("#successMessage").css("opacity",1)
           $("#successMessage").addClass("bg-warning")
           $(".col-8").addClass("bg-danger")
-          $("#streak").css('opacity',1)
+          $("#streak").css("opacity",1)
           $("#streak").addClass("bg-warning")
         }
       })
@@ -120,9 +117,9 @@
         if (event.key === "F2") {
           $("#myCanvas").css("background-color","")
           $("#successMessage").removeClass("bg-warning")
-          $("#successMessage").css('opacity',0)
+          $("#successMessage").css("opacity",0)
           $(".col-8").removeClass("bg-danger")
-          $("#streak").css('opacity',0)
+          $("#streak").css("opacity",0)
           $("#streak").removeClass("bg-warning")
         }
       })
