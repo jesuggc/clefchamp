@@ -15,6 +15,23 @@
   background-color: #F2E7DC;
 }
 
+.colorNuevo6 {
+  background-color: #8C7785;
+}
+.colorNuevo7 {
+  background-color: #350D40;
+}
+.colorNuevo8 {
+  background-color: #587B7F;
+}
+.colorNuevo9 {
+  background-color: #1E2019;
+}
+.colorNuevo10 {
+  background-color: #F86624;
+}
+
+
 .result {
   flex: 1 1 auto;
 }
