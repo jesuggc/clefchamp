@@ -26,6 +26,11 @@ $(function() {
   
   // const songs = ['/audio/FurElise.mp3', 'song2.mp3', 'song3.mp3'];
   let currentSongIndex = 0;
+  let currentSoundImg = "/images/icons/volume-small.svg"
+  let noSoundImg = "/images/icons/volume-cross.svg"
+  let soundImg = "/images/icons/volume.svg"
+  let smallSoundImg = "/images/icons/volume-small.svg"
+  let loudSoundImg = "/images/icons/volume-loud.svg"
 
   // Cargar la canción actual
  function loadSong(index) {
@@ -81,6 +86,21 @@ $(function() {
 
   volumeControl.on('input', function() {
     audio.volume = volumeControl.val() / 100;
+    
+    if(audio.volume === 0 && currentSoundImg !== noSoundImg) {
+      $("#soundSvg").attr("src", noSoundImg);
+      currentSoundImg = noSoundImg
+    } else if (audio.volume <= 0.33 && currentSoundImg !== soundImg) {
+      $("#soundSvg").attr("src", soundImg);
+      currentSoundImg = soundImg
+    } else if (audio.volume > 0.33 && audio.volume <= 0.66 && currentSoundImg !== smallSoundImg) {
+      $("#soundSvg").attr("src", smallSoundImg);
+      currentSoundImg = smallSoundImg
+    } else if (audio.volume > 0.66 && audio.volume <= 1 && currentSoundImg !== loudSoundImg){
+      $("#soundSvg").attr("src", loudSoundImg);
+      currentSoundImg = loudSoundImg
+    }
+    console.log(audio.volume)
   });
 
   rewindBtn.on('click', function() {

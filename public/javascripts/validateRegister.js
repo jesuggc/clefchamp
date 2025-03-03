@@ -13,6 +13,7 @@ let nameLikeCheck = /^[a-zA-ZáéíóúüñÁÉÍÓÚÜÑ\s]+$/
 let nameLikeSizeCheck = /^.{3,}$/
 let allCheck = /^(?=.*[0-9])(?=.*[A-Z])(?=.*[^a-zA-Z0-9]).{8,}$/
 
+
 $("#confirmPassword").on("keyup", () => {
     $("#errorConfirm").remove()
     let password = $("#password").val()
@@ -57,32 +58,41 @@ $("#email").on("keyup", () => {
 
 $("#name").on("keyup",()=>{
 
-    $("#letterCheck").remove()
-    $("#letterSizeCheck").remove()
-
-    nombreBool = nameLikeCheck.test($("#name").val()) && nameLikeSizeCheck.test($("#name").val()) 
-   
-    if(nameLikeCheck.test($("#name").val()) === false ) $("#nameContainer").append(`<p class="red" id="letterCheck">Solo puede contener letras</p>`)
-    else $("#letterCheck").remove()
-
-    if(nameLikeSizeCheck.test($("#name").val()) === false ) $("#nameContainer").append(`<p class="red" id="letterSizeCheck">Nombre demasiado corto</p>`)
-    else $("#letterSizeCheck").remove()
-
+    let $name = $("#name");
+    let $nameCheck = $("#nameCheck");
+    
+    $name.removeClass("is-invalid");
+    $nameCheck.text("");
+    
+    let nameValue = $name.val();
+    let nameNoNumber = nameLikeCheck.test(nameValue);
+    let nameEnoughSize = nameLikeSizeCheck.test(nameValue);
+    
+    nombreBool = nameEnoughSize && nameNoNumber;
+    
+    if (!nameEnoughSize) {
+        $nameCheck.text("Nombre demasiado corto");
+        $name.addClass("is-invalid");
+    } else if (!nameNoNumber) {
+        $nameCheck.text("Solo puede contener letras");
+        $name.addClass("is-invalid");
+    }
 })
 
 $("#tagname").on("keyup",() => {
-
-    tagnameBool = specialCheck.test($("#tagname").val())
-    
+    let $tagname = $("#tagname");
+    let $tagCheck = $("#tagCheck");
+    let tagnameValue = $tagname.val();
+    tagnameBool = specialCheck.test(tagnameValue) // Si contiene caracteres especiales
+    // 
+    // "Ese alias ya está en uso"
     if(tagnameBool === true) {
-        $("#wrongTagname").remove()
-        $("#tagnameContainer").append(`<p id="wrongTagname" class="red">No puede contener caracteres especiales</p>`)
-        $("#correctTagname").remove()
-        $("#wrongTagname2").remove()
-    }
+        $tagname.addClass("is-invalid")
+        $tagCheck.text("No puede contener caracteres especiales")
+    }  
     else {
         
-        let tagname = $("#tagname").val().trim()
+        // let tagname = $("#tagname").val().trim()
         $.ajax({
             url: "/users/checkTagname",
             type: "GET",
@@ -92,7 +102,7 @@ $("#tagname").on("keyup",() => {
                 $("#wrongTagname2").remove()
                 $("#wrongTagname").remove()
                 tagnameBool = response.valido
-                if(response.valido === false) $("#tagnameContainer").append(`<p id="wrongTagname2" class="red">Ese alias ya está en uso</p>`)
+                if(response.valido === false) $("#tagnameContainer").append(`<p id="wrongTagname2" class="red"></p>`)
                 else $("#tagnameContainer").append(`<p id="correctTagname" style="background-color:green">Alias disponible</p>`)
                 
 
@@ -175,4 +185,5 @@ document.addEventListener('keydown', function (e) {
         e.preventDefault();
     }
 });
-$('#register').prop('disabled', false);
+
+$('#register').prop('disabled', true);
