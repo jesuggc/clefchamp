@@ -15,35 +15,40 @@ let allCheck = /^(?=.*[0-9])(?=.*[A-Z])(?=.*[^a-zA-Z0-9]).{8,}$/
 
 
 $("#confirmPassword").on("keyup", () => {
-    $("#errorConfirm").remove()
+    $("#confirmPassword").removeClass("is-invalid")
+    $("#invalidConfirm").prop("hidden",true)
+
     let password = $("#password").val()
     let confirmPassword = $("#confirmPassword").val()
     
     passwordCheckBool = password === confirmPassword
-    if(password !== confirmPassword) $("#confirmContainer").append(`<p class="red" id="errorConfirm">Las contraseñas deben coincidir</p>`)
-    else $("#errorConfirm").remove()
-        
+    if(!passwordCheckBool) {
+        $("#confirmPassword").addClass("is-invalid")
+        $("#invalidConfirm").prop("hidden",false)
+    } 
 })
 
 $("#password").on("keyup", () => {
+    let $password = $("#password");
+    let passwordVal = $password.val()
     $("#capitalCheck").remove()
     $("#sizeCheck").remove()
     $("#specialCheck").remove()
     $("#numberCheck").remove()
 
-    if(!capitalCheck.test($("#password").val()) === true) $("#passContainer").append(`<li class="red" id="capitalCheck">Debe contener una mayuscula</li>`)
+    if(!capitalCheck.test(passwordVal) === true) $("#passContainer").append(`<li class="red" id="capitalCheck">Debe contener una mayuscula</li>`)
     else $("#capitalCheck").remove()
 
-    if(!sizeCheck.test($("#password").val()) === true) $("#passContainer").append(`<li class="red" id="sizeCheck">Debe contener 8 caracteres</li>`)
+    if(!sizeCheck.test(passwordVal) === true) $("#passContainer").append(`<li class="red" id="sizeCheck">Debe contener 8 caracteres</li>`)
     else $("#sizeCheck").remove()
 
-    if(!specialCheck.test($("#password").val()) === true) $("#passContainer").append(`<li class="red" id="specialCheck">Debe contener 1 caracter especial</li>`)
+    if(!specialCheck.test(passwordVal) === true) $("#passContainer").append(`<li class="red" id="specialCheck">Debe contener 1 caracter especial</li>`)
     else $("#specialCheck").remove()
 
-    if(!numberCheck.test($("#password").val()) === true) $("#passContainer").append(`<li class="red" id="numberCheck">Debe contener 1 número</li>`)
+    if(!numberCheck.test(passwordVal) === true) $("#passContainer").append(`<li class="red" id="numberCheck">Debe contener 1 número</li>`)
     else $("#numberCheck").remove()
 
-    passwordBool = allCheck.test($("#password").val())
+    passwordBool = allCheck.test(passwordVal)
 })
 
 $("#email").on("keyup", () => {
