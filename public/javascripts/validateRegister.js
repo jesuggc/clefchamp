@@ -31,34 +31,31 @@ $("#confirmPassword").on("keyup", () => {
 $("#password").on("keyup", () => {
     let $password = $("#password");
     let passwordVal = $password.val()
-    $("#capitalCheck").remove()
-    $("#sizeCheck").remove()
-    $("#specialCheck").remove()
-    $("#numberCheck").remove()
+    $password.removeClass("is-invalid")
+    $("#capitalCheck").prop("hidden",true)
+    $("#sizeCheck").prop("hidden",true)
+    $("#specialCheck").prop("hidden",true)
+    $("#numberCheck").prop("hidden",true)
+    if(capitalCheck.test(passwordVal) === false) $("#capitalCheck").prop("hidden",false)
 
-    if(!capitalCheck.test(passwordVal) === true) $("#passContainer").append(`<li class="red" id="capitalCheck">Debe contener una mayuscula</li>`)
-    else $("#capitalCheck").remove()
+    if(sizeCheck.test(passwordVal) === false) $("#sizeCheck").prop("hidden",false)
 
-    if(!sizeCheck.test(passwordVal) === true) $("#passContainer").append(`<li class="red" id="sizeCheck">Debe contener 8 caracteres</li>`)
-    else $("#sizeCheck").remove()
+    if(specialCheck.test(passwordVal) === false) $("#specialCheck").prop("hidden",false)
 
-    if(!specialCheck.test(passwordVal) === true) $("#passContainer").append(`<li class="red" id="specialCheck">Debe contener 1 caracter especial</li>`)
-    else $("#specialCheck").remove()
-
-    if(!numberCheck.test(passwordVal) === true) $("#passContainer").append(`<li class="red" id="numberCheck">Debe contener 1 número</li>`)
-    else $("#numberCheck").remove()
+    if(numberCheck.test(passwordVal) === false) $("#numberCheck").prop("hidden",false)
 
     passwordBool = allCheck.test(passwordVal)
+    if(!passwordBool) $password.addClass("is-invalid")
 })
 
 $("#email").on("keyup", () => {
+    let $email = $("#email")
+    $email.removeClass("is-invalid")
+    let emailVal = $email.val()
     let emailCheck = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
-    $("#errorEmail").remove()
-    $("#wrongMail").remove()
-    emailBool = emailCheck.test($("#email").val())
+    emailBool = emailCheck.test(emailVal)
 
-    if(emailCheck.test($("#email").val()) === false) $("#emailContainer").append(`<p class="red" id="errorEmail">Dirección de correo no válida</p>`)
-    else $("#errorEmail").remove()
+    if(emailBool === false) $email.addClass("is-invalid")
 })
 
 $("#name").on("keyup",()=>{
@@ -86,30 +83,31 @@ $("#name").on("keyup",()=>{
 
 $("#tagname").on("keyup",() => {
     let $tagname = $("#tagname");
+    $tagname.removeClass("is-invalid")
+    $tagname.removeClass("is-valid")
     let $tagCheck = $("#tagCheck");
     let tagnameValue = $tagname.val();
-    tagnameBool = specialCheck.test(tagnameValue) // Si contiene caracteres especiales
-    // 
-    // "Ese alias ya está en uso"
-    if(tagnameBool === true) {
+    tagnameBool = !(specialCheck.test(tagnameValue))
+    if(tagnameBool === false) {
         $tagname.addClass("is-invalid")
         $tagCheck.text("No puede contener caracteres especiales")
     }  
     else {
         
-        // let tagname = $("#tagname").val().trim()
+        let tagname = $("#tagname").val().trim()
         $.ajax({
             url: "/users/checkTagname",
             type: "GET",
             data: { tagname },
             success: function(response) {
-                $("#correctTagname").remove()
-                $("#wrongTagname2").remove()
-                $("#wrongTagname").remove()
                 tagnameBool = response.valido
-                if(response.valido === false) $("#tagnameContainer").append(`<p id="wrongTagname2" class="red"></p>`)
-                else $("#tagnameContainer").append(`<p id="correctTagname" style="background-color:green">Alias disponible</p>`)
-                
+                if(tagnameBool) {
+                    $tagname.addClass("is-valid")
+                }
+                else {
+                    $tagname.addClass("is-invalid")
+                    $tagCheck.text("Este alias ya está en uso")
+                }
 
             }, error: function(jqXHR, textStatus, errorThrown) {
                 console.log(textStatus, errorThrown);
@@ -120,8 +118,7 @@ $("#tagname").on("keyup",() => {
 })
 
 $('#myForm input, #myForm select').on('keyup', function() {
-    if(nombreBool && passwordBool && passwordCheckBool && emailBool ) $('#register').prop('disabled', false);
-    else $('#register').prop('disabled', true);
+  $('#register').prop('disabled', !(nombreBool && tagnameBool&& passwordBool && passwordCheckBool && emailBool ));
 });
 
 
@@ -151,7 +148,7 @@ $("#register").on("click", () => {
                     type: "POST",
                     data: user,
                     success: function(response) {
-                        $("#modalLaunch").trigger("click")
+                        new bootstrap.Modal($("#registerModal")).show()
                     }
                 })
             }

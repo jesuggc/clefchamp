@@ -4,7 +4,7 @@
   <body class="colorNuevo5">
     <%-include('partials/headerLogo') %>
     <div class="vh-90 d-flex align-items-center">
-      <div class="bg-15 col-lg-6 mx-auto rounded-4 pt-4 px-4 my-2 scrollable">
+      <div class="bg-15 col-lg-6 mx-auto rounded-4 pt-4 px-4 my-2">
         <h1 class="text-center">Registro</h1>
         <form id="myForm" enctype="multipart/form-data">
           <div class="row">
@@ -23,6 +23,9 @@
                 <label for="email">Alias</label>
                 <div id="tagCheck" class="invalid-feedback">
                   
+                </div>
+                <div class="valid-feedback">
+                  Alias disponible
                 </div> 
               </div>
             </div>
@@ -34,7 +37,7 @@
                 <input id="email" type="text" class="form-control" name="email" placeholder="" required>
                 <label for="email">Correo</label>
                 <div class="invalid-feedback">
-                  Correo o alias no existente
+                  Dirección de correo no válida
                 </div> 
               </div>
             </div>
@@ -50,8 +53,17 @@
                 </div>
                 <button id="togglePassword" class="bg-15 border-0" style="border-radius: 0 10px 10px 0;" type="button" tabindex="-1">Mostrar</button>
               </div>
-              <div id="invalidMessage" class="myInvalidFeedback mb-4" hidden>
-                Contraseña incorrecta
+              <div id="capitalCheck" class="myInvalidFeedback mb-1" hidden>
+                Debe contener una mayúscula
+              </div>
+              <div id="sizeCheck" class="myInvalidFeedback mb-1" hidden>
+                Debe contener 8 caracteres
+              </div>
+              <div id="specialCheck" class="myInvalidFeedback mb-1" hidden>
+                Debe contener 1 caracter especial
+              </div>
+              <div id="numberCheck" class="myInvalidFeedback mb-1" hidden>
+                Debe contener 1 número
               </div>
             </div>
             <div class="col">
@@ -69,25 +81,25 @@
             </div>
           </div>
           <!--BOTON-->
-          <div class="row d-flex my-4 justify-content-center">
+          <div class="row d-flex mt-4 justify-content-center">
             <input id="register" class="w-50 acceptButton-lg my-3 " type="button" value="Crear cuenta" tabindex="6">
           </div>
+          <div class=" mb-4 d-flex justify-content-end w-100">
+            <span> ¿Ya tienes una cuenta? <a href="/users/login">Inicia sesión</a></span>
+        </div>
         </form>
       </div>
 
-      <button id="modalLaunch" hidden type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal"></button>
-      
-      <div id="exampleModal" class="modal fade" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-sm  modal-dialog-centered">
-          <div class="modal-content">
-            <div class="modal-header ">
-              <h1 id="exampleModalLabel" class="modal-title fs-5 text-center">Registro</h1>
-            </div>
+      <div id="registerModal" data-bs-backdrop="static" data-bs-keyboard="false" class="modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-me  modal-dialog-centered">
+          <div class="modal-content rounded-4" style="border:0; background-color: #F2E7DC">
             <div class="modal-body">
-              <p>La cuenta ha sido creada con éxito</p>
-            </div>
-            <div class="modal-footer">
-              <a href="/"><button type="button" class="btn btn-primary">Entendido</button></a>
+              <h1 id="exampleModalLabel" class="modal-title fs-3 text-center mb-4">Bienvenido</h1>
+              <p>La cuenta ha sido creada con éxito, inicia sesión para disfrutar de tus ventajas.</p>
+              <div class="d-flex justify-content-end">
+                <a href="/"><button type="button" class="me-3 cancelButton-sm">Inicio</button></a>
+                <a href="/users/login"><button type="button" class="acceptButton-sm">Iniciar sesión</button></a>
+              </div>
             </div>
           </div>
         </div>

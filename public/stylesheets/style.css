@@ -388,6 +388,10 @@ body::-webkit-scrollbar {
 .MIb5 {
   left: 420px;
 }
+input[type="text"],
+input[type="password"] {
+    border: 0;
+}
 
 #successMessage{
   -webkit-text-stroke-width: 1px;
@@ -397,6 +401,13 @@ body::-webkit-scrollbar {
   color: #F2E7DC;
   background-color: #350D40;
   border: #350D40 solid;
+  border-radius: 1em;
+  padding: 0.5em 1em 0.5em 1em;
+}
+.cancelButton-sm {
+  color:  #350D40;
+  background-color:#F2E7DC;
+  border: solid #350D40;
   border-radius: 1em;
   padding: 0.5em 1em 0.5em 1em;
 }
