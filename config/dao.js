@@ -186,7 +186,7 @@ class DAO {
         this.pool.getConnection((err, connection) => {
             if (err) callback(err, null)
             else {
-                let stringQuery = "INSERT INTO userIcons (userId, iconId, isSelected, bgColor) VALUES (?,?,?,?)"
+                let stringQuery = "INSERT INTO usericons (userId, iconId, isSelected, bgColor) VALUES (?,?,?,?)"
                 connection.query(stringQuery, [userId, iconId, 0, "transparent"], (err, resultado) => {
                     connection.release();
                     if (err) return callback(err, null);
@@ -200,7 +200,7 @@ class DAO {
         this.pool.getConnection((err, connection) => {
             if (err) callback(err, null)
             else {
-                let stringQuery = "INSERT INTO userLevel (idUser, level, experience, experienceToNext) VALUES (?,?,?,?)"
+                let stringQuery = "INSERT INTO userlevel (idUser, level, experience, experienceToNext) VALUES (?,?,?,?)"
                 connection.query(stringQuery, [userId, 1, 0, 150], (err, resultado) => {
                     connection.release();
                     if (err) callback(err, null);
@@ -231,7 +231,7 @@ class DAO {
         this.pool.getConnection((err, connection) => {
             if (err) callback(err, null)
             else {
-                let stringQuery = "INSERT INTO userPreferences (idUser, showTutorial) VALUES (?,?)"
+                let stringQuery = "INSERT INTO userpreferences (idUser, showTutorial) VALUES (?,?)"
                 connection.query(stringQuery, [userId,0], (err, resultado) => {
                     connection.release();
                     if (err) callback(err, null);

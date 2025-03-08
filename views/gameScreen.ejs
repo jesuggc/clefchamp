@@ -100,40 +100,23 @@
         </div>
       </div>
     </div>
-    <script>
-      
-      $(document).on("keydown", function() {
-        if (event.key === "F2") {
-
-          $("#myCanvas").css("background-color","green")
-          $("#successMessage").css("opacity",1)
-          $("#successMessage").addClass("bg-warning")
-          $(".col-8").addClass("bg-danger")
-          $("#streak").css("opacity",1)
-          $("#streak").addClass("bg-warning")
-        }
-      })
-      $(document).on("keyup", function() {
-        if (event.key === "F2") {
-          $("#myCanvas").css("background-color","")
-          $("#successMessage").removeClass("bg-warning")
-          $("#successMessage").css("opacity",0)
-          $(".col-8").removeClass("bg-danger")
-          $("#streak").css("opacity",0)
-          $("#streak").removeClass("bg-warning")
-        }
-      })
-    </script>
+    <div id="levelUpModal" class="modal " tabindex="-1" >
+      <div class="modal-dialog modal-dialog-centered modal-sm">
+        <div class="modal-content rounded-4" style="border:0; background-color: #F2E7DC">
+          <div class="modal-body d-flex align-items-center">
+            <h3 class="modal-title mx-auto">¡Enhorabuena!</h3>
+          </div>
+          <div class="row py-5">
+            <h4>Subes de nivel</h4>
+          </div>
+        </div>
+      </div>
+    </div>
     <script src="https://cdn.jsdelivr.net/npm/vexflow@4.2.2/build/cjs/vexflow.js"></script>
     <script type="module" src="/javascripts/vexManager.js"></script>
     <script type="module" src="/javascripts/cronometro.js"></script>
     <script type="module" src="/javascripts/animations.js"></script>
     <script type="module" src="/javascripts/gameCore.js"></script>
     <script src="/javascripts/dontShowAgain.js"></script>
-    <script>
-      // setInterval(() => {
-      //   window.location.reload();
-      // }, 500);    
-    </script>
   </body>
 </html>

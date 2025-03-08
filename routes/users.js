@@ -102,27 +102,62 @@ router.get("/register", alreadyLoggedIn, (req, res) => {
   res.render("register");
 });
 
-router.post("/register", (req, res) => {
+// router.post("/register", (req, res) => {
+//   const user = { ...req.body, icon: "default.png" };
+
+//   dao.createUser(user, (err, userId) => {
+//     if (err) return res.status(500).json({ message: "Error al registrar usuario" });
+    
+//     dao.unlockIcon(userId, 1, (err) => {
+//       if (err) return res.status(500).json({ message: "Error en registro" });
+      
+//       dao.unlockIcon(userId, 2, (err) => {
+//         if (err) return res.status(500).json({ message: "Error en registro" });
+        
+//         dao.unlockIcon(userId, 3, (err) => {
+//           if (err) return res.status(500).json({ message: "Error en registro" });
+          
+//           dao.unlockIcon(userId, 4, (err) => {
+//             if (err) return res.status(500).json({ message: "Error en registro" });
+            
+//             dao.initializeExperience(userId, (err) => {
+//               if (err) return res.status(500).json({ message: "Error en registro" });
+              
+//               res.json(true);
+//             });
+//           });
+//         });
+//       });
+//     });
+//   });
+// });
+router.post("/register", (req, res, next) => {
   const user = { ...req.body, icon: "default.png" };
 
   dao.createUser(user, (err, userId) => {
-    if (err) return res.status(500).json({ message: "Error al registrar usuario" });
-    dao.unlockIcon(userId,1, (err) => {
-      if (err) return res.status(500).json({ message: "Error en registro" });
-    })
-    dao.unlockIcon(userId,2, (err) => {
-      if (err) return res.status(500).json({ message: "Error en registro" });
-    })
-    dao.unlockIcon(userId,3, (err) => {
-      if (err) return res.status(500).json({ message: "Error en registro" });
-    })
-    dao.unlockIcon(userId,4, (err) => {
-      if (err) return res.status(500).json({ message: "Error en registro" });
-    })
-    dao.initializeExperience(userId, (err) => {
-      if (err) return res.status(500).json({ message: "Error en registro" });
-    })
-    res.json(true)
+    if (err) return next(new Error("Error al registrar usuario"));
+    
+    dao.unlockIcon(userId, 1, (err) => {
+      if (err) return next(new Error("Error en registro 1"));
+      
+      dao.unlockIcon(userId, 2, (err) => {
+        if (err) return next(new Error("Error en registro 2"));
+        
+        dao.unlockIcon(userId, 3, (err) => {
+          if (err) return next(new Error("Error en registro 3"));
+          
+          dao.unlockIcon(userId, 4, (err) => {
+            if (err) return next(new Error("Error en registro 4"));
+            
+            dao.initializeExperience(userId, (err) => {
+              if (err) return next(new Error("Error en registro 5"));
+              
+              res.json(true);
+            });
+          });
+        });
+      });
+    });
   });
 });
 
