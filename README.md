@@ -17,7 +17,7 @@ ClefChamp es una aplicación web de aprendizaje musical gamificada inspirada en 
 - **Backend:** Node.js (Express)
 - **Frontend:** HTML, CSS, Bootstrap, jQuery
 - **Gráficos:** VexTab (pentagramas interactivos)
-- **Base de datos:** Azure MySQL
+- **Base de datos:** MariaDB
 
 ## 📂 Instalación
 ### Prerrequisitos
