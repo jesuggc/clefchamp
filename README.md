@@ -34,12 +34,7 @@ ClefChamp es una aplicación web de aprendizaje musical gamificada inspirada en 
    ```
 6. Accede a la aplicación en `http://clefchamp.es`
 
-## 🚀 Despliegue en Azure
-1. Sube los archivos al servidor usando SSH.
-2. Asegúrate de que `clefchamp.sql` está cargado en la base de datos.
-3. Inicia el proceso con:
-   ```bash
-   pm2 start index.js --name clefchamp
+
    ```
 
 ## 🧩 Contribuciones
