@@ -24,15 +24,7 @@ ClefChamp es una aplicación web de aprendizaje musical gamificada inspirada en 
 - Node.js (v18.15.0)
 
 ### Pasos
-1. Clona el repositorio:
-   ```bash
-   git clone https://github.com/tuusuario/clefchamp.git
-   ```
-2. Entra en el directorio:
-   ```bash
-   cd clefchamp
-   ```
-6. Accede a la aplicación en `http://clefchamp.es`
+1. Accede a la aplicación en `http://clefchamp.es`
 
    ```
 
