@@ -34,7 +34,6 @@ ClefChamp es una aplicación web de aprendizaje musical gamificada inspirada en 
    ```
 6. Accede a la aplicación en `http://clefchamp.es`
 
-
    ```
 
 ## 🧩 Contribuciones
