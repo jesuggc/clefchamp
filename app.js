@@ -28,24 +28,25 @@ app.use(session({
   store: sessionStore
 }))
 
-app.use(morgan('dev'));
-app.use((req,res,next) => {
-  const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
-  const date = new Date(Date.now())
-  console.log(`${date} IP: ${ip}`)
-  next();
-});
 
 app.use(bodyParser.json())
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
+app.use(morgan('dev'));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/application', applicationRouter);
 app.use('/play', playRouter);
+
+app.use((req,res,next) => {
+  const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
+  const date = new Date(Date.now())
+  console.log(`IP: ${ip} // ${date}`)
+  next();
+});
 
 app.use(function(req, res, next) {
   res.render("404")
