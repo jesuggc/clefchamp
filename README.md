@@ -47,7 +47,7 @@ ClefChamp es una aplicación web de aprendizaje musical gamificada inspirada en 
    ```bash
    npm start
    ```
-6. Accede a la aplicación en `http://localhost:3000`
+6. Accede a la aplicación en `http://clefchamp.es`
 
 ## 🚀 Despliegue en Azure
 1. Sube los archivos al servidor usando SSH.
