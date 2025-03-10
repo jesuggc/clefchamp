@@ -22,11 +22,16 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
 app.use(session({
-  secret: "1234", 
-  resave: false,  
+  secret: "1234",
+  resave: false,
   saveUninitialized: false,
   store: sessionStore
 }))
+app.use((req,res,next) => {
+  const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
+  console.log(`IP: ${ip}`)
+  next();
+});
 
 app.use(bodyParser.json())
 app.use(cookieParser());
@@ -48,7 +53,7 @@ app.use(function(err, req, res, next) {
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
 
-  console.log(err.message) //NO SE IMPRIME EL ERRROR
+  console.log(err.message)
   res.status(err.status || 500);
   res.render('error');
 });
