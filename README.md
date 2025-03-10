@@ -22,7 +22,6 @@ ClefChamp es una aplicación web de aprendizaje musical gamificada inspirada en 
 ## 📂 Instalación
 ### Prerrequisitos
 - Node.js (v18.15.0)
-- MySQL (Base de datos configurada en Azure)
 
 ### Pasos
 1. Clona el repositorio:
