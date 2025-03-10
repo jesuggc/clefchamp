@@ -27,6 +27,8 @@ app.use(session({
   saveUninitialized: false,
   store: sessionStore
 }))
+
+app.use(morgan('dev'));
 app.use((req,res,next) => {
   const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
   const date = new Date(Date.now())
@@ -39,7 +41,6 @@ app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
-app.use(morgan('dev'));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
