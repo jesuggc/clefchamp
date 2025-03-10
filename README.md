@@ -32,21 +32,6 @@ ClefChamp es una aplicación web de aprendizaje musical gamificada inspirada en 
    ```bash
    cd clefchamp
    ```
-3. Instala las dependencias:
-   ```bash
-   npm install
-   ```
-4. Configura las variables de entorno (`.env`):
-   ```env
-   DB_HOST=mysqlclefchamp.database.windows.net
-   DB_USER=jesuggc
-   DB_NAME=prueba
-   DB_PASSWORD=tu_contraseña
-   ```
-5. Ejecuta el servidor:
-   ```bash
-   npm start
-   ```
 6. Accede a la aplicación en `http://clefchamp.es`
 
 ## 🚀 Despliegue en Azure
