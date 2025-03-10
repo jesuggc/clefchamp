@@ -29,8 +29,8 @@ app.use(session({
 }))
 app.use((req,res,next) => {
   const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
-  
-  console.log( new Date(Date.now()) + `IP: ${ip}`)
+  let date = new Date(Date.now())
+  console.log( `${date} IP: ${ip}`)
   next();
 });
 
