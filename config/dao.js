@@ -327,6 +327,33 @@ class DAO {
             }
         });
     }
+
+    getTopRecordsByDifficulty(difficulty, callback) {
+        this.pool.getConnection((err, connection) => {
+            if (err) callback(err, null);
+            else {
+                let query = "SELECT u.id, u.tagname, u.email, u.name, u.icon, u.joindate, u.friendCode, r.gameId, r.time, r.difficulty, r.points " +
+                "FROM userrecord r JOIN usuarios u ON r.userId = u.id WHERE r.difficulty = ? ORDER BY r.points DESC LIMIT 10;"
+                connection.query(query, [difficulty], (err, resultado) => {
+                    connection.release();
+                    if (err) callback(err, null);
+                    else {
+                        resultado = resultado.map(record => {
+                            let date = new Date(record.time);
+                            record.time = {
+                                day: date.getDate().toString().padStart(2, '0'), 
+                                month: (date.getMonth() + 1).toString().padStart(2, '0'), 
+                                year: date.getFullYear()
+                            };
+                            return record;
+                        });
+            
+                        callback(null, resultado);
+                    }
+                });
+            }
+        });
+    }
 }
    
 module.exports = DAO;

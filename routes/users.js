@@ -203,5 +203,14 @@ router.post('/hideTutorial', isLoggedIn, (req, res) => {
   })
 });
 
+router.get("/globalRanking", (req, res) => {
+  dao.getTopRecordsByDifficulty("EASY", (err, response) => {
+    if (err) {
+      console.error("Error en checkEmail:", err);
+      return res.status(500).json({ message: "Error en checkEmail" });
+    }
+    res.json(response);
+  });
+});
 
 module.exports = router;
