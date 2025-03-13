@@ -44,6 +44,7 @@
       </div>
       <div class="col-8 scrollable container-fluid" style="height:88vh; margin-left: -40px;">
         <h1 class="rounded-4">Mejores partidas</h1>
+        <% if(topRecords.length > 2)  { %>
         <div class="row mx-5">
           <div class="col my-4 text-center pt-3 secondPlaces" style="background-color: #C0BEBE; border-radius: 2em 2em 0 0;">
             <div class="row rounded-5 p-2 bg-white mx-1">
@@ -88,8 +89,14 @@
             </div>
           </div>
         </div>
+        <% } else { %>
+          <h4 class="text-center bg-5 p-4 rounded-4 m-4" style="color: #757575"> Aún no has jugado partidas suficientes...</h4>
+        <% } %>
         <h1 class="rounded-4">Historial</h1>
-        <% for(let i = 0; i < records.length; i ++) { %>
+        <% if(records.length === 0)  { %>
+          <h4 class="text-center bg-5 p-4 rounded-4 m-4" style="color: #757575"> Aquí podrás consultar tus partidas</h4>
+        <% } else { %>
+          <% for(let i = 0; i < records.length; i ++) { %>
           <div class="row bg-15 rounded-4 mx-1 mt-1 px-2">
             <div class="col">
               <div class="row">
@@ -120,6 +127,7 @@
             </div>
           </div>
           <% } %>
+        <% } %>
       </div>
     </div>  
     <%-include('partials/footer') %>
