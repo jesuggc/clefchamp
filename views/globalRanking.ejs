@@ -4,62 +4,23 @@
   <body class="colorNuevo5">
     <%-include('partials/header') %>
     <div class="row d-flex">
-      <div class="col scrollable container-fluid" style="height:88vh; margin-left: -40px;">
-        <h1 class="rounded-4">Mejores partidas</h1>
-        <% if(topRecords.length > 2)  { %>
-        <div class="row mx-5">
-          <div class="col my-4 text-center pt-3 secondPlaces" style="background-color: #C0BEBE; border-radius: 2em 2em 0 0;">
-            <div class="row rounded-5 p-2 bg-white mx-1">
-                <img src="/images/crown.svg" class="crownImg">
-                <h1><%=topRecords[1].points%> ptos.</h1>
-                <h2><%=topRecords[1].time.day%>-<%=topRecords[1].time.month%>-<%=topRecords[1].time.year%></h2>
-                <h2>Atrapa-do</h2>
-                <% let color1 = "pastelGreen"; if (records[1].difficulty === "NORMAL") color1= "pastelBlue"; if(records[1].difficulty === "HARD") color1="pastelRed"; %>
-                <% let dificultad1 = "Fácil"; if (records[1].difficulty === "NORMAL") dificultad1= "Normal"; if(records[1].difficulty === "HARD") dificultad1="Difícil";  %>
-                <h4 class="<%=color1%> rounded-4"><%=dificultad1%></h4>
-            </div>
-            <div class="row my-2 p-1">
-              <h1>2º</h1>
-            </div>
-          </div>
-          <div class="col my-4 text-center pt-3" style="background-color: #EBD244; border-radius: 2em 2em 0 0;">
-            <div class="row rounded-5 p-2 bg-white mx-1">
-                <img src="/images/crown.svg" class="crownImg">
-                <h1><%=topRecords[0].points%> ptos.</h1>
-                <h2><%=topRecords[0].time.day%>-<%=topRecords[0].time.month%>-<%=topRecords[0].time.year%></h2>
-                <h2>Atrapa-do</h2>
-                <% let color0 = "pastelGreen"; if (records[0].difficulty === "NORMAL") color0= "pastelBlue"; if(records[0].difficulty === "HARD") color0="pastelRed"; %>
-                <% let dificultad0 = "Fácil"; if (records[0].difficulty === "NORMAL") dificultad0= "Normal"; if(records[0].difficulty === "HARD") dificultad0="Difícil";  %>
-                <h4 class="<%=color0%> rounded-4"><%=dificultad0%></h4>
-            </div>
-            <div class="row my-2 p-1">
-              <h1>1º</h1>
-            </div>
-          </div>
-          <div class="col my-4 text-center pt-3 secondPlaces" style="background-color: #B75D0E; border-radius: 2em 2em 0 0;">
-            <div class="row rounded-5 p-2 bg-white mx-1">
-                <img src="/images/crown.svg" class="crownImg">
-                <h1><%=topRecords[2].points%> ptos.</h1>
-                <h2><%=topRecords[2].time.day%>-<%=topRecords[2].time.month%>-<%=topRecords[2].time.year%></h2>
-                <h2>Atrapa-do</h2>
-                <% let color2 = "pastelGreen"; if (records[2].difficulty === "NORMAL") color2= "pastelBlue"; if(records[2].difficulty === "HARD") color2="pastelRed"; %>
-                <% let dificultad2 = "Fácil"; if (records[2].difficulty === "NORMAL") dificultad2= "Normal"; if(records[2].difficulty === "HARD") dificultad2="Difícil";  %>
-                <h4 class="<%=color2%> rounded-4"><%=dificultad2%></h4>
-            </div>
-            <div class="row my-2 p-1 " style="background-color: #B75D0E;">
-              <h1>3º</h1>
-            </div>
-          </div>
+      <div class="col scrollable container-fluid vh-90">
+        <div class="row">
+          <button class="btn btn-primary col mx-5">Fácil</button>
+          <button class="btn btn-primary col mx-5">Normal</button>
+          <button class="btn btn-primary col mx-5">Dificil</button>
         </div>
-        <% } else { %>
-          <h4 class="text-center bg-5 p-4 rounded-4 m-4" style="color: #757575"> Aún no has jugado partidas suficientes...</h4>
-        <% } %>
-        <h1 class="rounded-4">Historial</h1>
-        <% if(records.length === 0)  { %>
-          <h4 class="text-center bg-5 p-4 rounded-4 m-4" style="color: #757575"> Aquí podrás consultar tus partidas</h4>
-        <% } else { %>
-          <% for(let i = 0; i < records.length; i ++) { %>
+        <% for (let i = 0; i < easyRes.length; i++) { %>
           <div class="row bg-15 rounded-4 mx-1 mt-1 px-2">
+            <div class="col-1 d-flex ">
+              <img src="/images/<%=easyRes[i].icon%>" style="max-width: 5em; max-height: 5em;" class="rounded-circle my-auto">
+            </div>
+            <div class="col-2 d-flex ">
+              <div class="my-auto">
+                <h1><%=easyRes[i].tagname%><h1>
+                <h4><%=easyRes[i].friendCode%><h4>
+              </div>
+            </div>
             <div class="col">
               <div class="row">
                 <div class="col pt-4 d-flex align-items-center">
@@ -67,94 +28,99 @@
                 </div>
                 <div class="col">
                   <div class="row">
-                    <h5 class="text-center"><span class="display-1"><%=records[i].points%></span> ptos.</h5>
+                    <h5 class="text-center"><span class="display-1"><%=easyRes[i].points%></span> ptos.</h5>
                   </div>
                 </div>
                 <div class="col">
                   <div class="row">
-                    <span class="fs-3 text-end"><%=records[i].time.day%>-<%=records[i].time.month%>-<%=records[i].time.year%></span>
+                    <span class="fs-3 text-end"><%=easyRes[i].time.day%>-<%=easyRes[i].time.month%>-<%=easyRes[i].time.year%></span>
                   </div>
                   <div class="row">
-                    <span class="fs-5 text-end"><%=records[i].time.hour%>:<%=records[i].time.minutes%></span>
+                    <span class="fs-5 text-end"><%=easyRes[i].time.hour%>:<%=easyRes[i].time.minutes%></span>
                   </div>
                 </div>
               </div>
-              <% let color = "pastelGreen"; if (records[i].difficulty === "NORMAL") color= "pastelBlue"; if(records[i].difficulty === "HARD") color="pastelRed"; %> 
-              <div class="row d-flex <%=color%> my-1 rounded-4">
+              <div class="row d-flex my-1 rounded-4">
                 <div class="col-4 d-flex justify-content-center"></div>
-                <% let dificultad = "Fácil"; if (records[i].difficulty === "NORMAL") dificultad= "Normal"; if(records[i].difficulty === "HARD") dificultad="Difícil";  %>
-                <div class="col-4 d-flex justify-content-center"><span class="fs-5"><%=dificultad%></span></div>
-                <div class="col-4 d-flex justify-content-end align-items-center"><span>ID de partida: <%=records[i].gameId%></span></div>
               </div>
             </div>
           </div>
-          <% } %>
-        <% } %>
+        <%}%>
+        <% for (let i = 0; i < normalRes.length; i++) { %>
+          <div class="row bg-15 rounded-4 mx-1 mt-1 px-2" hidden>
+            <div class="col-1 d-flex ">
+              <img src="/images/<%=normalRes[i].icon%>" style="max-width: 5em; max-height: 5em;" class="rounded-circle my-auto">
+            </div>
+            <div class="col-2 d-flex ">
+              <div class="my-auto">
+                <h1><%=normalRes[i].tagname%><h1>
+                <h4><%=normalRes[i].friendCode%><h4>
+              </div>
+            </div>
+            <div class="col">
+              <div class="row">
+                <div class="col pt-4 d-flex align-items-center">
+                  <h3>Atrapa-do</h3>
+                </div>
+                <div class="col">
+                  <div class="row">
+                    <h5 class="text-center"><span class="display-1"><%=normalRes[i].points%></span> ptos.</h5>
+                  </div>
+                </div>
+                <div class="col">
+                  <div class="row">
+                    <span class="fs-3 text-end"><%=normalRes[i].time.day%>-<%=normalRes[i].time.month%>-<%=normalRes[i].time.year%></span>
+                  </div>
+                  <div class="row">
+                    <span class="fs-5 text-end"><%=normalRes[i].time.hour%>:<%=normalRes[i].time.minutes%></span>
+                  </div>
+                </div>
+              </div>
+              <div class="row d-flex my-1 rounded-4">
+                <div class="col-4 d-flex justify-content-center"></div>
+              </div>
+            </div>
+          </div>
+        <%}%>
+        <% for (let i = 0; i < hardRes.length; i++) { %>
+          <div class="row bg-15 rounded-4 mx-1 mt-1 px-2" hidden>
+            <div class="col-1 d-flex ">
+              <img src="/images/<%=hardRes[i].icon%>" style="max-width: 5em; max-height: 5em;" class="rounded-circle my-auto">
+            </div>
+            <div class="col-2 d-flex ">
+              <div class="my-auto">
+                <h1><%=hardRes[i].tagname%><h1>
+                <h4><%=hardRes[i].friendCode%><h4>
+              </div>
+            </div>
+            <div class="col">
+              <div class="row">
+                <div class="col pt-4 d-flex align-items-center">
+                  <h3>Atrapa-do</h3>
+                </div>
+                <div class="col">
+                  <div class="row">
+                    <h5 class="text-center"><span class="display-1"><%=hardRes[i].points%></span> ptos.</h5>
+                  </div>
+                </div>
+                <div class="col">
+                  <div class="row">
+                    <span class="fs-3 text-end"><%=hardRes[i].time.day%>-<%=hardRes[i].time.month%>-<%=hardRes[i].time.year%></span>
+                  </div>
+                  <div class="row">
+                    <span class="fs-5 text-end"><%=hardRes[i].time.hour%>:<%=hardRes[i].time.minutes%></span>
+                  </div>
+                </div>
+              </div>
+              <div class="row d-flex my-1 rounded-4">
+                <div class="col-4 d-flex justify-content-center"></div>
+              </div>
+            </div>
+          </div>
+        <%}%>
       </div>
     </div>  
     <%-include('partials/footer') %>
-
-    <div id="exampleModal" class="modal" tabindex="-1">
-      <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title">Modal title</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-            <div id="mainCol" class="d-flex">
-
-            </div>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary">Save changes</button>
-          </div>
-        </div>
-      </div>
-    </div>
   <script src="/javascripts/clipboard.js"></script>
-  <script>
-    $(".svgIcons").on("click", function(){
-      $("#exampleModal").modal("show")
-
-      $.ajax({
-        url: "/application/getIcons",
-        type: "GET",
-        success: function(response) {
-          if (!response) console.log("Sin response vamos bien");
-          else {
-            let size = response.length;
-            let rows = Math.ceil(size / 4); // Redondeamos hacia arriba para asegurar todas las filas necesarias
-            
-            $("#mainCol").empty();
-            
-            for (let i = 0; i < rows; i++) {
-              let $row = $('<div class="row gap-1"></div>'); // Creamos una fila
-              
-              for (let j = i * 4; j < (i * 4) + 4 && j < size; j++) {
-                let $col = $(`
-                  <div class="col bg-success p-4 rounded-circle">
-                    <img src="/images/svg/${response[j].path}" class="rounded-circle svgProfile"> 
-                  </div>
-                `);
-                $row.append($col);
-              }
-              
-              $("#mainCol").append($row); // Agregamos la fila al contenedor principal
-            }
-          }
-
-        },
-        error: function(jqXHR, textStatus, errorThrown) {
-            console.log(textStatus, errorThrown);
-        }
-      })
-
-    })
-    // setInterval(() => {
-    //   window.location.reload();
-    // }, 1500);
-  </script>
   </body>
 </html>
