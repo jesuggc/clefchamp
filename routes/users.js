@@ -102,35 +102,6 @@ router.get("/register", alreadyLoggedIn, (req, res) => {
   res.render("register");
 });
 
-// router.post("/register", (req, res) => {
-//   const user = { ...req.body, icon: "default.png" };
-
-//   dao.createUser(user, (err, userId) => {
-//     if (err) return res.status(500).json({ message: "Error al registrar usuario" });
-    
-//     dao.unlockIcon(userId, 1, (err) => {
-//       if (err) return res.status(500).json({ message: "Error en registro" });
-      
-//       dao.unlockIcon(userId, 2, (err) => {
-//         if (err) return res.status(500).json({ message: "Error en registro" });
-        
-//         dao.unlockIcon(userId, 3, (err) => {
-//           if (err) return res.status(500).json({ message: "Error en registro" });
-          
-//           dao.unlockIcon(userId, 4, (err) => {
-//             if (err) return res.status(500).json({ message: "Error en registro" });
-            
-//             dao.initializeExperience(userId, (err) => {
-//               if (err) return res.status(500).json({ message: "Error en registro" });
-              
-//               res.json(true);
-//             });
-//           });
-//         });
-//       });
-//     });
-//   });
-// });
 router.post("/register", (req, res, next) => {
   const user = { ...req.body, icon: "default.png" };
 
@@ -204,12 +175,24 @@ router.post('/hideTutorial', isLoggedIn, (req, res) => {
 });
 
 router.get("/globalRanking", (req, res) => {
-  dao.getTopRecordsByDifficulty("EASY", (err, response) => {
+  dao.getTopRecordsByDifficulty("EASY", (err, easyRes) => {
     if (err) {
       console.error("Error en checkEmail:", err);
       return res.status(500).json({ message: "Error en checkEmail" });
     }
-    res.json(response);
+    dao.getTopRecordsByDifficulty("NORMAL", (err, normalRes) => {
+      if (err) {
+        console.error("Error en checkEmail:", err);
+        return res.status(500).json({ message: "Error en checkEmail" });
+      }
+      dao.getTopRecordsByDifficulty("HARD", (err, hardRes) => {
+        if (err) {
+          console.error("Error en checkEmail:", err);
+          return res.status(500).json({ message: "Error en checkEmail" });
+        }
+        res.render("globalRanking",{easyRes, normalRes, hardRes});
+      });
+    });
   });
 });
 
