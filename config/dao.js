@@ -332,9 +332,20 @@ class DAO {
         this.pool.getConnection((err, connection) => {
             if (err) callback(err, null);
             else {
-                let query = "SELECT u.id, u.tagname, u.email, u.name, u.icon, u.joindate, u.friendCode, r.gameId, r.time, r.difficulty, r.points " +
-                "FROM userrecord r JOIN usuarios u ON r.userId = u.id WHERE r.difficulty = ? ORDER BY r.points DESC LIMIT 10;"
-                connection.query(query, [difficulty], (err, resultado) => {
+                // let query = "SELECT u.id, u.tagname, u.email, u.name, u.icon, u.joindate, u.friendCode, r.gameId, r.time, r.difficulty, r.points " +
+                // "FROM userrecord r JOIN usuarios u ON r.userId = u.id WHERE r.difficulty = ? ORDER BY r.points DESC LIMIT 10;"
+                let query = `SELECT u.id, u.tagname, u.email, u.name, u.icon, u.joindate, u.friendCode, r.gameId, r.time, r.difficulty, r.points
+                            FROM usuarios u
+                            JOIN (
+                                SELECT r.userId, r.gameId, r.time, r.difficulty, r.points
+                                FROM userrecord r
+                                WHERE r.difficulty = ?
+                                AND r.points = (SELECT MAX(r2.points) FROM userrecord r2 WHERE r2.userId = r.userId AND r2.difficulty = ?)
+                            ) r ON u.id = r.userId
+                            ORDER BY r.points DESC
+                            LIMIT 10;
+                            `
+                connection.query(query, [difficulty, difficulty], (err, resultado) => {
                     connection.release();
                     if (err) callback(err, null);
                     else {

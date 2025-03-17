@@ -38,7 +38,16 @@ app.use(morgan('dev'));
 app.use((req,res,next) => {
   const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
   const date = new Date(Date.now())
-  console.log(`IP: ${ip} // ${date}`)
+  const formattedDate = date.toLocaleString('es-ES', {
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+    hour12: false
+  }).replace(',', ' -'); // Reemplaza la coma por " -"
+  console.log(`IP: ${ip} -> ${formattedDate}`)
   next();
 });
 

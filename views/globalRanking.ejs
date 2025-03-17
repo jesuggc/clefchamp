@@ -6,12 +6,15 @@
     <div class="row d-flex">
       <div class="col scrollable container-fluid vh-90">
         <div class="row bg-15 rounded-4 mx-1 mt-1 px-2">
-          <h1 class="col mx-5">Fácil</h1>
-          <h1 class="col mx-5">Normal</h1>
-          <h1 class="col mx-5">Dificil</h1>
+          <h1 class="col mx-5 text-center">Fácil</h1>
+          <h1 class="col mx-5 text-center">Normal</h1>
+          <h1 class="col mx-5 text-center">Dificil</h1>
         </div>
         <% for (let i = 0; i < easyRes.length; i++) { %>
-          <div class="row bg-15 rounded-4 mx-1 mt-1 px-2">
+          <div class="row bg-15 rounded-4 mx-1 mt-1 px-2 easyDiv">
+            <div class="col-1 d-flex ">
+              <h1 class="my-auto bg-15 rounded-4 p-3 px-4"><%=i+1%>.</h1>
+            </div>
             <div class="col-1 d-flex ">
               <img src="/images/<%=easyRes[i].icon%>" style="max-width: 5em; max-height: 5em;" class="rounded-circle my-auto">
             </div>
@@ -33,10 +36,7 @@
                 </div>
                 <div class="col">
                   <div class="row">
-                    <span class="fs-3 text-end"><%=easyRes[i].time.day%>-<%=easyRes[i].time.month%>-<%=easyRes[i].time.year%></span>
-                  </div>
-                  <div class="row">
-                    <span class="fs-5 text-end"><%=easyRes[i].time.hour%>:<%=easyRes[i].time.minutes%></span>
+                    <span class="fs-3 text-end align-items-center"><%=easyRes[i].time.day%>-<%=easyRes[i].time.month%>-<%=easyRes[i].time.year%></span>
                   </div>
                 </div>
               </div>
@@ -47,7 +47,7 @@
           </div>
         <%}%>
         <% for (let i = 0; i < normalRes.length; i++) { %>
-          <div class="row bg-15 rounded-4 mx-1 mt-1 px-2" hidden>
+          <div class="row bg-15 rounded-4 mx-1 mt-1 px-2 normalDiv" hidden>
             <div class="col-1 d-flex ">
               <img src="/images/<%=normalRes[i].icon%>" style="max-width: 5em; max-height: 5em;" class="rounded-circle my-auto">
             </div>
@@ -83,7 +83,7 @@
           </div>
         <%}%>
         <% for (let i = 0; i < hardRes.length; i++) { %>
-          <div class="row bg-15 rounded-4 mx-1 mt-1 px-2" hidden>
+          <div class="row bg-15 rounded-4 mx-1 mt-1 px-2 hardDiv" hidden>
             <div class="col-1 d-flex ">
               <img src="/images/<%=hardRes[i].icon%>" style="max-width: 5em; max-height: 5em;" class="rounded-circle my-auto">
             </div>
@@ -122,5 +122,6 @@
     </div>  
     <%-include('partials/footer') %>
   <script src="/javascripts/clipboard.js"></script>
+  <script src="/javascripts/ranking.js"></script>
   </body>
 </html>
