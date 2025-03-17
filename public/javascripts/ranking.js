@@ -1,3 +1,5 @@
+$("#easyBtn").addClass("bg-10");
+
 $("#easyBtn").on("click", function() {
   $(".easyDiv").prop('hidden', false);
   $(".normalDiv").prop('hidden', true);
