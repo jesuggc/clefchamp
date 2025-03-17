@@ -4,11 +4,11 @@
   <body class="colorNuevo5">
     <%-include('partials/header') %>
     <div class="row d-flex">
-      <div class="col scrollable container-fluid vh-90">
-        <div class="row bg-15 rounded-4 mx-1 mt-1 px-2">
-          <h1 class="col mx-5 text-center">Fácil</h1>
-          <h1 class="col mx-5 text-center">Normal</h1>
-          <h1 class="col mx-5 text-center">Dificil</h1>
+      <div class="col scrollable container-fluid vh-90 mx-5">
+        <div class="row bg-15 rounded-4 mx-1 px-2">
+          <h1 id="easyBtn" class="col mx-5 text-center cursorPointer" style="margin-bottom: 0;">Fácil</h1>
+          <h1 id="normalBtn" class="col mx-5 text-center cursorPointer" style="margin-bottom: 0;">Normal</h1>
+          <h1 id="hardBtn" class="col mx-5 text-center cursorPointer" style="margin-bottom: 0;">Dificil</h1>
         </div>
         <% for (let i = 0; i < easyRes.length; i++) { %>
           <div class="row bg-15 rounded-4 mx-1 mt-1 px-2 easyDiv">
