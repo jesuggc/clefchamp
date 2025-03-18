@@ -5,6 +5,11 @@
     <%-include('partials/header') %>
     <div class="vh-90" id="mainContent">
       <div class="d-flex align-items-center justify-content-center gap-4">
+        <% if (locals.mode !== "TRIAL" ) { %>
+          <div class=" rounded-4 p-4 d-flex flex-column text-center">
+            <h1>hey</h1>
+          </div>
+        <% } %>
         <%-include('partials/playground') %>
         <% if (locals.mode !== "TRIAL" ) { %>
           <div id="divResultados" class="box rounded-4 p-4 d-flex flex-column text-center">

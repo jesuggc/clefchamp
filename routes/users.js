@@ -38,7 +38,10 @@ router.get("/profile", isLoggedIn, (req, res) => {
       dao.getTopRecordsFromId(res.locals.user.id, (err, topRecords) => {
         if (err) res.status(500).json({ message: "Error al obtener los registros" });
         else {
-          res.render("profile", {records, topRecords});
+          dao.getIcons((err,icons) => {
+            if(err) console.log(err)
+            else res.render("profile", {records, topRecords,icons});
+          })
         }
       });
     }
