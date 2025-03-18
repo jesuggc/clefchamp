@@ -110,12 +110,15 @@ const GameState = {
         this.setupEventListeners();
     },
 
+    
     // Configurar eventos
     setupEventListeners() {
         $(document).on("keydown", (event) => this.handleKeyDown(event));
         $(document).on("keyup", (event) => this.handleKeyUp(event));
         this.elements.$startBtn.on("click", () => this.startGame());
         this.elements.$helpBtn.on("click", () => new bootstrap.Modal(this.elements.$tutorialModal).show());
+        
+    
         // Agregar el evento para volver a jugar
         this.elements.$playAgainBtn.on("click", () => this.resetGame());
     },
@@ -133,6 +136,15 @@ const GameState = {
             this.checkCorrect(key);
             this.updateGame();
             this.updateUI();
+        }
+        if (event.code === "Space") {
+            event.preventDefault();
+            if (this.elements.$startBtn.is(":visible")) {
+                this.elements.$startBtn.trigger("click");
+            }
+            else if (this.current.contador === this.config.ROUNDS) {
+                this.elements.$playAgainBtn.trigger("click");
+            }
         }
     },
 
@@ -456,8 +468,19 @@ const GameState = {
         emptyClef();
     }
 };
-
 // Inicializar el juego cuando el documento esté listo
 $(function() {
     GameState.initialize();
+    // $(document).on("keydown", (e) => {
+    //     if (e.code === "Space") {
+            
+    //         e.preventDefault();
+    //         if ($("#startBtn").is(":visible")) {
+    //             $("#startBtn").trigger("click");
+    //         }
+    //         else if (GameState.current.contador === GameState.config.ROUNDS) {
+    //             $("#playAgainBtn").trigger("click");
+    //         }
+    //     }
+    // });
 });
