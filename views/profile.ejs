@@ -52,8 +52,8 @@
                 <h1><%=topRecords[1].points%> ptos.</h1>
                 <h2><%=topRecords[1].time.day%>-<%=topRecords[1].time.month%>-<%=topRecords[1].time.year%></h2>
                 <h2>Atrapa-do</h2>
-                <% let color1 = "pastelGreen"; if (records[1].difficulty === "NORMAL") color1= "pastelBlue"; if(records[1].difficulty === "HARD") color1="pastelRed"; %>
-                <% let dificultad1 = "Fácil"; if (records[1].difficulty === "NORMAL") dificultad1= "Normal"; if(records[1].difficulty === "HARD") dificultad1="Difícil";  %>
+                <% let color1 = "pastelGreen"; if (topRecords[1].difficulty === "NORMAL") color1= "pastelBlue"; if(topRecords[1].difficulty === "HARD") color1="pastelRed"; %>
+                <% let dificultad1 = "Fácil"; if (topRecords[1].difficulty === "NORMAL") dificultad1= "Normal"; if(topRecords[1].difficulty === "HARD") dificultad1="Difícil";  %>
                 <h4 class="<%=color1%> rounded-4"><%=dificultad1%></h4>
             </div>
             <div class="row my-2 p-1">
@@ -66,8 +66,8 @@
                 <h1><%=topRecords[0].points%> ptos.</h1>
                 <h2><%=topRecords[0].time.day%>-<%=topRecords[0].time.month%>-<%=topRecords[0].time.year%></h2>
                 <h2>Atrapa-do</h2>
-                <% let color0 = "pastelGreen"; if (records[0].difficulty === "NORMAL") color0= "pastelBlue"; if(records[0].difficulty === "HARD") color0="pastelRed"; %>
-                <% let dificultad0 = "Fácil"; if (records[0].difficulty === "NORMAL") dificultad0= "Normal"; if(records[0].difficulty === "HARD") dificultad0="Difícil";  %>
+                <% let color0 = "pastelGreen"; if (topRecords[0].difficulty === "NORMAL") color0= "pastelBlue"; if(topRecords[0].difficulty === "HARD") color0="pastelRed"; %>
+                <% let dificultad0 = "Fácil"; if (topRecords[0].difficulty === "NORMAL") dificultad0= "Normal"; if(topRecords[0].difficulty === "HARD") dificultad0="Difícil";  %>
                 <h4 class="<%=color0%> rounded-4"><%=dificultad0%></h4>
             </div>
             <div class="row my-2 p-1">
@@ -80,8 +80,8 @@
                 <h1><%=topRecords[2].points%> ptos.</h1>
                 <h2><%=topRecords[2].time.day%>-<%=topRecords[2].time.month%>-<%=topRecords[2].time.year%></h2>
                 <h2>Atrapa-do</h2>
-                <% let color2 = "pastelGreen"; if (records[2].difficulty === "NORMAL") color2= "pastelBlue"; if(records[2].difficulty === "HARD") color2="pastelRed"; %>
-                <% let dificultad2 = "Fácil"; if (records[2].difficulty === "NORMAL") dificultad2= "Normal"; if(records[2].difficulty === "HARD") dificultad2="Difícil";  %>
+                <% let color2 = "pastelGreen"; if (topRecords[2].difficulty === "NORMAL") color2= "pastelBlue"; if(topRecords[2].difficulty === "HARD") color2="pastelRed"; %>
+                <% let dificultad2 = "Fácil"; if (topRecords[2].difficulty === "NORMAL") dificultad2= "Normal"; if(topRecords[2].difficulty === "HARD") dificultad2="Difícil";  %>
                 <h4 class="<%=color2%> rounded-4"><%=dificultad2%></h4>
             </div>
             <div class="row my-2 p-1 " style="background-color: #B75D0E;">
@@ -131,65 +131,49 @@
       </div>
     </div>  
     <%-include('partials/footer') %>
-
-    <!-- <div id="exampleModal" class="modal" tabindex="-1">
-      <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div id="exampleModal" class="modal" tabindex="-1">
+      <div class="modal-dialog modal-dialog-centered modal-xl">
         <div class="modal-content rounded-4" style="border:0; background-color: #F2E7DC">
-          <div class="modal-body d-flex flex-column align-items-center">
+          <div class="modal-body d-flex flex-column">
             <div class="row">
-              <h5 class="col">Selección de icono</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-
+              <h3 class="text-center">Selección de icono</h3>
             </div>
             <div class="row">
-              
-              <div class="col-3 d-flex">
-                <img src="/images/<%=locals.user.icon%>" class="svgIcons rounded-circle">
-              </div>
-                <div id="mainCol" class="col d-flex">
-                   
-                  <div class="row">
-                    <button type="button" class="col cancelButton " data-bs-dismiss="modal">Cerrar</button>
-                    <button type="button" class="col acceptButton">Guardar</button>
-                    
+              <div class="col-3 align-items-center justify-content-center">
+                <div class="row d-flex justify-content-center align-items-center">
+                  <div id="selectionBg" class="p-4 rounded-circle d-flex justify-content-center align-items-center">
+                    <img id="selectionIcon" src="/images/default.png" class="svgIcons">
                   </div>
                 </div>
-              </div>
-              </div>
-        </div>
-      </div>
-    </div> -->
-    <div id="exampleModal" class="modal" tabindex="-1">
-      <div class="modal-dialog modal-dialog-centered modal-lg">
-        <div class="modal-content rounded-4" style="border:0; background-color: #F2E7DC">
-          <div class="modal-body d-flex flex-column align-items-center">
-            <div class="row w-100">
-              <h5 class="col">Selección de icono</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-    
-            <!-- Contenedor de iconos -->
-            <div class="container mt-3">
-              <% for (let i = 0; i < icons.length; i += 4) { %>
-                <div class="row mb-2">
-                  <% for (let j = 0; j < 4; j++) { 
-                    let index = i + j;
-                    if (index >= icons.length) break;
-                  %>
-                    <div class="col-3 d-flex justify-content-center">
-                      <div class="bg-success p-4 rounded-circle cursorPointer iconBtn" data-id="<%=icons[index].id%>">
-                        <img src="/images/svg/<%= icons[index].path %>" class="rounded-circle svgProfile">
-                      </div>
-                    </div>
-                  <% } %>
+                <div class="row ">
+                  <h1 class="text-center"><%=locals.user.name%></h1>
                 </div>
-              <% } %>
+                <div class="row">
+                  <input id="selectionColor" type="color">
+                </div>
+              </div>
+              <div class="col">
+                <% for (let i = 0; i < icons.length; i += 4) { %>
+                  <div class="row mb-2">
+                    <% for (let j = 0; j < 4; j++) { 
+                      let index = i + j;
+                      if (index >= icons.length) break;
+                    %>
+                      <div class="col-3 d-flex justify-content-center">
+                        <div class="bg-10 p-4 rounded-circle cursorPointer iconBtn" data-id="<%=icons[index].id%>">
+                          <img src="/images/svg/<%= icons[index].path %>" class="svgProfile">
+                        </div>
+                      </div>
+                    <% } %>
+                  </div>
+                <% } %>
+              </div>
             </div>
     
             <!-- Botones -->
-            <div class="row w-100 mt-3">
-              <button type="button" class="col cancelButton" data-bs-dismiss="modal">Cerrar</button>
-              <button type="button" class="col acceptButton">Guardar</button>
+            <div class="row m-3 mt-4">
+              <button type="button" class="col cancelButton me-3" data-bs-dismiss="modal">Cerrar</button>
+              <button id="saveBtn" type="button" class="col acceptButton">Guardar</button>
             </div>
           </div>
         </div>

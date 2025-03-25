@@ -471,16 +471,4 @@ const GameState = {
 // Inicializar el juego cuando el documento esté listo
 $(function() {
     GameState.initialize();
-    // $(document).on("keydown", (e) => {
-    //     if (e.code === "Space") {
-            
-    //         e.preventDefault();
-    //         if ($("#startBtn").is(":visible")) {
-    //             $("#startBtn").trigger("click");
-    //         }
-    //         else if (GameState.current.contador === GameState.config.ROUNDS) {
-    //             $("#playAgainBtn").trigger("click");
-    //         }
-    //     }
-    // });
 });
