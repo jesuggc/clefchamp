@@ -3,20 +3,18 @@
   <%-include('partials/head')%>
   <body class="colorNuevo5">
     <%-include('partials/header')%>
-    <div class="centerInfo d-flex align-items-center">
-        <div id="miElemento" class="container-md scrollable-info text-white p-4 rounded-4 my-4">
+    <div class="d-flex justify-content-center vh-90">
+        <div class="bg-10 p-4 rounded-4 my-3" style="max-width: 60em;">
             <% if(pag === 'aboutus'){ %>
                 <%-include('partials/info/aboutus')%>
-            <% }else if (pag === 'ourteam') {%>
-                <%- include('partials/info/ourteam') %>
-            <% }else if (pag === 'workhere') {%>
-                <%- include('partials/info/workhere') %>
-            <% }else if (pag === 'legalpolicy') {%>
-                <%- include('partials/info/legalpolicy') %>
-            <% }else if (pag === 'cookies') {%>
-                <%- include('partials/info/cookies') %>
-            <% }else if (pag === 'privacy') {%>
-                <%- include('partials/info/privacy') %>
+            <% } else if (pag === 'ourteam') {%>
+                <%-include('partials/info/ourteam') %>
+            <% } else if (pag === 'legalpolicy') {%>
+                <%-include('partials/info/legalpolicy') %>
+            <% } else if (pag === 'cookies') {%>
+                <%-include('partials/info/cookies') %>
+            <% } else if (pag === 'privacy') {%>
+                <%-include('partials/info/privacy') %>
             <% } else { %>
                 <h1> Aqui no hay nada que ver ... </h1>
             <% } %>
