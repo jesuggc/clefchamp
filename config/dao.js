@@ -365,6 +365,33 @@ class DAO {
             }
         });
     }
+
+    getTopRecordsByDifficulty(difficulty, callback) {
+        this.pool.getConnection((err, connection) => {
+            if (err) callback(err, null);
+            else {
+                let query = `SELECT ui.bgColor, i.name, i.unlockCondition FROM icons as i JOIN usericons as ui ON i.id ) ui.iconId JOIN usuarios as u on u.id = ui.userid 
+                WHERE ui.isSelected = 2 AND u.id = ?`
+                connection.query(query, [difficulty, difficulty], (err, resultado) => {
+                    connection.release();
+                    if (err) callback(err, null);
+                    else {
+                        resultado = resultado.map(record => {
+                            let date = new Date(record.time);
+                            record.time = {
+                                day: date.getDate().toString().padStart(2, '0'), 
+                                month: (date.getMonth() + 1).toString().padStart(2, '0'), 
+                                year: date.getFullYear()
+                            };
+                            return record;
+                        });
+            
+                        callback(null, resultado);
+                    }
+                });
+            }
+        });
+    }
 }
    
 module.exports = DAO;
