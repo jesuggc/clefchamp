@@ -70,7 +70,7 @@ class DAO {
                             name:resultado[0].name,
                             tagname:resultado[0].tagname,
                             email:resultado[0].email,
-                            icon:resultado[0].icon,
+                            icon:resultado[0].icon, //remove
                             friendCode:resultado[0].friendCode,
                             joindate
                         }
@@ -85,7 +85,7 @@ class DAO {
         this.pool.getConnection((err, connection) => {
             if (err) callback(err, null)
             else {
-                let stringQuery = "INSERT INTO usuarios (tagname, email, password, name, friendCode, icon) VALUES (?,?,?,?,?,?)"
+                let stringQuery = "INSERT INTO usuarios (tagname, email, password, name, friendCode, icon) VALUES (?,?,?,?,?,?)" //remove icon
                 connection.query(stringQuery, Object.values(user), (err, resultado) => {
                     connection.release();
                     if (err) callback(err, null)
@@ -98,19 +98,20 @@ class DAO {
         })
     }
 
-    getIcons(callback) {
+    getIconsFromId(id,callback) {
         this.pool.getConnection((err, connection) => {
             if (err) callback(err, null)
             else {
-                let stringQuery = "SELECT * FROM icons"
-                connection.query(stringQuery, (err, resultado) => {
+                let stringQuery = "SELECT i.id, i.name, i.path, i.unlockCondition, ui.isSelected FROM icons as i JOIN usericons as ui ON i.id = ui.iconId WHERE ui.userId = ?;"
+                connection.query(stringQuery,id, (err, resultado) => {
                     connection.release();
                     if (err) callback(err)
                     else callback(null, resultado.map(ele => ({  
                         id:ele.id,
                         name:ele.name,
                         path:ele.path,
-                        unlockCondition: ele.unlockCondition
+                        unlockCondition: ele.unlockCondition,
+                        isSelected: ele.isSelected
                     })))
                 })
             }
@@ -164,23 +165,23 @@ class DAO {
         });
     }
 
-    getInitialIcons(userId, callback) {
-        this.pool.getConnection((err, connection) => {
-            if (err) callback(err, null)
-            else {
-                let stringQuery = "SELECT * FROM userlevel WHERE idUser = ?"
-                connection.query(stringQuery, [userId], (err, resultado) => {
-                    connection.release();
-                    if (err) callback(err)
-                    else callback(null, resultado.map(ele => ({  
-                            level:ele.level,
-                            experience:ele.experience,
-                            experienceToNext: ele.experienceToNext
-                    })))
-                })
-            }
-        })
-    }
+    // getInitialIcons(userId, callback) {
+    //     this.pool.getConnection((err, connection) => {
+    //         if (err) callback(err, null)
+    //         else {
+    //             let stringQuery = "SELECT * FROM userlevel WHERE idUser = ?"
+    //             connection.query(stringQuery, [userId], (err, resultado) => {
+    //                 connection.release();
+    //                 if (err) callback(err)
+    //                 else callback(null, resultado.map(ele => ({  
+    //                         level:ele.level,
+    //                         experience:ele.experience,
+    //                         experienceToNext: ele.experienceToNext
+    //                 })))
+    //             })
+    //         }
+    //     })
+    // }
 
     unlockIcon(userId, iconId, callback) {
         this.pool.getConnection((err, connection) => {
@@ -334,14 +335,16 @@ class DAO {
             else {
                 // let query = "SELECT u.id, u.tagname, u.email, u.name, u.icon, u.joindate, u.friendCode, r.gameId, r.time, r.difficulty, r.points " +
                 // "FROM userrecord r JOIN usuarios u ON r.userId = u.id WHERE r.difficulty = ? ORDER BY r.points DESC LIMIT 10;"
-                let query = `SELECT u.id, u.tagname, u.email, u.name, u.icon, u.joindate, u.friendCode, r.gameId, r.time, r.difficulty, r.points
+                let query = `SELECT u.id, u.tagname, u.email, u.name, u.icon, u.joindate, u.friendCode, r.gameId, r.time, r.difficulty, r.points, ui.bgColor, i.path
                             FROM usuarios u
                             JOIN (
                                 SELECT r.userId, r.gameId, r.time, r.difficulty, r.points
                                 FROM userrecord r
                                 WHERE r.difficulty = ?
                                 AND r.points = (SELECT MAX(r2.points) FROM userrecord r2 WHERE r2.userId = r.userId AND r2.difficulty = ?)
-                            ) r ON u.id = r.userId
+                            ) r ON u.id = r.userId 
+                            JOIN usericons as ui ON u.id = ui.userId JOIN icons as i ON i.id = ui.iconId 
+                            WHERE ui.isSelected = 2
                             ORDER BY r.points DESC
                             LIMIT 10;
                             `
@@ -366,28 +369,43 @@ class DAO {
         });
     }
 
-    getTopRecordsByDifficulty(difficulty, callback) {
+    getProfileIconFromId(id, callback) {
         this.pool.getConnection((err, connection) => {
             if (err) callback(err, null);
             else {
-                let query = `SELECT ui.bgColor, i.name, i.unlockCondition FROM icons as i JOIN usericons as ui ON i.id ) ui.iconId JOIN usuarios as u on u.id = ui.userid 
-                WHERE ui.isSelected = 2 AND u.id = ?`
-                connection.query(query, [difficulty, difficulty], (err, resultado) => {
+                let query = `SELECT ui.bgColor, i.path FROM icons as i JOIN usericons as ui ON i.id = ui.iconId JOIN usuarios as u on u.id = ui.userid WHERE 
+                ui.isSelected = 2 AND u.id = ?;`
+                connection.query(query, [id], (err, resultado) => {
                     connection.release();
                     if (err) callback(err, null);
-                    else {
-                        resultado = resultado.map(record => {
-                            let date = new Date(record.time);
-                            record.time = {
-                                day: date.getDate().toString().padStart(2, '0'), 
-                                month: (date.getMonth() + 1).toString().padStart(2, '0'), 
-                                year: date.getFullYear()
-                            };
-                            return record;
-                        });
-            
-                        callback(null, resultado);
-                    }
+                    else callback(null, resultado);
+                });
+            }
+        });
+    }
+
+    setEmptySelectedIcon(id, callback) {
+        this.pool.getConnection((err, connection) => {
+            if (err) callback(err, null);
+            else {
+                let query = `UPDATE usericons SET isSelected = 1 WHERE userId = ? AND isSelected = 2`
+                connection.query(query, [id], (err, resultado) => {
+                    connection.release();
+                    if (err) callback(err, null);
+                    else callback(null, resultado);
+                });
+            }
+        });
+    }
+    setSelectedIcon(id, iconId, bgColor, callback) {
+        this.pool.getConnection((err, connection) => {
+            if (err) callback(err, null);
+            else {
+                let query = `UPDATE usericons SET isSelected = 2, bgColor = ? WHERE userId = ? AND iconId = ?`
+                connection.query(query, [bgColor,id,iconId], (err, resultado) => {
+                    connection.release();
+                    if (err) callback(err, null);
+                    else callback(null, resultado);
                 });
             }
         });
