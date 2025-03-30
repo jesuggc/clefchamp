@@ -38,7 +38,7 @@ router.get("/profile", isLoggedIn, (req, res) => {
       dao.getTopRecordsFromId(res.locals.user.id, (err, topRecords) => {
         if (err) res.status(500).json({ message: "Error al obtener los registros" });
         else {
-          dao.getIcons((err,icons) => {
+          dao.getIconsFromId(res.locals.user.id,(err,icons) => {
             if(err) console.log(err)
             else res.render("profile", {records, topRecords,icons});
           })
@@ -81,21 +81,27 @@ router.post("/login", (req, res) => {
           console.log(err)
           return res.status(500).json({ message: "Error en el inicio de sesión" }); 
         }
-        if(preferences === null) {
-          preferences = {
-            showTutorial: true
+        dao.getProfileIconFromId(user.id,(err, profile) => {
+          if(preferences === null) {
+            preferences = {
+              showTutorial: true
+            }
           }
-        }
-        const sessionUser = {
-          ...user,
-          ...userLevel[0],
-          preferences
-        };
-        
-        req.session.user = sessionUser;
-        res.locals.user = sessionUser;
-        
-        res.json({ existe: true, nombre: user.nombre, correo: user.correo });
+          user.icon = profile[0].path
+          user.bgColor = profile[0].bgColor
+          console.log(user)
+          // console.log(profile)
+          const sessionUser = {
+            ...user,
+            ...userLevel[0],
+            preferences
+          };
+          
+          req.session.user = sessionUser;
+          res.locals.user = sessionUser;
+          
+          res.json({ existe: true, nombre: user.nombre, correo: user.correo });
+        })
       })
     });
   });
@@ -197,6 +203,50 @@ router.get("/globalRanking", (req, res) => {
       });
     });
   });
+});
+
+router.get("/prueba", (req, res) => {
+  // dao.getProfileIconFromId(1, (err, result) => {
+  //   if (err) {
+  //     console.error("Error en checkEmail:", err);
+  //     return res.status(500).json({ message: "Error en prueba" });
+  //   } else {
+  //     res.json(result)
+  //   }
+  // })
+  // dao.getTopRecordsByDifficulty("EASY", (err, result) => {
+  //   if (err) {
+  //     console.error("Error en checkEmail:", err);
+  //     return res.status(500).json({ message: "Error en prueba" });
+  //   } else {
+  //     res.json(result)
+  //   }
+  // })
+  // dao.getIconsFromId(1,(err, result) => {
+  //   if (err) {
+  //     console.error("Error en checkEmail:", err);
+  //     return res.status(500).json({ message: "Error en prueba" });
+  //   } else {
+  //     res.json(result)
+  //   }
+  // })
+  // dao.setEmptySelectedIcon(1,(err, result) => {
+  //     if (err) {
+  //       console.error("Error en checkEmail:", err);
+  //       return res.status(500).json({ message: "Error en prueba" });
+  //     } else {
+  //       res.json(result)
+  //     }
+  //   })
+  // dao.setSelectedIcon(1,3,(err, result) => {
+  //   if (err) {
+  //     console.error("Error en checkEmail:", err);
+  //     return res.status(500).json({ message: "Error en prueba" });
+  //   } else {
+  //     res.json(result)
+  //   }
+  // })
+  
 });
 
 module.exports = router;

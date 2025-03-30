@@ -595,6 +595,7 @@ input[type="password"] {
 
 .userIcon {
   max-height: 10em;
+  height: 8em;
 }
 
 #levelText {

@@ -6,6 +6,8 @@ $(".svgIcons").on("click", function(){
 })
 
 $(".iconBtn").on("click", function(){
+  $("#selectionColor")
+  $("#selectionIcon").attr("data-id", this.getAttribute("data-id"))
   console.log(this.getAttribute("data-id"));
   let img = $(this).find("img").attr("src");
   $("#selectionIcon").attr("src", img); // O $(this).attr("src")
@@ -18,11 +20,12 @@ $("#selectionColor").on("change", function(){
 $("#saveBtn").on("click", function(){
   console.log("Imagen: ", $("#selectionIcon").attr("src"))
   console.log("Color: ", $("#selectionColor").val())
-//     try {
-//         const response = await fetch('/users/api/getLocals');
-//         const data = await response.json();
-//         this.userData.locals = data.locals;
-//     } catch (error) {
-//         console.error('Error:', error);
-//     }
+  console.log("DATA-ID: ", $("#selectionIcon").attr("data-id"))
+    try {
+        const response = await fetch('/users/');
+        const data = await response.json();
+        this.userData.locals = data.locals;
+    } catch (error) {
+        console.error('Error:', error);
+    }
 })
