@@ -25,8 +25,6 @@ ClefChamp es una aplicación web de aprendizaje musical gamificada inspirada en 
 ### Pasos
 1. Accede a la aplicación en `http://clefchamp.es`
 
-   ```
-
 
    
 ## 🧩 Contribuciones
