@@ -87,10 +87,8 @@ router.post("/login", (req, res) => {
               showTutorial: true
             }
           }
-          user.icon = profile[0].path
+          user.path = profile[0].path
           user.bgColor = profile[0].bgColor
-          console.log(user)
-          // console.log(profile)
           const sessionUser = {
             ...user,
             ...userLevel[0],
@@ -199,12 +197,34 @@ router.get("/globalRanking", (req, res) => {
           console.error("Error en checkEmail:", err);
           return res.status(500).json({ message: "Error en checkEmail" });
         }
+        console.log(easyRes[0])
         res.render("globalRanking",{easyRes, normalRes, hardRes});
       });
     });
   });
 });
-
+router.post("/setProfileIcon", (req,res) => {
+  const { color, dataId, path } = req.body;
+  dao.setEmptySelectedIcon(res.locals.user.id,(err, result) => {
+    if (err) {
+      console.error("Error en checkEmail:", err);
+      return res.status(500).json({ message: "Error en prueba" });
+    } else {
+      dao.setSelectedIcon(res.locals.user.id,dataId,color,(err, result) => {
+        if (err) {
+          console.error("Error en checkEmail:", err);
+          return res.status(500).json({ message: "Error en prueba" });
+        } else {
+          res.locals.user.bgColor=color
+          res.locals.user.path=path
+          res.json(true)
+        }
+      })
+    }
+  })
+  
+  
+})
 router.get("/prueba", (req, res) => {
   // dao.getProfileIconFromId(1, (err, result) => {
   //   if (err) {
@@ -230,23 +250,7 @@ router.get("/prueba", (req, res) => {
   //     res.json(result)
   //   }
   // })
-  // dao.setEmptySelectedIcon(1,(err, result) => {
-  //     if (err) {
-  //       console.error("Error en checkEmail:", err);
-  //       return res.status(500).json({ message: "Error en prueba" });
-  //     } else {
-  //       res.json(result)
-  //     }
-  //   })
-  // dao.setSelectedIcon(1,3,(err, result) => {
-  //   if (err) {
-  //     console.error("Error en checkEmail:", err);
-  //     return res.status(500).json({ message: "Error en prueba" });
-  //   } else {
-  //     res.json(result)
-  //   }
-  // })
-  
+
 });
 
 module.exports = router;

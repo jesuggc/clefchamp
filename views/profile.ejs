@@ -6,12 +6,12 @@
     <div class="row d-flex">
       <div class="col-4 vh-90 px-4  container-fluid" >
         <div class="bg-15 rounded-4 p-2 text-center d-flex flex-column align-items-center " style="height:43vh; margin-bottom: 1vh;">
-          <div class="p-4 rounded-circle" style="background-color: <%=user.bgColor%>">
-            <img src="/images/svg/<%=user.icon%>" class="rounded-circle userIcon" >
+          <div id="bgDiv" class="p-4 rounded-circle" style="background-color: <%=user.bgColor%>">
+            <img id="imgDiv" src="/images/svg/<%=user.path%>" class="rounded-circle userIcon" >
           </div>
           
           <div class="rounded-circle svgIcons editIcon" style="background-image: url('/images/editIcon.svg'); height:10em; width: 10em; "></div>
-          <!-- <div class="rounded-circle svgIcons profileIcon" style="background-image: url('/images/<%=locals.user.icon%>'); "></div> -->
+          <!-- <div class="rounded-circle svgIcons profileIcon" style="background-image: url('/images/<%=locals.user.path%>'); "></div> -->
           <h3 class=" mt-1"><%=locals.user.name%></h3>
           <h3>Nivel <%=locals.user.level%></h3>
           <div id="profileProgress" class="progress rounded-5 w-100" role="progressbar" aria-label="Success striped example" aria-valuenow="<%=user.experience%>" aria-valuemin="0" aria-valuemax="<%=user.experience + user.experienceToNext%>">
@@ -146,7 +146,7 @@
               <div class="col-3 align-items-center justify-content-center">
                 <div class="row d-flex justify-content-center align-items-center">
                   <div id="selectionBg" style="background-color: <%=user.bgColor%>;" class="p-4 rounded-circle d-flex justify-content-center align-items-center">
-                    <img id="selectionIcon" src="/images/svg/<%=user.icon%>" class="svgIcons">
+                    <img id="selectionIcon" src="/images/svg/<%=user.path%>" class="svgIcons">
                   </div>
                 </div>
                 <div class="row ">
