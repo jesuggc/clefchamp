@@ -93,7 +93,9 @@ const GameState = {
             $playAgainDiv: $("#playAgainDiv"),
             $pointsSpan: $("#pointsSpan"),
             $scoreAdded: $("#scoreAdded"),
-            $helpBtn: $("#helpBtn") 
+            $helpBtn: $("#helpBtn"),
+            $startAgain: $("#startAgain"),
+            $showAgain: $("#showAgain"),
         };
 
         // Inicializar cronómetro
@@ -109,7 +111,7 @@ const GameState = {
         // Configurar eventos
         this.setupEventListeners();
     },
-
+    // #33363F
     
     // Configurar eventos
     setupEventListeners() {
@@ -117,10 +119,12 @@ const GameState = {
         $(document).on("keyup", (event) => this.handleKeyUp(event));
         this.elements.$startBtn.on("click", () => this.startGame());
         this.elements.$helpBtn.on("click", () => new bootstrap.Modal(this.elements.$tutorialModal).show());
+        this.elements.$showAgain.on("click", () => new bootstrap.Modal(this.elements.$tutorialModal).show());
         
     
         // Agregar el evento para volver a jugar
         this.elements.$playAgainBtn.on("click", () => this.resetGame());
+        this.elements.$startAgain.on("click", () => this.resetGame());
     },
 
     // Manejar evento de tecla presionada

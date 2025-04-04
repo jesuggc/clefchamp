@@ -6,8 +6,11 @@
     <div class="vh-90" id="mainContent">
       <div class="d-flex align-items-center justify-content-center gap-4">
         <% if (locals.mode !== "TRIAL" ) { %>
-          <div class=" rounded-4 p-4 d-flex flex-column text-center">
-            <h1>hey</h1>
+          <div class=" rounded-4 d-flex flex-column text-center bg-white">
+            <a href="/"><img src="/images/icons/home.svg" class="svgButtons"></a>
+            <a href="/play/selectGame"><img src="/images/icons/back.svg" class="svgButtons"></a>
+            <a id="startAgain"><img src="/images/icons/reload.svg" class="svgButtons cursorPointer"></a>
+            <!-- <a id="showAgain"><img src="/images/icons/infoGame.svg" class="svgButtons cursorPointer"></a> -->
           </div>
         <% } %>
         <%-include('partials/playground') %>

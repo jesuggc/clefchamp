@@ -17,6 +17,7 @@
     "express": "^4.21.1",
     "express-mysql-session": "^3.0.0",
     "express-session": "^1.17.3",
+    "highcharts": "^12.1.2",
     "http-errors": "~1.6.3",
     "jquery": "^3.7.1",
     "morgan": "~1.9.1",

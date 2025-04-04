@@ -186,6 +186,12 @@
   height:     5em;
   width:      5em;
 }
+.svgButtons {
+  max-width:  5em;
+  max-height: 5em;
+  height:     5em;
+  width:      5em;
+}
 .svgIcons {
   height:10em;
   width:10em;

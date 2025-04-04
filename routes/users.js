@@ -225,31 +225,45 @@ router.post("/setProfileIcon", (req,res) => {
   
   
 })
+router.get("/stats",isLoggedIn, (req, res) => {
+  res.render("stats")
+});
+
+router.get("/settings",isLoggedIn, (req, res) => {
+  res.render("settings")
+});
+router.get("/friends",isLoggedIn, (req, res) => {
+  res.render("friends")
+})
+
+router.get("/statsForUser",isLoggedIn, (req, res) => {
+  dao.getStatsByIdAndDifficulty(res.locals.user.id,"EASY", (err, easyStats) => {
+    if (err) {
+      console.error("Error en checkEmail:", err);
+      return res.status(500).json({ message: "Error en stats easy" });
+    } else {
+      dao.getStatsByIdAndDifficulty(res.locals.user.id,"NORMAL", (err, normalStats) => {
+        if (err) {
+          console.error("Error en checkEmail:", err);
+          return res.status(500).json({ message: "Error en stats easy" });
+        } else {
+          dao.getStatsByIdAndDifficulty(res.locals.user.id,"HARD", (err, hardStats) => {
+            if (err) {
+              console.error("Error en checkEmail:", err);
+              return res.status(500).json({ message: "Error en stats easy" });
+            } else {
+              res.json({easyStats,normalStats,hardStats})
+            }
+          })
+        }
+      })
+    }
+  })
+});
+
 router.get("/prueba", (req, res) => {
-  // dao.getProfileIconFromId(1, (err, result) => {
-  //   if (err) {
-  //     console.error("Error en checkEmail:", err);
-  //     return res.status(500).json({ message: "Error en prueba" });
-  //   } else {
-  //     res.json(result)
-  //   }
-  // })
-  // dao.getTopRecordsByDifficulty("EASY", (err, result) => {
-  //   if (err) {
-  //     console.error("Error en checkEmail:", err);
-  //     return res.status(500).json({ message: "Error en prueba" });
-  //   } else {
-  //     res.json(result)
-  //   }
-  // })
-  // dao.getIconsFromId(1,(err, result) => {
-  //   if (err) {
-  //     console.error("Error en checkEmail:", err);
-  //     return res.status(500).json({ message: "Error en prueba" });
-  //   } else {
-  //     res.json(result)
-  //   }
-  // })
+  
+ 
 
 });
 
