@@ -414,7 +414,7 @@ class DAO {
         this.pool.getConnection((err, connection) => {
             if (err) callback(err, null);
             else {
-                let query = `SELECT DATE(time) AS fecha, AVG(points) AS puntos FROM userrecord WHERE userId = ? AND difficulty=? GROUP BY DATE(time) ORDER BY fecha;`
+                let query = `SELECT DATE(time) AS fecha, MAX(points) AS puntos FROM userrecord WHERE userId = ? AND difficulty=? GROUP BY DATE(time) ORDER BY fecha;`
                 connection.query(query, [id,difficulty], (err, resultado) => {
                     connection.release();
                     if (err) callback(err, null);

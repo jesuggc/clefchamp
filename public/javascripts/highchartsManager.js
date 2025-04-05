@@ -63,7 +63,6 @@ async function fetchStatsForUser() {
       }
 
       const data = await response.json();
-      console.log("Estadísticas recibidas:", data);
       return data;
   } catch (error) {
       console.error("Error al obtener stats del usuario:", error);
@@ -83,9 +82,6 @@ document.addEventListener("DOMContentLoaded", function () {
         if(stats.hardStats.length > 1) {
             crearGraficoAreaspline('hardStats', transformarDatos(stats.hardStats));
         }
-          // console.log("Easy:", stats.easyStats);
-          // console.log("Normal:", stats.normalStats);
-          // console.log("Hard:", stats.hardStats);
       }
   });
 
