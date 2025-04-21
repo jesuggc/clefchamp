@@ -1,23 +1,36 @@
-// $(function() {
-//   $("#exampleModal").modal("show");
-// });
+let hasSelectedIcon = false;
+let hasSelectedColor = false;
+
+function updateSaveButtonState() {
+  const saveBtn = $("#saveBtn");
+  if (hasSelectedIcon && hasSelectedColor) {
+    saveBtn.prop('disabled', false);
+  } else {
+    saveBtn.prop('disabled', true);
+  }
+}
 
 $(".svgIcons").on("click", function() {
   $("#exampleModal").modal("show");
 });
 
 $(".iconBtn").on("click", function() {
-  $("#selectionIcon").attr("data-id", this.getAttribute("data-id"));
-
-  let img = $(this).find("img").attr("src");
-  $("#selectionIcon").attr("src", img);
+  const path = $(this).find("img").attr("src");
+  const id = $(this).data("id");
+  $("#selectionIcon").attr("src", path);
+  $("#selectionIcon").attr("data-id", id);
+  hasSelectedIcon = true;
+  updateSaveButtonState();
 });
 
-$("#selectionColor").on("change", function() {
-  $("#selectionBg").css("background-color", $(this).val());
+$("#selectionColor").on("input", function() {
+  const color = $(this).val();
+  $("#selectionBg").css("background-color", color);
+  hasSelectedColor = true;
+  updateSaveButtonState();
 });
 
-$("#saveBtn").on("click", async function() { // Agregar async
+$("#saveBtn").on("click", async function() {
   const color = $("#selectionColor").val();
   const dataId = $("#selectionIcon").attr("data-id");
   const path = $("#selectionIcon").attr("src").split("/").pop()
@@ -47,4 +60,10 @@ async function sendProfileData(data) {
     return false;
   }
 }
+
+$('#exampleModal').on('show.bs.modal', function () {
+  hasSelectedIcon = false;
+  hasSelectedColor = false;
+  updateSaveButtonState();
+});
 
