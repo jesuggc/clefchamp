@@ -7,10 +7,24 @@ $("#addFriend").on("click", function() {
   sendRequest(friendId)
 })
 
+$("#myFriendCode").on("input", function() {
+  $(this).val($(this).val().replace('#', ''));
+});
+
+$(document).ready(function() {
+  $('#myFriendCode').on('keypress', function(e) {
+      if (e.which === 13) { // 13 is the Enter key code
+          e.preventDefault();
+          $('#friendBtn').click();
+      }
+  });
+});
+
 $("#friendBtn").on("click", async function() {
   $('#noResultDiv').hide();
   $('#resultDiv').hide();
-  const friendCode = $("#friendCode").val(); 
+  const friendCode = $("#myFriendCode").val().replace('#', ''); 
+  console.log("El codigo es", friendCode)
   if(friendCode === "")  $('#noResultDiv').show();
   else {
     try {

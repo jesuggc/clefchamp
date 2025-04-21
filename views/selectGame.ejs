@@ -3,53 +3,74 @@
   <%-include('partials/head') %>
   <body class="colorNuevo5">
     <%-include('partials/header') %>
-    <div class="vh-90">
-      <div class="d-flex">
-        <div class="col-4">
-          <div class="row p-1 bg-dark text-white text-center rounded-4 mx-1">
-            <h1>Elige un juego</h1>
-          </div>
-          <div class="row justify-content-center mx-2 my-3">
-            <div class="col-auto text-center w-100">
-              <button id="easyBtn" class="py-4 gameSelectors">Atrapa-do</button>
-              <div class="bg-dark mx-auto w-75 text-white levelDifficulty">Fácil</div>
+    <div class="vh-90 container-fluid p-4">
+      <div class="row g-4">
+        <!-- Left Column - Game Selection -->
+        <div class="col-12 col-lg-4">
+          <div class="d-flex flex-column gap-4">
+            <div class="bg-15 rounded-4 p-4">
+              <h2 class="text-center mb-0">Elige un juego</h2>
             </div>
-          </div>
-          <div class="row justify-content-center mx-2 my-3 " >
-            <div class="col-auto text-center w-100">
-              <button id="normalBtn" class="py-4 gameSelectors">Atrapa-do</button>
-              <div class="bg-dark mx-auto w-75 text-white levelDifficulty">Normal</div>
+            
+            <!-- Easy Mode -->
+            <div class="game-option">
+              <button id="easyBtn" class="gameSelectors py-4 w-100 hover-effect">
+                Atrapa-do
+              </button>
+              <div class="bg-15 text-center levelDifficulty w-75 mx-auto">
+                <span class="fs-5">Fácil</span>
+              </div>
             </div>
-          </div>
-          <div class="row justify-content-center mx-2 my-3">
-            <div class="col-auto text-center w-100" >
-              <button id="hardBtn" class="py-4 gameSelectors">Atrapa-do</button>
-              <div class="bg-dark mx-auto w-75 text-white levelDifficulty">Difícil</div>
+
+            <!-- Normal Mode -->
+            <div class="game-option">
+              <button id="normalBtn" class="gameSelectors py-4 w-100 hover-effect">
+                Atrapa-do
+              </button>
+              <div class="bg-15 text-center levelDifficulty w-75 mx-auto">
+                <span class="fs-5">Normal</span>
+              </div>
+            </div>
+
+            <!-- Hard Mode -->
+            <div class="game-option">
+              <button id="hardBtn" class="gameSelectors py-4 w-100 hover-effect">
+                Atrapa-do
+              </button>
+              <div class="bg-15 text-center levelDifficulty w-75 mx-auto">
+                <span class="fs-5">Difícil</span>
+              </div>
             </div>
           </div>
         </div>
-        <div class="col-8 px-4 vh-90">
-          <div class="bg-dark rounded-4 p-4 vh-60 d-flex justify-content-center">
-            <img id="gameImage" class="vh-55 m-a" alt="">
-          </div>
-          <div class="bg-secondary rounded-4 p-4 my-2 vh-15">
-            <div id="descriptionDiv" >
+
+        <!-- Right Column - Game Preview -->
+        <div class="col-12 col-lg-8">
+          <div class="d-flex flex-column gap-4">
+            <!-- Game Image -->
+            <div class="bg-15 rounded-4 p-4 game-preview">
+              <img id="gameImage" class="game-image" alt="">
             </div>
-          </div>
-          <div>
-            <a id="playLink"><button id="playBtn" class=" w-100 p-2 vh-10 fs-1 cancelButton">Jugar</button></a>
+
+            <!-- Game Description -->
+            <div class="bg-15 rounded-4 p-4 game-description">
+              <div id="descriptionDiv" class="scrollable">
+              </div>
+            </div>
+
+            <!-- Play Button -->
+            <div>
+              <a id="playLink" class="d-block">
+                <button id="playBtn" class="acceptButton w-100">
+                  Jugar
+                </button>
+              </a>
+            </div>
           </div>
         </div>
       </div>
     </div>
     <%-include('partials/footer') %>
-    <script src="/javascripts/selectGame.js">
-    </script>
-    <script>
-      // Configurar la recarga cada 5 segundos (5000 ms)
-      // setInterval(() => {
-      //   window.location.reload();
-      // }, 500);
-    </script>
+    <script src="/javascripts/selectGame.js"></script>
   </body>
 </html>
