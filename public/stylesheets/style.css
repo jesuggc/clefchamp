@@ -682,3 +682,41 @@ input[type="color"]::-webkit-color-swatch {
   border-radius: 1em;
 }
 
+.hover-effect {
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+}
+/* ---- */
+.hover-effect:hover {
+  transform: translateY(-2px);
+  border-color: #350D40;
+  box-shadow: 0 4px 15px rgba(53, 13, 64, 0.1);
+}
+
+.music-player {
+  border-top: 1px solid rgba(53, 13, 64, 0.1);
+  backdrop-filter: blur(10px);
+  position: relative;
+  /* bottom: 0; */
+  /* left: 0; */
+  width: 100%;
+  z-index: 10;
+}
+
+.musicControl {
+  height: 5px;
+  border-radius: 5px;
+  background: #350D40;
+  appearance: none;
+  outline: none;
+}
+
+.musicControl::-webkit-slider-thumb {
+  appearance: none;
+  width: 15px;
+  height: 15px;
+  background: #350D40;
+  border-radius: 50%;
+  cursor: pointer;
+}
+

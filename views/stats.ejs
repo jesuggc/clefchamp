@@ -8,20 +8,25 @@
         <div class="rounded-4 bg-10 p-3">
           <h2 class="ms-4 py-2">Atrapa-do</h2>
           <div class="bg-10 mb-2 p-3 w-100 d-flex align-items-center justify-content-center ">
-            <div class="col-2">
-
-              <h3 class="py-2 rounded-4">Modo fácil</h3>
-              <p></p>
-            </div>
+            <h3 class="col-2">Modo fácil</h3>
             <div class="col" id="easyStats" style="width: 60vw; height: 25vh;"></div>
+            <div class="col d-none text-center" id="easyNoData">
+              <h4 style="color: #350D40">No hay suficientes datos para crear una gráfica</h4>
+            </div>
           </div>
           <div class="bg-10 mb-2 p-3 w-100 d-flex align-items-center ustify-content-center">
             <h3 class="col-2">Modo normal</h3>
             <div class="col" id="normalStats" style="width: 60vw; height: 25vh;"></div>
+            <div class="col d-none text-center" id="normalNoData">
+              <h4 style="color: #350D40">No hay suficientes datos para crear una gráfica</h4>
+            </div>
           </div>
           <div class="bg-10 mb-2 p-3 w-100 d-flex align-items-center justify-content-center">
             <h3 class="col-2">Modo difícil</h3>
             <div class="col" id="hardStats" style="width: 60vw; height: 25vh;"></div>
+            <div class="col d-none text-center" id="hardNoData">
+              <h4 style="color: #350D40">No hay suficientes datos para crear una gráfica</h4>
+            </div>
           </div>
         </div>
       </div>

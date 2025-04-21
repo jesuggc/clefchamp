@@ -14,91 +14,141 @@
         </div>
       </div>
     </div>
-    <% } else { %>  
+    <% } else { %> 
     <div class="vh-90">
-      <div class="row">
-        <div class="col">
-          <div class="bg-15 rightRounded row w-90">
-            <div class="col">
-              <div class="rightRounded justify-content-end mt-3 py-2 pe-4 d-flex w-60 colorNuevo1">
-                <h3><%=user.name%></h3>
-              </div>
-              <div class="d-flex justify-content-end pt-3 text-white w-75">
-                <span><%=user.experience%>/<%=user.experience + user.experienceToNext%></span>
-              </div>
-              <div class="progress" role="progressbar" aria-label="Success striped example" aria-valuenow="<%=user.experience%>" aria-valuemin="0" aria-valuemax="<%=user.experience + user.experienceToNext%>">
-                <% let percentage = ((user.experience)/(user.experience + user.experienceToNext))*100 %>
-                <div id="levelBar" class="progress-bar bg-success slider overflow-visible text-dark" style="width: <%=percentage%>%" >
-                  <h3 id="levelText" class="ps-5 pt-1">Nivel <span><%=user.level%></span></h3>
+      <!-- User Profile Section -->
+      <div class="container-fluid px-4 mt-3">
+        <div class="row">
+          <div class="col-8">
+            <div class="bg-15 rounded-4 p-3">
+              <div class="row align-items-center">
+                <div class="col-3">
+                  <div class="ratio ratio-1x1">
+                    <div class="rounded-circle d-flex align-items-center justify-content-center" style="background-color: <%=user.bgColor%>;">  
+                      <a href="/users/profile"><img src="/images/svg/<%=user.path%>" class="userIcon"></a>
+                    </div>
+                  </div>
+                </div>
+                <div class="col">
+                  <h2 class="mb-3"><%=user.name%></h2>
+                  <div class="d-flex justify-content-between mb-2">
+                    <span class="text-white">Experiencia</span>
+                    <span class="text-white"><%=user.experience%>/<%=user.experience + user.experienceToNext%></span>
+                  </div>
+                  <div class="progress" style="height: 2em; background-color: rgba(255,255,255,0.1)">
+                    <% let percentage = ((user.experience)/(user.experience + user.experienceToNext))*100 %>
+                    <div id="levelBar" class="progress-bar bg-success" style="width: <%=percentage%>%">
+                      <h5 class="mt-1">Nivel <%=user.level%></h5>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
-            <div class="col-3 d-flex align-items-center justify-content-center">
-              <div class="p-4 rounded-circle" style="background-color: <%=user.bgColor%>">
-                <a href="/users/profile" ><img src="/images/svg/<%=user.path%>" class="userIcon" ></a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main Content Area -->
+      <div class="container-fluid px-4 mt-4">
+        <div class="row">
+          <!-- Left Column - Navigation -->
+          <div class="col-3">
+            <div class="d-flex flex-column gap-3">
+              <a href="/users/globalRanking" class="text-decoration-none">
+                <div class="bg-15 rounded-4 p-3 hover-effect d-flex align-items-center">
+                  <img src="/images/icons/trophy.svg" class="me-3" style="width: 2em">
+                  <span class="fs-5 text-dark">Ranking Global</span>
+                </div>
+              </a>
+              <a href="/users/stats" class="text-decoration-none">
+                <div class="bg-15 rounded-4 p-3 hover-effect d-flex align-items-center">
+                  <img src="/images/icons/chart.svg" class="me-3" style="width: 2em">
+                  <span class="fs-5 text-dark">Estadísticas</span>
+                </div>
+              </a>
+              <a href="/users/profile" class="text-decoration-none">
+                <div class="bg-15 rounded-4 p-3 hover-effect d-flex align-items-center">
+                  <img src="/images/icons/user.svg" class="me-3" style="width: 2em">
+                  <span class="fs-5 text-dark">Perfil</span>
+                </div>
+              </a>
+              <a href="/users/friends" class="text-decoration-none">
+                <div class="bg-15 rounded-4 p-3 hover-effect d-flex align-items-center">
+                  <img src="/images/icons/friends.svg" class="me-3" style="width: 2em">
+                  <span class="fs-5 text-dark">Amigos</span>
+                </div>
+              </a>
+            </div>
+          </div>
+
+          <!-- Right Column - Game Options -->
+          <div class="col">
+            <div class="bg-15 rounded-4 p-4 h-100">
+              <h2 class="mb-4">¡Hora de jugar!</h2>
+              <div class="d-flex flex-column gap-3">
+                <a href="/play/selectGame" class="text-decoration-none">
+                  <div class="bg-35 rounded-4 p-4 hover-effect">
+                    <div class="d-flex align-items-center">
+                      <img src="/images/icons/play.svg" class="me-3" style="width: 2.5em">
+                      <div>
+                        <h3 class="mb-1">Nueva Partida</h3>
+                        <p class="mb-0 text-muted">Comienza una nueva aventura musical</p>
+                      </div>
+                    </div>
+                  </div>
+                </a>
+                <a id="lastPlayed" class="text-decoration-none">
+                  <div class="bg-35 rounded-4 p-4 hover-effect">
+                    <div class="d-flex align-items-center">
+                      <img src="/images/icons/history.svg" class="me-3" style="width: 2.5em">
+                      <div>
+                        <h3 class="mb-1">Última Partida</h3>
+                        <p id="lastPlayedBtn" class="mb-0 text-muted">Continúa donde lo dejaste</p>
+                      </div>
+                    </div>
+                  </div>
+                </a>
               </div>
             </div>
           </div>
         </div>
-        <div class="col">
-          
-        </div>
       </div>
-      
-      <div class="d-flex justify-content-center my-5 mx-3">
-        <div class="col-3">
-          <a style="color:black; text-decoration: none;" class="fs-5" href="/users/globalRanking"><button class="bg-35 border-0 rounded-4 w-100 mt-1 p-4" >Ranking</button></a>
-          <a style="color:black; text-decoration: none;" class="fs-5" href="/users/stats"><button class="bg-35 border-0 rounded-4 w-100 mt-1 p-4" >Estadísticas</button></a>
-          <a style="color:black; text-decoration: none;" class="fs-5" href="/users/profile"><button class="bg-35 border-0 rounded-4 w-100 mt-1 p-4" >Perfil</button></a>
-          <a style="color:black; text-decoration: none;" class="fs-5" href="/users/settings"><button class="bg-35 border-0 rounded-4 w-100 mt-1 p-4" >Ajustes</button></a>
-          <a style="color:black; text-decoration: none;" class="fs-5" href="/users/friends"><button class="bg-35 border-0 rounded-4 w-100 mt-1 p-4" >Amigos</button></a>
 
-        </div>
-        <div class="col me-5 ms-4 d-flex flex-column justify-content-center">
-          <a href="/play/selectGame"><button class="cancelButton w-100 mb-4">Nueva partida</button></a>
-          <a id="lastPlayed"><button id="lastPlayedBtn" class="cancelButton w-100 "></button></a>
+
+      <!-- Music player stays at the bottom -->
+      <div class="music-player bg-15 mt-4 p-3">
+        <div class="container-fluid">
+          <div class="row align-items-center">
+            <!-- Song Info -->
+            <div class="col-3">
+              <h4 id="songTitle" class="mb-0">Song Title</h4>
+              <p id="songArtist" class="mb-0 text-muted">Song Artist</p>
+            </div>
+            
+            <!-- Controls -->
+            <div class="col-6">
+              <div class="d-flex justify-content-center align-items-center gap-4 mb-2">
+                <img id="prevBtn" src="/images/icons/skip-previous.svg" class="musicIcons">
+                <img id="rewindBackBtn" src="/images/icons/rewind-5-back.svg" class="musicIcons">
+                <img id="playPauseBtn" src="/images/icons/play.svg" class="musicIcons" style="width: 2.5em">
+                <img id="rewindForwardBtn" src="/images/icons/rewind-5-forward.svg" class="musicIcons">
+                <img id="nextBtn" src="/images/icons/skip-next.svg" class="musicIcons">
+              </div>
+              <input id="progressBar" class="musicControl w-100" type="range" value="0" step="1" max="100">
+            </div>
+            
+            <!-- Volume -->
+            <div class="col-3">
+              <div class="d-flex align-items-center justify-content-end gap-2">
+                <img id="soundSvg" src="/images/icons/volume-small.svg" class="musicIcons">
+                <input id="volumeControl" class="musicControl" type="range" value="33" step="1" max="100" style="width: 100px">
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-        <!-- ----- -->
-      <audio id="audio" ></audio>
-      <div class="w-100 bg-15 d-flex justify-content-center" style="position: absolute; bottom: 1em" >
-        <div class="col ps-4 d-flex align-items-start flex-column justify-content-center">
-          <div class="row">
-            <h2 id="songTitle">Song Title</h2>
-          </div>
-          <div class="row">
-            <h4 id="songArtist">Song Artist</h4>
-            </div>
-        </div>
-        <div class="col">
-          <div class="row mx-4 px-4 pt-4">
-            <div class="col">
-              <img id="prevBtn" src="/images/icons/skip-previous.svg" class="musicIcons">
-            </div>
-            <div class="col">
-              <img id="rewindBackBtn" src="/images/icons/rewind-5-back.svg" class="musicIcons">
-            </div>
-            <div class="col">
-              <img id="playPauseBtn" src="/images/icons/play.svg" class="musicIcons">
-            </div>
-            <div class="col">
-              <img id="rewindForwardBtn" src="/images/icons/rewind-5-forward.svg" class="musicIcons">
-            </div>
-            <div class="col">
-              <img id="nextBtn" src="/images/icons/skip-next.svg" class="musicIcons">
-            </div>
-          </div>
-          <div class="row py-3">
-            <input id="progressBar" class="musicControl" type="range" value="0" step="1" max="100">
-          </div>
-        </div>
-        <div class="col d-flex align-items-center justify-content-center">
-          <img id="soundSvg" src="/images/icons/volume-small.svg" class="musicIcons me-2">
-          <input id="volumeControl" class="musicControl" type="range" value="33" step="1" max="100">
-        </div>
-      </div>
-        <!-- ----- -->
-    </div>
+      <audio id="audio"></audio>
+    </div> 
     <% } %>
     <%-include('partials/footer') %>
     <% if(user) { %> <script src="/javascripts/musicPlayer.js"></script> <% } %>

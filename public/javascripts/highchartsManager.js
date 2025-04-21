@@ -70,20 +70,34 @@ async function fetchStatsForUser() {
   }
 }
 document.addEventListener("DOMContentLoaded", function () {
-
   fetchStatsForUser().then(stats => {
       if (stats) {
-        if(stats.easyStats.length > 1) {
+        if(stats.easyStats.length > 2) {
+            $("#easyStats").removeClass("d-none");
+            $("#easyNoData").addClass("d-none");
             crearGraficoAreaspline('easyStats', transformarDatos(stats.easyStats));
+        } else {
+            $("#easyStats").addClass("d-none");
+            $("#easyNoData").removeClass("d-none");
         }
-        if(stats.normalStats.length > 1) {
+        
+        if(stats.normalStats.length > 2) {
+            $("#normalStats").removeClass("d-none");
+            $("#normalNoData").addClass("d-none");
             crearGraficoAreaspline('normalStats', transformarDatos(stats.normalStats));
+        } else {
+            $("#normalStats").addClass("d-none");
+            $("#normalNoData").removeClass("d-none");
         }
-        if(stats.hardStats.length > 1) {
+        
+        if(stats.hardStats.length > 2) {
+            $("#hardStats").removeClass("d-none");
+            $("#hardNoData").addClass("d-none");
             crearGraficoAreaspline('hardStats', transformarDatos(stats.hardStats));
+        } else {
+            $("#hardStats").addClass("d-none");
+            $("#hardNoData").removeClass("d-none");
         }
       }
   });
-
-
 });
