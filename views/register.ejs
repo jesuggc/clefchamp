@@ -89,21 +89,8 @@
         </div>
         </form>
       </div>
-
-      <div id="registerModal" data-bs-backdrop="static" data-bs-keyboard="false" class="modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-me  modal-dialog-centered">
-          <div class="modal-content rounded-4" style="border:0; background-color: #F2E7DC">
-            <div class="modal-body">
-              <h1 id="exampleModalLabel" class="modal-title fs-3 text-center mb-4">Bienvenido</h1>
-              <p>La cuenta ha sido creada con éxito, inicia sesión para disfrutar de tus ventajas.</p>
-              <div class="d-flex justify-content-end">
-                <a href="/"><button type="button" class="me-3 cancelButton-sm">Inicio</button></a>
-                <a href="/users/login"><button type="button" class="acceptButton-sm">Iniciar sesión</button></a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      <%-include('partials/modal/register') %>
+      
     </div>
     <script>
       $("#togglePassword").on("mousedown", function() {

@@ -8,11 +8,11 @@ function crearGraficoAreaspline(divId, datos) {
       title: { text: '' },
       xAxis: {
           type: 'datetime',
-          labels: { style: { color: '#FFF' } }
+          labels: { style: { color: '#000' } }
       },
       yAxis: {
           title: { text: '' },
-          labels: { style: { color: '#FFF' } },
+          labels: { style: { color: '#000' } },
           gridLineColor: 'rgba(255,255,255,0.2)'
       },
       series: [{

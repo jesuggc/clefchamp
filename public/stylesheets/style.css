@@ -604,6 +604,20 @@ input[type="password"] {
   height: 8em;
 }
 
+.friendIcon {
+  max-width:  3em;
+  max-height: 3em;
+  height:     3em;
+  width:      3em;
+}
+
+.actionFriendIcon, .actionUnfriendIcon {
+  max-width:  2em;
+  max-height: 2em;
+  height:     2em;
+  width:      2em;
+}
+
 #levelText {
   font-size: 1.2em;
 }

@@ -2,9 +2,22 @@
 <html lang="es">
   <%-include('partials/head') %>
   <body class="colorNuevo5">
-      <%-include('partials/header') %>
-      <div class="vh-90 d-flex flex-column align-items-center">
-        <h1>Ajustes</h1>
+      <%-include('partials/header') %> 
+      <div class="vh-90">
+        <div class=" d-flex flex-column align-items-center bg-10 rounded-4 mx-4 p-5 ">
+          
+          <h1>Ajustes</h1>
+          <section>
+            
+            <h3>Borrar cuenta</h3>
+            <p>Esta acción hará que su cuenta entre en modo inactivo. Si permanece 30 días inactivo la cuenta y todos los datos serán eliminados de la aplicación. Si durante este periodo desea reactivar la cuenta solo tiene que iniciar sesión.</p>
+            <button id="deleteBtn" class="btn btn-danger">Borrar cuenta</button>
+          </section>
+        </div>
       </div>
+      <%-include('partials/footer') %> 
+      <%-include('partials/modal/deleteAccount') %> 
+
+      <script src="/javascripts/settings.js"></script>
   </body>
 </html>

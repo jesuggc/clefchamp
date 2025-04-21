@@ -336,7 +336,7 @@ class DAO {
                 let query = `
                             SELECT u.id, u.tagname, u.email, u.friendCode, r.gameId, r.time, ui.bgColor, i.path, MAX(r.points) AS points 
                             FROM userrecord r JOIN usuarios u ON r.userId = u.id JOIN usericons ui ON u.id = ui.userId  JOIN icons i ON i.id = ui.iconId 
-                            WHERE ui.isSelected = 2 AND difficulty = ? 
+                            WHERE ui.isSelected = 2 AND difficulty = ?
                             GROUP BY r.userId, difficulty 
                             ORDER BY points DESC LIMIT 10;
                             `
@@ -415,6 +415,138 @@ class DAO {
             }
         });
     }
-}
+
+    getUserByFriendcode(friendCode, ownId, callback) {
+        this.pool.getConnection((err, connection) => {
+            if (err) callback(err, null);
+            else {
+                let query = `
+                SELECT DISTINCT u.id, u.tagname, i.path, ui.bgColor, a.state, a.userId, a.friendId
+                FROM usuarios AS u
+                JOIN usericons AS ui ON u.id = ui.userId
+                JOIN icons AS i ON ui.iconId = i.id
+                LEFT JOIN amigos AS a 
+                ON (
+                    (a.userId = ? AND a.friendId = u.id) OR 
+                    (a.friendId = ? AND a.userId = u.id)
+                    )
+                WHERE ui.isSelected = 2
+                AND u.friendCode = ?
+                AND u.id != ?;
+                ;`
+                connection.query(query,[ownId,ownId,friendCode,ownId], (err, resultado) => {
+                    connection.release();
+                    if (err) callback(err, null);
+                    else callback(null, resultado);
+                });
+            }
+        });
+    }
+    sendRequest(ownId, friendId, callback) {
+        this.pool.getConnection((err, connection) => {
+            if (err) callback(err, null);
+            else {
+                let query = `INSERT INTO amigos (userId, friendId, state) VALUES (?, ?, 'pendiente');`
+                connection.query(query,[ownId,friendId], (err, resultado) => {
+                    connection.release();
+                    if (err) callback(err, null);
+                    else callback(null, resultado);
+                });
+            }
+        });
+    }
+
+
+    getSentRequests(id, callback) {
+        this.pool.getConnection((err, connection) => {
+            if (err) callback(err, null);
+            else {
+                let query = `   SELECT u.id, u.tagname, u.friendCode, i.path, ui.bgColor 
+                                FROM amigos AS a JOIN usuarios AS u ON a.friendId = u.id JOIN usericons AS ui ON u.id = ui.userId JOIN icons AS i ON ui.iconId = i.id
+                                WHERE a.userId=? AND state='pendiente' AND ui.isSelected=2;`
+                connection.query(query,id, (err, resultado) => {
+                    connection.release();
+                    if (err) callback(err, null);
+                    else callback(null, resultado);
+                });
+            }
+        });
+    }
+
+    getReceivedRequests(id, callback) {
+        this.pool.getConnection((err, connection) => {
+            if (err) callback(err, null);
+            else {
+                let query = `
+                                SELECT u.id, u.tagname, u.friendCode, i.path, ui.bgColor 
+                                FROM amigos AS a JOIN usuarios AS u ON a.userId = u.id JOIN usericons AS ui ON u.id = ui.userId JOIN icons AS i ON ui.iconId = i.id
+                                WHERE a.friendId=? AND state='pendiente' AND ui.isSelected=2;`
+                connection.query(query,id, (err, resultado) => {
+                    connection.release();
+                    if (err) callback(err, null);
+                    else callback(null, resultado);
+                });
+            }
+        });
+    }
+    getFriends(id, callback) {
+        this.pool.getConnection((err, connection) => {
+            if (err) callback(err, null);
+            else {
+                let query = `
+                        SELECT DISTINCT u.id, u.tagname, u.friendCode, i.path, ui.bgColor
+                        FROM amigos AS a
+                        JOIN usuarios AS u ON (a.friendId = u.id AND a.userId = ?) OR (a.userId = u.id AND a.friendId = ?)
+                        JOIN usericons AS ui ON u.id = ui.userId
+                        JOIN icons AS i ON ui.iconId = i.id
+                        WHERE a.state = 'aceptado'
+                        AND ui.isSelected = 2
+                        AND u.id != ?;
+                `
+                connection.query(query,[id,id,id], (err, resultado) => {
+                    connection.release();
+                    if (err) callback(err, null);
+                    else callback(null, resultado);
+                });
+            }
+        });
+    }
+
+    acceptRequest(selfId,friendId, callback) {
+        this.pool.getConnection((err, connection) => {
+            if (err) callback(err, null);
+            else {
+                let query = `
+                    UPDATE amigos SET state = 'aceptado' WHERE userId = ? AND friendId = ?;
+                `
+                connection.query(query,[friendId,selfId], (err, resultado) => {
+                    connection.release();
+                    if (err) callback(err, null);
+                    else callback(null, resultado);
+                });
+            }
+        });
+    }
+
+    dropRequest(selfId,friendId, callback) {
+        this.pool.getConnection((err, connection) => {
+            if (err) callback(err, null);
+            else {
+                let query = `
+                        DELETE FROM amigos WHERE userId = ? AND friendId = ?;
+                `
+                connection.query(query,[friendId, selfId], (err, resultado) => {
+                    connection.release();
+                    if (err) callback(err, null);
+                    else callback(null, resultado);
+                });
+            }
+        });
+    }
+   
+
+    
+    
+    }
    
 module.exports = DAO;

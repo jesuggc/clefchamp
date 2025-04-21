@@ -3,8 +3,86 @@
   <%-include('partials/head') %>
   <body class="colorNuevo5">
       <%-include('partials/header') %>
-      <div class="vh-90 d-flex flex-column align-items-center">
-        <h1>Amigos</h1>
+      <div class="row d-flex">
+        <div class="col scrollable container-fluid vh-90 mx-5">
+          <h1>Amigos</h1>
+          <button class="btn btn-primary" id="searchFriend">Buscar amigos</button>
+          <div class="row bg-15 rounded-4 mx-1 px-2">
+              <h1 id="friendsBtn" class="col mx-5 text-center cursorPointer" style="margin-bottom: 0;">Amigos</h1>
+              <h1 id="sentRequestBtn" class="col mx-5 text-center cursorPointer" style="margin-bottom: 0;">Solicitudes enviadas</h1>
+              <h1 id="recivedRequestBtn" class="col mx-5 text-center cursorPointer" style="margin-bottom: 0;">Solicitudes recibidas</h1>
+          </div>
+          <div class="row">
+            <div class="col">
+              <%if(friendList.length===0) { %>
+                <p class="friendsDiv">Aun no has añadido a ningún amigo.</p>
+              <% } else { %>
+                <% friendList.forEach(ele => { %>
+                  <div class="row mt-4 py-1 bg-10 rounded-3 friendsDiv">
+                    <div class="col d-flex justify-content-center">
+                      <div style="background-color: <%=ele.bgColor%>;" class="p-2 rounded-circle">
+                        <img class="friendIcon" src="/images/svg/<%=ele.path%>">
+                      </div>
+                    </div>
+                    <div class="col d-flex align-items-center justify-content-center">
+                      <h3 class="col"><%=ele.tagname%></h3>
+                      
+                    </div>
+                    <div class="col d-flex align-items-center justify-content-center">
+                      
+                    </div>
+                  </div>
+                <% }); %>
+              <% } %>
+              <% if(sentList.length === 0) { %>
+                <p class="sentRequestDiv" hidden>No tienes ninguna solicitud enviada pendiente.</p>
+              <% } else { %>
+                <% sentList.forEach(ele => { %>
+                  <div class="row mt-4 py-1 bg-10 rounded-3 sentRequestDiv" hidden>
+                    <div class="col d-flex justify-content-center">
+                      <div style="background-color: <%=ele.bgColor%>;" class="p-2 rounded-circle">
+                        <img class="friendIcon" src="/images/svg/<%=ele.path%>">
+                      </div>
+                    </div>
+                    <div class="col d-flex align-items-center justify-content-center">
+                      <h3 class="col"><%=ele.tagname%></h3>
+                      
+                    </div>
+                    <div class="col d-flex align-items-center justify-content-center">
+                      
+                    </div>
+                  </div>
+                <% }); %>
+              <% } %>
+              <%if(receivedList.length===0) { %>
+                <p class="recivedRequestDiv" hidden>No tienes ninguna solictud recibida pendiente.</p>
+              <% } else { %>
+                <% receivedList.forEach(ele => { %>
+                  <div class="row mt-4 py-1 bg-10 rounded-3 recivedRequestDiv" hidden>
+                    <div class="col d-flex justify-content-center">
+                      <div style="background-color: <%=ele.bgColor%>;" class="p-2 rounded-circle">
+                        <img class="friendIcon" src="/images/svg/<%=ele.path%>">
+                      </div>
+                    </div>
+                    <div class="col d-flex align-items-center justify-content-center">
+                      <h3 class="col"><%=ele.tagname%></h3>
+                    </div>
+                    <div class="col d-flex align-items-center justify-content-center">
+                      <div class="p-1 rounded-circle bg-success">
+                        <button style="all: unset; cursor: pointer; " title="Aceptar solicitud"><img src="/images/friend.svg" class="actionFriendIcon" data-id="<%=ele.id%>"></button>
+                      </div>
+                      <div class="p-1 rounded-circle bg-danger">
+                        <button style="all: unset; cursor: pointer; " title="Rechazar solicitud"><img src="/images/unfriend.svg" class="actionUnfriendIcon" data-id="<%=ele.id%>"></button>
+                      </div>
+                    </div>
+                  </div>
+                <% }); %>
+              <% } %>
+            </div>
+          </div>
+        </div>
       </div>
+      <%-include('partials/modal/searchFriend') %>
+    <script src="/javascripts/friends.js"></script>
   </body>
 </html>

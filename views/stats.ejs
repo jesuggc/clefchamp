@@ -3,20 +3,30 @@
   <%-include('partials/head') %>
   <body class="colorNuevo5">
       <%-include('partials/header') %>
-      <div class="vh-90 d-flex flex-column align-items-center">
-        <div class="pastelGreen p-3 w-100 align-items-center justify-content-center ">
-          <div id="easyStats" style="width: 60vw; height: 25vh;"></div>
-        </div>
-        <div class="pastelBlue p-3 w-100 align-items-center ustify-content-center">
-          <div id="normalStats" style="width: 60vw; height: 25vh;"></div>
-        </div>
-        <div class="pastelRed p-3 w-100 align-items-center justify-content-center">
+      <div class="vh-90 scrollable d-flex flex-column align-items-center">
+        <h1 class="pb-4">Estadísticas</h1>
+        <div class="rounded-4 bg-10 p-3">
+          <h2 class="ms-4 py-2">Atrapa-do</h2>
+          <div class="bg-10 mb-2 p-3 w-100 d-flex align-items-center justify-content-center ">
+            <div class="col-2">
 
-          <div id="hardStats" style="width: 60vw; height: 25vh;"></div>
+              <h3 class="py-2 rounded-4">Modo fácil</h3>
+              <p></p>
+            </div>
+            <div class="col" id="easyStats" style="width: 60vw; height: 25vh;"></div>
+          </div>
+          <div class="bg-10 mb-2 p-3 w-100 d-flex align-items-center ustify-content-center">
+            <h3 class="col-2">Modo normal</h3>
+            <div class="col" id="normalStats" style="width: 60vw; height: 25vh;"></div>
+          </div>
+          <div class="bg-10 mb-2 p-3 w-100 d-flex align-items-center justify-content-center">
+            <h3 class="col-2">Modo difícil</h3>
+            <div class="col" id="hardStats" style="width: 60vw; height: 25vh;"></div>
+          </div>
         </div>
       </div>
+      <%-include('partials/footer') %>
 
-<!-- <script src="https://code.highcharts.com/highcharts.js"></script> -->
 <script src="/javascripts/highchartsManager.js"></script>
 
   </body>

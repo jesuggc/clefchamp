@@ -197,7 +197,6 @@ router.get("/globalRanking", (req, res) => {
           console.error("Error en checkEmail:", err);
           return res.status(500).json({ message: "Error en checkEmail" });
         }
-        console.log(easyRes[0])
         res.render("globalRanking",{easyRes, normalRes, hardRes});
       });
     });
@@ -233,7 +232,16 @@ router.get("/settings",isLoggedIn, (req, res) => {
   res.render("settings")
 });
 router.get("/friends",isLoggedIn, (req, res) => {
-  res.render("friends")
+  dao.getSentRequests(res.locals.user.id, (err1, sentList) => {
+    if (err1) return res.status(500).json({ error: 'Error al obtener los datos 1' });
+    dao.getReceivedRequests(res.locals.user.id, (err2, receivedList) => {
+      if (err2) return res.status(500).json({ error: 'Error al obtener los datos 2' });
+      dao.getFriends(res.locals.user.id, (err3, friendList) => {
+        if (err3) return res.status(500).json({ error: 'Error al obtener los datos 3' });
+        res.render("friends",{sentList, receivedList, friendList});
+      });
+    });
+  });
 })
 
 router.get("/statsForUser",isLoggedIn, (req, res) => {
@@ -242,15 +250,15 @@ router.get("/statsForUser",isLoggedIn, (req, res) => {
       console.error("Error en checkEmail:", err);
       return res.status(500).json({ message: "Error en stats easy" });
     } else {
-      dao.getStatsByIdAndDifficulty(res.locals.user.id,"NORMAL", (err, normalStats) => {
-        if (err) {
-          console.error("Error en checkEmail:", err);
-          return res.status(500).json({ message: "Error en stats easy" });
+      dao.getStatsByIdAndDifficulty(res.locals.user.id,"NORMAL", (err1, normalStats) => {
+        if (err1) {
+          console.error("Error en checkEmail:", err1);
+          return res.status(500).json({ message: "Error en stats normal" });
         } else {
-          dao.getStatsByIdAndDifficulty(res.locals.user.id,"HARD", (err, hardStats) => {
-            if (err) {
-              console.error("Error en checkEmail:", err);
-              return res.status(500).json({ message: "Error en stats easy" });
+          dao.getStatsByIdAndDifficulty(res.locals.user.id,"HARD", (err2, hardStats) => {
+            if (err2) {
+              console.error("Error en checkEmail:", err2);
+              return res.status(500).json({ message: "Error en stats hard" });
             } else {
               res.json({easyStats,normalStats,hardStats})
             }
@@ -260,10 +268,46 @@ router.get("/statsForUser",isLoggedIn, (req, res) => {
     }
   })
 });
+router.get('/getUserByFriendcode/:friendCode', (req, res) => {
+  const { friendCode } = req.params;
+  const fullFriendCode = "#" + friendCode
+  dao.getUserByFriendcode(fullFriendCode,res.locals.user.id, (err, resultado) => {
+    if (err) return res.status(500).json({ error: 'Error al obtener los datos' });
+    res.json(resultado);
+  });
+});
+
+router.post('/sendRequest', (req, res) => {
+  const { friendId } = req.body;
+  dao.sendRequest(res.locals.user.id,friendId, (err, resultado) => {
+    if (err) return res.status(500).json({ error: 'Error al obtener los datos' });
+    res.json(resultado);
+  });
+});
+
+router.post('/acceptRequest', (req,res) => {
+  const { friendId } = req.body;
+  dao.acceptRequest(res.locals.user.id,friendId, (err, resultado) => {
+    if (err) return res.status(500).json({ error: 'Error al obtener los datos' });
+    
+    res.redirect('/friends')
+  });
+})
+
+router.post('/dropRequest', (req,res) => {
+  const { friendId } = req.body;
+  dao.dropRequest(res.locals.user.id,friendId, (err, resultado) => {
+    if (err) return res.status(500).json({ error: 'Error al obtener los datos' });
+    res.redirect('/friends')
+  });
+})
 
 router.get("/prueba", (req, res) => {
   
- 
+//   dao.getUserByFriendcode("#J35U5J4J4", (err, resultado) => {
+//     if (err) return res.status(500).json({ error: 'Error al obtener los datos' });
+//     res.json(resultado);
+// });
 
 });
 

@@ -1,0 +1,50 @@
+<div id="searchFriendModal" class="modal " tabindex="-1" >
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+          <div class="modal-content rounded-4 p-4" style="border:0; background-color: #F2E7DC">
+            <div class="modal-body d-flex align-items-center">
+              <h3 class="modal-title mx-auto">Buscar amigo</h3>
+            </div>
+              <div class="row">
+                <div class="col">
+                  <p>Codigo de amigo</p>
+                </div>
+                <div class="col">
+                  <input id="friendCode" type="text">
+                </div>
+                <div class="col">
+                  <button class="btn btn-primary" id="friendBtn">Buscar amigo</button>
+                </div>
+              </div>
+              <div id="noResultDiv" class="row mt-4 bg-10 p-2 rounded-3 px-5">
+                  No hay resultados
+              </div>
+              <div id="resultDiv" class="row mt-4 py-1 bg-10 rounded-3">
+                <div class="col d-flex justify-content-center">
+                  <div id="resultBg" class="p-2 rounded-circle">
+                    <img id="resultImg" class="friendIcon">
+                  </div>
+                </div>
+                <div class="col d-flex align-items-center justify-content-center">
+                  <h3 id="resultName" class="col"></h3>
+                </div>
+                <div class="col d-flex align-items-center justify-content-center">
+                  <div class="p-1 rounded-circle bg-white ">
+                    <button id="addFriend" style="all: unset; cursor: pointer; " title="Añadir amigo"><img src="/images/friend.svg" class="actionFriendIcon "></button>
+                  </div>
+                  <div class="p-1 rounded-circle bg-success ">
+                    <button id="acceptFriend" style="all: unset; cursor: pointer; " title="Aceptar solicitud"><img src="/images/friend.svg" class="actionFriendIcon "></button>
+                  </div>
+                  <div class="p-1 rounded-circle bg-danger">
+                    <button id="rejectFriend" style="all: unset; cursor: pointer; " title="Rechazar solicitud"><img src="/images/unfriend.svg" class="actionFriendIcon "></button>
+                  </div>
+                  <div class="p-1 rounded-circle bg-danger">
+                    <button id="cancelRequest" style="all: unset; cursor: pointer; " title="Cancelar petición"><img src="/images/unfriend.svg" class="actionFriendIcon "></button>
+                  </div>
+                  <div class="p-1 rounded-circle bg-danger">
+                    <button id="deleteFriend" style="all: unset; cursor: pointer; " title="Eliminar amigo"><img src="/images/unfriend.svg" class="actionFriendIcon "></button>
+                  </div>
+                </div>
+              </div>
+          </div>
+        </div>
+      </div>
