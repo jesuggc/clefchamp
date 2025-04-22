@@ -293,7 +293,7 @@ body::-webkit-scrollbar {
 
 .scrollable {
   overflow-y:scroll;
-  overflow-y:scroll;
+  overflow-y:auto;
 }
 
 .scrollable::-webkit-scrollbar {

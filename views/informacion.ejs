@@ -4,7 +4,7 @@
   <body class="colorNuevo5">
     <%-include('partials/header')%>
     <div class="d-flex justify-content-center vh-90">
-        <div class="bg-10 p-4 rounded-4 my-3" style="max-width: 60em;">
+        <div class="scrollable bg-10 p-4 rounded-4 mb-3" style="max-width: 60em;">
             <% if(pag === 'aboutus'){ %>
                 <%-include('partials/info/aboutus')%>
             <% } else if (pag === 'ourteam') {%>
@@ -18,7 +18,8 @@
             <% } else { %>
                 <h1> Aqui no hay nada que ver ... </h1>
             <% } %>
-        </div>    
+        </div>   
+         
     </div>
     <%-include('partials/footer')%>
   </body>
