@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="es">
+  <%-include('partials/head') %>
+  <body class="colorNuevo5">
+  <h1>Generar Hash con bcrypt</h1>
+  <form id="hashForm">
+    <label for="password">Contraseña:</label>
+    <input type="text" id="password" name="password" required>
+    <button type="submit">Generar Hash</button>
+  </form>
+
+  <p id="respuesta"></p>
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>
+
+    $('#hashForm').on('submit', function(e) {
+        e.preventDefault();
+        const password = $('#password').val();
+
+        $.get('/users/prueba2', { password }, function(data) {
+        console.log('Hash generado:', data);
+        $('#respuesta').text(data);
+        }).fail(function(err) {
+        console.error('Error:', err.responseText);
+        $('#respuesta').text('Error: ' + err.responseText);
+        });
+    });
+  </script>
+</body>
+</html>

@@ -8,6 +8,8 @@ const DAO = require("../config/dao");
 const pool = mysql.createPool(mysqlConfig);
 const dao = new DAO(pool);
 
+const bcrypt = require('bcrypt');
+
 router.use((req, res, next) => {
   res.locals.user = req.session.user;
   next();
@@ -62,7 +64,7 @@ router.get("/login", alreadyLoggedIn, (req, res) => {
 
 router.post("/login", (req, res) => {
   const { email, password } = req.body;
-  dao.checkUser(email, password, (err, user) => {
+  dao.checkUser(email, (err, user) => {
     if (err) {
       console.error("Error en login:", err);
       return res.status(500).json({ message: "Error en el inicio de sesión" });
@@ -70,37 +72,46 @@ router.post("/login", (req, res) => {
     
     if (!user) return res.json({ existe: false });
     
-    dao.getUserLevel(user.id, (err, userLevel) => {
+    bcrypt.compare(password, user.password, (err, isMatch) => {
       if (err) {
-        console.error("Error obteniendo nivel del usuario:", err);
-        return res.status(500).json({ message: "Error en login" });
+        console.error("Error comparando contraseña:", err);
+        return res.status(500).json({ message: "Error en el inicio de sesión" });
       }
-      
-      dao.getPreferences(user.id, (err, preferences) => {
-        if(err) {
-          console.log(err)
-          return res.status(500).json({ message: "Error en el inicio de sesión" }); 
+
+      if (!isMatch) return res.json({ existe: false });
+
+      dao.getUserLevel(user.id, (err, userLevel) => {
+        if (err) {
+          console.error("Error obteniendo nivel del usuario:", err);
+          return res.status(500).json({ message: "Error en login" });
         }
-        dao.getProfileIconFromId(user.id,(err, profile) => {
-          if(preferences === null) {
-            preferences = {
-              showTutorial: true
-            }
+        
+        dao.getPreferences(user.id, (err, preferences) => {
+          if(err) {
+            console.log(err)
+            return res.status(500).json({ message: "Error en el inicio de sesión" }); 
           }
-          user.path = profile[0].path
-          user.bgColor = profile[0].bgColor
-          const sessionUser = {
-            ...user,
-            ...userLevel[0],
-            preferences
-          };
-          
-          req.session.user = sessionUser;
-          res.locals.user = sessionUser;
-          
-          res.json({ existe: true, nombre: user.nombre, correo: user.correo });
-        })
-      })
+          dao.getProfileIconFromId(user.id,(err, profile) => {
+            if(preferences === null) {
+              preferences = {
+                showTutorial: true
+              }
+            }
+            user.path = profile[0].path
+            user.bgColor = profile[0].bgColor
+            const sessionUser = {
+              ...user,
+              ...userLevel[0],
+              preferences
+            };
+            
+            req.session.user = sessionUser;
+            res.locals.user = sessionUser;
+            
+            res.json({ existe: true, nombre: user.nombre, correo: user.correo });
+          });
+        });
+      });
     });
   });
 });
@@ -110,7 +121,7 @@ router.get("/register", alreadyLoggedIn, (req, res) => {
 });
 
 router.post("/register", (req, res, next) => {
-  const user = { ...req.body, icon: "default.png" };
+  const user = { ...req.body};
 
   dao.createUser(user, (err, userId) => {
     if (err) return next(new Error("Error al registrar usuario"));
@@ -303,12 +314,26 @@ router.post('/dropRequest', (req,res) => {
 })
 
 router.get("/prueba", (req, res) => {
-  
-//   dao.getUserByFriendcode("#J35U5J4J4", (err, resultado) => {
-//     if (err) return res.status(500).json({ error: 'Error al obtener los datos' });
-//     res.json(resultado);
-// });
+ res.render("prueba")
+ 
+});
+router.get("/prueba2", async (req, res) => {
+  const password = req.query.password;
 
+  if (!password) {
+    return res.status(400).send('Falta la contraseña');
+  }
+
+  try {
+    const saltRounds = 10;
+    const hash = await bcrypt.hash(password, saltRounds);
+    console.log('Hash generado:', hash);
+    res.send(hash);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Error generando el hash');
+  }
+ 
 });
 
 module.exports = router;

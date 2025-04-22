@@ -45,12 +45,12 @@ class DAO {
         })
     }
 
-    checkUser(tagnameOrEmail, password, callback) {
+    checkUser(tagnameOrEmail, callback) {
         this.pool.getConnection((err, connection) => {
             if (err) callback(err, null)
             else {
-                let stringQuery = "SELECT * FROM usuarios WHERE (tagname LIKE ? OR email LIKE ?) AND password LIKE ?"
-                connection.query(stringQuery, [tagnameOrEmail,tagnameOrEmail, password], (err, resultado) => {
+                let stringQuery = "SELECT * FROM usuarios WHERE (tagname LIKE ? OR email LIKE ?)"
+                connection.query(stringQuery, [tagnameOrEmail,tagnameOrEmail], (err, resultado) => {
                     connection.release();
                     if (err) callback(err, null)
                     else if (resultado.length === 0) callback()
@@ -70,8 +70,9 @@ class DAO {
                             name:resultado[0].name,
                             tagname:resultado[0].tagname,
                             email:resultado[0].email,
-                            icon:resultado[0].icon, //remove
                             friendCode:resultado[0].friendCode,
+                            active:resultado[0].active,
+                            password:resultado[0].password,
                             joindate
                         }
                         callback(null, user)
@@ -85,7 +86,7 @@ class DAO {
         this.pool.getConnection((err, connection) => {
             if (err) callback(err, null)
             else {
-                let stringQuery = "INSERT INTO usuarios (tagname, email, password, name, friendCode, icon) VALUES (?,?,?,?,?,?)" //remove icon
+                let stringQuery = "INSERT INTO usuarios (tagname, email, password, name, friendCode) VALUES (?,?,?,?,?)"
                 connection.query(stringQuery, Object.values(user), (err, resultado) => {
                     connection.release();
                     if (err) callback(err, null)
