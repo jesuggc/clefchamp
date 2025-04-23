@@ -9,7 +9,7 @@ const pool = mysql.createPool(mysqlConfig);
 const dao = new DAO(pool);
 
 const bcrypt = require('bcrypt');
-
+const saltRounds = 10;
 router.use((req, res, next) => {
   res.locals.user = req.session.user;
   next();
@@ -122,26 +122,30 @@ router.get("/register", alreadyLoggedIn, (req, res) => {
 
 router.post("/register", (req, res, next) => {
   const user = { ...req.body};
-
-  dao.createUser(user, (err, userId) => {
-    if (err) return next(new Error("Error al registrar usuario"));
-    
-    dao.unlockIcon(userId, 1, (err) => {
-      if (err) return next(new Error("Error en registro 1"));
-      
-      dao.unlockIcon(userId, 2, (err) => {
-        if (err) return next(new Error("Error en registro 2"));
+  const password = user.password
+  bcrypt.hash(user.password, saltRounds, (err, hash) => {
+    if (err) return next(new Error("Error al cifrar la contraseña"));
+    user.password = hash; 
+    dao.createUser(user, (err, userId) => {
+      if (err) return next(new Error("Error al registrar usuario"));
+  
+      dao.unlockIcon(userId, 1, 2, (err) => {
+        if (err) return next(new Error("Error en registro 1"));
         
-        dao.unlockIcon(userId, 3, (err) => {
-          if (err) return next(new Error("Error en registro 3"));
+        dao.unlockIcon(userId, 2, 1, (err) => {
+          if (err) return next(new Error("Error en registro 2"));
           
-          dao.unlockIcon(userId, 4, (err) => {
-            if (err) return next(new Error("Error en registro 4"));
+          dao.unlockIcon(userId, 3, 1, (err) => {
+            if (err) return next(new Error("Error en registro 3"));
             
-            dao.initializeExperience(userId, (err) => {
-              if (err) return next(new Error("Error en registro 5"));
+            dao.unlockIcon(userId, 4, 1, (err) => {
+              if (err) return next(new Error("Error en registro 4"));
               
-              res.json(true);
+              dao.initializeExperience(userId, (err) => {
+                if (err) return next(new Error("Error en registro 5"));
+                
+                res.json(true);
+              });
             });
           });
         });
@@ -317,23 +321,6 @@ router.get("/prueba", (req, res) => {
  res.render("prueba")
  
 });
-router.get("/prueba2", async (req, res) => {
-  const password = req.query.password;
 
-  if (!password) {
-    return res.status(400).send('Falta la contraseña');
-  }
-
-  try {
-    const saltRounds = 10;
-    const hash = await bcrypt.hash(password, saltRounds);
-    console.log('Hash generado:', hash);
-    res.send(hash);
-  } catch (err) {
-    console.error(err);
-    res.status(500).send('Error generando el hash');
-  }
- 
-});
 
 module.exports = router;

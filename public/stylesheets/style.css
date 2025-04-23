@@ -651,6 +651,8 @@ input[type="password"] {
 
 .secondPlaces {
   transform: scale(0.9);
+  position: relative;
+  z-index: -1;
 }
 
 .pastelRed {
@@ -803,9 +805,8 @@ input[type="color"]::-webkit-color-swatch {
     }
 }
 
-/* Add or update these classes */
 .game-preview {
-    height: 51vh; /* Fixed height */
+    height: 51vh;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -823,7 +824,3 @@ input[type="color"]::-webkit-color-swatch {
     height: 15vh;
 }
 
-.game-description .scrollable {
-    height: 100%;
-    overflow-y: auto;
-}

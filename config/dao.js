@@ -184,12 +184,12 @@ class DAO {
     //     })
     // }
 
-    unlockIcon(userId, iconId, callback) {
+    unlockIcon(userId, iconId, value,callback) {
         this.pool.getConnection((err, connection) => {
             if (err) callback(err, null)
             else {
                 let stringQuery = "INSERT INTO usericons (userId, iconId, isSelected, bgColor) VALUES (?,?,?,?)"
-                connection.query(stringQuery, [userId, iconId, 0, "transparent"], (err, resultado) => {
+                connection.query(stringQuery, [userId, iconId, value, "transparent"], (err, resultado) => {
                     connection.release();
                     if (err) return callback(err, null);
                     callback(null, true);
@@ -335,13 +335,32 @@ class DAO {
             if (err) callback(err, null);
             else {
                 let query = `
-                            SELECT u.id, u.tagname, u.email, u.friendCode, r.gameId, r.time, ui.bgColor, i.path, MAX(r.points) AS points 
-                            FROM userrecord r JOIN usuarios u ON r.userId = u.id JOIN usericons ui ON u.id = ui.userId  JOIN icons i ON i.id = ui.iconId 
-                            WHERE ui.isSelected = 2 AND difficulty = ?
-                            GROUP BY r.userId, difficulty 
-                            ORDER BY points DESC LIMIT 10;
+                            SELECT 
+                            u.id, 
+                            u.tagname, 
+                            u.email, 
+                            u.friendCode, 
+                            r.gameId, 
+                            r.time, 
+                            ui.bgColor, 
+                            i.path, 
+                            r.points
+                            FROM userrecord r
+                            JOIN (
+                                SELECT userId, MAX(points) AS maxPoints
+                                FROM userrecord
+                                WHERE difficulty = ?
+                                GROUP BY userId
+                            ) maxr ON r.userId = maxr.userId AND r.points = maxr.maxPoints
+                            JOIN usuarios u ON r.userId = u.id
+                            JOIN usericons ui ON u.id = ui.userId
+                            JOIN icons i ON i.id = ui.iconId
+                            WHERE ui.isSelected = 2 AND r.difficulty = ?
+                            ORDER BY r.points DESC
+                            LIMIT 10;
+
                             `
-                connection.query(query, [difficulty], (err, resultado) => {
+                connection.query(query, [difficulty, difficulty], (err, resultado) => {
                     connection.release();
                     if (err) callback(err, null);
                     else {
