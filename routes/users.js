@@ -128,28 +128,14 @@ router.post("/register", (req, res, next) => {
     user.password = hash; 
     dao.createUser(user, (err, userId) => {
       if (err) return next(new Error("Error al registrar usuario"));
-  
-      dao.unlockIcon(userId, 1, 2, (err) => {
-        if (err) return next(new Error("Error en registro 1"));
-        
-        dao.unlockIcon(userId, 2, 1, (err) => {
-          if (err) return next(new Error("Error en registro 2"));
-          
-          dao.unlockIcon(userId, 3, 1, (err) => {
-            if (err) return next(new Error("Error en registro 3"));
-            
-            dao.unlockIcon(userId, 4, 1, (err) => {
-              if (err) return next(new Error("Error en registro 4"));
+      dao.unlockInitialIcons(userId, (err) => {
+        if (err) return next(new Error("Error en registro 1"));              
+            dao.initializeExperience(userId, (err) => {
+              if (err) return next(new Error("Error en registro 5"));
               
-              dao.initializeExperience(userId, (err) => {
-                if (err) return next(new Error("Error en registro 5"));
-                
-                res.json(true);
-              });
+              res.json(true);
             });
-          });
         });
-      });
     });
   });
 });

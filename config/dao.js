@@ -103,7 +103,7 @@ class DAO {
         this.pool.getConnection((err, connection) => {
             if (err) callback(err, null)
             else {
-                let stringQuery = "SELECT i.id, i.name, i.path, i.unlockCondition, ui.isSelected FROM icons as i JOIN usericons as ui ON i.id = ui.iconId WHERE ui.userId = ?;"
+                let stringQuery = "SELECT i.id, i.name, i.path, i.unlockCondition, ui.isSelected FROM icons as i JOIN usericons as ui ON i.id = ui.iconId WHERE ui.userId = ? AND i.isDefault = 0;"
                 connection.query(stringQuery,id, (err, resultado) => {
                     connection.release();
                     if (err) callback(err)
@@ -166,23 +166,24 @@ class DAO {
         });
     }
 
-    // getInitialIcons(userId, callback) {
-    //     this.pool.getConnection((err, connection) => {
-    //         if (err) callback(err, null)
-    //         else {
-    //             let stringQuery = "SELECT * FROM userlevel WHERE idUser = ?"
-    //             connection.query(stringQuery, [userId], (err, resultado) => {
-    //                 connection.release();
-    //                 if (err) callback(err)
-    //                 else callback(null, resultado.map(ele => ({  
-    //                         level:ele.level,
-    //                         experience:ele.experience,
-    //                         experienceToNext: ele.experienceToNext
-    //                 })))
-    //             })
-    //         }
-    //     })
-    // }
+    unlockInitialIcons(userId,callback) {
+        this.pool.getConnection((err, connection) => {
+            if (err) callback(err, null)
+            else {
+                let stringQuery = `
+                    INSERT INTO usericons (userId, iconId, isSelected, bgColor)
+                    SELECT ?, id, isDefault, "transparent"
+                    FROM icons
+                    WHERE unlockOnCreate = 1;
+                `
+                connection.query(stringQuery, [userId], (err, resultado) => {
+                    connection.release();
+                    if (err) return callback(err, null);
+                    callback(null, true);
+                })
+            }
+        })
+    }
 
     unlockIcon(userId, iconId, value,callback) {
         this.pool.getConnection((err, connection) => {
@@ -355,7 +356,7 @@ class DAO {
                             JOIN usuarios u ON r.userId = u.id
                             JOIN usericons ui ON u.id = ui.userId
                             JOIN icons i ON i.id = ui.iconId
-                            WHERE ui.isSelected = 2 AND r.difficulty = ?
+                            WHERE ui.isSelected = 1 AND r.difficulty = ?
                             ORDER BY r.points DESC
                             LIMIT 10;
 
@@ -386,7 +387,7 @@ class DAO {
             if (err) callback(err, null);
             else {
                 let query = `SELECT ui.bgColor, i.path FROM icons as i JOIN usericons as ui ON i.id = ui.iconId JOIN usuarios as u on u.id = ui.userid WHERE 
-                ui.isSelected = 2 AND u.id = ?;`
+                ui.isSelected = 1 AND u.id = ?;`
                 connection.query(query, [id], (err, resultado) => {
                     connection.release();
                     if (err) callback(err, null);
@@ -400,7 +401,7 @@ class DAO {
         this.pool.getConnection((err, connection) => {
             if (err) callback(err, null);
             else {
-                let query = `UPDATE usericons SET isSelected = 1 WHERE userId = ? AND isSelected = 2`
+                let query = `UPDATE usericons SET isSelected = 0 WHERE userId = ? AND isSelected = 1`
                 connection.query(query, [id], (err, resultado) => {
                     connection.release();
                     if (err) callback(err, null);
@@ -413,7 +414,7 @@ class DAO {
         this.pool.getConnection((err, connection) => {
             if (err) callback(err, null);
             else {
-                let query = `UPDATE usericons SET isSelected = 2, bgColor = ? WHERE userId = ? AND iconId = ?`
+                let query = `UPDATE usericons SET isSelected = 1, bgColor = ? WHERE userId = ? AND iconId = ?`
                 connection.query(query, [bgColor,id,iconId], (err, resultado) => {
                     connection.release();
                     if (err) callback(err, null);
@@ -450,7 +451,7 @@ class DAO {
                     (a.userId = ? AND a.friendId = u.id) OR 
                     (a.friendId = ? AND a.userId = u.id)
                     )
-                WHERE ui.isSelected = 2
+                WHERE ui.isSelected = 1
                 AND u.friendCode = ?
                 AND u.id != ?;
                 ;`
@@ -483,7 +484,7 @@ class DAO {
             else {
                 let query = `   SELECT u.id, u.tagname, u.friendCode, i.path, ui.bgColor 
                                 FROM amigos AS a JOIN usuarios AS u ON a.friendId = u.id JOIN usericons AS ui ON u.id = ui.userId JOIN icons AS i ON ui.iconId = i.id
-                                WHERE a.userId=? AND state='pendiente' AND ui.isSelected=2;`
+                                WHERE a.userId=? AND state='pendiente' AND ui.isSelected=1;`
                 connection.query(query,id, (err, resultado) => {
                     connection.release();
                     if (err) callback(err, null);
@@ -500,7 +501,7 @@ class DAO {
                 let query = `
                                 SELECT u.id, u.tagname, u.friendCode, i.path, ui.bgColor 
                                 FROM amigos AS a JOIN usuarios AS u ON a.userId = u.id JOIN usericons AS ui ON u.id = ui.userId JOIN icons AS i ON ui.iconId = i.id
-                                WHERE a.friendId=? AND state='pendiente' AND ui.isSelected=2;`
+                                WHERE a.friendId=? AND state='pendiente' AND ui.isSelected=1;`
                 connection.query(query,id, (err, resultado) => {
                     connection.release();
                     if (err) callback(err, null);
@@ -520,7 +521,7 @@ class DAO {
                         JOIN usericons AS ui ON u.id = ui.userId
                         JOIN icons AS i ON ui.iconId = i.id
                         WHERE a.state = 'aceptado'
-                        AND ui.isSelected = 2
+                        AND ui.isSelected = 1
                         AND u.id != ?;
                 `
                 connection.query(query,[id,id,id], (err, resultado) => {
