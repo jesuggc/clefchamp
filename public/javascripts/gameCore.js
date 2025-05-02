@@ -111,7 +111,6 @@ const GameState = {
         // Configurar eventos
         this.setupEventListeners();
     },
-    // #33363F
     
     // Configurar eventos
     setupEventListeners() {
@@ -144,10 +143,10 @@ const GameState = {
         if (event.code === "Space") {
             event.preventDefault();
             if (this.elements.$startBtn.is(":visible")) {
-                this.elements.$startBtn.trigger("click");
+                this.startGame()
             }
             else if (this.current.contador === this.config.ROUNDS) {
-                this.elements.$playAgainBtn.trigger("click");
+                this.resetGame();
             }
         }
     },
@@ -163,7 +162,7 @@ const GameState = {
     // Iniciar el juego
     startGame() {
         growAndBack(this.elements.$divFeedback);
-        this.elements.$startBtn.hide();
+        this.elements.$startBtn.removeClass("d-flex").addClass("d-none");
         this.cronometro.start();
         this.updateGame();
         this.current.gameStarted = true;
@@ -257,13 +256,13 @@ const GameState = {
     // Mostrar resultados
     async showResults() {
         let percentage = Math.round((this.current.aciertos / this.config.ROUNDS) * 100);
-        let winExp = true; // Siempre gana experiencia por ahora
+        let winExp = percentage >= 50;
         let experienceToAdd = winExp ? this.config.EXPERIENCE : 0;
         
         let levelUp = await this.handleExperience(winExp, experienceToAdd);
         
         this.elements.$experienceSpan.text(
-            winExp ? this.config.EXPERIENCE : `Para conseguir experiencia supera el ${this.config.experienceThreshold}%`
+            winExp ? "+" + this.config.EXPERIENCE + "exp." : `Para conseguir experiencia supera el ${this.config.experienceThreshold}%`
         );
         this.elements.$resultSpan.text(percentage + "%");
         this.elements.$resultSpan.css("color", winExp ? this.config.COLOR_CORRECT : this.config.COLOR_WRONG);
@@ -433,7 +432,7 @@ const GameState = {
         
     },
 
-    // Reiniciar el juego (nueva funcionalidad)
+    
     resetGame() {
         // Ocultar resultados
         this.elements.$divResultados.removeClass('show');
@@ -463,7 +462,7 @@ const GameState = {
         // Reiniciar interfaz
         this.elements.$progressBar.css("width", "0%");
         this.elements.$streak.css('opacity', 0);
-        this.elements.$startBtn.show();
+        this.elements.$startBtn.removeClass("d-none").addClass("d-flex");
         this.elements.$pointsSpan.text(0)
         // Reiniciar cronómetro
         this.cronometro = new Cronometro();

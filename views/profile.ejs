@@ -14,14 +14,14 @@
           <!-- <div class="rounded-circle svgIcons profileIcon" style="background-image: url('/images/<%=locals.user.path%>'); "></div> -->
           <h3 class=" mt-1"><%=locals.user.name%></h3>
           <h3>Nivel <%=locals.user.level%></h3>
-          <div id="profileProgress" class="progress rounded-5 w-100" role="progressbar" aria-label="Success striped example" aria-valuenow="<%=user.experience%>" aria-valuemin="0" aria-valuemax="<%=user.experience + user.experienceToNext%>">
+          <div id="profileProgress" class="progress rounded-5 w-75" role="progressbar" aria-label="Success striped example" aria-valuenow="<%=user.experience%>" aria-valuemin="0" aria-valuemax="<%=user.experience + user.experienceToNext%>">
             <% let progress = ((user.experience)/(user.experience + user.experienceToNext))*100 %>
             <div id="levelBar" class="progress-bar bg-success slider overflow-visible text-dark" style="width: <%=progress%>%" >
               <span id="levelText" class="ps-5"><%=locals.user.experience%>/<%=(locals.user.experience+locals.user.experienceToNext) %></span>
             </div>
           </div>
         </div>
-        <div class="bg-15 rounded-4 p-1 text-center" style="height:12vh; margin-bottom: 1vh;">
+        <div class="bg-15 rounded-4 p-1 align-items-center justify-content-center d-flex flex-column" style="height:12vh; margin-bottom: 1vh;">
             <h3>Te uniste el:</h3>
             <h5><%=locals.user.joindate.day%>/<%=locals.user.joindate.month%>/<%=locals.user.joindate.year%></p>
         </div>
@@ -37,13 +37,6 @@
           <div class="col-2 d-flex align-items-center justify-content-center ">
             <a id="copyFriendCode" class="cursorPointer;"><img src="/images/copy.svg" class="friendCodeImg"></a>
           </div>
-        </div>
-        <div class="bg-15 rounded-4 p-2 text-center" style="height:18vh">
-          <h3>Amigo del alma</h3>
-          <%# if (tiene amigo) %>
-          <h5> Id del amigo</h5>
-          <%# else %>
-          <input type="text"></input>
         </div>
       </div>
       <div class="col-8 scrollable container-fluid" style="height:88vh; margin-left: -40px;">

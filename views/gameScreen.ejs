@@ -20,7 +20,7 @@
               <h2>Has acertado un <span id="resultSpan"> </span></h2>
             </div> 
             <div id="experienceDiv">
-              <h1>+<span id="experienceSpan"></span> exp.</h1>
+              <h1><span id="experienceSpan"></span></h1>
             </div>
             <div id="totalExpDiv" class="colorNuevo5 rounded-4 p-2">
               <h2>Nivel <span id="levelSpan"><%=locals.user.level%></span></h2>
@@ -48,10 +48,15 @@
         <% } %>
       </div>
       <div class="d-flex align-items-center justify-content-center">
-        <button id="startBtn" class="acceptButton mt-4 d-flex flex-column align-items-center" style="padding: 0.5em 2em 1em 2em;">
+        <button id="startBtn" class="acceptButton mt-4 d-flex flex-column align-items-center" style="padding: 0.5em 2em 1em 2em;" >
             <span>Comenzar</span>
             <span class="fs-6" style="margin-top: -0.5em;">[Espacio]</span>
         </button>
+        <!-- <button id="startBtn" class="acceptButton mt-4 align-items-center"> -->
+            <!-- <span>Comenzar</span> -->
+            <!-- <span class="fs-6" style="margin-top: -0.5em;">[Espacio]</span> -->
+            <!-- Comenzar -->
+        <!-- </button> -->
       </div>
     </div>
     <%-include('partials/footer') %>

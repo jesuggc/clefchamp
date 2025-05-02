@@ -31,12 +31,36 @@ $("#friendBtn").on("click", async function() {
       const result = await fetchUserByFriendCode(friendCode);
       if (result.length === 0) $('#noResultDiv').show();
       else {
-        
+        console.log( result[0].state )
+        console.log( result[0].userId )
+        console.log( result[0].friendId )
+        $("#addFriendDiv").hide();
+        $("#acceptFriendDiv").hide();
+        $("#rejectFriendDiv").hide();
+        $("#deleteFriendDiv").hide();
+        $("#cancelRequestDiv").hide();
+        if(result[0].state === null) {
+          $("#addFriendDiv").show();
+        } else if(result[0].state === 'pendiente') {
+            if(result[0].userId === user.id) {
+              $("#cancelRequestDiv").show();
+            } else {
+              $("#acceptFriendDiv").hide();
+              $("#rejectFriendDiv").hide();
+            }  
+        } else if(result[0].state === 'aceptado') {
+          $("#deleteFriendDiv").hide();
+        } else if(result[0].state === 'rechazado') {
+          // No se usa
+        } else {
+          console.log("Estamos jodidos")
+        }
         $('#resultDiv').show();
         $('#resultImg').attr('src', "/images/svg/" + result[0].path);
         $('#resultName').text(result[0].tagname);
         $("#resultBg").css("background-color", result[0].bgColor)
         $("#resultDiv").attr("data-id", result[0].id)
+
       }
       
     } catch (error) {
