@@ -5,7 +5,7 @@ $('#resultDiv').hide();
 $("#addFriend").on("click", function() {
   let friendId = $("#resultDiv").attr("data-id")
   sendRequest(friendId)
-})
+9})
 
 $("#myFriendCode").on("input", function() {
   $(this).val($(this).val().replace('#', ''));
