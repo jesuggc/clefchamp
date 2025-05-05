@@ -22,12 +22,12 @@
               <h1 id="recivedRequestBtn" class="col mx-5 text-center cursorPointer" style="margin-bottom: 0;">Solicitudes recibidas</h1>
           </div>
           <div class="row">
-            <div class="col">
+            <div class="col d-flex justify-content-center">
               <%if(friendList.length===0) { %>
                 <p class="friendsDiv">Aun no has añadido a ningún amigo.</p>
               <% } else { %>
                 <% friendList.forEach(ele => { %>
-                  <div class="row mt-4 py-1 bg-10 rounded-3 friendsDiv">
+                  <div class="row mt-4 py-1 bg-10 rounded-3 friendsDiv friend<%=ele.id%>">
                     <div class="col d-flex justify-content-center">
                       <div style="background-color: <%=ele.bgColor%>;" class="p-2 rounded-circle">
                         <img class="friendIcon" src="/images/svg/<%=ele.path%>">
@@ -38,7 +38,9 @@
                       
                     </div>
                     <div class="col d-flex align-items-center justify-content-center">
-                      
+                      <div class="p-1 rounded-circle bg-warning">
+                        <button style="all: unset; cursor: pointer; " title="Eliminar amigo"><img src="/images/unfriend.svg" class="actionDeleteIcon" data-id="<%=ele.id%>"></button>
+                      </div>
                     </div>
                   </div>
                 <% }); %>
@@ -47,7 +49,7 @@
                 <p class="sentRequestDiv" hidden>No tienes ninguna solicitud enviada pendiente.</p>
               <% } else { %>
                 <% sentList.forEach(ele => { %>
-                  <div class="row mt-4 py-1 bg-10 rounded-3 sentRequestDiv" hidden>
+                  <div class="row mt-4 py-1 bg-10 rounded-3 sentRequestDiv sent<%=ele.id%>" hidden>
                     <div class="col d-flex justify-content-center">
                       <div style="background-color: <%=ele.bgColor%>;" class="p-2 rounded-circle">
                         <img class="friendIcon" src="/images/svg/<%=ele.path%>">
@@ -58,7 +60,9 @@
                       
                     </div>
                     <div class="col d-flex align-items-center justify-content-center">
-                      
+                      <div class="p-1 rounded-circle bg-dark">
+                        <button style="all: unset; cursor: pointer; filter: invert(1);" title="Cancelar petición"><img src="/images/unfriend.svg" class="actionCancelIcon" data-id="<%=ele.id%>"></button>
+                      </div>
                     </div>
                   </div>
                 <% }); %>
@@ -67,7 +71,7 @@
                 <p class="recivedRequestDiv" hidden>No tienes ninguna solictud recibida pendiente.</p>
               <% } else { %>
                 <% receivedList.forEach(ele => { %>
-                  <div class="row mt-4 py-1 bg-10 rounded-3 recivedRequestDiv" hidden>
+                  <div class="row mt-4 py-1 bg-10 rounded-3 recivedRequestDiv recived<%=ele.id%>" hidden>
                     <div class="col d-flex justify-content-center">
                       <div style="background-color: <%=ele.bgColor%>;" class="p-2 rounded-circle">
                         <img class="friendIcon" src="/images/svg/<%=ele.path%>">

@@ -5,6 +5,9 @@
     <%-include('partials/header') %>
     <div class="row d-flex">
       <div class="col scrollable container-fluid vh-90 mx-5">
+        <div class="mb-3">
+
+        
         <div class="row bg-15 rounded-4 mx-1 px-2">
           <% const levels = [{ id: 'easy', name: 'Fácil', res: easyRes }, { id: 'normal', name: 'Normal', res: normalRes }, { id: 'hard', name: 'Difícil', res: hardRes }]; %>
           <% levels.forEach(level => { %>
@@ -51,6 +54,7 @@
         <% }); %>
       </div>
     </div>  
+  </div>
     <%-include('partials/footer') %>
     <script src="/javascripts/clipboard.js"></script>
     <script src="/javascripts/ranking.js"></script>

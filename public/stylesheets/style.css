@@ -620,7 +620,7 @@ input[type="password"] {
   width:      3em;
 }
 
-.actionFriendIcon, .actionUnfriendIcon {
+.actionFriendIcon, .actionUnfriendIcon, .actionDeleteIcon, .actionCancelIcon {
   max-width:  2em;
   max-height: 2em;
   height:     2em;

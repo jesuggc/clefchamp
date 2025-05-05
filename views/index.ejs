@@ -65,6 +65,12 @@
           <div class="col-3">
             <div class="bg-15 rounded-4 p-4 h-100">
               <div class="d-flex flex-column gap-3">
+                <a href="/users/profile" class="text-decoration-none">
+                  <div class="bg-35 rounded-4 p-3 hover-effect d-flex align-items-center">
+                    <!-- <img src="/images/icons/user.svg" class="me-3" style="width: 2em"> -->
+                    <span class="fs-5 text-dark">Perfil</span>
+                  </div>
+                </a>
                 <a href="/users/globalRanking" class="text-decoration-none">
                   <div class="bg-35 rounded-4 p-3 hover-effect d-flex align-items-center">
                     <!-- <img src="/images/icons/trophy.svg" class="me-3" style="width: 2em"> -->
@@ -77,16 +83,11 @@
                     <span class="fs-5 text-dark">Estadísticas</span>
                   </div>
                 </a>
-                <a href="/users/profile" class="text-decoration-none">
-                  <div class="bg-35 rounded-4 p-3 hover-effect d-flex align-items-center">
-                    <!-- <img src="/images/icons/user.svg" class="me-3" style="width: 2em"> -->
-                    <span class="fs-5 text-dark">Perfil</span>
-                  </div>
-                </a>
                 <a href="/users/friends" class="text-decoration-none">
-                  <div class="bg-35 rounded-4 p-3 hover-effect d-flex align-items-center">
-                    <!-- <img src="/images/icons/friends.svg" class="me-3" style="width: 2em"> -->
+                  <!-- <img src="/images/icons/friends.svg" class="me-3" style="width: 2em"> -->
+                  <div class="bg-35 rounded-4 p-3 hover-effect d-flex align-items-center" id="friendsLink" style="cursor: pointer;">
                     <span class="fs-5 text-dark">Amigos</span>
+                    <span class="fs-5 text-dark ms-2" id="devText" style="opacity: 0; transition: opacity 0.3s ease;">En desarrollo...</span>
                   </div>
                 </a>
               </div>
@@ -177,8 +178,22 @@
         
         // Actualizar el texto del botón
         $("#lastPlayedBtn").text("Jugar a Atrapa-do " + dificultad);
-      })
 
+        // Friends link hover effect
+        $("#friendsLink").hover(
+          function() {
+            $("#devText").css("opacity", "1");
+          },
+          function() {
+            $("#devText").css("opacity", "0");
+          }
+        );
+
+        // Prevent redirection
+        $("#friendsLink").parent().on("click", function(e) {
+          e.preventDefault();
+        });
+      });
     </script>
   </body>
 </html>
