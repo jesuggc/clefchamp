@@ -14,5 +14,21 @@ $("#deleteBtn").on("click", function() {
 $("#cancelBtn").on("click", function() {
   deleteModal.hide();
   $("#textfield").val("")
-  
+  $("#confirmBtn").attr("disabled",true)
+})
+
+$("#confirmBtn").on("click", function() {
+  console.log("Algo hago")
+  fetch("/users/logout", {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json"
+    }
+  })
+  .then(response => {
+    window.location.href = "/";
+  })
+  .catch(error => {
+      console.error("Error logging out:", error);
+  });
 })

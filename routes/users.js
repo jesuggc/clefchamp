@@ -54,6 +54,7 @@ router.get("/logout", isLoggedIn, (req, res) => {
   req.session.destroy((err) => {
     if (err) return res.status(500).json({ message: "Error al cerrar sesión" });
     res.clearCookie("connect.sid"); // Elimina la cookie de sesión
+    console.log("Cerrando sesión")
     res.redirect("/");
   });
 });
