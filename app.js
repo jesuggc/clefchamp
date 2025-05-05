@@ -37,7 +37,8 @@ app.use(express.json());
 app.use(morgan('dev'));
 app.use((req,res,next) => {
   const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
-  const date = new Date(Date.now())
+  const date = new Date();
+  date.setHours(date.getHours() + 2); // Add 2 hours to the current time
   const formattedDate = date.toLocaleString('es-ES', {
     day: '2-digit',
     month: '2-digit',
