@@ -131,12 +131,43 @@ router.post("/register", (req, res, next) => {
       if (err) return next(new Error("Error al registrar usuario"));
       dao.unlockInitialIcons(userId, (err) => {
         if (err) return next(new Error("Error en registro 1"));              
-            dao.initializeExperience(userId, (err) => {
-              if (err) return next(new Error("Error en registro 5"));
+        dao.initializeExperience(userId, (err) => {
+          if (err) return next(new Error("Error en registro 5"));
+          
+          // Get the user data for login
+          dao.checkUser(user.email, (err, userData) => {
+            if (err) return next(new Error("Error getting user data"));
+            
+            dao.getUserLevel(userId, (err, userLevel) => {
+              if (err) return next(new Error("Error getting user level"));
               
-              res.json(true);
+              dao.getPreferences(userId, (err, preferences) => {
+                if(err) return next(new Error("Error getting preferences"));
+                
+                dao.getProfileIconFromId(userId, (err, profile) => {
+                  if(preferences === null) {
+                    preferences = {
+                      showTutorial: true
+                    }
+                  }
+                  userData.path = profile[0].path
+                  userData.bgColor = profile[0].bgColor
+                  const sessionUser = {
+                    ...userData,
+                    ...userLevel[0],
+                    preferences
+                  };
+                  
+                  req.session.user = sessionUser;
+                  res.locals.user = sessionUser;
+                  
+                  res.json({ success: true, user: sessionUser });
+                });
+              });
             });
+          });
         });
+      });
     });
   });
 });

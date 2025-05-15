@@ -32,16 +32,17 @@
                 <div class="col">
                   <h2 class="mb-3"><%=user.name%></h2>
                   <div class="d-flex justify-content-between mb-2">
-                    <span class="text-white">Experiencia</span>
+                    <span style="font-weight:bold ;" class="">Experiencia</span>
                     
-                    <span class="text-white"><%=user.experience%>/<%=user.experience + user.experienceToNext%></span>
+                    <span style="font-weight:bold ;" class=""><%=user.experience%>/<%=user.experience + user.experienceToNext%></span>
                   </div>
                   <div class="progress" style="height: 2em; background-color: rgba(255,255,255,0.1)">
                     <% let percentage = ((user.experience)/(user.experience + user.experienceToNext))*100 %>
                     <div id="levelBar" class="progress-bar bg-success" style="width: <%=percentage%>%">
-                      <h5 class="mt-1">Nivel <%=user.level%></h5>
                     </div>
                   </div>
+                  <h5 class="mt-1 text-center w-100" style="font-weight:bold ;">Nivel <%=user.level%></h5>
+                  
                 </div>
               </div>
             </div>
@@ -67,25 +68,25 @@
               <div class="d-flex flex-column gap-3">
                 <a href="/users/profile" class="text-decoration-none">
                   <div class="bg-35 rounded-4 p-3 hover-effect d-flex align-items-center">
-                    <!-- <img src="/images/icons/user.svg" class="me-3" style="width: 2em"> -->
+                    <img src="/images/icons/profile.svg" class="me-3" style="width: 2em">
                     <span class="fs-5 text-dark">Perfil</span>
                   </div>
                 </a>
                 <a href="/users/globalRanking" class="text-decoration-none">
                   <div class="bg-35 rounded-4 p-3 hover-effect d-flex align-items-center">
-                    <!-- <img src="/images/icons/trophy.svg" class="me-3" style="width: 2em"> -->
+                    <img src="/images/icons/ranking.svg" class="me-3" style="width: 2em">
                     <span class="fs-5 text-dark">Ranking global</span>
                   </div>
                 </a>
                 <a href="/users/stats" class="text-decoration-none">
                   <div class="bg-35 rounded-4 p-3 hover-effect d-flex align-items-center">
-                    <!-- <img src="/images/icons/chart.svg" class="me-3" style="width: 2em"> -->
+                    <img src="/images/icons/statistics.svg" class="me-3" style="width: 2em">
                     <span class="fs-5 text-dark">Estadísticas</span>
                   </div>
                 </a>
                 <a href="/users/friends" class="text-decoration-none">
-                  <!-- <img src="/images/icons/friends.svg" class="me-3" style="width: 2em"> -->
                   <div class="bg-35 rounded-4 p-3 hover-effect d-flex align-items-center" id="friendsLink" style="cursor: pointer;">
+                    <img src="/images/icons/friends.svg" class="me-3" style="width: 2em">
                     <span class="fs-5 text-dark">Amigos</span>
                     <span class="fs-5 text-dark ms-2" id="devText" style="opacity: 0; transition: opacity 0.3s ease;">En desarrollo...</span>
                   </div>
@@ -101,7 +102,7 @@
                 <a href="/play/selectGame" class="text-decoration-none">
                   <div class="bg-35 rounded-4 p-4 hover-effect">
                     <div class="d-flex align-items-center">
-                      <!-- <img src="/images/icons/play.svg" class="me-3" style="width: 2.5em"> -->
+                      <img src="/images/icons/playgame.svg" class="me-3" style="width: 3.5em">
                       <div>
                         <h3 class="mb-1 text-black">Nueva partida</h3>
                         <p class="mb-0 text-muted">Comienza una nueva aventura musical</p>
@@ -112,7 +113,7 @@
                 <a id="lastPlayed" class="text-decoration-none">
                   <div class="bg-35 rounded-4 p-4 hover-effect">
                     <div class="d-flex align-items-center">
-                      <!-- <img src="/images/icons/history.svg" class="me-3" style="width: 2.5em"> -->
+                      <img src="/images/icons/lastgame.svg" class="me-3" style="width: 3.5em">
                       <div>
                         <h3 class="mb-1 text-black">Última partida</h3>
                         <p id="lastPlayedBtn" class="mb-0 text-muted">Continúa donde lo dejaste</p>

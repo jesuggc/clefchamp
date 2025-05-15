@@ -1,18 +1,18 @@
 <header class="d-flex align-items-center justify-content-between">
-  <div class=" d-flex align-items-center justify-content-begin ms-4 mb-2">
+  <div class="d-flex align-items-center justify-content-begin ms-4 mb-2">
     <a href="/" class="linkLogo">Cle𝄞champ</a>
   </div>
   <% if(!locals.user) { %>
     <div class="d-flex justify-content-end pe-3">
       <a href="/users/register" class="me-3 slideButton"><h5 class="m-3">Registro</h5></a>
-      <a href="/users/login"  class="slideButton"><h5 class="m-3">Iniciar sesión</h5></a>
+      <a href="/users/login" class="slideButton"><h5 class="m-3">Iniciar sesión</h5></a>
     </div>
   <% } else { %>  
-    <div class="dropdown me-3">
-      <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
-          <img class="rounded-circle userImg " src="/images/userSvg.svg" alt="Icono que representa a un usuario">
+    <div class="dropdown me-3" >
+      <button class="btn" type="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false" style=" border-width: 0;outline: none;">
+        <img class="userImg dropdown-toggle-icon" src="/images/icons/menu.svg" alt="Icono que representa a un usuario">
       </button>
-      <ul class="dropdown-menu text-center" >
+      <ul class="dropdown-menu text-center">
         <li><a class="dropdown-item" href="/users/settings">Ajustes</a></li>
         <hr>
         <li><a class="dropdown-item" href="/users/globalRanking">Ranking</a></li>
@@ -23,4 +23,31 @@
       </ul>
     </div>
   <% } %>
+
+  <style>
+    .dropdown-toggle-icon {
+      transition: transform 0.3s ease;
+    }
+
+    .rotate-90 {
+      transform: rotate(-90deg);
+    }
+  </style>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const dropdown = document.querySelector('.dropdown');
+      const icon = dropdown?.querySelector('.dropdown-toggle-icon');
+
+      if (dropdown && icon) {
+        dropdown.addEventListener('show.bs.dropdown', () => {
+          icon.classList.add('rotate-90');
+        });
+
+        dropdown.addEventListener('hide.bs.dropdown', () => {
+          icon.classList.remove('rotate-90');
+        });
+      }
+    });
+  </script>
 </header>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="es">
   <%-include('partials/head') %>
-  <body class="colorNuevo5"  onload="loaddata()">
+  <body class="colorNuevo5">
     <%-include('partials/header') %>
     <div class="row d-flex">
       <div class="col-4 vh-90 px-4  container-fluid" >
@@ -36,7 +36,7 @@
             </div>
           </div>
           <div class="col-2 d-flex align-items-center justify-content-center ">
-            <a id="copyFriendCode" class="cursorPointer;"><img src="/images/copy.svg" class="friendCodeImg"></a>
+            <a id="copyFriendCode" class="cursorPointer;"><img src="/images/icons/copy.svg" class="friendCodeImg"></a>
           </div>
         </div>
       </div>
@@ -46,7 +46,7 @@
         <div class="row mx-5">
           <div class="col my-4 text-center pt-3 secondPlaces" style="background-color: #C0BEBE; border-radius: 2em 2em 0 0;">
             <div class="row rounded-5 p-2 bg-white mx-1">
-                <img src="/images/crown.svg" class="crownImg">
+                <img src="/images/icons/crown.svg" class="mt-4 crownImg">
                 <h1><%=topRecords[1].points%> ptos.</h1>
                 <h2><%=topRecords[1].time.day%>-<%=topRecords[1].time.month%>-<%=topRecords[1].time.year%></h2>
                 <h2>Atrapa-do</h2>
@@ -60,7 +60,7 @@
           </div>
           <div class="col my-4 text-center pt-3" style="background-color: #EBD244; border-radius: 2em 2em 0 0;">
             <div class="row rounded-5 p-2 bg-white mx-1">
-                <img src="/images/crown.svg" class="crownImg">
+                <img src="/images/icons/crown.svg" class="mt-4 crownImg">
                 <h1><%=topRecords[0].points%> ptos.</h1>
                 <h2><%=topRecords[0].time.day%>-<%=topRecords[0].time.month%>-<%=topRecords[0].time.year%></h2>
                 <h2>Atrapa-do</h2>
@@ -74,7 +74,7 @@
           </div>
           <div class="col my-4 text-center pt-3 secondPlaces" style="background-color: #B75D0E; border-radius: 2em 2em 0 0;">
             <div class="row rounded-5 p-2 bg-white mx-1">
-                <img src="/images/crown.svg" class="crownImg">
+                <img src="/images/icons/crown.svg" class="mt-4 crownImg">
                 <h1><%=topRecords[2].points%> ptos.</h1>
                 <h2><%=topRecords[2].time.day%>-<%=topRecords[2].time.month%>-<%=topRecords[2].time.year%></h2>
                 <h2>Atrapa-do</h2>

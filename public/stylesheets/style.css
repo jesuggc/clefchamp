@@ -586,7 +586,7 @@ input[type="password"] {
 }
 
 .friendCodeImg {
-  max-width: 3em;
+  max-width: 3.5em;
   cursor:pointer;
 }
 
@@ -645,8 +645,9 @@ input[type="password"] {
 }
 
 .crownImg {
-  max-width: 10em;
-  max-height: 10em;
+  max-width: 5em;
+  max-height: 5em;
+  margin-bottom: 2em;
 }
 
 .secondPlaces {
