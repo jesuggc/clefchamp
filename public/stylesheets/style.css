@@ -878,7 +878,10 @@ input[type="color"]::-webkit-color-swatch {
 #vhDiv {
   height: 90vh;
 }
-
+.registerDiv{
+  margin-top:1.5rem;
+  margin-bottom:1.5rem;
+}
 @media (max-width: 900px) {
   #mainDiv {
     max-width: none !important;
@@ -888,4 +891,8 @@ input[type="color"]::-webkit-color-swatch {
     height: 90dvh;
   }
   
+  .registerDiv{
+    margin-top:0.5rem;
+    margin-bottom:0.5rem;
+  }
 }

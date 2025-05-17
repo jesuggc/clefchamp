@@ -3,13 +3,13 @@
 <%-include('partials/head') %>
   <body class="colorNuevo5">
     <%-include('partials/headerLogo') %>
-    <div id="vhDiv" class="vh-90 d-flex align-items-center scrollable">
+    <div id="vhDiv" class="vh-90 d-flex align-items-center">
       <div id="mainDiv" class="bg-15 col-lg-6 mx-auto rounded-4 pt-4 px-4 my-2">
         <h1 class="text-center">Registro</h1>
         <form id="myForm" enctype="multipart/form-data">
           <div class="row">
             <div class="col-lg-6 col-sm-12">
-              <div class="form-floating my-4">
+              <div class="form-floating registerDiv">
                 <input id="name" type="text" class="form-control" name="nombre" placeholder="" required tabindex="1">
                 <label for="email">Nombre</label>
                 <div id="nameCheck" class="invalid-feedback">
@@ -18,7 +18,7 @@
               </div>
             </div>
             <div class="col-lg-6 col-sm-12">
-              <div class="form-floating my-4">
+              <div class="form-floating registerDiv">
                 <input id="tagname" type="text" class="form-control" name="alias" placeholder="" required>
                 <label for="email">Alias</label>
                 <div id="tagCheck" class="invalid-feedback">
@@ -33,7 +33,7 @@
           <!--CORREO-->
           <div class="row">
             <div class="col">
-              <div class="form-floating my-4">
+              <div class="form-floating registerDiv">
                 <input id="email" type="text" class="form-control" name="email" placeholder="" required>
                 <label for="email">Correo</label>
                 <div class="invalid-feedback">
@@ -46,7 +46,7 @@
           <div class="row">
             <div class="col-lg-6 col-sm-12">
 
-              <div class="input-group mt-4">
+              <div class="input-group registerDiv">
                 <div class="form-floating">
                   <input id="password" type="password" name="contrasena" class="form-control" placeholder="Password">
                   <label for="password">Contraseña</label>
@@ -68,7 +68,7 @@
             </div>
             <div class="col-lg-6 col-sm-12">
 
-              <div class="input-group mt-4">
+              <div class="input-group registerDiv">
                 <div class="form-floating">
                   <input id="confirmPassword" type="password" name="contrasenaConf" class="form-control" placeholder="">
                   <label for="password">Confirmar contraseña</label>
