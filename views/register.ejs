@@ -3,12 +3,12 @@
 <%-include('partials/head') %>
   <body class="colorNuevo5">
     <%-include('partials/headerLogo') %>
-    <div class="vh-90 d-flex align-items-center">
-      <div class="bg-15 col-lg-6 mx-auto rounded-4 pt-4 px-4 my-2">
+    <div id="vhDiv" class="vh-90 d-flex align-items-center">
+      <div id="mainDiv" class="bg-15 col-lg-6 mx-auto rounded-4 pt-4 px-4 my-2">
         <h1 class="text-center">Registro</h1>
         <form id="myForm" enctype="multipart/form-data">
           <div class="row">
-            <div class="col">
+            <div class="col-lg-6 col-sm-12">
               <div class="form-floating my-4">
                 <input id="name" type="text" class="form-control" name="nombre" placeholder="" required tabindex="1">
                 <label for="email">Nombre</label>
@@ -17,7 +17,7 @@
                 </div> 
               </div>
             </div>
-            <div class="col">
+            <div class="col-lg-6 col-sm-12">
               <div class="form-floating my-4">
                 <input id="tagname" type="text" class="form-control" name="alias" placeholder="" required>
                 <label for="email">Alias</label>
@@ -44,7 +44,7 @@
           </div>
           <!--CONTRASEÑA-->
           <div class="row">
-            <div class="col">
+            <div class="col-lg-6 col-sm-12">
 
               <div class="input-group mt-4">
                 <div class="form-floating">
@@ -66,7 +66,7 @@
                 Debe contener 1 número
               </div>
             </div>
-            <div class="col">
+            <div class="col-lg-6 col-sm-12">
 
               <div class="input-group mt-4">
                 <div class="form-floating">
