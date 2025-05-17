@@ -131,29 +131,24 @@ router.post("/register", (req, res, next) => {
       if (err) return next(new Error("Error al registrar usuario"));
       dao.unlockInitialIcons(userId, (err) => {
         if (err) return next(new Error("Error en registro 1"));              
-        dao.initializeExperience(userId, (err) => {
-          if (err) return next(new Error("Error en registro 5"));
-          
-          // Get the user data for login
-          dao.checkUser(user.email, (err, userData) => {
-            if (err) return next(new Error("Error getting user data"));
-            
-            dao.getUserLevel(userId, (err, userLevel) => {
-              if (err) return next(new Error("Error getting user level"));
-              
-              dao.getPreferences(userId, (err, preferences) => {
-                if(err) return next(new Error("Error getting preferences"));
-                
-                dao.getProfileIconFromId(userId, (err, profile) => {
+            dao.initializeExperience(userId, (err) => {
+              if (err) return next(new Error("Error en registro 5"));
+              // ---
+              dao.getPreferences(user.id, (err, preferences) => {
+                if(err) {
+                  console.log(err)
+                  return res.status(500).json({ message: "Error en el inicio de sesión" }); 
+                }
+                dao.getProfileIconFromId(user.id,(err, profile) => {
                   if(preferences === null) {
                     preferences = {
                       showTutorial: true
                     }
                   }
-                  userData.path = profile[0].path
-                  userData.bgColor = profile[0].bgColor
+                  user.path = profile[0].path
+                  user.bgColor = profile[0].bgColor
                   const sessionUser = {
-                    ...userData,
+                    ...user,
                     ...userLevel[0],
                     preferences
                   };
@@ -161,13 +156,14 @@ router.post("/register", (req, res, next) => {
                   req.session.user = sessionUser;
                   res.locals.user = sessionUser;
                   
-                  res.json({ success: true, user: sessionUser });
+                  res.json({ existe: true, nombre: user.nombre, correo: user.correo });
                 });
               });
+              // ---
+
+              // res.json(true);
             });
-          });
         });
-      });
     });
   });
 });

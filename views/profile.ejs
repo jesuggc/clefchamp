@@ -95,7 +95,7 @@
           <h4 class="text-center bg-5 p-4 rounded-4 m-4" style="color: #757575"> Aquí podrás consultar tus partidas</h4>
         <% } else { %>
           <% for(let i = 0; i < records.length; i ++) { %>
-          <div class="row bg-15 rounded-4 mx-1 mt-1 px-2">
+          <div class="row bg-15 rounded-4 mx-1 mt-1 px-2 historyDiv <%= i > 4 ? 'd-none' : '' %>">
             <div class="col">
               <div class="row">
                 <div class="col pt-4 d-flex align-items-center">
@@ -125,11 +125,27 @@
             </div>
           </div>
           <% } %>
+          <% if(records.length > 4) { %>
+            <div id="seeMoreDiv" class="row bg-15 rounded-4 mx-1 mt-1 cursorPointer">
+              <img id="seeMore" src="/images/icons/seemore.svg" class="my-3" style="max-height: 1.5em;">
+            </div>
+          
+          <% } %>
         <% } %>
       </div>
     </div>  
     <%-include('partials/footer') %>
     <%-include('partials/modal/selectIcon') %>
+  <script>
+    $("#seeMoreDiv").on("click", function(){
+      $(".historyDiv").each(function(index) {
+        if (index > 4) {
+          $(this).toggleClass("d-none")
+        }
+      })
+      $("#seeMore").toggleClass("rotate-180")
+    })
+  </script>
   <script src="/javascripts/clipboard.js"></script>
   <script src="/javascripts/icons.js"></script>
   </body>
