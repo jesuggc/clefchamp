@@ -94,40 +94,38 @@ $("#name").on("keyup",()=>{
 })
 
 $("#tagname").on("keyup",() => {
-    // clearTimeout(typingTimer);
     let $tagname = $("#tagname");
-    $tagname.removeClass("is-invalid")
-    $tagname.removeClass("is-valid")
     let $tagCheck = $("#tagCheck");
     let tagnameValue = $tagname.val();
     tagnameBool = !(specialCheck.test(tagnameValue))
-    // typingTimer = setTimeout(() => {
-        if(tagnameBool === false) {
-            $tagname.addClass("is-invalid")
-            $tagCheck.text("No puede contener caracteres especiales")
-        }  
-        else {
-            let tagname = $("#tagname").val().trim()
-            $.ajax({
-                url: "/users/checkTagname",
-                type: "GET",
-                data: { tagname },
-                success: function(response) {
-                    tagnameBool = response.valido
-                    if(tagnameBool===true) {
-                        $tagname.addClass("is-valid")
-                    }
-                    else {
-                        $tagname.addClass("is-invalid")
-                        $tagCheck.text("Este alias ya está en uso")
-                    }
-
-                }, error: function(jqXHR, textStatus, errorThrown) {
-                    console.log(textStatus, errorThrown);
+    if(tagnameBool === false) {
+        $tagname.removeClass("is-valid")
+        $tagname.addClass("is-invalid")
+        $tagCheck.text("No puede contener caracteres especiales")
+    }  
+    else {
+        let tagname = $("#tagname").val().trim()
+        $.ajax({
+            url: "/users/checkTagname",
+            type: "GET",
+            data: { tagname },
+            success: function(response) {
+                tagnameBool = response.valido
+                if(tagnameBool===true) {
+                    $tagname.removeClass("is-invalid")
+                    $tagname.addClass("is-valid")
                 }
-            })
-        }
-    // }, typingDelay);
+                else {
+                    $tagname.removeClass("is-valid")
+                    $tagname.addClass("is-invalid")
+                    $tagCheck.text("Este alias ya está en uso")
+                }
+
+            }, error: function(jqXHR, textStatus, errorThrown) {
+                console.log(textStatus, errorThrown);
+            }
+        })
+    }
 })
 
 $('#myForm input, #myForm select').on('keyup', function() {
