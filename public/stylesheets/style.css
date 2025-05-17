@@ -902,4 +902,7 @@ input[type="color"]::-webkit-color-swatch {
   #register {
     width:92%;
   }
+  header {
+    height: 6vh;
+  }
 }
