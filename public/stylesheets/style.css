@@ -875,10 +875,17 @@ input[type="color"]::-webkit-color-swatch {
 .loginDiv {
   max-width: 30em;
 }
+#vhDiv {
+  height: 90vh;
+}
 
 @media (max-width: 900px) {
   .loginDiv {
     max-width: none !important;
     width: 90%;
   }
+  #vhDiv {
+    height: 90dvh;
+  }
+  
 }
