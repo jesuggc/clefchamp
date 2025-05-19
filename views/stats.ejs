@@ -5,6 +5,13 @@
       <%-include('partials/header') %>
       <div class="vh-90 scrollable d-flex flex-column align-items-center">
         <h1 class="pb-4">Estadísticas</h1>
+        <div id="rangoControles" class="mb-3">
+          <button class="btn btn-sm btn-primary" data-rango="7">Última semana</button>
+          <button class="btn btn-sm btn-primary" data-rango="30">Último mes</button>
+          <button class="btn btn-sm btn-primary" data-rango="365">Último año</button>
+          <button class="btn btn-sm btn-secondary" data-rango="all">Todo</button>
+        </div>
+        
         <div class="rounded-4 bg-10 p-3">
           <h2 class="ms-4 py-2">Atrapa-do</h2>
           <div class="bg-10 mb-2 p-3 w-100 d-flex align-items-center justify-content-center ">
