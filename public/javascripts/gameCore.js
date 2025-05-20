@@ -121,17 +121,57 @@ const GameState = {
         this.elements.$helpBtn.on("click", () => new bootstrap.Modal(this.elements.$tutorialModal).show());
         this.elements.$showAgain.on("click", () => new bootstrap.Modal(this.elements.$tutorialModal).show());
         
-        // Add click handlers for piano keys
-        $('.notec, .noted, .notee, .notef, .noteg, .notea, .noteb').on('click', (event) => {
-            const noteClass = event.target.className.split(' ')[1]; // Get the note class (notec, noted, etc)
-            const note = noteClass.replace('note', ''); // Remove 'note' prefix to get the note
-            if (this.current.gameStarted && this.current.contador < this.config.ROUNDS) {
-                this.getTime();
-                this.current.contador++;
-                this.checkCorrect(note);
-                this.updateGame();
-                this.updateUI();
-            }
+        
+        $('.notec, .noted, .notee, .notef, .noteg, .notea, .noteb')
+        .on('mousedown touchstart', (event) => {
+            event.preventDefault(); 
+            const noteClass = event.target.className.split(' ')[1]; 
+            const note = noteClass.replace('note', ''); 
+            
+            const keyMap = {
+                'c': 'a',
+                'd': 's',
+                'e': 'd',
+                'f': 'f',
+                'g': 'j',
+                'a': 'k',
+                'b': 'l'
+            };
+            
+            const keyEvent = new KeyboardEvent('keydown', {
+                key: keyMap[note],
+                code: `Key${keyMap[note].toUpperCase()}`,
+                keyCode: keyMap[note].charCodeAt(0),
+                which: keyMap[note].charCodeAt(0),
+                bubbles: true
+            });
+            
+            document.dispatchEvent(keyEvent);
+        })
+        .on('mouseup mouseleave touchend touchcancel', (event) => {
+            event.preventDefault(); // Prevent default behavior
+            const noteClass = event.target.className.split(' ')[1];
+            const note = noteClass.replace('note', '');
+            
+            const keyMap = {
+                'c': 'a',
+                'd': 's',
+                'e': 'd',
+                'f': 'f',
+                'g': 'j',
+                'a': 'k',
+                'b': 'l'
+            };
+            
+            const keyUpEvent = new KeyboardEvent('keyup', {
+                key: keyMap[note],
+                code: `Key${keyMap[note].toUpperCase()}`,
+                keyCode: keyMap[note].charCodeAt(0),
+                which: keyMap[note].charCodeAt(0),
+                bubbles: true
+            });
+            
+            document.dispatchEvent(keyUpEvent);
         });
     
         // Agregar el evento para volver a jugar
