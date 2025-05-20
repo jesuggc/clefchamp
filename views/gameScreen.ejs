@@ -2,48 +2,35 @@
 <html lang="es">
   <%-include('partials/head') %>
   <body class="colorNuevo5">
-    <%-include('partials/header') %>
     <div class="vh-90" id="mainContent">
-      <div class="d-flex align-items-center justify-content-center gap-4">
+      <div class="d-flex py-4 justify-content-center align-items-center">
+        <a href="<% if (locals.mode !== "TRIAL" ) { %>/play/selectGame<% } else { %>/<% } %>"><img src="/images/icons/close.svg" class="svgGame mx-4"></a>
+        <div class="progress w-50 rounded-4" style="height: 20px;">
+          <div id="progressBar" class="progress-bar progress-bar-striped bg-success slider" role="progressbar" aria-label="Success striped example" style="width: 0%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+        </div>
+        <img id="helpBtn" src="/images/icons/help.svg" class="svgGame mx-4">
+      </div>
+      <%-include('partials/playground') %>
+      <div id="divResultados" class="mx-auto box rounded-4 p-4 d-flex flex-column text-center mt-5" >
+        <div id="resultDiv">
+          <h1 id="resultSpan"></h1>
+        </div> 
+        <div id="experienceDiv">
+          <h3 id="experienceSpan"></h3>
+        </div>
+        <div id="createAccountDiv" class="p-2">
+          <a href="/users/register"><button class="acceptButton">Crear cuenta</button></a>
+        </div>
         <% if (locals.mode !== "TRIAL" ) { %>
-          <div class=" rounded-4 d-flex flex-column text-center bg-white">
-            <a href="/"><img src="/images/icons/home.svg" class="svgButtons"></a>
-            <a href="/play/selectGame"><img src="/images/icons/back.svg" class="svgButtons"></a>
-            <a id="startAgain"><img src="/images/icons/reload.svg" class="svgButtons cursorPointer"></a>
-            <!-- <a id="showAgain"><img src="/images/icons/infoGame.svg" class="svgButtons cursorPointer"></a> -->
-          </div>
-        <% } %>
-        <%-include('partials/playground') %>
-        <% if (locals.mode !== "TRIAL" ) { %>
-          <div id="divResultados" class="box rounded-4 p-4 d-flex flex-column text-center">
-            <div id="resultDiv">
-              <h2>Has acertado un <span id="resultSpan"> </span></h2>
-            </div> 
-            <div id="experienceDiv">
-              <h1><span id="experienceSpan"></span></h1>
-            </div>
-            <div id="totalExpDiv" class="colorNuevo5 rounded-4 p-2">
-              <h2>Nivel <span id="levelSpan"><%=locals.user.level%></span></h2>
-              <div class="progress" role="progressbar" aria-label="Example 1px high" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" style="height: 8px; background-color: white;">
-                <% const progress = ((locals.user.experience) / (locals.user.experience + locals.user.experienceToNext)) * 100; %>
-                <div id="experienceBar" class="progress-bar" style="width: <%=progress%>%"></div>
-              </div>
-            </div>
-            <div id="playAgainDiv" class="p-2">
-              <button id="playAgainBtn" class="acceptButton-sm">Volver a jugar</button>
+          <div id="totalExpDiv" class="colorNuevo5 rounded-4 p-2">
+            <h2>Nivel <span id="levelSpan"><%=locals.user.level%></span></h2>
+            <div class="progress" role="progressbar" aria-label="Example 1px high" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" style="height: 8px; background-color: white;">
+              <% const progress = ((locals.user.experience) / (locals.user.experience + locals.user.experienceToNext)) * 100; %>
+              <div id="experienceBar" class="progress-bar" style="width: <%=progress%>%"></div>
             </div>
           </div>
-        <% } else { %>
-          <div id="divResultados" class="box rounded-4 p-4 d-flex flex-column text-center">
-            <div id="resultDiv">
-              <h2>¡Enhorabuena! Obtuviste un <span id="resultSpan"> </span></h2>
-            </div> 
-            <div id="experienceDiv">
-              <h1><span id="experienceSpan">Registrate para guardar tu progreso y poder acceder a más niveles</span></h1>
-            </div>
-            <div id="totalExpDiv" class="p-2">
-              <a href="/users/register"><button class="acceptButton">Crear cuenta</button></a>
-            </div>
+          <div id="playAgainDiv" class="p-2">
+            <button id="playAgainBtn" class="acceptButton-sm">Volver a jugar</button>
           </div>
         <% } %>
       </div>
@@ -52,18 +39,10 @@
             <span>Comenzar</span>
             <span class="fs-6" style="margin-top: -0.5em;">[Espacio]</span>
         </button>
-        <!-- <button id="startBtn" class="acceptButton mt-4 align-items-center"> -->
-            <!-- <span>Comenzar</span> -->
-            <!-- <span class="fs-6" style="margin-top: -0.5em;">[Espacio]</span> -->
-            <!-- Comenzar -->
-        <!-- </button> -->
       </div>
     </div>
-    <%-include('partials/footer') %>
     <%-include('partials/modal/tutorial') %>
     <%-include('partials/modal/levelUp') %>
-    
-    
     <script src="https://cdn.jsdelivr.net/npm/vexflow@4.2.2/build/cjs/vexflow.js"></script>
     <script type="module" src="/javascripts/vexManager.js"></script>
     <script type="module" src="/javascripts/cronometro.js"></script>

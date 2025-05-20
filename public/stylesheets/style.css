@@ -240,8 +240,8 @@
 
 /* ----------ELEMENTOS GENERALES---------- */
 body {
-  /* background-color: #F2E7DC; */
-  background-color: red;
+  background-color: #F2E7DC;  
+  /* background-color: red; */
 }
 body,html {
   overflow-x: hidden;
@@ -384,6 +384,25 @@ body::-webkit-scrollbar {
   border-radius: 0 0 5px 5px;
 }
 
+/* .REb4 {
+  left: 7.14%;
+}
+
+.MIb4 {
+  left: 21.42%;
+}
+
+.SOLb4 {
+  left: 42.84%;
+}
+
+.LAb4 {
+  left: 57.12%;
+}
+
+.SIb4 {
+  left: 71.4%;
+} */
 .REb4 {
   left: 36px;
 }
@@ -403,13 +422,10 @@ body::-webkit-scrollbar {
 .SIb4 {
   left: 276px;
 }
+.svgGame {
+  max-width: 1.5em;
+  max-height: 1.5em;
 
-.REb5 {
-  left: 372px;
-}
-
-.MIb5 {
-  left: 420px;
 }
 input[type="text"],
 input[type="password"] {
@@ -507,6 +523,8 @@ input[type="password"] {
 }
 .box.show {
   width: 35em;
+  height: 26em;
+  min-height: 26em;
   visibility: visible;
 }
 
@@ -891,7 +909,16 @@ input[type="color"]::-webkit-color-swatch {
 #register {
   width:50%;
 }
-@media (max-width: 900px) {
+
+#canvasParent {
+  justify-content: flex-end;
+}
+
+.puntuation {
+  margin-left: 35%;
+}
+
+@media (max-width: 576px) {
   #mainDiv {
     max-width: none !important;
     width: 90%;
@@ -922,6 +949,7 @@ input[type="color"]::-webkit-color-swatch {
   .cancelButton , .acceptButton {
     font-size: 1em;
     padding: 1em 2em 1em 2em;
+    width:15em;
   }
  
   .d-flex.justify-content-center.mt-5 {
@@ -987,4 +1015,57 @@ input[type="color"]::-webkit-color-swatch {
     margin-top: 1em;
     padding: 0;
   }
+
+
+  .phoneHidden {
+    display: none;
+  } 
+
+  .contenedor {
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    margin-bottom: 1em;
+  }
+  .piano {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+  }
+
+  .tecla-blanca {
+    width: 14.28%;
+  }
+
+  .tecla-negra {
+    width: 8.14%;
+  }
+
+  .REb4 {
+    left: 10.4%;
+  }
+  
+  .MIb4 {
+    left: 24.7%;
+  }
+  
+  .SOLb4 {
+    left: 53.1%;
+  }
+  
+  .LAb4 {
+    left: 67.5%;
+  }
+  
+  .SIb4 {
+    left: 81.6%;
+  }
+  #canvasParent {
+    justify-content: center;
+  }
+  .puntuation {
+    margin: auto;
+  }
 }
+

@@ -96,6 +96,8 @@ const GameState = {
             $helpBtn: $("#helpBtn"),
             $startAgain: $("#startAgain"),
             $showAgain: $("#showAgain"),
+            $createAccountDiv: $("#createAccountDiv"),
+            $scoreDiv: $("#scoreDiv"),
         };
 
         // Inicializar cronómetro
@@ -104,9 +106,8 @@ const GameState = {
         // Mostrar tutorial
         emptyClef();
         
-        if (this.current.difficulty === "TRIAL" || this.userData.locals.preferences.showTutorial) {
-            new bootstrap.Modal(this.elements.$tutorialModal).show();
-        }
+        if (this.current.difficulty === "TRIAL" || this.userData.locals.preferences.showTutorial) new bootstrap.Modal(this.elements.$tutorialModal).show();
+        else this.elements.$scoreDiv.removeClass("d-none")
         
         // Configurar eventos
         this.setupEventListeners();
@@ -120,6 +121,18 @@ const GameState = {
         this.elements.$helpBtn.on("click", () => new bootstrap.Modal(this.elements.$tutorialModal).show());
         this.elements.$showAgain.on("click", () => new bootstrap.Modal(this.elements.$tutorialModal).show());
         
+        // Add click handlers for piano keys
+        $('.notec, .noted, .notee, .notef, .noteg, .notea, .noteb').on('click', (event) => {
+            const noteClass = event.target.className.split(' ')[1]; // Get the note class (notec, noted, etc)
+            const note = noteClass.replace('note', ''); // Remove 'note' prefix to get the note
+            if (this.current.gameStarted && this.current.contador < this.config.ROUNDS) {
+                this.getTime();
+                this.current.contador++;
+                this.checkCorrect(note);
+                this.updateGame();
+                this.updateUI();
+            }
+        });
     
         // Agregar el evento para volver a jugar
         this.elements.$playAgainBtn.on("click", () => this.resetGame());
@@ -239,6 +252,7 @@ const GameState = {
 
     // Finalizar el juego
     endGame() {
+        this.elements.$divFeedback.removeClass("d-flex").addClass("d-none")
         this.cronometro.pause();
         emptyClef();
         this.openResultDiv();
@@ -261,17 +275,17 @@ const GameState = {
         
         let levelUp = await this.handleExperience(winExp, experienceToAdd);
         
-        this.elements.$experienceSpan.text(
-            winExp ? "+" + this.config.EXPERIENCE + "exp." : `Para conseguir experiencia supera el ${this.config.experienceThreshold}%`
+        this.elements.$experienceSpan.html(
+            winExp ? `+ ${this.config.EXPERIENCE} exp.` : `Para conseguir experiencia supera el ${this.config.experienceThreshold}%`
         );
-        this.elements.$resultSpan.text(percentage + "%");
+        this.elements.$resultSpan.text("Has acertado un" + percentage + "%");
         this.elements.$resultSpan.css("color", winExp ? this.config.COLOR_CORRECT : this.config.COLOR_WRONG);
         
         let experiencePercentage = (this.userData.locals.experience / (this.userData.locals.experience + this.userData.locals.experienceToNext)) * 100;
         
-        setTimeout(() => this.elements.$resultDiv.css('opacity', 1), 500);
-        setTimeout(() => this.elements.$experienceDiv.css('opacity', 1), 1000);
-        setTimeout(() => this.elements.$totalExpDiv.css('opacity', 1), 1500);
+        setTimeout(() => this.elements.$resultDiv.css('opacity', 1), 2000);
+        setTimeout(() => this.elements.$experienceDiv.css('opacity', 1), 2500);
+        setTimeout(() => this.elements.$totalExpDiv.css('opacity', 1), 3000);
 
         
         if (levelUp) {
@@ -293,11 +307,12 @@ const GameState = {
 
     showFidelization() {
         let percentage = Math.round((this.current.aciertos / this.config.ROUNDS) * 100);
-        this.elements.$resultSpan.text(percentage + "%");
+        this.elements.$resultSpan.html(`¡Enhorabuena! Obtuviste un ${percentage}%`);
+        this.elements.$experienceSpan.html(`Registrate para guardar tu progreso y poder acceder a más niveles`);
         console.log("Puntuacion " + this.current.points)
         setTimeout(() => this.elements.$resultDiv.css('opacity', 1), 500);
         setTimeout(() => this.elements.$experienceDiv.css('opacity', 1), 1000);
-        setTimeout(() => this.elements.$totalExpDiv.css('opacity', 1), 1500);
+        setTimeout(() => this.elements.$createAccountDiv.css('opacity', 1), 1500);
     },
 
     // Manejar la experiencia ganada
