@@ -4,53 +4,44 @@
   <body class="colorNuevo5">
       <%-include('partials/header') %>
       <div class="vh-90 scrollable d-flex flex-column align-items-center">
-        <h1 class="pb-4">Estadísticas</h1>
         <div class="container px-4">
-
-        
-          <div class="bg-15 rounded-4 p-3">
-            <div class="row align-items-center">
-              <div class="col-3">
-                <div class="ratio ratio-1x1">
-                  <div class="rounded-circle d-flex align-items-center justify-content-center" style="background-color: <%=user.bgColor%>;">  
-                    <a href="/users/profile"><img src="/images/svg/<%=user.path%>" class="userIcon"></a>
-                  </div>
+          <div class="bg-15 rounded-4 p-3 mb-4">
+            <div class="row align-items-center g-3">
+              <div class="col-auto">
+                <div class="rounded-circle d-flex align-items-center justify-content-center" style="background-color: <%=user.bgColor%>; width: 80px; height: 80px;">  
+                  <a href="/users/profile"><img src="/images/svg/<%=user.path%>" class="userIcon" style="max-width: 60px; max-height: 60px;"></a>
                 </div>
               </div>
               <div class="col">
-                <h2 class="mb-3"><%=user.name%></h2>
-                <div class="d-flex justify-content-between mb-2">
-                  <span style="font-weight:bold ;" class="">Experiencia</span>
-                  
-                  <span style="font-weight:bold ;" class=""><%=user.experience%>/<%=user.experience + user.experienceToNext%></span>
+                <div class="d-flex align-items-center gap-3 mb-2">
+                  <h2 class="mb-0"><%=user.name%></h2>
+                  <span class="badge bg-success px-3 py-2">Nivel <%=locals.user.level%></span>
                 </div>
-                <div class="progress" style="height: 2em; background-color: rgba(255,255,255,0.1)">
-                  <% let percentage = ((user.experience)/(user.experience + user.experienceToNext))*100 %>
-                  <div id="levelBar" class="progress-bar bg-success" style="width: <%=percentage%>%">
+                <small class="text-muted d-block mb-2">Te uniste el <%=locals.user.joindate.day%>/<%=locals.user.joindate.month%>/<%=locals.user.joindate.year%></small>
+                <div class="d-flex align-items-center gap-3">
+                  <div class="flex-grow-1">
+                    <div class="d-flex justify-content-between mb-1">
+                      <small class="text-muted">Experiencia</small>
+                      <small class="text-muted"><%=user.experience%>/<%=user.experience + user.experienceToNext%></small>
+                    </div>
+                    <div class="progress" style="height: 0.5em; background-color: rgba(255,255,255,0.1)">
+                      <% let percentage = ((user.experience)/(user.experience + user.experienceToNext))*100 %>
+                      <div id="levelBar" class="progress-bar bg-success" style="width: <%=percentage%>%"></div>
+                    </div>
                   </div>
                 </div>
-                <h5 class="mt-1 text-center w-100" style="font-weight:bold ;">Nivel <%=user.level%></h5>
-                
               </div>
             </div>
           </div>
-          <div class="d-flex bg-15 rounded-4">
+          <div class="d-flex bg-15 rounded-4 mb-4">
               <h1 id="easyBtn" class="col mx-5 text-center cursorPointer" style="margin-bottom: 0;">Fácil</h1>
               <h1 id="normalBtn" class="col mx-5 text-center cursorPointer" style="margin-bottom: 0;">Normal</h1>
               <h1 id="hardBtn" class="col mx-5 text-center cursorPointer" style="margin-bottom: 0;">Dificil</h1>
           </div>
-        
-          <!-- <div id="rangoControles" class="mb-3">
-            
-            <button class="btn btn-sm btn-primary" data-rango="7">Última semana</button>
-            <button class="btn btn-sm btn-primary" data-rango="30">Último mes</button>
-            <button class="btn btn-sm btn-primary" data-rango="365">Último año</button>
-            <button class="btn btn-sm btn-secondary" data-rango="all">Todo</button>
-          </div> -->
-          <div class="rounded-4 bg-10 p-3">
-            <div class="bg-10 p-3 d-flex flex-column col align-items-center justify-content-center easyDiv">
+          <div class="rounded-4 bg-15 p-3 mb-4 easyDiv">
+            <div class="bg-10 p-3 d-flex flex-column col align-items-center justify-content-center">
               <div class="row w-100 mb-4">
-                <div class="col" id="easyStats" style="width: 60vw; height: 25vh;"></div>
+                <div class="col" id="easyStats" style="width: 60vw; height: 25vh;padding:0"></div>
               </div>
               
               <div class="d-flex justify-content-between w-100 mb-4">
@@ -90,7 +81,7 @@
                 </div>
               </div>
 
-              <div class="w-100 mb-4">
+              <div class="w-100">
                 <div class="bg-15 rounded-4 p-2 d-flex align-items-center justify-content-center mb-3">
                   <div class="d-flex align-items-center gap-2">
                     <p class="my-auto">Porcentaje de aciertos:</p>
@@ -101,19 +92,19 @@
 
                 <div class="progress-stacked w-100 mb-3">
                   <div class="progress" role="progressbar" aria-label="Segment one" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100" style="width: <%=stats.easy.ok%>%">
-                    <div class="progress-bar" style="background-color: rgb(255, 102, 0);"></div>
+                    <div class="progress-bar" style="background-color: rgba(255, 102, 0,0.4);"></div>
                   </div>
                   <div class="progress" role="progressbar" aria-label="Segment two" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100" style="width: <%=stats.easy.good%>%">
-                    <div class="progress-bar" style="background-color:rgb(0, 255, 55)"></div>
+                    <div class="progress-bar" style="background-color:rgba(0, 255, 55,0.4)"></div>
                   </div>
                   <div class="progress" role="progressbar" aria-label="Segment three" aria-valuenow="20" aria-valuemin= "0" aria-valuemax="100" style="width: <%=stats.easy.great%>%">
-                    <div class="progress-bar" style="background-color: rgb(0, 162, 255);"></div>
+                    <div class="progress-bar" style="background-color: rgba(0, 162, 255,0.4);"></div>
                   </div>
-                  <div class="progress" role="progressbar" aria-label="Segment three" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: <%=stats.easy.excellent%>%">
-                    <div class="progress-bar" style="background-color: rgb(174, 0, 255);"></div>
+                  <div class="progress" role="progressbar" aria-label="Segment four" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: <%=stats.easy.excellent%>%">
+                    <div class="progress-bar" style="background-color: rgba(174, 0, 255,0.4);"></div>
                   </div>
                   <div class="progress" role="progressbar" aria-label="Segment three" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: <%=stats.easy.perfect%>%">
-                    <div class="progress-bar" style="background-color: rgb(255, 251, 0);"></div>
+                    <div class="progress-bar" style="background-color: rgba(255, 251, 0,0.4);"></div>
                   </div>
                 </div>
 
@@ -155,45 +146,227 @@
                 <h4 style="color: #350D40">No hay suficientes datos para crear una gráfica</h4>
               </div>
             </div>
-            <div class="bg-10 p-3 col flex-column align-items-center justify-content-center normalDiv" hidden>
-              <div class="row">
-                <h3 class="col-2">Modo normal</h3>
-                <div class="col" id="normalStats" style="width: 60vw; height: 25vh;"></div>
+            
+          </div>
+          <div class="rounded-4 bg-15 p-3 mb-4 normalDiv" hidden>
+            <div class="bg-10 p-3 d-flex flex-column col align-items-center justify-content-center">
+              <div class="row w-100 mb-4">
+                <div class="col" id="normalStats" style="width: 60vw; height: 25vh;padding:0"></div>
               </div>
-              <div class="row">
-                <h1>Porcentaje <%=stats.normal.accuracy%></h1>
-              </div>
-              <div class="row my-">
-                <h1>Posición en e
-                  l ranking <%=stats.normal.rank%></h1>
-              </div>
-              <div class="row">
-                <h1>Partidas jugadas <%=stats.normal.gamesPlayed%></h1>
+              
+              <div class="d-flex justify-content-between w-100 mb-4">
+                <div class="bg-15 rounded-4 p-2 d-flex flex-column align-items-center" style="width: 20%;">
+                  <p class="mb-2">Puntuación más alta</p>
+                  <div class="d-flex flex-column align-items-center gap-2">
+                    <div class="d-flex align-items-center gap-2">
+                      <img class="statsSvg" src="/images/icons/trophy.svg">
+                      <span id="bestScoreNormal" class="h3 mb-0"></span>
+                    </div>
+                    <small id="bestDateNormal" class="text-muted"></small>
+                  </div>
+                </div>
+
+                <div class="bg-15 rounded-4 p-2 d-flex flex-column align-items-center" style="width: 20%;">
+                  <p class="mb-2">Partidas jugadas</p>
+                  <div class="d-flex align-items-center gap-2">
+                    <img src="/images/icons/treble.svg" style="max-height: 4em;">
+                    <span class="h3 mb-0"><%=stats.normal.gamesPlayed%></span>
+                  </div>
+                </div>
+
+                <div class="bg-15 rounded-4 p-2 d-flex flex-column align-items-center" style="width: 20%;">
+                  <p class="mb-2">Posición en el ranking</p>
+                  <div class="d-flex align-items-center justify-content-center gap-2 h-100">
+                    <img class="statsSvg" src="/images/icons/ranking.svg">
+                    <span class="h3 mb-0"><%=stats.normal.rank%></span>
+                  </div>
+                </div>
+
+                <div class="bg-15 rounded-4 p-2 d-flex flex-column align-items-center" style="width: 20%;">
+                  <p class="mb-2">Última partida</p>
+                  <div class="d-flex align-items-center gap-2 justify-content-center h-100">
+                    <img class="statsSvg" src="/images/icons/lastPlayed.svg">
+                    <span id="lastPlayedNormal" class="h4 my-auto"></span>
+                  </div>
+                </div>
               </div>
 
-              <div class="row d-none text-center" id="easyNoData">
+              <div class="w-100">
+                <div class="bg-15 rounded-4 p-2 d-flex align-items-center justify-content-center mb-3">
+                  <div class="d-flex align-items-center gap-2">
+                    <p class="my-auto">Porcentaje de aciertos:</p>
+                    <span class="h3 mb-0"><%=stats.normal.accuracy%>%</span>
+                    <p class="my-auto">de los cuales:</p>
+                  </div>
+                </div>
+
+                <div class="progress-stacked w-100 mb-3">
+                  <div class="progress" role="progressbar" aria-label="Segment one" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100" style="width: <%=stats.normal.ok%>%">
+                    <div class="progress-bar" style="background-color: rgba(255, 102, 0,0.4);"></div>
+                  </div>
+                  <div class="progress" role="progressbar" aria-label="Segment two" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100" style="width: <%=stats.normal.good%>%">
+                    <div class="progress-bar" style="background-color:rgba(0, 255, 55,0.4)"></div>
+                  </div>
+                  <div class="progress" role="progressbar" aria-label="Segment three" aria-valuenow="20" aria-valuemin= "0" aria-valuemax="100" style="width: <%=stats.normal.great%>%">
+                    <div class="progress-bar" style="background-color: rgba(0, 162, 255,0.4);"></div>
+                  </div>
+                  <div class="progress" role="progressbar" aria-label="Segment four" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: <%=stats.normal.excellent%>%">
+                    <div class="progress-bar" style="background-color: rgba(174, 0, 255,0.4);"></div>
+                  </div>
+                  <div class="progress" role="progressbar" aria-label="Segment three" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: <%=stats.normal.perfect%>%">
+                    <div class="progress-bar" style="background-color: rgba(255, 251, 0,0.4);"></div>
+                  </div>
+                </div>
+
+                <div class="d-flex justify-content-between w-100">
+                  <div class="rounded-4 p-2 d-flex flex-column align-items-center" style="background-color: rgba(255, 102, 0, 0.4);width: 18%;">
+                    <p class="my-auto">Ok</p>
+                    <div class="d-flex align-items-center gap-2" >
+                      <span class="h3 mb-0 strokeMessage"><%=stats.normal.ok%>%</span>
+                    </div>
+                  </div>
+                  <div class="rounded-4 p-2 d-flex flex-column align-items-center" style="background-color: rgba(0, 255, 55, 0.4);width: 18%;">
+                    <p class="my-auto">Bien</p>
+                    <div class="d-flex align-items-center gap-2" >
+                      <span class="h3 mb-0 strokeMessage"><%=stats.normal.good%>%</span>
+                    </div>
+                  </div>
+                  <div class="rounded-4 p-2 d-flex flex-column align-items-center" style="background-color: rgba(0, 162, 255, 0.4);width: 18%;">
+                    <p class="my-auto">Genial</p>
+                    <div class="d-flex align-items-center gap-2" >
+                      <span class="h3 mb-0 strokeMessage"><%=stats.normal.great%>%</span>
+                    </div>
+                  </div>
+                  <div class="rounded-4 p-2 d-flex flex-column align-items-center" style="background-color: rgba(174, 0, 255, 0.4);width: 18%;">
+                    <p class="my-auto">Excelente</p>
+                    <div class="d-flex align-items-center gap-2" >
+                      <span class="h3 mb-0 strokeMessage"><%=stats.normal.excellent%>%</span>
+                    </div>
+                  </div>
+                  <div class="rounded-4 p-2 d-flex flex-column align-items-center" style="background-color: rgba(255, 251, 0, 0.4);width: 18%;">
+                    <p class="my-auto">Perfecto</p>
+                    <div class="d-flex align-items-center gap-2" >
+                      <span class="h3 mb-0 strokeMessage"><%=stats.normal.perfect%>%</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row d-none text-center" id="normalNoData">
                 <h4 style="color: #350D40">No hay suficientes datos para crear una gráfica</h4>
               </div>
             </div>
-            <div class="bg-10 p-3 col  flex-column align-items-center justify-content-center hardDiv" hidden>
-              <div class="row">
-                <h3 class="col-2">Modo dificil</h3>
-                <div class="col" id="hardStats" style="width: 60vw; height: 25vh;"></div>
+            
+          </div>
+          <div class="rounded-4 bg-15 p-3 mb-4 hardDiv" hidden>
+            <div class="bg-10 p-3 d-flex flex-column col align-items-center justify-content-center">
+              <div class="row w-100 mb-4">
+                <div class="col" id="hardStats" style="width: 60vw; height: 25vh;padding:0"></div>
               </div>
-              <div class="row">
-                  <h1>Porcentaje <%=stats.hard.accuracy%></h1>
-              </div>
-              <div class="row">
-                <h1>Posición en el ranking <%=stats.hard.rank%></h1>
-              </div>
-              <div class="row">
-                <h1>Partidas jugadas <%=stats.hard.gamesPlayed%></h1>
+              
+              <div class="d-flex justify-content-between w-100 mb-4">
+                <div class="bg-15 rounded-4 p-2 d-flex flex-column align-items-center" style="width: 20%;">
+                  <p class="mb-2">Puntuación más alta</p>
+                  <div class="d-flex flex-column align-items-center gap-2">
+                    <div class="d-flex align-items-center gap-2">
+                      <img class="statsSvg" src="/images/icons/trophy.svg">
+                      <span id="bestScoreHard" class="h3 mb-0"></span>
+                    </div>
+                    <small id="bestDateHard" class="text-muted"></small>
+                  </div>
+                </div>
+
+                <div class="bg-15 rounded-4 p-2 d-flex flex-column align-items-center" style="width: 20%;">
+                  <p class="mb-2">Partidas jugadas</p>
+                  <div class="d-flex align-items-center gap-2">
+                    <img src="/images/icons/treble.svg" style="max-height: 4em;">
+                    <span class="h3 mb-0"><%=stats.hard.gamesPlayed%></span>
+                  </div>
+                </div>
+
+                <div class="bg-15 rounded-4 p-2 d-flex flex-column align-items-center" style="width: 20%;">
+                  <p class="mb-2">Posición en el ranking</p>
+                  <div class="d-flex align-items-center justify-content-center gap-2 h-100">
+                    <img class="statsSvg" src="/images/icons/ranking.svg">
+                    <span class="h3 mb-0"><%=stats.hard.rank%></span>
+                  </div>
+                </div>
+
+                <div class="bg-15 rounded-4 p-2 d-flex flex-column align-items-center" style="width: 20%;">
+                  <p class="mb-2">Última partida</p>
+                  <div class="d-flex align-items-center gap-2 justify-content-center h-100">
+                    <img class="statsSvg" src="/images/icons/lastPlayed.svg">
+                    <span id="lastPlayedHard" class="h4 my-auto"></span>
+                  </div>
+                </div>
               </div>
 
-              <div class="row d-none text-center" id="easyNoData">
+              <div class="w-100">
+                <div class="bg-15 rounded-4 p-2 d-flex align-items-center justify-content-center mb-3">
+                  <div class="d-flex align-items-center gap-2">
+                    <p class="my-auto">Porcentaje de aciertos:</p>
+                    <span class="h3 mb-0"><%=stats.hard.accuracy%>%</span>
+                    <p class="my-auto">de los cuales:</p>
+                  </div>
+                </div>
+
+                <div class="progress-stacked w-100 mb-3">
+                  <div class="progress" role="progressbar" aria-label="Segment one" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100" style="width: <%=stats.hard.ok%>%">
+                    <div class="progress-bar" style="background-color: rgba(255, 102, 0,0.4);"></div>
+                  </div>
+                  <div class="progress" role="progressbar" aria-label="Segment two" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100" style="width: <%=stats.hard.good%>%">
+                    <div class="progress-bar" style="background-color:rgba(0, 255, 55,0.4)"></div>
+                  </div>
+                  <div class="progress" role="progressbar" aria-label="Segment three" aria-valuenow="20" aria-valuemin= "0" aria-valuemax="100" style="width: <%=stats.hard.great%>%">
+                    <div class="progress-bar" style="background-color: rgba(0, 162, 255,0.4);"></div>
+                  </div>
+                  <div class="progress" role="progressbar" aria-label="Segment four" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: <%=stats.hard.excellent%>%">
+                    <div class="progress-bar" style="background-color: rgba(174, 0, 255,0.4);"></div>
+                  </div>
+                  <div class="progress" role="progressbar" aria-label="Segment three" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: <%=stats.hard.perfect%>%">
+                    <div class="progress-bar" style="background-color: rgba(255, 251, 0,0.4);"></div>
+                  </div>
+                </div>
+
+                <div class="d-flex justify-content-between w-100">
+                  <div class="rounded-4 p-2 d-flex flex-column align-items-center" style="background-color: rgba(255, 102, 0, 0.4);width: 18%;">
+                    <p class="my-auto">Ok</p>
+                    <div class="d-flex align-items-center gap-2" >
+                      <span class="h3 mb-0 strokeMessage"><%=stats.hard.ok%>%</span>
+                    </div>
+                  </div>
+                  <div class="rounded-4 p-2 d-flex flex-column align-items-center" style="background-color: rgba(0, 255, 55, 0.4);width: 18%;">
+                    <p class="my-auto">Bien</p>
+                    <div class="d-flex align-items-center gap-2" >
+                      <span class="h3 mb-0 strokeMessage"><%=stats.hard.good%>%</span>
+                    </div>
+                  </div>
+                  <div class="rounded-4 p-2 d-flex flex-column align-items-center" style="background-color: rgba(0, 162, 255, 0.4);width: 18%;">
+                    <p class="my-auto">Genial</p>
+                    <div class="d-flex align-items-center gap-2" >
+                      <span class="h3 mb-0 strokeMessage"><%=stats.hard.great%>%</span>
+                    </div>
+                  </div>
+                  <div class="rounded-4 p-2 d-flex flex-column align-items-center" style="background-color: rgba(174, 0, 255, 0.4);width: 18%;">
+                    <p class="my-auto">Excelente</p>
+                    <div class="d-flex align-items-center gap-2" >
+                      <span class="h3 mb-0 strokeMessage"><%=stats.hard.excellent%>%</span>
+                    </div>
+                  </div>
+                  <div class="rounded-4 p-2 d-flex flex-column align-items-center" style="background-color: rgba(255, 251, 0, 0.4);width: 18%;">
+                    <p class="my-auto">Perfecto</p>
+                    <div class="d-flex align-items-center gap-2" >
+                      <span class="h3 mb-0 strokeMessage"><%=stats.hard.perfect%>%</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row d-none text-center" id="hardNoData">
                 <h4 style="color: #350D40">No hay suficientes datos para crear una gráfica</h4>
               </div>
             </div>
+            
           </div>
         </div>
       </div>

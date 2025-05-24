@@ -91,12 +91,23 @@ function aplicarZoom(chart, dias) {
 document.addEventListener("DOMContentLoaded", function () {
   fetchStatsForUser().then(stats => {
     if (stats) {
-      console.log(stats.easyStats)
-      const bestScoreData = obtenerPuntuacionMaxima(stats.easyStats);
-      $("#bestScoreEasy").text(bestScoreData.puntos);
-      $("#bestDateEasy").text(bestScoreData.fecha);
-      const lastPlayedData = obtenerUltimaFecha(stats.easyStats);
-      $("#lastPlayedEasy").text(lastPlayedData);
+      const bestScoreDataEasy = obtenerPuntuacionMaxima(stats.easyStats);
+      $("#bestScoreEasy").text(bestScoreDataEasy.puntos);
+      $("#bestDateEasy").text(bestScoreDataEasy.fecha);
+      const lastPlayedDataEasy = obtenerUltimaFecha(stats.easyStats);
+      $("#lastPlayedEasy").text(lastPlayedDataEasy);
+
+      const bestScoreDataNormal = obtenerPuntuacionMaxima(stats.normalStats);
+      $("#bestScoreNormal").text(bestScoreDataNormal.puntos);
+      $("#bestDateNormal").text(bestScoreDataNormal.fecha);
+      const lastPlayedDataNormal = obtenerUltimaFecha(stats.normalStats);
+      $("#lastPlayedNormal").text(lastPlayedDataNormal);
+
+      const bestScoreDataHard = obtenerPuntuacionMaxima(stats.hardStats);
+      $("#bestScoreHard").text(bestScoreDataHard.puntos);
+      $("#bestDateHard").text(bestScoreDataHard.fecha);
+      const lastPlayedDataHard = obtenerUltimaFecha(stats.hardStats);
+      $("#lastPlayedHard").text(lastPlayedDataHard);
       if (stats.easyStats.length > 2) {
         $("#easyStats").removeClass("d-none");
         $("#easyNoData").addClass("d-none");
@@ -126,17 +137,6 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 
-  // Manejo de botones de zoom
-  document.getElementById('rangoControles').addEventListener('click', function (e) {
-    if (e.target.matches('button[data-rango]')) {
-      const valor = e.target.getAttribute('data-rango');
-      const rangoDias = valor === 'all' ? 'all' : parseInt(valor);
-
-      aplicarZoom(easyChart, rangoDias);
-      aplicarZoom(normalChart, rangoDias);
-      aplicarZoom(hardChart, rangoDias);
-    }
-  });
 }); 
 
 
