@@ -91,23 +91,24 @@ function aplicarZoom(chart, dias) {
 document.addEventListener("DOMContentLoaded", function () {
   fetchStatsForUser().then(stats => {
     if (stats) {
+      
       const bestScoreDataEasy = obtenerPuntuacionMaxima(stats.easyStats);
-      $("#bestScoreEasy").text(bestScoreDataEasy.puntos);
-      $("#bestDateEasy").text(bestScoreDataEasy.fecha);
+      $("#bestScoreEasy").text(bestScoreDataEasy?.puntos ?? 0);
+      $("#bestDateEasy").text(bestScoreDataEasy?.fecha ?? "No hay datos");
       const lastPlayedDataEasy = obtenerUltimaFecha(stats.easyStats);
-      $("#lastPlayedEasy").text(lastPlayedDataEasy);
+      $("#lastPlayedEasy").text(lastPlayedDataEasy??"No hay datos");
 
       const bestScoreDataNormal = obtenerPuntuacionMaxima(stats.normalStats);
-      $("#bestScoreNormal").text(bestScoreDataNormal.puntos);
-      $("#bestDateNormal").text(bestScoreDataNormal.fecha);
+      $("#bestScoreNormal").text(bestScoreDataNormal?.puntos ?? 0);
+      $("#bestDateNormal").text(bestScoreDataNormal?.fecha ?? "No hay datos");
       const lastPlayedDataNormal = obtenerUltimaFecha(stats.normalStats);
-      $("#lastPlayedNormal").text(lastPlayedDataNormal);
+      $("#lastPlayedNormal").text(lastPlayedDataNormal??"No hay datos");
 
       const bestScoreDataHard = obtenerPuntuacionMaxima(stats.hardStats);
-      $("#bestScoreHard").text(bestScoreDataHard.puntos);
-      $("#bestDateHard").text(bestScoreDataHard.fecha);
+      $("#bestScoreHard").text(bestScoreDataHard?.puntos ?? 0);
+      $("#bestDateHard").text(bestScoreDataHard?.fecha ?? "No hay datos");
       const lastPlayedDataHard = obtenerUltimaFecha(stats.hardStats);
-      $("#lastPlayedHard").text(lastPlayedDataHard);
+      $("#lastPlayedHard").text(lastPlayedDataHard??"No hay datos");
       if (stats.easyStats.length > 2) {
         $("#easyStats").removeClass("d-none");
         $("#easyNoData").addClass("d-none");
@@ -141,6 +142,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 function obtenerUltimaFecha(data) {
+  if(data.length===0) {
+    return null;
+  }
   const ultima = data.reduce((a, b) => (b.fecha > a.fecha ? b : a));
   const fecha = new Date(ultima.fecha);
   const dia = String(fecha.getDate()-1).padStart(2, '0');
@@ -152,6 +156,9 @@ function obtenerUltimaFecha(data) {
 
 // Puntuación máxima
 function obtenerPuntuacionMaxima(data) {
+  if(data.length===0) {
+    return null;
+  }
   const max = data.reduce((a, b) => (b.puntos > a.puntos ? b : a));
   const fecha = new Date(max.fecha);
   const dia = String(fecha.getDate()-1).padStart(2, '0');

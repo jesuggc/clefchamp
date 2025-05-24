@@ -638,13 +638,18 @@ class DAO {
                     userId = ?
                 GROUP BY 
                     difficulty;
-
-
                 `
                 connection.query(query,[userId], (err, resultado) => {
                     connection.release();
                     if (err) callback(err, null);
-                    else callback(null, resultado);
+                    else {
+                        const difficulties = ['EASY', 'NORMAL', 'HARD'];
+                        const result = difficulties.map(difficulty => {
+                            const found = resultado.find(r => r.difficulty === difficulty);
+                            return found || { difficulty, games_played: 0, RowDataPacket: true };
+                        });
+                        callback(null, result);
+                    }
                 });
             }
         });
