@@ -28,7 +28,7 @@ ClefChamp es una aplicación web de aprendizaje musical gamificada inspirada en 
 
    
 ## 🧩 Contribuciones
-¡Toda contribución es bienvenida! Por favor, abre un issue para reportar errores o sugerir nuevas características.
+¡Toda contribución es bienvenida! Por favor, abre un issue para reportar errores o sugerir nuevas características
 
 ## 📄 Licencia
 Este proyecto está bajo la Licencia MIT.
