@@ -10,7 +10,7 @@ ClefChamp es una aplicación web de aprendizaje musical gamificada inspirada en 
   - Adivinanza de notas musicales con el teclado.
 - 🏆 Sistema de puntos e insignias.
 - 📈 Visualización de progreso.
-- 👥 Roles de usuario: profesores y alumnos.
+
 
 
 ## 🛠️ Tecnologías utilizadas
