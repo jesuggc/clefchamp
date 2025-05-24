@@ -565,9 +565,131 @@ class DAO {
         });
     }
    
+    getAverage(userId, callback) {
+        this.pool.getConnection((err, connection) => {
+            if (err) callback(err, null);
+            else {
+                let query = `
+                SELECT 
+                    difficulty,
+                    ROUND(AVG((success * 1.0 / (success + error)) * 100), 2) AS avg_accuracy_percentage
+                FROM 
+                    userrecord
+                WHERE 
+                    userId = ?
+                    AND (success + error) > 0
+                    AND difficulty IN ('EASY', 'NORMAL', 'HARD')
+                GROUP BY 
+                    difficulty;
+
+                `
+                connection.query(query,[userId], (err, resultado) => {
+                    connection.release();
+                    if (err) callback(err, null);
+                    else callback(null, resultado);
+                });
+            }
+        });
+    }
+
+    getAverageTiming(userId, callback) {
+        this.pool.getConnection((err, connection) => {
+            if (err) callback(err, null);
+            else {
+                let query = `
+                SELECT 
+                    difficulty,
+                    ROUND(AVG(perfect * 100.0 / NULLIF(perfect + excellent + great + good + ok, 0)), 2) AS pct_perfect,
+                    ROUND(AVG(excellent * 100.0 / NULLIF(perfect + excellent + great + good + ok, 0)), 2) AS pct_excellent,
+                    ROUND(AVG(great * 100.0 / NULLIF(perfect + excellent + great + good + ok, 0)), 2) AS pct_great,
+                    ROUND(AVG(good * 100.0 / NULLIF(perfect + excellent + great + good + ok, 0)), 2) AS pct_good,
+                    ROUND(AVG(ok * 100.0 / NULLIF(perfect + excellent + great + good + ok, 0)), 2) AS pct_ok
+                FROM 
+                    userrecord
+                WHERE 
+                    userId = ? 
+                    AND (perfect + excellent + great + good + ok) > 0
+                GROUP BY 
+                    difficulty;
+
+                `
+                connection.query(query,[userId], (err, resultado) => {
+                    connection.release();
+                    if (err) callback(err, null);
+                    else callback(null, resultado);
+                });
+            }
+        });
+    }
 
     
     
+    getTotalPlayed(userId, callback) {
+        this.pool.getConnection((err, connection) => {
+            if (err) callback(err, null);
+            else {
+                let query = `
+                SELECT 
+                    difficulty,
+                    COUNT(*) AS games_played
+                FROM 
+                    userrecord
+                WHERE 
+                    userId = ?
+                GROUP BY 
+                    difficulty;
+
+
+                `
+                connection.query(query,[userId], (err, resultado) => {
+                    connection.release();
+                    if (err) callback(err, null);
+                    else callback(null, resultado);
+                });
+            }
+        });
+    } 
+    getPositionsInRanking(userId, callback) {
+        this.pool.getConnection((err, connection) => {
+            if (err) callback(err, null);
+            else {
+                let query = `
+               WITH ranked_users AS (
+                    SELECT 
+                        userId,
+                        difficulty,
+                        MAX(points) AS maxPoints
+                    FROM userrecord
+                    GROUP BY userId, difficulty
+                ),
+                ranking AS (
+                    SELECT 
+                        userId,
+                        difficulty,
+                        maxPoints,
+                        RANK() OVER (PARTITION BY difficulty ORDER BY maxPoints DESC) AS rank_position
+                    FROM ranked_users
+                )
+                SELECT 
+                    difficulty,
+                    rank_position
+                FROM 
+                    ranking
+                WHERE 
+                    userId = ?;
+
+
+                `
+                connection.query(query,[userId], (err, resultado) => {
+                    connection.release();
+                    if (err) callback(err, null);
+                    else callback(null, resultado);
+                });
+            }
+        });
     }
-   
+    
+    
+}
+
 module.exports = DAO;

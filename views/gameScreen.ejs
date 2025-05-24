@@ -11,12 +11,12 @@
         <img id="helpBtn" src="/images/icons/help.svg" class="svgGame mx-4">
       </div>
       <%-include('partials/playground') %>
-      <div id="divResultados" class="mx-auto box rounded-4 p-4 d-flex flex-column text-center mt-5" >
+      <div id="divResultados" class="mx-auto box rounded-4 p-4 d-none flex-column text-center mt-5" >
         <div id="resultDiv">
           <h1 id="resultSpan"></h1>
         </div> 
         <div id="experienceDiv">
-          <h3 id="experienceSpan"></h3>
+          <h5 id="experienceSpan"></h5>
         </div>
         <div id="createAccountDiv" class="p-2">
           <a href="/users/register"><button class="acceptButton">Crear cuenta</button></a>
@@ -34,10 +34,10 @@
           </div>
         <% } %>
       </div>
-      <div class="d-flex align-items-center justify-content-center">
-        <button id="startBtn" class="acceptButton mt-4 d-flex flex-column align-items-center" style="padding: 0.5em 2em 1em 2em;" >
+      <div class="d-flex justify-content-center">
+        <button id="startBtn" class="acceptButton mt-1 d-flex flex-column align-items-center">
             <span>Comenzar</span>
-            <span class="fs-6" style="margin-top: -0.5em;">[Espacio]</span>
+            <span class="phoneHidden fs-6" style="margin-top: -0.5em;">[Espacio]</span>
         </button>
       </div>
     </div>

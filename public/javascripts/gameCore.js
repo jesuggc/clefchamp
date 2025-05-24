@@ -106,8 +106,8 @@ const GameState = {
         // Mostrar tutorial
         emptyClef();
         
-        if (this.current.difficulty === "TRIAL" || this.userData.locals.preferences.showTutorial) new bootstrap.Modal(this.elements.$tutorialModal).show();
-        else this.elements.$scoreDiv.removeClass("d-none")
+        // if (this.current.difficulty === "TRIAL" || this.userData.locals.preferences.showTutorial) new bootstrap.Modal(this.elements.$tutorialModal).show();
+        // else this.elements.$scoreDiv.removeClass("d-none")
         
         // Configurar eventos
         this.setupEventListeners();
@@ -304,6 +304,7 @@ const GameState = {
     
     // Abrir div de resultados
     openResultDiv() {
+        this.elements.$divResultados.removeClass('d-none').addClass('d-flex');
         this.elements.$divResultados.css("height", this.elements.$divFeedback.css("height")).addClass('show');
     },
 
@@ -318,14 +319,14 @@ const GameState = {
         this.elements.$experienceSpan.html(
             winExp ? `+ ${this.config.EXPERIENCE} exp.` : `Para conseguir experiencia supera el ${this.config.experienceThreshold}%`
         );
-        this.elements.$resultSpan.text("Has acertado un" + percentage + "%");
-        this.elements.$resultSpan.css("color", winExp ? this.config.COLOR_CORRECT : this.config.COLOR_WRONG);
+        this.elements.$resultSpan.text("Has acertado un " + percentage + "%");
+        // this.elements.$resultSpan.css("color", winExp ? this.config.COLOR_CORRECT : this.config.COLOR_WRONG);
         
         let experiencePercentage = (this.userData.locals.experience / (this.userData.locals.experience + this.userData.locals.experienceToNext)) * 100;
         
-        setTimeout(() => this.elements.$resultDiv.css('opacity', 1), 2000);
-        setTimeout(() => this.elements.$experienceDiv.css('opacity', 1), 2500);
-        setTimeout(() => this.elements.$totalExpDiv.css('opacity', 1), 3000);
+        setTimeout(() => this.elements.$resultDiv.css('opacity', 1), 500);
+        setTimeout(() => this.elements.$experienceDiv.css('opacity', 1), 1000);
+        setTimeout(() => this.elements.$totalExpDiv.css('opacity', 1), 1500);
 
         
         if (levelUp) {
@@ -347,7 +348,7 @@ const GameState = {
 
     showFidelization() {
         let percentage = Math.round((this.current.aciertos / this.config.ROUNDS) * 100);
-        this.elements.$resultSpan.html(`¡Enhorabuena! Obtuviste un ${percentage}%`);
+        this.elements.$resultSpan.html(`¡Nivel completado! Obtuviste un ${percentage}%`);
         this.elements.$experienceSpan.html(`Registrate para guardar tu progreso y poder acceder a más niveles`);
         console.log("Puntuacion " + this.current.points)
         setTimeout(() => this.elements.$resultDiv.css('opacity', 1), 500);
@@ -491,6 +492,8 @@ const GameState = {
     resetGame() {
         // Ocultar resultados
         this.elements.$divResultados.removeClass('show');
+        this.elements.$divResultados.removeClass('d-flex').addClass('d-none')
+        this.elements.$divFeedback.removeClass('d-none')
         this.elements.$resultDiv.css('opacity', 0);
         this.elements.$experienceDiv.css('opacity', 0);
         this.elements.$totalExpDiv.css('opacity', 0);

@@ -276,6 +276,11 @@ ul li{
   list-style: none;
 }
 
+.statsSvg {
+  max-width: 2em;
+  max-height: 2em;
+}
+
 .linkList::before {
   content: "•"; 
   color: #989795;
@@ -433,6 +438,11 @@ input[type="password"] {
 }
 
 #successMessage{
+  -webkit-text-stroke-width: 1px;
+  -webkit-text-stroke-color: black;
+}
+
+.strokeText{
   -webkit-text-stroke-width: 1px;
   -webkit-text-stroke-color: black;
 }
@@ -795,9 +805,28 @@ input[type="color"]::-webkit-color-swatch {
   padding-top:24px;
 }
 
+#startBtn {
+  padding: 0.5em 2em 1em 2em;
+} 
+#bothContainer{
+  padding-top: 24px;
+}
+#container {
+  margin-bottom: 48px;
+}
+@media (max-width: 1399.98px) {  
+  /* Pantallas muy grandes */
+  
+}
+@media (max-width: 1199.98px) { 
+  /* Escritorio grande */
+  
+}
+
 @media (max-width: 991.98px) {
-    .container-fluid {
-        padding: 1rem !important;
+  /* Portatiles */
+  .container-fluid {
+    padding: 1rem !important;
     }
     
     .game-preview {
@@ -819,17 +848,22 @@ input[type="color"]::-webkit-color-swatch {
     }
 }
 
-@media (max-width: 576px) {
-    .game-preview {
-        height: 250px;
-    }
-    
+@media (max-width: 767.98px) {
+  /* Tablets */
+  
+}
+@media (max-width: 575.98px) {
+  /* Moviles (landscapes y superior) */
+  .game-preview {
+    height: 250px;
+  }
+  
     .game-description {
-        height: 80px;
+      height: 80px;
     }
     
     .acceptButton {
-        font-size: 1.2em;
+      font-size: 1.2em;
         padding: 0.5em 1em;
     }
 }
@@ -1030,6 +1064,7 @@ input[type="color"]::-webkit-color-swatch {
     bottom: 0;
     left: 0;
     width: 40em;
+    /* height: 0em; */
     padding-bottom: 0.1em;
   }
   .piano {
@@ -1081,16 +1116,36 @@ input[type="color"]::-webkit-color-swatch {
   }
 
   
-.tecla-blanca.pressed {
-  box-shadow: 0px 0px 0px ;
-  background-color: rgb(235, 235, 235);
-  /* transform: translateY(2px); */
-  height: 144px;
-}
+  .tecla-blanca.pressed {
+    box-shadow: 0px 0px 0px ;
+    background-color: rgb(235, 235, 235);
+    /* transform: translateY(2px); */
+    height: 144px;
+  }
 
-#divFeedback {
-  margin-top:0;
-  padding-top: 0;
-}
+  #divFeedback {
+    margin-top:0;
+    padding-top: 0;
+  }
+
+  #streak {
+    margin-bottom: 0;
+  }
+  
+  #startBtn {
+    padding: 0.5em;
+  } 
+
+  .pulse-animation {
+    animation: none;
+    box-shadow:none;
+  }
+
+  #bothContainer{
+    padding-top: 0;
+  }
+  #container {
+    margin-bottom: 0;
+  }
 }
 
