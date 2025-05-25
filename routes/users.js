@@ -269,7 +269,7 @@ router.get("/stats",isLoggedIn, (req, res) => {
                         accuracy: row.avg_accuracy_percentage
                     };
                 });
-
+                console.log(totalPlayed)
                 totalPlayed.forEach(row => {
                     const key = row.difficulty.toLowerCase();
                     stats[key] = {
