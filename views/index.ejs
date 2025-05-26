@@ -17,7 +17,7 @@
     <% } else { %> 
     <div class="vh-90">
       <!-- User Profile Section -->
-      <div class="container-fluid px-4">
+      <div id="profileDiv" class="container-fluid">
         <div class="row">
           <div class="col-8">
             <div class="bg-15 rounded-4 p-3">
@@ -49,8 +49,8 @@
           </div>
           <div class="col-4">
             <div class="bg-65 rounded-4 p-3 h-100">
-              <h3 class="text-white mb-3">¡Ayúdanos a mejorar!</h3>
-              <p class="text-white mb-4">Tu opinión es muy importante para nosotros. Completa nuestra encuesta y ayúdanos a hacer Clefchamp aún mejor.</p>
+              <h3 class="text-white mb-3" style="font-size: clamp(1rem, 4vw, 1.5rem);">¡Ayúdanos a mejorar!</h3>
+              <p class="text-white mb-4 phoneHidden">Tu opinión es muy importante para nosotros. Completa nuestra encuesta y ayúdanos a hacer Clefchamp aún mejor.</p>
               <a href="https://docs.google.com/forms/d/e/1FAIpQLSfMAmHEKpRAzRuneOTOZ3GfJg7Dhug9ATXDRgAvapuUX0wZEQ/viewform?usp=header" target="_blank" class="d-block">
                 <button class="acceptButton w-100">Completar encuesta</button>
               </a>
@@ -60,35 +60,35 @@
       </div>
 
       <!-- Main Content Area -->
-      <div class="container-fluid px-4 mt-4">
+      <div class="container-fluid px-sm-4 mt-sm-4">
         <div class="row g-3">
           <!-- Left Column - Navigation -->
           <div class="col-3">
-            <div class="bg-15 rounded-4 p-4 h-100">
+            <div class="bg-15 rounded-4 p-sm-4 p-2 h-100">
               <div class="d-flex flex-column gap-3">
                 <a href="/users/profile" class="text-decoration-none">
                   <div class="bg-35 rounded-4 p-3 hover-effect d-flex align-items-center">
                     <img src="/images/icons/profile.svg" class="me-3" style="width: 2em">
-                    <span class="fs-5 text-dark">Perfil</span>
+                    <span class="fs-5 text-dark phoneHidden">Perfil</span>
                   </div>
                 </a>
                 <a href="/users/globalRanking" class="text-decoration-none">
                   <div class="bg-35 rounded-4 p-3 hover-effect d-flex align-items-center">
                     <img src="/images/icons/ranking.svg" class="me-3" style="width: 2em">
-                    <span class="fs-5 text-dark">Ranking global</span>
+                    <span class="fs-5 text-dark phoneHidden">Ranking global</span>
                   </div>
                 </a>
                 <a href="/users/stats" class="text-decoration-none">
                   <div class="bg-35 rounded-4 p-3 hover-effect d-flex align-items-center">
                     <img src="/images/icons/statistics.svg" class="me-3" style="width: 2em">
-                    <span class="fs-5 text-dark">Estadísticas</span>
+                    <span class="fs-5 text-dark phoneHidden">Estadísticas</span>
                   </div>
                 </a>
                 <a href="/users/friends" class="text-decoration-none">
                   <div class="bg-35 rounded-4 p-3 hover-effect d-flex align-items-center" id="friendsLink" style="cursor: pointer;">
                     <img src="/images/icons/friends.svg" class="me-3" style="width: 2em">
-                    <span class="fs-5 text-dark">Amigos</span>
-                    <span class="fs-5 text-dark ms-2" id="devText" style="opacity: 0; transition: opacity 0.3s ease;">En desarrollo...</span>
+                    <span class="fs-5 text-dark phoneHidden">Amigos</span>
+                    <span class="fs-5 text-dark ms-2 phoneHidden" id="devText" style="opacity: 0; transition: opacity 0.3s ease;">En desarrollo...</span>
                   </div>
                 </a>
               </div>
@@ -96,7 +96,7 @@
           </div>
           <!-- Right Column - Game Options -->
           <div class="col">
-            <div class="bg-15 rounded-4 p-4 h-100">
+            <div class="bg-15 rounded-4 p-sm-4 p-2 h-100">
               <h2 class="mb-4">¡Hora de jugar!</h2>
               <div class="d-flex flex-column gap-3">
                 <a href="/play/selectGame" class="text-decoration-none">
@@ -105,7 +105,7 @@
                       <img src="/images/icons/playgame.svg" class="me-3" style="width: 3.5em">
                       <div>
                         <h3 class="mb-1 text-black">Nueva partida</h3>
-                        <p class="mb-0 text-muted">Comienza una nueva aventura musical</p>
+                        <p class="mb-0 text-muted phoneHidden">Comienza una nueva aventura musical</p>
                       </div>
                     </div>
                   </div>
@@ -116,7 +116,7 @@
                       <img src="/images/icons/lastgame.svg" class="me-3" style="width: 3.5em">
                       <div>
                         <h3 class="mb-1 text-black">Última partida</h3>
-                        <p id="lastPlayedBtn" class="mb-0 text-muted">Continúa donde lo dejaste</p>
+                        <p id="lastPlayedBtn" class="mb-0 text-muted phoneHidden">Continúa donde lo dejaste</p>
                       </div>
                     </div>
                   </div>
@@ -129,7 +129,7 @@
 
 
       <!-- Music player stays at the bottom -->
-      <div class="music-player bg-15 mt-4 p-3">
+      <div class="music-player bg-15 mt-4 p-3 phoneHidden">
         <div class="container-fluid">
           <div class="row align-items-center">
             <!-- Song Info -->

@@ -956,15 +956,18 @@ input[type="color"]::-webkit-color-swatch {
 .puntuation {
   margin-left: 35%;
 }
-
+#profileDiv {
+  padding-right: 24px;
+  padding-left: 24px;
+}
 @media (max-width: 576px) {
   #mainDiv {
     max-width: none !important;
     width: 90%;
   }
-  /* #vhDiv {
-    height: 90dvh;
-  }*/
+  #profileDiv {
+    padding: 0;
+  }
 
   .vh-90 {
     height: 94dvh;
@@ -1146,6 +1149,11 @@ input[type="color"]::-webkit-color-swatch {
   }
   #container {
     margin-bottom: 0;
+  }
+
+  .userIcon {
+    max-height: 3em;
+    height: 3em;
   }
 }
 
