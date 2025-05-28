@@ -1,0 +1,107 @@
+<div class="rounded-4 bg-15 p-3 mb-4 <%=difficulty%>Div" <%=difficulty === 'normal' || difficulty === 'hard' ? 'hidden' : ''%>>
+  <div class="bg-10 p-3 d-flex flex-column col align-items-center justify-content-center">
+    <div class="row w-100">
+      <div class="col" id="<%=difficulty%>Stats" style="width: 60vw; height: 25vh;padding:0"></div>
+    </div>
+    <div class="row d-none text-center w-100 px-4 rounded-4" style="background-color: #dccfca;padding-top: 5rem;padding-bottom: 5rem;" id="<%=difficulty%>NoData">
+      <h4 class="text-muted">No hay suficientes datos para crear la gráfica</h4>
+    </div>
+    <div class="d-flex justify-content-between w-100 my-sm-4 mt-1 row">
+      <div class="bg-15 rounded-4 p-2 d-flex flex-column align-items-center col-sm-2 col-12 mb-sm-0 mb-1">
+        <p class="mb-2">Puntuación más alta</p>
+        <div class="d-flex flex-column align-items-center gap-2">
+          <div class="d-flex align-items-center gap-2">
+            <img class="statsSvg" src="/images/icons/trophy.svg">
+            <span id="bestScore<%=difficulty.charAt(0).toUpperCase() + difficulty.slice(1)%>" class="h3 mb-0"></span>
+          </div>
+          <small id="bestDate<%=difficulty.charAt(0).toUpperCase() + difficulty.slice(1)%>" class="text-muted"></small>
+        </div>
+      </div>
+
+      <div class="bg-15 rounded-4 p-2 d-flex flex-column align-items-center col-sm-2 col-12 mb-sm-0 mb-1">
+        <p class="mb-2">Partidas jugadas</p>
+        <div class="d-flex align-items-center gap-2">
+          <img src="/images/icons/treble.svg" style="max-height: 4em;">
+          <span class="h3 mb-0"><%=stats[difficulty].gamesPlayed%></span>
+        </div>
+      </div>
+
+      <div class="bg-15 rounded-4 p-2 d-flex flex-column align-items-center col-sm-2 col-12 mb-sm-0 mb-1">
+        <p class="mb-2">Posición en el ranking</p>
+        <div class="d-flex align-items-center justify-content-center gap-2 h-100">
+          <img class="statsSvg" src="/images/icons/ranking.svg">
+          <span class="h3 mb-0"><%=stats[difficulty].rank || '-'%></span>
+        </div>
+      </div>
+
+      <div class="bg-15 rounded-4 p-2 d-flex flex-column align-items-center col-sm-2 col-12 mb-sm-0 mb-1">
+        <p class="mb-2">Última partida</p>
+        <div class="d-flex align-items-center gap-2 justify-content-center h-100">
+          <img class="statsSvg" src="/images/icons/lastPlayed.svg">
+          <span id="lastPlayed<%=difficulty.charAt(0).toUpperCase() + difficulty.slice(1)%>" class="h4 my-auto"></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="w-100">
+      <div class="bg-15 rounded-4 p-2 d-flex align-items-center justify-content-center mb-3">
+        <div class="d-flex align-items-center gap-2">
+          <p class="my-auto">Porcentaje de aciertos:</p>
+          <span class="h3 mb-0"><%=stats[difficulty].accuracy || '-'%>%</span>
+          <p class="my-auto">de los cuales:</p>
+        </div>
+      </div>
+
+      <div class="progress-stacked w-100 mb-3">
+        <div class="progress" role="progressbar" aria-label="Segment one" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100" style="width: <%=stats[difficulty].ok%>%">
+          <div class="progress-bar" style="background-color: rgba(255, 102, 0,0.4);"></div>
+        </div>
+        <div class="progress" role="progressbar" aria-label="Segment two" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100" style="width: <%=stats[difficulty].good%>%">
+          <div class="progress-bar" style="background-color:rgba(0, 255, 55,0.4)"></div>
+        </div>
+        <div class="progress" role="progressbar" aria-label="Segment three" aria-valuenow="20" aria-valuemin= "0" aria-valuemax="100" style="width: <%=stats[difficulty].great%>%">
+          <div class="progress-bar" style="background-color: rgba(0, 162, 255,0.4);"></div>
+        </div>
+        <div class="progress" role="progressbar" aria-label="Segment four" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: <%=stats[difficulty].excellent%>%">
+          <div class="progress-bar" style="background-color: rgba(174, 0, 255,0.4);"></div>
+        </div>
+        <div class="progress" role="progressbar" aria-label="Segment three" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: <%=stats[difficulty].perfect%>%">
+          <div class="progress-bar" style="background-color: rgba(255, 251, 0,0.4);"></div>
+        </div>
+      </div>
+
+      <div class="d-flex justify-content-between w-100">
+        <div class="rounded-4 p-2 d-flex flex-column align-items-center" style="background-color: rgba(255, 102, 0, 0.4);width: 18%;">
+          <p class="my-auto phoneHidden">Ok</p>
+          <div class="d-flex align-items-center gap-2" >
+            <span class="h3 "><%=stats[difficulty].ok%>%</span>
+          </div>
+        </div>
+        <div class="rounded-4 p-2 d-flex flex-column align-items-center" style="background-color: rgba(0, 255, 55, 0.4);width: 18%;">
+          <p class="my-auto phoneHidden">Bien</p>
+          <div class="d-flex align-items-center gap-2" >
+            <span class="h3 "><%=stats[difficulty].good%>%</span>
+          </div>
+        </div>
+        <div class="rounded-4 p-2 d-flex flex-column align-items-center" style="background-color: rgba(0, 162, 255, 0.4);width: 18%;">
+          <p class="my-auto phoneHidden">Genial</p>
+          <div class="d-flex align-items-center gap-2" >
+            <span class="h3 "><%=stats[difficulty].great%>%</span>
+          </div>
+        </div>
+        <div class="rounded-4 p-2 d-flex flex-column align-items-center" style="background-color: rgba(174, 0, 255, 0.4);width: 18%;">
+          <p class="my-auto phoneHidden">Excelente</p>
+          <div class="d-flex align-items-center gap-2" >
+            <span class="h3 "><%=stats[difficulty].excellent%>%</span>
+          </div>
+        </div>
+        <div class="rounded-4 p-2 d-flex flex-column align-items-center" style="background-color: rgba(255, 251, 0, 0.4);width: 18%;">
+          <p class="my-auto phoneHidden">Perfecto</p>
+          <div class="d-flex align-items-center gap-2" >
+            <span class="h3 "><%=stats[difficulty].perfect%>%</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

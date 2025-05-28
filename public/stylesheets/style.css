@@ -304,6 +304,13 @@ body::-webkit-scrollbar {
 .scrollable {
   overflow-y:scroll;
   overflow-y:auto;
+  overflow-x: hidden;
+}
+
+.scrollableIcons {
+  overflow-x: scroll;
+  overflow-x: auto;
+  overflow-y: hidden;
 }
 
 .scrollable::-webkit-scrollbar {
@@ -487,6 +494,9 @@ input[type="password"] {
   display: inline-block;
 }
 
+.pcHidden {
+  display: none;
+} 
 
 @keyframes pulse {
   0% { transform: scale(1); }
@@ -814,6 +824,24 @@ input[type="color"]::-webkit-color-swatch {
 #container {
   margin-bottom: 48px;
 }
+.profileSvg {
+  max-width: 3.5em;
+  max-height: 3.5em;
+  min-width: 3.5em;
+  min-height: 3.5em;
+}
+
+.profileCircle {
+  margin-top:0.5em;
+  margin-bottom:0.5em;
+  padding: 1em;
+}
+
+#profileRight {
+  height:90vh;
+  margin-left: -40px;
+}
+
 @media (max-width: 1399.98px) {  
   /* Pantallas muy grandes */
   
@@ -1062,6 +1090,9 @@ input[type="color"]::-webkit-color-swatch {
   .phoneHidden {
     display: none;
   } 
+  .pcHidden {
+    display: block;
+  } 
 
   .contenedor {
     bottom: 0;
@@ -1154,6 +1185,45 @@ input[type="color"]::-webkit-color-swatch {
   .userIcon {
     max-height: 3em;
     height: 3em;
+  }
+
+  .profileSvg {
+    max-width:  3.5em;
+    max-height: 3.5em;
+    min-width:  3.5em;
+    min-height: 3.5em;
+  }
+  .profileCircle {
+    margin-top:0.5em;
+    margin-bottom:0.5em;
+    padding: 0.2em;
+  }
+  #profileRight {
+    margin-left: 0;
+  }
+  .crownImg {
+    max-width: 2em;
+    max-height: 2em;
+    margin-bottom: 0.5em  ;
+  }
+  .friendCodeImg {
+    max-width: 2em;
+  } 
+  .h1Profile {
+    font-size: 1em;
+    /* font-size: 1.5em; */
+  }
+  .h2Profile {
+    font-size: 0.9em;
+    /* font-size: 1.2em; */
+  }
+  .h3Profile {
+    font-size: 0.8em;
+    /* font-size: 1.2em; */
+  }
+  .h4Profile {
+    font-size: 0.7em;
+    /* font-size: 1.2em; */
   }
 }
 

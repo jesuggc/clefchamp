@@ -6,13 +6,14 @@
           <h3 class="text-center">Selección de icono</h3>
         </div>
         <div class="row">
-          <div class="col-3 align-items-center justify-content-center">
+          <!-- PC View -->
+          <div class="col-md-3 d-none d-md-block align-items-center justify-content-center">
             <div class="row d-flex justify-content-center align-items-center">
               <div id="selectionBg" style="background-color: <%=user.bgColor%>;" class="p-4 rounded-circle d-flex justify-content-center align-items-center">
                 <img id="selectionIcon" src="/images/svg/<%=user.path%>" class="svgIcons">
               </div>
             </div>
-            <div class="row ">
+            <div class="row">
               <h1 class="text-center"><%=locals.user.name%></h1>
             </div>
             <div class="row">
@@ -20,7 +21,8 @@
               <p class="text-center mt-2" style="color: #350D40; font-size: 0.9em;">Selecciona un color de fondo</p>
             </div>
           </div>
-          <div class="col">
+          <!-- PC Icon Grid -->
+          <div class="col-md-9 d-none d-md-block">
             <% for (let i = 0; i < icons.length; i += 4) { %>
               <div class="row mb-2">
                 <% for (let j = 0; j < 4; j++) { 
@@ -35,6 +37,39 @@
                 <% } %>
               </div>
             <% } %>
+          </div>
+
+          <!-- Mobile View -->
+          <div class="col-12 d-md-none mb-3">
+            <div class="row d-flex justify-content-center align-items-center">
+              <div id="selectionBgMobile" style="background-color: <%=user.bgColor%>;" class="p-3 rounded-circle d-flex justify-content-center align-items-center">
+                <img id="selectionIconMobile" src="/images/svg/<%=user.path%>" class="svgIcons" style="height: 5em; width: 5em;">
+              </div>
+            </div>
+            <div class="row">
+              <h3 class="text-center"><%=locals.user.name%></h3>
+            </div>
+            <div class="row">
+              <input id="selectionColorMobile" tabindex="-1" type="color" class="w-50 mx-auto">
+              <p class="text-center mt-2" style="color: #350D40; font-size: 0.9em;">Selecciona un color de fondo</p>
+            </div>
+          </div>
+          <!-- Mobile Icon Grid -->
+          <div class="col-12 d-md-none">
+            <%# for (let i = 0; i < icons.length; i += 4) { %>
+              <div class="row mb-2 scrollableIcons">
+                <% for (let j = 0; j < 4; j++) { 
+                  let index = j;
+                  if (index >= icons.length) break;
+                %>
+                  <div class="col-3 mx-3 d-flex justify-content-center">
+                    <div class="bg-10 p-4 rounded-circle cursorPointer iconBtn" data-id="<%=icons[index].id%>">
+                      <img src="/images/svg/<%= icons[index].path %>" class="svgProfile">
+                    </div>
+                  </div>
+                <% } %>
+              </div>
+            <%# } %>
           </div>
         </div>
 

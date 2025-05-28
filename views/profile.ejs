@@ -3,150 +3,153 @@
   <%-include('partials/head') %>
   <body class="colorNuevo5">
     <%-include('partials/header') %>
-    <div class="row d-flex">
-      <div class="col-4 vh-90 px-4  container-fluid" >
-        <div class="bg-15 rounded-4 p-2 text-center d-flex flex-column align-items-center " style="height:43vh; margin-bottom: 1vh;">
-          <div id="bgDiv" class="p-4 rounded-circle" style="background-color: <%=user.bgColor%>">
-            <img id="imgDiv" src="/images/svg/<%=user.path%>" class="rounded-circle userIcon" >
+    <div class="container-fluid p-0">
+      <!-- Mobile View -->
+      <div class="pcHidden bg-15 rounded-4 p-3 mb-sm-4 mb-1 mx-1">
+        <div class="row align-items-center g-3">
+          <div class="col-auto">
+            <div id="profileIcon" class="rounded-circle d-flex align-items-center justify-content-center" style="background-color: <%=user.bgColor%>; width: 80px; height: 80px;">  
+              <img src="/images/svg/<%=user.path%>" class="userIcon" style="max-width: 60px; max-height: 60px;">
+            </div>
           </div>
-          <h5 class="my-4">Pincha en el icono para cambiarlo</h5>
-          
-          <div class="rounded-circle svgIcons editIcon" style="background-image: url('/images/editIcon.svg'); height:10em; width: 10em; "></div>
-          <!-- <div class="rounded-circle svgIcons profileIcon" style="background-image: url('/images/<%=locals.user.path%>'); "></div> -->
-          <h3 class=" mt-1"><%=locals.user.name%></h3>
-          <h3>Nivel <%=locals.user.level%></h3>
-          <div id="profileProgress" class="progress rounded-5 w-75" role="progressbar" aria-label="Success striped example" aria-valuenow="<%=user.experience%>" aria-valuemin="0" aria-valuemax="<%=user.experience + user.experienceToNext%>">
-            <% let progress = ((user.experience)/(user.experience + user.experienceToNext))*100 %>
-            <div id="levelBar" class="progress-bar bg-success slider overflow-visible text-dark" style="width: <%=progress%>%" >
-              <span id="levelText" class="ps-5"><%=locals.user.experience%>/<%=(locals.user.experience+locals.user.experienceToNext) %></span>
+          <div class="col">
+            <div class="d-flex align-items-center gap-3 mb-2">
+              <h2 class="mb-0"><%=user.name%></h2>
+              <span class="badge bg-success px-3 py-2">Nivel <%=locals.user.level%></span>
+            </div>
+            <small class="text-muted d-block mb-2">Te uniste el <%=locals.user.joindate.day%>/<%=locals.user.joindate.month%>/<%=locals.user.joindate.year%></small>
+            <div class="d-flex align-items-center gap-3">
+              <div class="flex-grow-1">
+                <div class="d-flex justify-content-between mb-1">
+                  <small class="text-muted">Experiencia</small>
+                  <small class="text-muted"><%=user.experience%>/<%=user.experience + user.experienceToNext%></small>
+                </div>
+                <div class="progress" style="height: 0.5em; background-color: rgba(255,255,255,0.1)">
+                  <% let percentage = ((user.experience)/(user.experience + user.experienceToNext))*100 %>
+                  <div id="levelBar" class="progress-bar bg-success" style="width: <%=percentage%>%"></div>
+                </div>
+              </div>
+            </div>
+            <div class="d-flex align-items-center justify-content-between mt-2" style="margin-right: 5rem;">
+              <div>
+                <small class="text-muted d-block">Código de amigo</small>
+                <h5 class="mb-0" id="friendCode"><%=locals.user.friendCode%></h5>
+              </div>
+              <a id="copyFriendCode" class="cursorPointer justify-content-start mt-2">
+                <img src="/images/icons/copy.svg" class="friendCodeImg">
+              </a>
             </div>
           </div>
         </div>
-        <div class="bg-15 rounded-4 p-1 align-items-center justify-content-center d-flex flex-column" style="height:12vh; margin-bottom: 1vh;">
+      </div>
+
+      <div class="row g-0">
+        <!-- PC View - Left Column -->
+        <div class="phoneHidden col-md-4 px-4">
+          <div class="bg-15 rounded-4 p-2 text-center d-flex flex-column align-items-center mb-1">
+            <div id="bgDiv" class="p-sm-4 p-2 rounded-circle" style="background-color: <%=user.bgColor%>">
+              <img id="imgDiv" src="/images/svg/<%=user.path%>" class="rounded-circle userIcon">
+            </div>
+            <h5 class="my-sm-4">Pincha en el icono para cambiarlo</h5>
+            <div class="rounded-circle svgIcons editIcon" style="background-image: url('/images/editIcon.svg'); height:10em; width: 10em;"></div>
+            <h3 class="mt-sm-1"><%=locals.user.name%></h3>
+            <h3>Nivel <%=locals.user.level%></h3>
+            <div id="profileProgress" class="progress rounded-5 w-75" role="progressbar" aria-label="Success striped example" aria-valuenow="<%=user.experience%>" aria-valuemin="0" aria-valuemax="<%=user.experience + user.experienceToNext%>">
+              <% let progress = ((user.experience)/(user.experience + user.experienceToNext))*100 %>
+              <div id="levelBar" class="progress-bar bg-success slider overflow-visible text-dark" style="width: <%=progress%>%">
+                <span id="levelText" class="ps-5"><%=locals.user.experience%>/<%=(locals.user.experience+locals.user.experienceToNext)%></span>
+              </div>
+            </div>
+          </div>
+          <div class="bg-15 rounded-4 p-1 align-items-center justify-content-center d-flex flex-column mb-1">
             <h3>Te uniste el:</h3>
-            <h5><%=locals.user.joindate.day%>/<%=locals.user.joindate.month%>/<%=locals.user.joindate.year%></p>
-        </div>
-        <div class="bg-15 rounded-4 p-2 text-center d-flex align-items-center justify-content-center" style="height:12vh; margin-bottom: 1vh;">
-          <div class="col-6 d-flex flex-column  ">
-            <div class="row">
-              <h3>Codigo de amigo</h3>
-            </div>
-            <div class="row">
-              <h5 id="friendCode"><%=locals.user.friendCode%></h5>
-            </div>
+            <h5><%=locals.user.joindate.day%>/<%=locals.user.joindate.month%>/<%=locals.user.joindate.year%></h5>
           </div>
-          <div class="col-2 d-flex align-items-center justify-content-center ">
-            <a id="copyFriendCode" class="cursorPointer;"><img src="/images/icons/copy.svg" class="friendCodeImg"></a>
-          </div>
-        </div>
-      </div>
-      <div class="col-8 scrollable container-fluid" style="height:88vh; margin-left: -40px;">
-        <h1 class="rounded-4">Mejores partidas</h1>
-        <% if(topRecords.length > 2)  { %>
-        <div class="row mx-5">
-          <div class="col my-4 text-center pt-3 secondPlaces" style="background-color: #C0BEBE; border-radius: 2em 2em 0 0;">
-            <div class="row rounded-5 p-2 bg-white mx-1">
-                <img src="/images/icons/crown.svg" class="mt-4 crownImg">
-                <h1><%=topRecords[1].points%> ptos.</h1>
-                <h2><%=topRecords[1].time.day%>-<%=topRecords[1].time.month%>-<%=topRecords[1].time.year%></h2>
-                <h2>Atrapa-do</h2>
-                <% let color1 = "pastelGreen"; if (topRecords[1].difficulty === "NORMAL") color1= "pastelBlue"; if(topRecords[1].difficulty === "HARD") color1="pastelRed"; %>
-                <% let dificultad1 = "Fácil"; if (topRecords[1].difficulty === "NORMAL") dificultad1= "Normal"; if(topRecords[1].difficulty === "HARD") dificultad1="Difícil";  %>
-                <h4 class="<%=color1%> rounded-4"><%=dificultad1%></h4>
-            </div>
-            <div class="row my-2 p-1">
-              <h1>2º</h1>
-            </div>
-          </div>
-          <div class="col my-4 text-center pt-3" style="background-color: #EBD244; border-radius: 2em 2em 0 0;">
-            <div class="row rounded-5 p-2 bg-white mx-1">
-                <img src="/images/icons/crown.svg" class="mt-4 crownImg">
-                <h1><%=topRecords[0].points%> ptos.</h1>
-                <h2><%=topRecords[0].time.day%>-<%=topRecords[0].time.month%>-<%=topRecords[0].time.year%></h2>
-                <h2>Atrapa-do</h2>
-                <% let color0 = "pastelGreen"; if (topRecords[0].difficulty === "NORMAL") color0= "pastelBlue"; if(topRecords[0].difficulty === "HARD") color0="pastelRed"; %>
-                <% let dificultad0 = "Fácil"; if (topRecords[0].difficulty === "NORMAL") dificultad0= "Normal"; if(topRecords[0].difficulty === "HARD") dificultad0="Difícil";  %>
-                <h4 class="<%=color0%> rounded-4"><%=dificultad0%></h4>
-            </div>
-            <div class="row my-2 p-1">
-              <h1>1º</h1>
-            </div>
-          </div>
-          <div class="col my-4 text-center pt-3 secondPlaces" style="background-color: #B75D0E; border-radius: 2em 2em 0 0;">
-            <div class="row rounded-5 p-2 bg-white mx-1">
-                <img src="/images/icons/crown.svg" class="mt-4 crownImg">
-                <h1><%=topRecords[2].points%> ptos.</h1>
-                <h2><%=topRecords[2].time.day%>-<%=topRecords[2].time.month%>-<%=topRecords[2].time.year%></h2>
-                <h2>Atrapa-do</h2>
-                <% let color2 = "pastelGreen"; if (topRecords[2].difficulty === "NORMAL") color2= "pastelBlue"; if(topRecords[2].difficulty === "HARD") color2="pastelRed"; %>
-                <% let dificultad2 = "Fácil"; if (topRecords[2].difficulty === "NORMAL") dificultad2= "Normal"; if(topRecords[2].difficulty === "HARD") dificultad2="Difícil";  %>
-                <h4 class="<%=color2%> rounded-4"><%=dificultad2%></h4>
-            </div>
-            <div class="row my-2 p-1 " style="background-color: #B75D0E;">
-              <h1>3º</h1>
-            </div>
-          </div>
-        </div>
-        <% } else { %>
-          <h4 class="text-center bg-5 p-4 rounded-4 m-4" style="color: #757575"> Aún no has jugado partidas suficientes...</h4>
-        <% } %>
-        <h1 class="rounded-4">Historial</h1>
-        <% if(records.length === 0)  { %>
-          <h4 class="text-center bg-5 p-4 rounded-4 m-4" style="color: #757575"> Aquí podrás consultar tus partidas</h4>
-        <% } else { %>
-          <% for(let i = 0; i < records.length; i ++) { %>
-          <div class="row bg-15 rounded-4 mx-1 mt-1 px-2 historyDiv <%= i > 4 ? 'd-none' : '' %>">
-            <div class="col">
+          <div class="bg-15 rounded-4 p-1 text-center d-flex align-items-center justify-content-center mb-1">
+            <div class="col-6 d-flex flex-column">
               <div class="row">
-                <div class="col pt-4 d-flex align-items-center">
-                  <h3>Atrapa-do</h3>
-                </div>
-                <div class="col">
-                  <div class="row">
-                    <h5 class="text-center"><span class="display-1"><%=records[i].points%></span> ptos.</h5>
-                  </div>
-                </div>
-                <div class="col">
-                  <div class="row">
-                    <span class="fs-3 text-end"><%=records[i].time.day%>-<%=records[i].time.month%>-<%=records[i].time.year%></span>
-                  </div>
-                  <div class="row">
-                    <span class="fs-5 text-end"><%=records[i].time.hour%>:<%=records[i].time.minutes%></span>
-                  </div>
-                </div>
+                <h3>Codigo de amigo</h3>
               </div>
-              <% let color = "pastelGreen"; if (records[i].difficulty === "NORMAL") color= "pastelBlue"; if(records[i].difficulty === "HARD") color="pastelRed"; %> 
-              <div class="row d-flex <%=color%> my-1 rounded-4">
-                <div class="col-4 d-flex justify-content-center"></div>
-                <% let dificultad = "Fácil"; if (records[i].difficulty === "NORMAL") dificultad= "Normal"; if(records[i].difficulty === "HARD") dificultad="Difícil";  %>
-                <div class="col-4 d-flex justify-content-center"><span class="fs-5"><%=dificultad%></span></div>
-                <div class="col-4 d-flex justify-content-end align-items-center"><span>ID de partida: <%=records[i].gameId%></span></div>
+              <div class="row">
+                <h5 id="friendCode"><%=locals.user.friendCode%></h5>
               </div>
+            </div>
+            <div class="col-2 d-flex align-items-center justify-content-center">
+              <a id="copyFriendCode" class="cursorPointer;"><img src="/images/icons/copy.svg" class="friendCodeImg"></a>
             </div>
           </div>
+        </div>
+
+        <!-- PC View - Right Column -->
+        <div class="col-md-8 col-12 scrollable">
+          <h1 class="rounded-4">Mejores partidas</h1>
+          <% if(topRecords.length > 2)  { %>
+          <div class="row m-0 mx-sm-5">
+            <%- include('partials/podium-position', { position: 2, bgColor: '#C0BEBE', record: topRecords[1] }) %>
+            <%- include('partials/podium-position', { position: 1, bgColor: '#EBD244', record: topRecords[0] }) %>
+            <%- include('partials/podium-position', { position: 3, bgColor: '#B75D0E', record: topRecords[2] }) %>
+          </div>
+          <% } else { %>
+            <h4 class="text-center bg-5 p-4 rounded-4 m-4" style="color: #757575"> Aún no has jugado partidas suficientes...</h4>
           <% } %>
-          <% if(records.length > 4) { %>
-            <div id="seeMoreDiv" class="row bg-15 rounded-4 mx-1 mt-1 cursorPointer">
-              <img id="seeMore" src="/images/icons/seemore.svg" class="my-3" style="max-height: 1.5em;">
+          <h1 class="rounded-4">Historial</h1>
+          <% if(records.length === 0)  { %>
+            <h4 class="text-center bg-5 p-4 rounded-4 m-4" style="color: #757575"> Aquí podrás consultar tus partidas</h4>
+          <% } else { %>
+            <% for(let i = 0; i < records.length; i ++) { %>
+            <div class="row bg-15 rounded-4 mx-1 mt-1 px-2 historyDiv <%= i > 4 ? 'd-none' : '' %>">
+              <div class="col">
+                <div class="row">
+                  <div class="col pt-4 d-flex align-items-center">
+                    <h3>Atrapa-do</h3>
+                  </div>
+                  <div class="col">
+                    <div class="row">
+                      <h5 class="text-center"><span class="display-1"><%=records[i].points%></span> ptos.</h5>
+                    </div>
+                  </div>
+                  <div class="col">
+                    <div class="row">
+                      <span class="fs-3 text-end"><%=records[i].time.day%>-<%=records[i].time.month%>-<%=records[i].time.year%></span>
+                    </div>
+                    <div class="row">
+                      <span class="fs-5 text-end"><%=records[i].time.hour%>:<%=records[i].time.minutes%></span>
+                    </div>
+                  </div>
+                </div>
+                <% let color = "pastelGreen"; if (records[i].difficulty === "NORMAL") color= "pastelBlue"; if(records[i].difficulty === "HARD") color="pastelRed"; %> 
+                <div class="row d-flex <%=color%> my-1 rounded-4">
+                  <div class="col-4 d-flex justify-content-center"></div>
+                  <% let dificultad = "Fácil"; if (records[i].difficulty === "NORMAL") dificultad= "Normal"; if(records[i].difficulty === "HARD") dificultad="Difícil";  %>
+                  <div class="col-4 d-flex justify-content-center"><span class="fs-5"><%=dificultad%></span></div>
+                  <div class="col-4 d-flex justify-content-end align-items-center"><span>ID de partida: <%=records[i].gameId%></span></div>
+                </div>
+              </div>
             </div>
-          
+            <% } %>
+            <% if(records.length > 4) { %>
+              <div id="seeMoreDiv" class="row bg-15 rounded-4 mx-1 mt-1 cursorPointer">
+                <img id="seeMore" src="/images/icons/seemore.svg" class="my-3" style="max-height: 1.5em;">
+              </div>
+            
+            <% } %>
           <% } %>
-        <% } %>
+        </div>
       </div>
-    </div>  
+    </div>
     <%-include('partials/footer') %>
     <%-include('partials/modal/selectIcon') %>
-  <script>
-    $("#seeMoreDiv").on("click", function(){
-      $(".historyDiv").each(function(index) {
-        if (index > 4) {
-          $(this).toggleClass("d-none")
-        }
+    <script>
+      $("#seeMoreDiv").on("click", function(){
+        $(".historyDiv").each(function(index) {
+          if (index > 4) {
+            $(this).toggleClass("d-none")
+          }
+        })
+        $("#seeMore").toggleClass("rotate-180")
       })
-      $("#seeMore").toggleClass("rotate-180")
-    })
-  </script>
-  <script src="/javascripts/clipboard.js"></script>
-  <script src="/javascripts/icons.js"></script>
+    </script>
+    <script src="/javascripts/clipboard.js"></script>
+    <script src="/javascripts/icons.js"></script>
   </body>
 </html>
