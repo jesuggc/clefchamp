@@ -218,7 +218,7 @@ class DAO {
             if (err) callback(err, null)
             else {
                 let stringQuery = "SELECT * FROM userpreferences WHERE idUser = ?"
-                connection.query(stringQuery, userId, (err, resultado) => {
+                connection.query(stringQuery, [userId], (err, resultado) => {
                     connection.release();
                     if (err) callback(err, null);
                     else if (resultado.length === 0) callback(null, null)

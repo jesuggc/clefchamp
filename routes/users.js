@@ -100,6 +100,7 @@ router.post("/login", (req, res) => {
             }
             user.path = profile[0].path
             user.bgColor = profile[0].bgColor
+            
             const sessionUser = {
               ...user,
               ...userLevel[0],
@@ -134,29 +135,43 @@ router.post("/register", (req, res, next) => {
             dao.initializeExperience(userId, (err) => {
               if (err) return next(new Error("Error en registro 5"));
               // ---
-              dao.getPreferences(user.id, (err, preferences) => {
+              dao.getPreferences(userId, (err, preferences) => {
                 if(err) {
                   console.log(err)
                   return res.status(500).json({ message: "Error en el inicio de sesión" }); 
                 }
-                dao.getProfileIconFromId(user.id,(err, profile) => {
+                dao.getProfileIconFromId(userId,(err, profile) => {
                   if(preferences === null) {
                     preferences = {
                       showTutorial: true
                     }
                   }
-                  user.path = profile[0].path
-                  user.bgColor = profile[0].bgColor
-                  const sessionUser = {
-                    ...user,
-                    ...userLevel[0],
-                    preferences
-                  };
-                  
-                  req.session.user = sessionUser;
-                  res.locals.user = sessionUser;
-                  
-                  res.json({ existe: true, nombre: user.nombre, correo: user.correo });
+                  dao.checkUser(user.email, (err, user) => {
+                    if (err) {
+                      console.error("Error en login:", err);
+                      return res.status(500).json({ message: "Error en el inicio de sesión" });
+                    }
+                    
+                    user.path = profile[0].path
+                    user.bgColor = profile[0].bgColor
+      
+                    let userLevel = {
+                      level:1,
+                      experience: 0,
+                      experienceToNext:150
+                    }
+                    user.id = userId
+                    const sessionUser = {
+                      ...user,
+                      ...userLevel,
+                      preferences
+                    };
+                    
+                    req.session.user = sessionUser;
+                    res.locals.user = sessionUser;
+                    
+                    res.json({ existe: true, nombre: user.nombre, correo: user.correo });
+                  });
                 });
               });
               // ---
