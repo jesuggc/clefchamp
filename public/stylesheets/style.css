@@ -1225,5 +1225,9 @@ input[type="color"]::-webkit-color-swatch {
     font-size: 0.7em;
     /* font-size: 1.2em; */
   }
+  .fixedHeight {
+    min-height: 18em;
+    max-height: 18em;
+  }
 }
 

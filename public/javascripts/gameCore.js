@@ -106,8 +106,8 @@ const GameState = {
         // Mostrar tutorial
         emptyClef();
         
-        // if (this.current.difficulty === "TRIAL" || this.userData.locals.preferences.showTutorial) new bootstrap.Modal(this.elements.$tutorialModal).show();
-        // else this.elements.$scoreDiv.removeClass("d-none")
+        if (this.current.difficulty === "TRIAL" || this.userData.locals.preferences.showTutorial) new bootstrap.Modal(this.elements.$tutorialModal).show();
+        else this.elements.$scoreDiv.removeClass("d-none")
         
         // Configurar eventos
         this.setupEventListeners();
