@@ -82,12 +82,11 @@ $("#name").on("keyup",()=>{
 
 $("#tagname").on("keyup",() => {
     let $tagname = $("#tagname");
-    $tagname.removeClass("is-invalid")
-    $tagname.removeClass("is-valid")
     let $tagCheck = $("#tagCheck");
     let tagnameValue = $tagname.val();
     tagnameBool = !(specialCheck.test(tagnameValue))
     if(tagnameBool === false) {
+        $tagname.removeClass("is-valid")
         $tagname.addClass("is-invalid")
         $tagCheck.text("No puede contener caracteres especiales")
     }  
@@ -100,9 +99,11 @@ $("#tagname").on("keyup",() => {
             success: function(response) {
                 tagnameBool = response.valido
                 if(tagnameBool===true) {
+                    $tagname.removeClass("is-invalid")
                     $tagname.addClass("is-valid")
                 }
                 else {
+                    $tagname.removeClass("is-valid")
                     $tagname.addClass("is-invalid")
                     $tagCheck.text("Este alias ya está en uso")
                 }

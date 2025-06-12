@@ -1,0 +1,15 @@
+<div class="col my-sm-4 text-center mx-0 px-sm-3 px-0 pt-1 pt-sm-3 <%=position !== 1 ? 'secondPlaces' : ''%>" style="background-color: <%=bgColor%>; border-radius: 2em 2em 0 0;">
+  <div class="row rounded-5 p-sm-2  bg-white mx-1">
+    <div class="d-flex flex-column align-items-center">
+      <img src="/images/icons/crown.svg" class="mt-4 crownImg">
+      <h1 class="h1Profile text-break"><%=record.points%> ptos.</h1>
+      <h2 class="h2Profile text-break"><%=record.time.day%>-<%=record.time.month%>-<%=record.time.year%></h2>
+      <h2 class="h2Profile text-break">Atrapa-do</h2>
+      <%let color = "pastelGreen";let dificultad = "Fácil";if (record.difficulty === "NORMAL") { color = "pastelBlue";dificultad = "Normal"; }if (record.difficulty === "HARD") { color = "pastelRed"; dificultad = "Difícil"; } %>
+      <h4 class="<%=color%> rounded-4 h4Profile w-75"><%=dificultad%></h4>
+    </div>
+  </div>
+  <div class="row my-sm-2 p-sm-1 p-0 <%=position === 3 ? 'style="background-color: #B75D0E;"' : ''%>">
+    <h1><%=position%>º</h1>
+  </div>
+</div> 

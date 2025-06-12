@@ -96,6 +96,8 @@ const GameState = {
             $helpBtn: $("#helpBtn"),
             $startAgain: $("#startAgain"),
             $showAgain: $("#showAgain"),
+            $createAccountDiv: $("#createAccountDiv"),
+            $scoreDiv: $("#scoreDiv"),
         };
 
         // Inicializar cronómetro
@@ -104,9 +106,8 @@ const GameState = {
         // Mostrar tutorial
         emptyClef();
         
-        if (this.current.difficulty === "TRIAL" || this.userData.locals.preferences.showTutorial) {
-            new bootstrap.Modal(this.elements.$tutorialModal).show();
-        }
+        if (this.current.difficulty === "TRIAL" || this.userData.locals.preferences.showTutorial) new bootstrap.Modal(this.elements.$tutorialModal).show();
+        else this.elements.$scoreDiv.removeClass("d-none")
         
         // Configurar eventos
         this.setupEventListeners();
@@ -120,6 +121,58 @@ const GameState = {
         this.elements.$helpBtn.on("click", () => new bootstrap.Modal(this.elements.$tutorialModal).show());
         this.elements.$showAgain.on("click", () => new bootstrap.Modal(this.elements.$tutorialModal).show());
         
+        
+        $('.notec, .noted, .notee, .notef, .noteg, .notea, .noteb')
+        .on('mousedown touchstart', (event) => {
+            event.preventDefault(); 
+            const noteClass = event.target.className.split(' ')[1]; 
+            const note = noteClass.replace('note', ''); 
+            
+            const keyMap = {
+                'c': 'a',
+                'd': 's',
+                'e': 'd',
+                'f': 'f',
+                'g': 'j',
+                'a': 'k',
+                'b': 'l'
+            };
+            
+            const keyEvent = new KeyboardEvent('keydown', {
+                key: keyMap[note],
+                code: `Key${keyMap[note].toUpperCase()}`,
+                keyCode: keyMap[note].charCodeAt(0),
+                which: keyMap[note].charCodeAt(0),
+                bubbles: true
+            });
+            
+            document.dispatchEvent(keyEvent);
+        })
+        .on('mouseup mouseleave touchend touchcancel', (event) => {
+            event.preventDefault(); // Prevent default behavior
+            const noteClass = event.target.className.split(' ')[1];
+            const note = noteClass.replace('note', '');
+            
+            const keyMap = {
+                'c': 'a',
+                'd': 's',
+                'e': 'd',
+                'f': 'f',
+                'g': 'j',
+                'a': 'k',
+                'b': 'l'
+            };
+            
+            const keyUpEvent = new KeyboardEvent('keyup', {
+                key: keyMap[note],
+                code: `Key${keyMap[note].toUpperCase()}`,
+                keyCode: keyMap[note].charCodeAt(0),
+                which: keyMap[note].charCodeAt(0),
+                bubbles: true
+            });
+            
+            document.dispatchEvent(keyUpEvent);
+        });
     
         // Agregar el evento para volver a jugar
         this.elements.$playAgainBtn.on("click", () => this.resetGame());
@@ -239,6 +292,7 @@ const GameState = {
 
     // Finalizar el juego
     endGame() {
+        this.elements.$divFeedback.removeClass("d-flex").addClass("d-none")
         this.cronometro.pause();
         emptyClef();
         this.openResultDiv();
@@ -250,6 +304,7 @@ const GameState = {
     
     // Abrir div de resultados
     openResultDiv() {
+        this.elements.$divResultados.removeClass('d-none').addClass('d-flex');
         this.elements.$divResultados.css("height", this.elements.$divFeedback.css("height")).addClass('show');
     },
 
@@ -261,11 +316,11 @@ const GameState = {
         
         let levelUp = await this.handleExperience(winExp, experienceToAdd);
         
-        this.elements.$experienceSpan.text(
-            winExp ? "+" + this.config.EXPERIENCE + "exp." : `Para conseguir experiencia supera el ${this.config.experienceThreshold}%`
+        this.elements.$experienceSpan.html(
+            winExp ? `+ ${this.config.EXPERIENCE} exp.` : `Para conseguir experiencia supera el ${this.config.experienceThreshold}%`
         );
-        this.elements.$resultSpan.text(percentage + "%");
-        this.elements.$resultSpan.css("color", winExp ? this.config.COLOR_CORRECT : this.config.COLOR_WRONG);
+        this.elements.$resultSpan.text("Has acertado un " + percentage + "%");
+        // this.elements.$resultSpan.css("color", winExp ? this.config.COLOR_CORRECT : this.config.COLOR_WRONG);
         
         let experiencePercentage = (this.userData.locals.experience / (this.userData.locals.experience + this.userData.locals.experienceToNext)) * 100;
         
@@ -293,11 +348,12 @@ const GameState = {
 
     showFidelization() {
         let percentage = Math.round((this.current.aciertos / this.config.ROUNDS) * 100);
-        this.elements.$resultSpan.text(percentage + "%");
+        this.elements.$resultSpan.html(`¡Nivel completado! Obtuviste un ${percentage}%`);
+        this.elements.$experienceSpan.html(`Registrate para guardar tu progreso y poder acceder a más niveles`);
         console.log("Puntuacion " + this.current.points)
         setTimeout(() => this.elements.$resultDiv.css('opacity', 1), 500);
         setTimeout(() => this.elements.$experienceDiv.css('opacity', 1), 1000);
-        setTimeout(() => this.elements.$totalExpDiv.css('opacity', 1), 1500);
+        setTimeout(() => this.elements.$createAccountDiv.css('opacity', 1), 1500);
     },
 
     // Manejar la experiencia ganada
@@ -436,6 +492,8 @@ const GameState = {
     resetGame() {
         // Ocultar resultados
         this.elements.$divResultados.removeClass('show');
+        this.elements.$divResultados.removeClass('d-flex').addClass('d-none')
+        this.elements.$divFeedback.removeClass('d-none')
         this.elements.$resultDiv.css('opacity', 0);
         this.elements.$experienceDiv.css('opacity', 0);
         this.elements.$totalExpDiv.css('opacity', 0);

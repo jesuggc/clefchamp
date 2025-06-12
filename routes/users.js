@@ -100,6 +100,7 @@ router.post("/login", (req, res) => {
             }
             user.path = profile[0].path
             user.bgColor = profile[0].bgColor
+            
             const sessionUser = {
               ...user,
               ...userLevel[0],
@@ -145,24 +146,39 @@ router.post("/register", (req, res, next) => {
                       showTutorial: true
                     }
                   }
-                  userData.path = profile[0].path
-                  userData.bgColor = profile[0].bgColor
-                  const sessionUser = {
-                    ...userData,
-                    ...userLevel[0],
-                    preferences
-                  };
-                  
-                  req.session.user = sessionUser;
-                  res.locals.user = sessionUser;
-                  
-                  res.json({ success: true, user: sessionUser });
+                  dao.checkUser(user.email, (err, user) => {
+                    if (err) {
+                      console.error("Error en login:", err);
+                      return res.status(500).json({ message: "Error en el inicio de sesión" });
+                    }
+                    
+                    user.path = profile[0].path
+                    user.bgColor = profile[0].bgColor
+      
+                    let userLevel = {
+                      level:1,
+                      experience: 0,
+                      experienceToNext:150
+                    }
+                    user.id = userId
+                    const sessionUser = {
+                      ...user,
+                      ...userLevel,
+                      preferences
+                    };
+                    
+                    req.session.user = sessionUser;
+                    res.locals.user = sessionUser;
+                    
+                    res.json({ existe: true, nombre: user.nombre, correo: user.correo });
+                  });
                 });
               });
+              // ---
+
+              // res.json(true);
             });
-          });
         });
-      });
     });
   });
 });
@@ -253,7 +269,56 @@ router.post("/setProfileIcon", (req,res) => {
   
 })
 router.get("/stats",isLoggedIn, (req, res) => {
-  res.render("stats")
+  
+  dao.getAverage(res.locals.user.id, (err, average) => {
+      if (err) return callback(err);
+      dao.getTotalPlayed(res.locals.user.id, (err, totalPlayed) => {
+          if (err) return callback(err);
+          dao.getPositionsInRanking(res.locals.user.id, (err, ranking) => {
+              if (err) return callback(err);
+              dao.getAverageTiming(res.locals.user.id, (err, averageTiming) => {
+                const stats = {};
+
+                average.forEach(row => {
+                  stats[row.difficulty.toLowerCase()] = {
+                        accuracy: row.avg_accuracy_percentage
+                    };
+                });
+                console.log(totalPlayed)
+                totalPlayed.forEach(row => {
+                    const key = row.difficulty.toLowerCase();
+                    stats[key] = {
+                        ...stats[key],
+                        gamesPlayed: row.games_played
+                    };
+                });
+
+                ranking.forEach(row => {
+                    const key = row.difficulty.toLowerCase();
+                    stats[key] = {
+                        ...stats[key],
+                        rank: row.rank_position
+                    };
+                });
+                
+                averageTiming.forEach(row => {
+                  const key = row.difficulty.toLowerCase();
+                  stats[key] = {
+                    ...stats[key],
+                    perfect: row.pct_perfect,
+                    excellent: row.pct_excellent,
+                    great: row.pct_great,
+                    good: row.pct_good,
+                    ok: row.pct_ok
+                  };
+                });
+      
+                res.render("stats",{stats})
+              })
+          });
+      });
+  });
+
 });
 
 router.get("/settings",isLoggedIn, (req, res) => {
@@ -288,7 +353,7 @@ router.get("/statsForUser",isLoggedIn, (req, res) => {
               console.error("Error en checkEmail:", err2);
               return res.status(500).json({ message: "Error en stats hard" });
             } else {
-              res.json({easyStats,normalStats,hardStats})
+              res.json({easyStats,normalStats,hardStats,})
             }
           })
         }
@@ -296,6 +361,7 @@ router.get("/statsForUser",isLoggedIn, (req, res) => {
     }
   })
 });
+
 router.get('/getUserByFriendcode/:friendCode', (req, res) => {
   const { friendCode } = req.params;
   const fullFriendCode = "#" + friendCode

@@ -4,49 +4,82 @@
   <body class="colorNuevo5">
     <%-include('partials/header') %>
     <div class="row d-flex">
-      <div class="col scrollable container-fluid vh-90 mx-5">
+      <div class="col scrollable container-fluid vh-90 mx-sm-5">
         <div class="mb-3">
 
+        <% const levels = [{ id: 'easy', name: 'Fácil', res: easyRes }, { id: 'normal', name: 'Normal', res: normalRes }, { id: 'hard', name: 'Difícil', res: hardRes }]; %>
         
-        <div class="row bg-15 rounded-4 mx-1 px-2">
-          <% const levels = [{ id: 'easy', name: 'Fácil', res: easyRes }, { id: 'normal', name: 'Normal', res: normalRes }, { id: 'hard', name: 'Difícil', res: hardRes }]; %>
-          <% levels.forEach(level => { %>
-            <h1 id="<%= level.id %>Btn" class="col mx-5 text-center cursorPointer" style="margin-bottom: 0;"><%= level.name %></h1>
-          <% }); %>
-        </div>
+        <div class="d-flex bg-15 rounded-4 mb-sm-4 mb-1 mx-1">
+          <h1 id="easyBtn" class="col mx-sm-5 text-center cursorPointer" style="margin-bottom: 0;border-radius: 1em;">Fácil</h1>
+          <h1 id="normalBtn" class="col mx-sm-5 text-center cursorPointer" style="margin-bottom: 0;border-radius: 1em;">Normal</h1>
+          <h1 id="hardBtn" class="col mx-sm-5 text-center cursorPointer" style="margin-bottom: 0;border-radius: 1em;">Difícil</h1>
+      </div>
         
         <% levels.forEach(level => { %>
           <% level.res.forEach((entry, i) => { %>
-            <div class="row bg-15 rounded-4 mx-1 mt-1 px-2 <%= level.id %>Div" <%= level.id !== 'easy' ? 'hidden' : '' %>>
-              <div class="col-1 d-flex">
-                <h1 class="my-auto bg-15 rounded-4 p-3 px-4"><%= i + 1 %>.</h1>
-              </div>
-              <div class="col-1 d-flex">
-                <!-- <img src="/images/svg/<%= entry.path %>" style="max-width: 5em; max-height: 5em;" class="rounded-circle my-auto"> -->
-                <div  style="background-color: <%= entry.bgColor %>; padding: 1em; margin-top:0.5em; margin-bottom:0.5em" class="rounded-circle d-flex justify-content-center align-items-center">
-                  <img id="selectionIcon" src="/images/svg/<%= entry.path %>" style="max-width: 3.5em; max-height: 3.5em;min-width: 3.5em; min-height: 3.5em; ">
+            <div class="row bg-15 rounded-4 mx-1 mt-1 px-sm-2 <%= level.id %>Div" <%= level.id !== 'easy' ? 'hidden' : '' %>>
+              <!-- PC View -->
+              <div class="d-none d-md-flex w-100">
+                <div class="col-1 d-flex">
+                  <h1 class="my-auto bg-15 rounded-4 p-sm-3 px-sm-4 p-1 h1Profile"><%= i + 1 %>.</h1>
+                </div>
+                <div class="col-auto align-items-center d-flex">
+                  <div style="background-color: <%= entry.bgColor %>; width: 80px; height: 80px;" class="rounded-circle d-flex justify-content-center align-items-center">
+                    <img id="selectionIcon" src="/images/svg/<%=entry.path%>" class="profileSvg">
+                  </div>
+                </div>
+                <div class="col-2 d-flex">
+                  <div class="my-auto">
+                    <h1 class="h1Profile"><%= entry.tagname %></h1>
+                    <h4 class="h4Profile"><%= entry.friendCode %></h4>
+                  </div>
+                </div>
+                <div class="col">
+                  <div class="row">
+                    <div class="col pt-4 d-flex align-items-center">
+                      <h3 class="h3Profile">Atrapa-do</h3>
+                    </div>
+                    <div class="col">
+                      <h5 class="text-center"><span class="display-1"><%= entry.points %></span> ptos.</h5>
+                    </div>
+                    <div class="col text-end">
+                      <span class="fs-3"><%= entry.time.day %>-<%= entry.time.month %>-<%= entry.time.year %></span>
+                      <% if (entry.time.hour !== undefined) { %>
+                        <div><span class="fs-sm-5"><%= entry.time.hour %>:<%= entry.time.minutes %></span></div>
+                      <% } %>
+                    </div>
+                  </div>
                 </div>
               </div>
-              <div class="col-2 d-flex">
-                <div class="my-auto">
-                  <h1><%= entry.tagname %></h1>
-                  <h4><%= entry.friendCode %></h4>
+
+              <!-- Mobile View -->
+              <div class="d-md-none d-flex w-100 px-1 align-items-center">
+                <!-- Row 1: Position and Profile -->
+                <div class="col-1 justify-content-center d-flex">
+                  <h1 class="my-auto bg-15 rounded-4 p-1 h1Profile"><%= i + 1 %>.</h1>
                 </div>
-              </div>
-              <div class="col">
-                <div class="row">
-                  <div class="col pt-4 d-flex align-items-center">
-                    <h3>Atrapa-do</h3>
-                  </div>
-                  <div class="col">
-                    <h5 class="text-center"><span class="display-1"><%= entry.points %></span> ptos.</h5>
-                  </div>
-                  <div class="col text-end">
-                    <span class="fs-3"><%= entry.time.day %>-<%= entry.time.month %>-<%= entry.time.year %></span>
-                    <% if (entry.time.hour !== undefined) { %>
-                      <div><span class="fs-5"><%= entry.time.hour %>:<%= entry.time.minutes %></span></div>
-                    <% } %>
-                  </div>
+                <div class="col-2 align-items-center mb-2">
+                    <div style="background-color: <%= entry.bgColor %>; width: 60px; height: 60px;" class="rounded-circle d-flex justify-content-center align-items-center">
+                      <img id="selectionIcon" src="/images/svg/<%=entry.path%>" class="profileSvg" style="max-width: 40px; max-height: 40px;">
+                    </div>
+                    <h1 class="h1Profile mb-0"><%= entry.tagname %></h1>
+                    <h4 class="h4Profile mb-0"><%= entry.friendCode %></h4>
+                </div>
+
+                <!-- Row 2: Game Info -->
+                <div class="col-2 ps-1">
+                  <h3 class="h4Profile mb-0">Atrapa-do</h3>
+                </div>
+                <div class="col">
+                  <h5 class="text-center mb-0"><span class="display-5 "><%= entry.points %></span> ptos.</h5>
+                </div>
+
+                <!-- Row 3: Date and Time -->
+                <div class="col text-end">
+                  <span class="fs-6"><%= entry.time.day %>/<%= entry.time.month %>/<%= entry.time.year %></span>
+                  <% if (entry.time.hour !== undefined) { %>
+                    <div><span class="fs-6"><%= entry.time.hour %>:<%= entry.time.minutes %></span></div>
+                  <% } %>
                 </div>
               </div>
             </div>

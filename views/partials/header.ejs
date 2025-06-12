@@ -1,11 +1,11 @@
 <header class="d-flex align-items-center justify-content-between">
-  <div class="d-flex align-items-center justify-content-begin ms-4 mb-2">
+  <div class="ms-4 mb-2">
     <a href="/" class="linkLogo">Cle𝄞champ</a>
   </div>
   <% if(!locals.user) { %>
     <div class="d-flex justify-content-end pe-3">
-      <a href="/users/register" class="me-3 slideButton"><h5 class="m-3">Registro</h5></a>
-      <a href="/users/login" class="slideButton"><h5 class="m-3">Iniciar sesión</h5></a>
+      <a href="/users/register" class="me-lg-3 me-3 slideButton"><h5 class="headerLinks m-lg-3">Registro</h5></a>
+      <a href="/users/login" class="slideButton"><h5 class="headerLinks m-lg-3">Iniciar sesión</h5></a>
     </div>
   <% } else { %>  
     <div class="dropdown me-3" >

@@ -13,19 +13,23 @@ function updateSaveButtonState() {
 $(".svgIcons").on("click", function() {
   $("#exampleModal").modal("show");
 });
+$("#profileIcon").on("click", function() {
+  $("#exampleModal").modal("show");
+});
 
 $(".iconBtn").on("click", function() {
   const path = $(this).find("img").attr("src");
   const id = $(this).data("id");
-  $("#selectionIcon").attr("src", path);
-  $("#selectionIcon").attr("data-id", id);
+  $("#selectionIcon, #selectionIconMobile").attr("src", path);
+  $("#selectionIcon, #selectionIconMobile").attr("data-id", id);
   hasSelectedIcon = true;
   updateSaveButtonState();
 });
 
-$("#selectionColor").on("input", function() {
+$("#selectionColor, #selectionColorMobile").on("input", function() {
   const color = $(this).val();
-  $("#selectionBg").css("background-color", color);
+  $("#selectionBg, #selectionBgMobile").css("background-color", color);
+  $("#selectionColor, #selectionColorMobile").val(color);
   hasSelectedColor = true;
   updateSaveButtonState();
 });
@@ -33,13 +37,13 @@ $("#selectionColor").on("input", function() {
 $("#saveBtn").on("click", async function() {
   const color = $("#selectionColor").val();
   const dataId = $("#selectionIcon").attr("data-id");
-  const path = $("#selectionIcon").attr("src").split("/").pop()
+  const path = $("#selectionIcon").attr("src").split("/").pop();
 
   const change = await sendProfileData({ color, dataId, path });
   if(change === true) {
     $("#exampleModal").modal("hide");
-    $("#bgDiv").css("background-color",color)
-    $("#imgDiv").attr("src",$("#selectionIcon").attr("src"))
+    $("#bgDiv, #profileIcon").css("background-color", color);
+    $("#imgDiv, #profileIcon img").attr("src", $("#selectionIcon").attr("src"));
   }
 });
 
@@ -65,5 +69,10 @@ $('#exampleModal').on('show.bs.modal', function () {
   hasSelectedIcon = false;
   hasSelectedColor = false;
   updateSaveButtonState();
+  const currentColor = $("#bgDiv").css("background-color");
+  const currentIcon = $("#imgDiv").attr("src");
+  $("#selectionColor, #selectionColorMobile").val(currentColor);
+  $("#selectionBg, #selectionBgMobile").css("background-color", currentColor);
+  $("#selectionIcon, #selectionIconMobile").attr("src", currentIcon);
 });
 

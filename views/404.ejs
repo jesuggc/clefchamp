@@ -8,7 +8,7 @@
 
       return `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
   }%>
-  <body style="background-color: '<%=randomPastelColor()%>'">
+  <body style="background-color: <%=randomPastelColor()%>">
     <%-include('partials/headerLogo')%>
     <div class="d-flex align-items-center flex-column justify-content-center vh-90">
       <h1 class="pb-4">Desde Clefchamp no lo podemos creer</h1>

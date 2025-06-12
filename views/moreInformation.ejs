@@ -2,38 +2,55 @@
 <html lang="es">
   <%-include('partials/head') %>
   <body class="colorNuevo5">
-      <%-include('partials/header') %>
-      <div class="vh-90 d-flex flex-column">
-        <div id="moreInformationDiv" class="row">
-          <div class="col p-4 mt-4 mx-5 colorNuevo3 roundedCard">
-            <div class="colorNuevo5 rounded-circle ratio ratio-1x1">
-              <img class="rounded-circle p-2" src="/images/moreInformation1.png">
-            </div>
-            <div class="mt-4 text-center">
-              <h3 class="infoDescriptor">Aprende a través de diferentes juegos.</h3>
-            </div>
-          </div>
-          <div class="col p-4 mt-4 mx-5 colorNuevo3 roundedCard">
-            <div class="colorNuevo5 rounded-circle ratio ratio-1x1">
-              <img class="rounded-circle p-2" src="/images/moreInformation2.png">
-            </div>
-            <div class="mt-4 text-center">
-              <h3 class="infoDescriptor">Consigue experiencia y sube de nivel.</h3>
-            </div>
-          </div>
-          <div class="col p-4 mt-4 mx-5 colorNuevo3 roundedCard">
-            <div class="colorNuevo5 rounded-circle ratio ratio-1x1">
-              <img class="rounded-circle p-2" src="/images/moreInformation3.png">
-            </div>
-            <div class="mt-4 text-center">
-              <h3 class="infoDescriptor">Compite contra tus amigos y contra ti mismo.</h3>
+    <%-include('partials/header') %>
+    <div class="vh-90 d-flex flex-column">
+      <!-- Main Content -->
+      <div class="row justify-content-center g-4 px-3">
+        <!-- Card 1 -->
+        <div class="col-12 col-md-3">
+          <div class="colorNuevo3 roundedCard p-4 d-flex align-items-center" style="min-height: 500px;">
+            <div class="text-center w-100">
+              <div class="colorNuevo5 rounded-circle ratio ratio-1x1 mx-auto" style="width: 220px; height: 220px;">
+                <img class="rounded-circle p-2" src="/images/moreInformation1.png" alt="Learn through games">
+              </div>
+              <h3 class="infoDescriptor mt-4">Aprende a través de diferentes juegos</h3>
+              <p class="text-white">Mejora tus habilidades musicales mientras te diviertes con nuestros juegos interactivos.</p>
             </div>
           </div>
         </div>
-        <div class="d-flex justify-content-center align-items-center result ">
-          <a href="/play/atrapado/trial"><button class="cancelButton me-5">Prueba de nivel</button></a>
-          <a href="/users/register"><button class="acceptButton">Crear cuenta</button></a>
+
+        <!-- Card 2 -->
+        <div class="col-12 col-md-3">
+          <div class="colorNuevo3 roundedCard p-4 d-flex align-items-center" style="min-height: 500px;">
+            <div class="text-center w-100">
+              <div class="colorNuevo5 rounded-circle ratio ratio-1x1 mx-auto" style="width: 220px; height: 220px;">
+                <img class="rounded-circle p-2" src="/images/moreInformation2.png" alt="Level up">
+              </div>
+              <h3 class="infoDescriptor mt-4">Consigue experiencia y sube de nivel</h3>
+              <p class="text-white">Gana puntos y desbloquea nuevas características mientras progresas en tu aprendizaje.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="col-12 col-md-3">
+          <div class="colorNuevo3 roundedCard p-4 d-flex align-items-center" style="min-height: 500px;">
+            <div class="text-center w-100">
+              <div class="colorNuevo5 rounded-circle ratio ratio-1x1 mx-auto" style="width: 220px; height: 220px;">
+                <img class="rounded-circle p-2" src="/images/moreInformation3.png" alt="Compete with friends">
+              </div>
+              <h3 class="infoDescriptor mt-4">Compite contra tus amigos</h3>
+              <p class="text-white">Compara tus resultados y compite por los primeros lugares en el ranking global.</p>
+            </div>
+          </div>
         </div>
       </div>
+
+      <!-- Action Buttons -->
+      <div class="d-flex justify-content-center mt-5">
+        <a href="/play/atrapado/trial"><button class="cancelButton me-lg-5 me-2">Prueba de nivel</button></a>
+        <a href="/users/register"><button class="acceptButton mb-5">Crear cuenta</button></a>
+      </div>
+    </div>
   </body>
 </html>
