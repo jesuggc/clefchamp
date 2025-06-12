@@ -123,27 +123,22 @@ router.get("/register", alreadyLoggedIn, (req, res) => {
 
 router.post("/register", (req, res, next) => {
   const user = { ...req.body};
-  const password = user.password
-  bcrypt.hash(user.password, saltRounds, (err, hash) => {
-    if (err) return next(new Error("Error al cifrar la contraseña"));
+  bcrypt.hash(user.password, saltRounds, (hashErr, hash) => {
+    if (hashErr) return next(new Error("Error al cifrar la contraseña"));
     user.password = hash; 
-    dao.createUser(user, (err, userId) => {
-      if (err) return next(new Error("Error al registrar usuario"));
-      dao.unlockInitialIcons(userId, (err) => {
-        if (err) return next(new Error("Error en registro 1"));              
-        dao.initializeExperience(userId, (err) => {
-          if (err) return next(new Error("Error en registro 5"));
-          
-          // Get the user data for login
-          dao.checkUser(user.email, (err, userData) => {
-            if (err) return next(new Error("Error getting user data"));
-            
-            dao.getUserLevel(userId, (err, userLevel) => {
-              if (err) return next(new Error("Error getting user level"));
-              
-              dao.getPreferences(userId, (err, preferences) => {
-                if(err) return next(new Error("Error getting preferences"));
-                
+    dao.createUser(user, (createErr, userId) => {
+      if (createErr) return next(new Error("Error en la creación de usuario"));
+      dao.unlockInitialIcons(userId, (iconsErr) => {
+        console.log("USERID " + userId)
+        if (iconsErr) return next(new Error("Error desbloqueando iconos:" + iconsErr));              
+        dao.initializeExperience(userId, (experienceErr) => {
+          if (experienceErr) return next(new Error("Error inicializando la experiencia"));
+          dao.checkUser(user.email, (checkErr, userData) => {
+            if (checkErr) return next(new Error("Error comprobando el usuario en la BD"));
+            dao.getUserLevel(userId, (levelErr, userLevel) => {
+              if (levelErr) return next(new Error("Error obteniendo el nivel del usuario"));
+              dao.getPreferences(userId, (preferencesErr, preferences) => {
+                if(preferencesErr) return next(new Error("Error obteniendo las preferencias del usuario"));
                 dao.getProfileIconFromId(userId, (err, profile) => {
                   if(preferences === null) {
                     preferences = {

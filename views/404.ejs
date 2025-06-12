@@ -2,9 +2,9 @@
 <html lang="es">
   <%-include('partials/head')%>
   <% function randomPastelColor() {
-    const r = Math.floor(Math.random() * 106) + 150; // 150 - 255
-    const g = Math.floor(Math.random() * 106) + 150; // 150 - 255
-    const b = Math.floor(Math.random() * 106) + 150; // 150 - 255
+    const r = Math.floor(Math.random() * 106) + 150;
+    const g = Math.floor(Math.random() * 106) + 150;
+    const b = Math.floor(Math.random() * 106) + 150;   
 
       return `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
   }%>

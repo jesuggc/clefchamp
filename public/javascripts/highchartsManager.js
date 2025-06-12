@@ -55,7 +55,7 @@ async function fetchStatsForUser() {
           headers: {
               "Content-Type": "application/json"
           },
-          credentials: "include" // Para enviar cookies si la sesión está basada en ellas
+          credentials: "include"
       });
 
       if (!response.ok) {

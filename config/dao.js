@@ -57,7 +57,7 @@ class DAO {
                     else {
                         let date = new Date(resultado[0].joindate);
 
-                        let day = date.getDate();          // Día del mes (1-31)
+                        let day = date.getDate();
                         let month = date.getMonth() + 1;   // Mes (0-11, por lo que sumamos 1 para que sea 1-12)
                         let year = date.getFullYear();
                         let joindate = {

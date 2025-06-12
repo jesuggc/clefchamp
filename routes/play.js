@@ -13,10 +13,8 @@ router.use((req, res, next) => {
   next();
 });
 
-// Middlewares de autenticación
 const isLoggedIn = (req, res, next) => res.locals.user ? next() : res.redirect('/users/login');
 const isNotLoggedIn = (req, res, next) => !res.locals.user ? next() : res.redirect('/users/login');
-const alreadyLoggedIn = (req, res, next) => !res.locals.user ? next() : res.redirect('/');
 
 router.get("/", isLoggedIn, (req, res) => res.render('home'));
 

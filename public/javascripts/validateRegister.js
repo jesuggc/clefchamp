@@ -13,29 +13,22 @@ let nameLikeCheck = /^[a-zA-ZáéíóúüñÁÉÍÓÚÜÑ\s]+$/
 let nameLikeSizeCheck = /^.{3,}$/
 let allCheck = /^(?=.*[0-9])(?=.*[A-Z])(?=.*[^a-zA-Z0-9]).{8,}$/
 
-// let typingTimer; // Variable para el setTimeout
-// const typingDelay = 700; // Retraso de 500ms
 
 $("#confirmPassword").on("input", () => {
-    // clearTimeout(typingTimer);
     $("#confirmPassword").removeClass("is-invalid")
     $("#invalidConfirm").prop("hidden",true)
 
-    // typingTimer = setTimeout(() => {
+    let password = $("#password").val()
+    let confirmPassword = $("#confirmPassword").val()
     
-        let password = $("#password").val()
-        let confirmPassword = $("#confirmPassword").val()
-        
-        passwordCheckBool = password === confirmPassword
-        if(!passwordCheckBool) {
-            $("#confirmPassword").addClass("is-invalid")
-            $("#invalidConfirm").prop("hidden",false)
-        } 
-    // }, typingDelay);
+    passwordCheckBool = password === confirmPassword
+    if(!passwordCheckBool) {
+        $("#confirmPassword").addClass("is-invalid")
+        $("#invalidConfirm").prop("hidden",false)
+    } 
 })
 
 $("#password").on("input", () => {
-    // clearTimeout(typingTimer);
     let $password = $("#password");
     let passwordVal = $password.val()
     $password.removeClass("is-invalid")
@@ -43,34 +36,30 @@ $("#password").on("input", () => {
     $("#sizeCheck").prop("hidden",true)
     $("#specialCheck").prop("hidden",true)
     $("#numberCheck").prop("hidden",true)
-    // typingTimer = setTimeout(() => {
-        if(capitalCheck.test(passwordVal) === false) $("#capitalCheck").prop("hidden",false)
 
-        if(sizeCheck.test(passwordVal) === false) $("#sizeCheck").prop("hidden",false)
+    if(capitalCheck.test(passwordVal) === false) $("#capitalCheck").prop("hidden",false)
 
-        if(specialCheck.test(passwordVal) === false) $("#specialCheck").prop("hidden",false)
+    if(sizeCheck.test(passwordVal) === false) $("#sizeCheck").prop("hidden",false)
 
-        if(numberCheck.test(passwordVal) === false) $("#numberCheck").prop("hidden",false)
+    if(specialCheck.test(passwordVal) === false) $("#specialCheck").prop("hidden",false)
 
-        passwordBool = allCheck.test(passwordVal)
-        if(!passwordBool) $password.addClass("is-invalid")
-    // }, typingDelay);
+    if(numberCheck.test(passwordVal) === false) $("#numberCheck").prop("hidden",false)
+
+    passwordBool = allCheck.test(passwordVal)
+    if(!passwordBool) $password.addClass("is-invalid")
 })
 
 $("#email").on("input", () => {
-    // clearTimeout(typingTimer);
     let $email = $("#email")
     $email.removeClass("is-invalid")
+    $("#existentCheck").prop("hidden",true)
     let emailVal = $email.val()
     let emailCheck = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
     emailBool = emailCheck.test(emailVal)
-    // typingTimer = setTimeout(() => {
-        if(emailBool === false) $email.addClass("is-invalid")
-    // }, typingDelay);
+    if(emailBool === false) $email.addClass("is-invalid")
 })
 
 $("#name").on("keyup",()=>{
-    // clearTimeout(typingTimer);
     let $name = $("#name");
     let $nameCheck = $("#nameCheck");
     
@@ -82,52 +71,47 @@ $("#name").on("keyup",()=>{
     let nameEnoughSize = nameLikeSizeCheck.test(nameValue);
     
     nombreBool = nameEnoughSize && nameNoNumber;
-    // typingTimer = setTimeout(() => {
-        if (!nameEnoughSize) {
-            $nameCheck.text("Nombre demasiado corto");
-            $name.addClass("is-invalid");
-        } else if (!nameNoNumber) {
-            $nameCheck.text("Solo puede contener letras");
-            $name.addClass("is-invalid");
-        }
-    // }, typingDelay);
+    if (!nameEnoughSize) {
+        $nameCheck.text("Nombre demasiado corto");
+        $name.addClass("is-invalid");
+    } else if (!nameNoNumber) {
+        $nameCheck.text("Solo puede contener letras");
+        $name.addClass("is-invalid");
+    }
 })
 
 $("#tagname").on("keyup",() => {
-    // clearTimeout(typingTimer);
     let $tagname = $("#tagname");
     $tagname.removeClass("is-invalid")
     $tagname.removeClass("is-valid")
     let $tagCheck = $("#tagCheck");
     let tagnameValue = $tagname.val();
     tagnameBool = !(specialCheck.test(tagnameValue))
-    // typingTimer = setTimeout(() => {
-        if(tagnameBool === false) {
-            $tagname.addClass("is-invalid")
-            $tagCheck.text("No puede contener caracteres especiales")
-        }  
-        else {
-            let tagname = $("#tagname").val().trim()
-            $.ajax({
-                url: "/users/checkTagname",
-                type: "GET",
-                data: { tagname },
-                success: function(response) {
-                    tagnameBool = response.valido
-                    if(tagnameBool===true) {
-                        $tagname.addClass("is-valid")
-                    }
-                    else {
-                        $tagname.addClass("is-invalid")
-                        $tagCheck.text("Este alias ya está en uso")
-                    }
-
-                }, error: function(jqXHR, textStatus, errorThrown) {
-                    console.log(textStatus, errorThrown);
+    if(tagnameBool === false) {
+        $tagname.addClass("is-invalid")
+        $tagCheck.text("No puede contener caracteres especiales")
+    }  
+    else {
+        let tagname = $("#tagname").val().trim()
+        $.ajax({
+            url: "/users/checkTagname",
+            type: "GET",
+            data: { tagname },
+            success: function(response) {
+                tagnameBool = response.valido
+                if(tagnameBool===true) {
+                    $tagname.addClass("is-valid")
                 }
-            })
-        }
-    // }, typingDelay);
+                else {
+                    $tagname.addClass("is-invalid")
+                    $tagCheck.text("Este alias ya está en uso")
+                }
+
+            }, error: function(jqXHR, textStatus, errorThrown) {
+                console.log(textStatus, errorThrown);
+            }
+        })
+    }
 })
 
 $('#myForm input, #myForm select').on('keyup', function() {
@@ -154,7 +138,7 @@ $("#register").on("click", () => {
         type: "GET",
         data: { email },
         success: function(response) {
-            if(response.valido === false) $("#emailContainer").append(`<p id="wrongMail" class="red">Correo ya existente</p>`)
+            if(response.valido === false) $("#existentCheck").prop("hidden",false)
             else {  
                 $.ajax({
                     url: "/users/register",

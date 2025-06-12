@@ -13,12 +13,4 @@ router.use((req, res, next) => {
   next();
 });
 
-// router.get("/getIcons", (request,response) => {
-//   dao.getIcons((err,icons) => {
-//     if(err) console.log(err)
-//     else response.json(icons)
-//   })
-// })
-
-
 module.exports = router;

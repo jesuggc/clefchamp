@@ -38,7 +38,7 @@ app.use(morgan('dev'));
 app.use((req,res,next) => {
   const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
   const date = new Date();
-  date.setHours(date.getHours() + 2); // Add 2 hours to the current time
+  date.setHours(date.getHours() + 2); 
   const formattedDate = date.toLocaleString('es-ES', {
     day: '2-digit',
     month: '2-digit',
@@ -47,7 +47,7 @@ app.use((req,res,next) => {
     minute: '2-digit',
     second: '2-digit',
     hour12: false
-  }).replace(',', ' -'); // Reemplaza la coma por " -"
+  }).replace(',', ' -');
   console.log(`IP: ${ip} -> ${formattedDate}`)
   next();
 });
@@ -63,9 +63,6 @@ app.use(function(req, res, next) {
 });
 
 app.use(function(err, req, res, next) {
-  // res.locals.message = err.message;
-  // res.locals.error = req.app.get('env') === 'development' ? err : {};
-
   console.log(err.message)
   res.status(err.status || 500);
   res.render('error');

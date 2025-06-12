@@ -32,7 +32,7 @@ function changeTextWithFade(text) {
       $(this).html(text).fadeIn(150);
   });
 }
-// -----------------------------------------------------------------
+
 $("#easyBtn").on("mouseenter", function() {
   if(selected !== pathToEasy) changeImageWithFade(pathToEasy);
   if(textSelected !== textToEasy) changeTextWithFade(textToEasy);
@@ -47,7 +47,7 @@ $("#easyBtn").on("click", function() {
   activatePlayBtn(linkToEasy)
   handleSelection("#easyBtn")
 });
-// -----------------------------------------------------------------
+
 $("#normalBtn").on("mouseenter", function() {
   if(selected !== pathToNormal) changeImageWithFade(pathToNormal);
   if(textSelected !== textToNormal) changeTextWithFade(textToNormal);
@@ -62,7 +62,7 @@ $("#normalBtn").on("click", function() {
   activatePlayBtn(linkToNormal)
   handleSelection("#normalBtn")
 });
-// -----------------------------------------------------------------
+
 $("#hardBtn").on("mouseenter", function() {
   if(selected !== pathToHard) changeImageWithFade(pathToHard);
   if(textSelected !== textToHard) changeTextWithFade(textToHard);
@@ -77,7 +77,6 @@ $("#hardBtn").on("click", function() {
   activatePlayBtn(linkToHard)
   handleSelection("#hardBtn")
 });
-// -----------------------------------------------------------------
   
 function handleSelection(selection) {
   $("#easyBtn").removeClass("gameSelectorsSelected")

@@ -17,10 +17,6 @@ router.get('/', function(req, res, next) {
   res.render('index');
 });
 
-router.get('/loading', (req, res) => {
-  const redirectUrl = req.query.redirect || '/'; // URL de redirección, por defecto al inicio
-  res.render('loadingScreen', { redirectUrl }); // Pasamos la URL como variable a la vista
-});
 
 
 router.get("/informacion", function (request, response) {

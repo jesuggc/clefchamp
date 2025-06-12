@@ -19,7 +19,7 @@ $("#myFriendCode").on("input", function() {
 
 $(document).ready(function() {
   $('#myFriendCode').on('keypress', function(e) {
-      if (e.which === 13) { // 13 is the Enter key code
+      if (e.which === 13) {
           e.preventDefault();
           $('#friendBtn').click();
       }
@@ -160,7 +160,6 @@ function acceptFriendRequest(friendId) {
     })
     .then(response => {
         if (!response.ok) throw new Error('Error accepting friend request');
-        // window.location.reload();
     })
     .catch(error => {
         console.error('Error al aceptar la solicitud de amistad:', error);
@@ -177,7 +176,6 @@ function rejectFriendRequest(friendId) {
     })
     .then(response => {
         if (!response.ok) throw new Error('Error rejecting friend request');
-        // window.location.reload();
     })
     .catch(error => {
         console.error('Error al rechazar la solicitud de amistad:', error);
@@ -194,7 +192,6 @@ function cancelFriendRequest(friendId) {
     })
     .then(response => {
         if (!response.ok) throw new Error('Error canceling friend request');
-        // window.location.reload();
     })
     .catch(error => {
         console.error('Error al cancelar la solicitud de amistad:', error);
@@ -211,7 +208,6 @@ function deleteFriend(friendId) {
     })
     .then(response => {
         if (!response.ok) throw new Error('Error deleting friend');
-        // window.location.reload();
     })
     .catch(error => {
         console.error('Error al eliminar amigo:', error);
@@ -228,7 +224,6 @@ function sendFriendRequest(friendId) {
     })
     .then(response => {
         if (!response.ok) throw new Error('Error sending friend request');
-        // window.location.reload();
     })
     .catch(error => {
         console.error('Error al enviar solicitud de amistad:', error);
@@ -253,9 +248,8 @@ $(document).ready(function() {
     $(".actionDeleteIcon").on("click", function() {
       const friendId = $(this).attr("data-id");
       deleteFriend(friendId);
-    });
-      
-      // Delete friend
+    });  
+    // Delete friend
     $(".actionCancelIcon").on("click", function() {
       const friendId = $(this).attr("data-id");
       cancelFriendRequest(friendId);

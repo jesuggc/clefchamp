@@ -7,9 +7,9 @@ $(function() {
   const songArtist = $('#songArtist');
   const progressBar = $('#progressBar');
   const volumeControl = $('#volumeControl');
-  const rewindBtn = $('#rewindBackBtn');  // Botón de retroceder
+  const rewindBtn = $('#rewindBackBtn'); 
   const forwardBtn = $('#rewindForwardBtn'); 
-  // Lista de canciones locales (asumiendo que tienes archivos .mp3 en la misma carpeta)
+
   const songs = [
     { nombre: "Für Elise", autor: "Ludwig Van Beethoven", src: "fur-elise" },
     { nombre: "Gymnopédies", autor: "Erik Satie", src: "gymnopedies" },
@@ -24,7 +24,7 @@ $(function() {
     { nombre: "Pequeña Serenata Nocturna", autor: "Wolfgang Amadeus Mozart", src: "pequena-serenata-nocturna" }
   ];
   
-  // const songs = ['/audio/FurElise.mp3', 'song2.mp3', 'song3.mp3'];
+
   let currentSongIndex = 0;
   let currentSoundImg = "/images/icons/volume-small.svg"
   let noSoundImg = "/images/icons/volume-cross.svg"
