@@ -54,23 +54,13 @@ function transformarDatos(datos) {
 
 async function fetchStatsForUser() {
   try {
-<<<<<<< HEAD
-      const response = await fetch("/users/statsForUser", {
-          method: "GET",
-          headers: {
-              "Content-Type": "application/json"
-          },
-          credentials: "include"
-      });
-=======
     const response = await fetch("/users/statsForUser", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      credentials: "include"
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        credentials: "include"
     });
->>>>>>> 6ad3dd460bedcf08a38f719d4b68711df6d73329
 
     if (!response.ok) {
       throw new Error(`Error en la petición: ${response.status}`);
