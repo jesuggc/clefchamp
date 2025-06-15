@@ -300,20 +300,4 @@ $(document).ready(function() {
         // deleteFriend(friendId);
     });     
 });
-
-// Friends link hover effect
-$(document).ready(function() {
-    $("#friendsLink").hover(
-        function() {
-            $("#devText").css("opacity", "1");
-        },
-        function() {
-            $("#devText").css("opacity", "0");
-        }
-    );
-
-    // Prevent redirection
-    $("#friendsLink").parent().on("click", function(e) {
-        e.preventDefault();
-    });
-});
+ç

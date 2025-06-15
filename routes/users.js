@@ -130,7 +130,6 @@ router.post("/register", (req, res, next) => {
     dao.createUser(user, (createErr, userId) => {
       if (createErr) return next(new Error("Error en la creación de usuario"));
       dao.unlockInitialIcons(userId, (iconsErr) => {
-        console.log("USERID " + userId)
         if (iconsErr) return next(new Error("Error desbloqueando iconos:" + iconsErr));              
         dao.initializeExperience(userId, (experienceErr) => {
           if (experienceErr) return next(new Error("Error inicializando la experiencia"));
@@ -174,11 +173,10 @@ router.post("/register", (req, res, next) => {
                   });
                 });
               });
-              // ---
-
-              // res.json(true);
             });
+          });
         });
+      });
     });
   });
 });
@@ -324,18 +322,7 @@ router.get("/stats",isLoggedIn, (req, res) => {
 router.get("/settings",isLoggedIn, (req, res) => {
   res.render("settings")
 });
-// router.get("/friends",isLoggedIn, (req, res) => {
-//   dao.getSentRequests(res.locals.user.id, (err1, sentList) => {
-//     if (err1) return res.status(500).json({ error: 'Error al obtener los datos 1' });
-//     dao.getReceivedRequests(res.locals.user.id, (err2, receivedList) => {
-//       if (err2) return res.status(500).json({ error: 'Error al obtener los datos 2' });
-//       dao.getFriends(res.locals.user.id, (err3, friendList) => {
-//         if (err3) return res.status(500).json({ error: 'Error al obtener los datos 3' });
-//         res.render("friends",{sentList, receivedList, friendList});
-//       });
-//     });
-//   });
-// })
+
 
 router.get("/statsForUser",isLoggedIn, (req, res) => {
   dao.getStatsByIdAndDifficulty(res.locals.user.id,"EASY", (err, easyStats) => {
@@ -370,31 +357,43 @@ router.get('/getUserByFriendcode/:friendCode', (req, res) => {
     res.json(resultado);
   });
 });
+router.get("/friends",isLoggedIn, (req, res) => {
+  dao.getSentRequests(res.locals.user.id, (err1, sentList) => {
+    if (err1) return res.status(500).json({ error: 'Error al obtener los datos 1' });
+    dao.getReceivedRequests(res.locals.user.id, (err2, receivedList) => {
+      if (err2) return res.status(500).json({ error: 'Error al obtener los datos 2' });
+      dao.getFriends(res.locals.user.id, (err3, friendList) => {
+        if (err3) return res.status(500).json({ error: 'Error al obtener los datos 3' });
+        res.render("friends",{sentList, receivedList, friendList});
+      });
+    });
+  });
+})
 
-// router.post('/sendRequest', (req, res) => {
-//   const { friendId } = req.body;
-//   dao.sendRequest(res.locals.user.id,friendId, (err, resultado) => {
-//     if (err) return res.status(500).json({ error: 'Error al obtener los datos' });
-//     res.json(resultado);
-//   });
-// });
+router.post('/sendRequest', (req, res) => {
+  const { friendId } = req.body;
+  dao.sendRequest(res.locals.user.id,friendId, (err, resultado) => {
+    if (err) return res.status(500).json({ error: 'Error al obtener los datos' });
+    res.json(resultado);
+  });
+});
 
-// router.post('/acceptRequest', (req,res) => {
-//   const { friendId } = req.body;
-//   dao.acceptRequest(res.locals.user.id,friendId, (err, resultado) => {
-//     if (err) return res.status(500).json({ error: 'Error al obtener los datos' });
+router.post('/acceptRequest', (req,res) => {
+  const { friendId } = req.body;
+  dao.acceptRequest(res.locals.user.id,friendId, (err, resultado) => {
+    if (err) return res.status(500).json({ error: 'Error al obtener los datos' });
     
-//     res.redirect('/friends')
-//   });
-// })
+    res.redirect('/friends')
+  });
+})
 
-// router.post('/dropRequest', (req,res) => {
-//   const { friendId } = req.body;
-//   dao.dropRequest(res.locals.user.id,friendId, (err, resultado) => {
-//     if (err) return res.status(500).json({ error: 'Error al obtener los datos' });
-//     res.redirect('/friends')
-//   });
-// })
+router.post('/dropRequest', (req,res) => {
+  const { friendId } = req.body;
+  dao.dropRequest(res.locals.user.id,friendId, (err, resultado) => {
+    if (err) return res.status(500).json({ error: 'Error al obtener los datos' });
+    res.redirect('/friends')
+  });
+})
 
 
 router.get("/getSelfId", (req, res) => {

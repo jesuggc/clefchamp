@@ -133,7 +133,7 @@
                   <div class="bg-35 rounded-4 p-3 hover-effect d-flex align-items-center" id="friendsLink" style="cursor: pointer;">
                     <img src="/images/icons/friends.svg" class="me-3" style="width: 2em">
                     <span class="fs-5 text-dark phoneHidden">Amigos</span>
-                    <span class="fs-5 text-dark ms-2 phoneHidden" id="devText" style="opacity: 0; transition: opacity 0.3s ease;">En desarrollo...</span>
+                    <!-- <span class="fs-5 text-dark ms-2 phoneHidden" id="devText" style="opacity: 0; transition: opacity 0.3s ease;">En desarrollo...</span> -->
                   </div>
                 </a>
               </div>
@@ -225,20 +225,6 @@
         // Actualizar el texto del botón
         $("#lastPlayedBtn").text("Jugar a Atrapa-do " + dificultad);
 
-        // Friends link hover effect
-        $("#friendsLink").hover(
-          function() {
-            $("#devText").css("opacity", "1");
-          },
-          function() {
-            $("#devText").css("opacity", "0");
-          }
-        );
-
-        // Prevent redirection
-        $("#friendsLink").parent().on("click", function(e) {
-          e.preventDefault();
-        });
       });
     </script>
   </body>
