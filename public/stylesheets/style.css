@@ -238,6 +238,19 @@
 }
 
 
+.friend-btn {
+  all: unset;
+  cursor: pointer;
+  border-radius: 50%;
+}
+
+.friend-btn > img {
+  max-width:  2em;
+  max-height: 2em;
+  height:     2em;
+  width:      2em;
+}
+
 /* ----------ELEMENTOS GENERALES---------- */
 body {
   background-color: #F2E7DC;  

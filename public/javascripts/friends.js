@@ -5,13 +5,11 @@ $(document).ready(async function() {
     userId = await getSelfId();
 });
 
+
+
 $('#noResultDiv').hide();
 $('#resultDiv').hide();
 
-$("#addFriend").on("click", function() {
-    let friendId = $("#resultDiv").attr("data-id");
-    sendRequest(friendId);
-});
 
 $("#myFriendCode").on("input", function() {
   $(this).val($(this).val().replace('#', ''));
@@ -52,32 +50,21 @@ $("#friendBtn").on("click", async function() {
             if (result.length === 0) {
                 $('#noResultDiv').show();
             } else {
-                console.log(result[0].state);
-                console.log(result[0].userId);
-                console.log(result[0].friendId);
-                
-                $("#addFriendDiv").hide();
-                $("#acceptFriendDiv").hide();
-                $("#rejectFriendDiv").hide();
-                $("#deleteFriendDiv").hide();
-                $("#cancelRequestDiv").hide();
+                console.log(result[0]);
+                $("#resultDiv").find('.friend-btn').hide(); // Hide all buttons
                 
                 if(result[0].state === null) {
-                    $("#addFriendDiv").show();
+                    $("#resultDiv").find('[data-action="add"]').show();
                 } else if(result[0].state === 'pendiente') {
                     if(result[0].userId === userId) {
-                        $("#cancelRequestDiv").show();
+                        $("#resultDiv").find('[data-action="cancel"]').show();
                     } else {
-                        $("#acceptFriendDiv").show();
-                        $("#rejectFriendDiv").show();
+                        $("#resultDiv").find('[data-action="accept"]').show();
+                        $("#resultDiv").find('[data-action="reject"]').show();
                     }  
                 } else if(result[0].state === 'aceptado') {
-                    $("#deleteFriendDiv").show();
-                } else if(result[0].state === 'rechazado') {
-                    // No se usa
-                } else {
-                    console.log("Estamos jodidos")
-                }
+                    $("#resultDiv").find('[data-action="delete"]').show();
+                } 
                 
                 $('#resultDiv').show();
                 $('#resultImg').attr('src', "/images/svg/" + result[0].path);
@@ -100,23 +87,10 @@ async function fetchUserByFriendCode(friendCode) {
     console.error('Error al obtener los datos:', error);
   }
 }
-
-function sendRequest(friendId) {
-  fetch('/users/sendRequest', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      friendId: friendId
-    })
-  })
-  .then(response => response.json())
-  .catch(error => {
-    console.error('Error al enviar la solicitud de amistad:', error);
-  });
-}
-
+$('#searchFriendModal').on('hidden.bs.modal', function () {
+    $('#noResultDiv').hide();
+    $('#resultDiv').hide();
+});
 $("#searchFriend").on("click", function() {
   new bootstrap.Modal($("#searchFriendModal")).show();
 })
@@ -165,25 +139,8 @@ function acceptFriendRequest(friendId) {
         console.error('Error al aceptar la solicitud de amistad:', error);
     });
 }
-
-function rejectFriendRequest(friendId) {
+function dropFriendRequest(friendId) {
     return fetch('/users/dropRequest', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ friendId })
-    })
-    .then(response => {
-        if (!response.ok) throw new Error('Error rejecting friend request');
-    })
-    .catch(error => {
-        console.error('Error al rechazar la solicitud de amistad:', error);
-    });
-}
-
-function cancelFriendRequest(friendId) {
-    return fetch('/users/cancelRequest', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -197,23 +154,6 @@ function cancelFriendRequest(friendId) {
         console.error('Error al cancelar la solicitud de amistad:', error);
     });
 }
-
-function deleteFriend(friendId) {
-    return fetch('/users/deleteFriend', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ friendId })
-    })
-    .then(response => {
-        if (!response.ok) throw new Error('Error deleting friend');
-    })
-    .catch(error => {
-        console.error('Error al eliminar amigo:', error);
-    });
-}
-
 function sendFriendRequest(friendId) {
     return fetch('/users/sendRequest', {
         method: 'POST',
@@ -230,74 +170,100 @@ function sendFriendRequest(friendId) {
     });
 }
 
-// Event listeners
-$(document).ready(function() {
-    // Accept friend request
-    $(".actionFriendIcon").on("click", function() {
-        const friendId = $(this).attr("data-id");
-        acceptFriendRequest(friendId);
-    });
 
-    // Reject friend request
-    $(".actionUnfriendIcon").on("click", function() {
-        const friendId = $(this).attr("data-id");
-        rejectFriendRequest(friendId);
-    });
-
-    // Cancel friend request
-    $(".actionDeleteIcon").on("click", function() {
-      const friendId = $(this).attr("data-id");
-      deleteFriend(friendId);
-    });  
-    // Delete friend
-    $(".actionCancelIcon").on("click", function() {
-      const friendId = $(this).attr("data-id");
-      cancelFriendRequest(friendId);
-    });
-
-                    
-    $("#addFriend").on("click", function() {
-        const friendId = $("#resultDiv").attr("data-id");
-        $("#addFriendDiv").hide();
-        $("#deleteFriendDiv").show();
-        // mover a div de solicitudes enviadas
-        // sendFriendRequest(friendId);
-    });
+// Check number of children in #friendsParent
+function checkCount() {
+    const friendsCount = $('#friendsParent').children('.friendsDiv').length;
+    const sentRequestsCount = $('#friendsParent').children('.sentRequestDiv').length;
+    const recivedRequestsCount = $('#friendsParent').children('.recivedRequestDiv').length;
+    if (friendsCount > 1) $('#friendsNone').hide();
+    else $('#friendsNone').show();
     
-    $("#acceptFriend").on("click", function() {
-        const friendId = $("#resultDiv").attr("data-id");
-        $("#acceptFriendDiv").hide();
-        $("#deleteFriendDiv").show();
-        //mover a div de amigos
-        //quitar de div de solicitudes recibidas
-        $(".friend" + friendId).detach().appendTo(".friendsDiv");
-        // acceptFriendRequest(friendId);
-      });
-      
-      $("#rejectFriend").on("click", function() { 
-        const friendId = $("#resultDiv").attr("data-id");
-        $("#rejectFriendDiv").hide();
-        $("#addFriendDiv").show();
-        // quitar de div de solicitudes recibidas
-        // rejectFriendRequest(friendId);
-      });
-      
-      $("#cancelRequest").on("click", function() {
-        const friendId = $("#resultDiv").attr("data-id");
-        $("#cancelRequestDiv").hide();
-        $("#addFriendDiv").show();
-        // quitar de div de solicitudes enviadas
-        // cancelFriendRequest(friendId);
-      });
-      
-      $("#deleteFriend").on("click", function() {
-        const friendId = $("#resultDiv").attr("data-id");
-        $("#deleteFriendDiv").hide();
-        $("#addFriendDiv").show();
-  
-        $(".friend"+friendId).hide();
-        
-        // deleteFriend(friendId);
-    });     
+    if (sentRequestsCount > 1) $('#sentRequestNone').hide();
+    else $('#sentRequestNone').show();
+            
+    if (recivedRequestsCount > 1) $('#recivedRequestNone').hide();
+    else $('#recivedRequestNone').show();
+}
+
+// Call the function initially
+checkCount();
+
+// Add a MutationObserver to watch for changes in #friendsParent
+const observer = new MutationObserver(checkCount);
+observer.observe(document.getElementById('friendsParent'), { childList: true });
+
+// ------------------
+
+
+function changeToNothingState(element) {
+    element.find('.friend-btn').hide(); // Hide all buttons
+    element.find('[data-action="add"]').show();
+}
+function changeToPendingState(element) {
+    element.find('.friend-btn').hide(); // Hide all buttons
+    element.find('[data-action="cancel"]').show();
+}
+function changeToDecisionState(element) {
+    element.find('.friend-btn').hide(); // Hide all buttons
+    element.find('[data-action="accept"]').show();
+    element.find('[data-action="reject"]').show();
+}
+function changeToFriendState(element) {
+    element.find('.friend-btn').hide(); // Hide all buttons
+    element.find('[data-action="delete"]').show();
+}
+
+$('.friend-btn').on('click', function () {
+    const action = $(this).data('action');
+
+    switch (action) {
+        case 'add':
+        changeToPendingState()
+        // Se crea un div 
+        // Se añade a enviadas
+        // DAO: Se le manda solicitud
+        break;
+        case 'accept':
+        changeToFriendState()
+        // Se elimina de recibidos
+        // Se añade a mis amigos
+        // DAO: Se le cambia a aceptado
+        console.log('Aceptar solicitud');
+        break;
+        case 'reject':
+            const element = $(this).closest("#resultDiv");
+            const requestId = element.length > 0 ? element.data("id") : $(this).closest(".recivedRequestDiv").data("id");
+            
+            if (!requestId) {
+                console.error("No request ID found");
+                return;
+            }
+
+            if (element.length > 0) {
+                changeToNothingState(element);
+                $(`.recived${requestId}`).remove();
+            } else {
+                $(this).closest(".recivedRequestDiv").remove();
+            }
+            
+            dropFriendRequest(requestId);
+        break;
+        case 'cancel':
+        dropFriendRequest()
+        changeToNothingState()
+        // Se elimina de enviados
+        // DAO: Se elimina la linea
+        console.log('Cancelar petición');
+        break;
+        case 'delete':
+        dropFriendRequest()
+        changeToNothingState()
+        // Se elimina de mis amigos
+        // DAO: Se elimina la linea
+        console.log('Eliminar amigo');
+        break;
+        default:
+        console.warn('Acción no reconocida:', action);
+    }
 });
-ç

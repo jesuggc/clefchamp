@@ -554,9 +554,9 @@ class DAO {
             if (err) callback(err, null);
             else {
                 let query = `
-                        DELETE FROM amigos WHERE userId = ? AND friendId = ?;
+                        DELETE FROM amigos WHERE userId = ? AND friendId = ? OR userId = ? AND friendId = ?;
                 `
-                connection.query(query,[friendId, selfId], (err, resultado) => {
+                connection.query(query,[friendId, selfId, selfId, friendId], (err, resultado) => {
                     connection.release();
                     if (err) callback(err, null);
                     else callback(null, resultado);
