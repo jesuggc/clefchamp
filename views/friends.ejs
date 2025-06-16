@@ -7,12 +7,10 @@
         <div class="col scrollable container-fluid vh-90 mx-5">
           <div class="row d-flex justify-content-between align-items-center">
             <div class="col">
-
-              <h1>Amigos</h1>
             </div>
             <div class="col d-flex justify-content-center align-items-center">
 
-              <button class=" acceptButton-sm" id="searchFriend">Buscar amigos</button>
+              <button class="mb-2 acceptButton-sm" id="searchFriend">Buscar amigos</button>
             </div>
             <div class="col"></div>
           </div>
@@ -21,9 +19,9 @@
               <h1 id="sentRequestBtn" class="col mx-5 text-center cursorPointer" style="margin-bottom: 0;">Solicitudes enviadas</h1>
               <h1 id="recivedRequestBtn" class="col mx-5 text-center cursorPointer" style="margin-bottom: 0;">Solicitudes recibidas</h1>
           </div>
-          <div class="row">
-            <div id="friendsParent" class="col d-flex justify-content-center">
-              <p id="friendsNone" class="friendsDiv">Aun no has añadido a ningún amigo.</p>
+          <div class="row mx-1">
+            <div id="friendsParent" class="d-flex flex-column justify-content-center">
+              <p id="friendsNone" class="friendsDiv text-center mt-4">No tienes amigos añadidos todavía.</p>
               <% friendList.forEach(ele => { %>
                 <div class="row mt-4 py-1 bg-10 rounded-3 friendsDiv friend<%=ele.id%>" data-id="<%=ele.id%>">
                   <div class="col d-flex justify-content-center">
@@ -42,7 +40,7 @@
                   </div>
                 </div>
               <% }); %>
-              <p id="sentRequestNone" class="sentRequestDiv" hidden>No tienes ninguna solicitud enviada pendiente.</p>
+              <p id="sentRequestNone" class="sentRequestDiv text-center mt-4" hidden>No has enviado ninguna solicitud de amistad.</p>
               <% sentList.forEach(ele => { %>
                 <div class="row mt-4 py-1 bg-10 rounded-3 sentRequestDiv sent<%=ele.id%>" data-id="<%=ele.id%>" hidden>
                   <div class="col d-flex justify-content-center">
@@ -61,7 +59,7 @@
                   </div>
                 </div>
               <% }); %>
-              <p id="recivedRequestNone" class="recivedRequestDiv" hidden>No tienes ninguna solictud recibida pendiente.</p>
+              <p id="recivedRequestNone" class="recivedRequestDiv text-center mt-4" hidden>No tienes solicitudes de amistad pendientes.</p>
               <% receivedList.forEach(ele => { %>
                 <div class="row mt-4 py-1 bg-10 rounded-3 recivedRequestDiv recived<%=ele.id%>" data-id="<%=ele.id%>" hidden>
                   <div class="col d-flex justify-content-center">

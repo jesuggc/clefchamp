@@ -248,7 +248,8 @@ function createSentRequestDiv(id, bgColor, path, tagname) {
 
 $('.friend-btn').on('click', function () {
     const action = $(this).data('action');
-
+    let element = null
+    let requestId = null
     switch (action) {
         case 'add':
             changeToPendingState($(this).closest("#resultDiv"));
@@ -257,8 +258,8 @@ $('.friend-btn').on('click', function () {
             sendFriendRequest(lastId);
             break;
         case 'accept':
-            const element = $(this).closest("#resultDiv");
-            const requestId = element.length > 0 ? element.data("id") : $(this).closest(".recivedRequestDiv").data("id");
+            element = $(this).closest("#resultDiv");
+            requestId = element.length > 0 ? element.data("id") : $(this).closest(".recivedRequestDiv").data("id");
             
             if (element.length > 0) {
                 changeToFriendState(element);
@@ -284,7 +285,7 @@ $('.friend-btn').on('click', function () {
         case 'cancel':
             element = $(this).closest("#resultDiv");
             requestId = element.length > 0 ? element.data("id") : $(this).closest(".sentRequestDiv").data("id");
-
+            console.log(requestId)
             if (element.length > 0) {
                 changeToNothingState(element);
             } 
