@@ -5,8 +5,6 @@ $(document).ready(async function() {
     userId = await getSelfId();
 });
 
-
-
 $('#noResultDiv').hide();
 $('#resultDiv').hide();
 
@@ -35,7 +33,7 @@ async function getSelfId() {
         return null;
     }
 }
-
+let lastPath, lastTagname, lastColor, lastId;
 $("#friendBtn").on("click", async function() {
     $('#noResultDiv').hide();
     $('#resultDiv').hide();
@@ -65,7 +63,10 @@ $("#friendBtn").on("click", async function() {
                 } else if(result[0].state === 'aceptado') {
                     $("#resultDiv").find('[data-action="delete"]').show();
                 } 
-                
+                lastPath =  result[0].path
+                lastColor = result[0].bgColor
+                lastId = result[0].id
+                lastTagname = result[0].tagname
                 $('#resultDiv').show();
                 $('#resultImg').attr('src', "/images/svg/" + result[0].path);
                 $('#resultName').text(result[0].tagname);
@@ -94,33 +95,36 @@ $('#searchFriendModal').on('hidden.bs.modal', function () {
 $("#searchFriend").on("click", function() {
   new bootstrap.Modal($("#searchFriendModal")).show();
 })
-
+let activeScreen = "friends"
 $("#friendsBtn").addClass("bg-10");
 $("#friendsBtn").on("click", function() {
-  $(".friendsDiv").prop('hidden', false);
-  $(".sentRequestDiv").prop('hidden', true);
-  $(".recivedRequestDiv").prop('hidden', true);
-  $("#friendsBtn").addClass("bg-10");
-  $("#sentRequestBtn").removeClass("bg-10");
-  $("#recivedRequestBtn").removeClass("bg-10");
+    activeScreen = "friends"
+    $(".friendsDiv").prop('hidden', false);
+    $(".sentRequestDiv").prop('hidden', true);
+    $(".recivedRequestDiv").prop('hidden', true);
+    $("#friendsBtn").addClass("bg-10");
+    $("#sentRequestBtn").removeClass("bg-10");
+    $("#recivedRequestBtn").removeClass("bg-10");
 })
 
 $("#sentRequestBtn").on("click", function() {
-  $(".friendsDiv").prop('hidden', true);
-  $(".sentRequestDiv").prop('hidden', false);
-  $(".recivedRequestDiv").prop('hidden', true);
-  $("#friendsBtn").removeClass("bg-10");
-  $("#sentRequestBtn").addClass("bg-10");
-  $("#recivedRequestBtn").removeClass("bg-10");
+    activeScreen = "sent"
+    $(".friendsDiv").prop('hidden', true);
+    $(".sentRequestDiv").prop('hidden', false);
+    $(".recivedRequestDiv").prop('hidden', true);
+    $("#friendsBtn").removeClass("bg-10");
+    $("#sentRequestBtn").addClass("bg-10");
+    $("#recivedRequestBtn").removeClass("bg-10");
 })
 
 $("#recivedRequestBtn").on("click", function() {
-  $(".friendsDiv").prop('hidden', true);
-  $(".sentRequestDiv").prop('hidden', true);
-  $(".recivedRequestDiv").prop('hidden', false);
-  $("#friendsBtn").removeClass("bg-10");
-  $("#sentRequestBtn").removeClass("bg-10");
-  $("#recivedRequestBtn").addClass("bg-10");
+    activeScreen = "recived"
+    $(".friendsDiv").prop('hidden', true);
+    $(".sentRequestDiv").prop('hidden', true);
+    $(".recivedRequestDiv").prop('hidden', false);
+    $("#friendsBtn").removeClass("bg-10");
+    $("#sentRequestBtn").removeClass("bg-10");
+    $("#recivedRequestBtn").addClass("bg-10");
 })
 
 // Friend request functions
@@ -214,56 +218,92 @@ function changeToFriendState(element) {
     element.find('[data-action="delete"]').show();
 }
 
+function createSentRequestDiv(id, bgColor, path, tagname) {
+    const div = $('<div>', {
+        class: 'row mt-4 py-1 bg-10 rounded-3 sentRequestDiv sent' + id,
+        'data-id': id,
+        hidden: !(activeScreen === "sent")
+    });
+    
+    const col1 = $('<div>', { class: 'col d-flex justify-content-center' });
+    const innerDiv = $('<div>', { style: 'background-color: ' + bgColor + ';', class: 'p-2 rounded-circle' });
+    const img = $('<img>', { class: 'friendIcon', src: '/images/svg/' + path });
+    innerDiv.append(img);
+    col1.append(innerDiv);
+    
+    const col2 = $('<div>', { class: 'col d-flex align-items-center justify-content-center' });
+    const h3 = $('<h3>', { class: 'col', text: tagname });
+    col2.append(h3);
+    
+    const col3 = $('<div>', { class: 'col d-flex align-items-center justify-content-center' });
+    const acceptBtn = $('<button>', { 'data-action': 'accept', style: 'display: none;', class: 'friend-btn', title: 'Aceptar solicitud' }).append($('<img>', { src: '/images/icons/accept.svg' }));
+    const rejectBtn = $('<button>', { 'data-action': 'reject', style: 'display: none;', class: 'friend-btn', title: 'Rechazar solicitud' }).append($('<img>', { src: '/images/icons/reject.svg' }));
+    const cancelBtn = $('<button>', { 'data-action': 'cancel', class: 'friend-btn', title: 'Cancelar petición' }).append($('<img>', { src: '/images/icons/cancel.svg' }));
+    const deleteBtn = $('<button>', { 'data-action': 'delete', style: 'display: none;', class: 'friend-btn', title: 'Eliminar amigo' }).append($('<img>', { src: '/images/icons/delete.svg' }));
+    col3.append(acceptBtn, rejectBtn, cancelBtn, deleteBtn);
+    
+    div.append(col1, col2, col3);
+    return div;
+}
+
 $('.friend-btn').on('click', function () {
     const action = $(this).data('action');
 
     switch (action) {
         case 'add':
-        changeToPendingState()
-        // Se crea un div 
-        // Se añade a enviadas
-        // DAO: Se le manda solicitud
-        break;
+            changeToPendingState($(this).closest("#resultDiv"));
+            const sentRequestDiv = createSentRequestDiv(lastId,lastColor,lastPath,lastTagname);
+            $('#friendsParent').append(sentRequestDiv);
+            sendFriendRequest(lastId);
+            break;
         case 'accept':
-        changeToFriendState()
-        // Se elimina de recibidos
-        // Se añade a mis amigos
-        // DAO: Se le cambia a aceptado
-        console.log('Aceptar solicitud');
-        break;
-        case 'reject':
             const element = $(this).closest("#resultDiv");
             const requestId = element.length > 0 ? element.data("id") : $(this).closest(".recivedRequestDiv").data("id");
             
-            if (!requestId) {
-                console.error("No request ID found");
-                return;
+            if (element.length > 0) {
+                changeToFriendState(element);
             }
+            if(activeScreen === "friends") $(`.recived${requestId}`).prop('hidden', false);
+            else $(`.recived${requestId}`).prop('hidden', true);
+            changeToFriendState($(`.recived${requestId}`));
+            $(`.recived${requestId}`).removeClass('recivedRequestDiv').addClass('friendsDiv').removeClass(`.recived${requestId}`).addClass(`friend${requestId}`);
+            
+            acceptFriendRequest(requestId);
+            break;
+        case 'reject':
+            element = $(this).closest("#resultDiv");
+            requestId = element.length > 0 ? element.data("id") : $(this).closest(".recivedRequestDiv").data("id");
 
             if (element.length > 0) {
                 changeToNothingState(element);
-                $(`.recived${requestId}`).remove();
-            } else {
-                $(this).closest(".recivedRequestDiv").remove();
             }
+            $(`.recived${requestId}`).remove();
             
             dropFriendRequest(requestId);
-        break;
+            break;
         case 'cancel':
-        dropFriendRequest()
-        changeToNothingState()
-        // Se elimina de enviados
-        // DAO: Se elimina la linea
-        console.log('Cancelar petición');
-        break;
+            element = $(this).closest("#resultDiv");
+            requestId = element.length > 0 ? element.data("id") : $(this).closest(".sentRequestDiv").data("id");
+
+            if (element.length > 0) {
+                changeToNothingState(element);
+            } 
+            $(`.sent${requestId}`).remove();
+            
+            dropFriendRequest(requestId);
+            break;
         case 'delete':
-        dropFriendRequest()
-        changeToNothingState()
-        // Se elimina de mis amigos
-        // DAO: Se elimina la linea
-        console.log('Eliminar amigo');
-        break;
+            element = $(this).closest("#resultDiv");
+            requestId = element.length > 0 ? element.data("id") : $(this).closest(".friendsDiv").data("id");
+
+            if (element.length > 0) {
+                changeToNothingState(element);
+            }
+            $(`.friend${requestId}`).remove();
+            
+            dropFriendRequest(requestId);
+            break;
         default:
-        console.warn('Acción no reconocida:', action);
+            console.warn('Acción no reconocida:', action);
     }
 });
