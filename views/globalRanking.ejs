@@ -13,7 +13,7 @@
           <h1 id="easyBtn" class="col mx-sm-5 text-center cursorPointer" style="margin-bottom: 0;border-radius: 1em;">Fácil</h1>
           <h1 id="normalBtn" class="col mx-sm-5 text-center cursorPointer" style="margin-bottom: 0;border-radius: 1em;">Normal</h1>
           <h1 id="hardBtn" class="col mx-sm-5 text-center cursorPointer" style="margin-bottom: 0;border-radius: 1em;">Difícil</h1>
-      </div>
+        </div>
         
         <% levels.forEach(level => { %>
           <% level.res.forEach((entry, i) => { %>
@@ -25,7 +25,7 @@
                 </div>
                 <div class="col-auto align-items-center d-flex">
                   <div style="background-color: <%= entry.bgColor %>; width: 80px; height: 80px;" class="rounded-circle d-flex justify-content-center align-items-center">
-                    <img id="selectionIcon" src="/images/svg/<%=entry.path%>" class="profileSvg">
+                    <img id="selectionIcon" src="/images/svg/<%=entry.path%>" class="profileSvg" alt="Icono de perfil del usuario">
                   </div>
                 </div>
                 <div class="col-2 d-flex">
@@ -60,7 +60,7 @@
                 </div>
                 <div class="col-2 align-items-center mb-2">
                     <div style="background-color: <%= entry.bgColor %>; width: 60px; height: 60px;" class="rounded-circle d-flex justify-content-center align-items-center">
-                      <img id="selectionIcon" src="/images/svg/<%=entry.path%>" class="profileSvg" style="max-width: 40px; max-height: 40px;">
+                      <img id="selectionIcon" src="/images/svg/<%=entry.path%>" class="profileSvg" style="max-width: 40px; max-height: 40px;" alt="Icono de perfil del usuario">
                     </div>
                     <h1 class="h1Profile mb-0"><%= entry.tagname %></h1>
                     <h4 class="h4Profile mb-0"><%= entry.friendCode %></h4>

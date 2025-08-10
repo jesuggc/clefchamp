@@ -4,11 +4,11 @@
   <body class="colorNuevo5">
     <div class="vh-90" id="mainContent">
       <div class="d-flex py-4 justify-content-center align-items-center">
-        <a href="<% if (locals.mode !== "TRIAL" ) { %>/play/selectGame<% } else { %>/<% } %>"><img src="/images/icons/close.svg" class="svgGame mx-4"></a>
+        <a href="<% if (locals.mode !== "TRIAL" ) { %>/play/selectGame<% } else { %>/<% } %>"><img src="/images/icons/close.svg" class="svgGame mx-4" alt="Botón de cerrar"></a>
         <div class="progress w-50 rounded-4" style="height: 20px;">
           <div id="progressBar" class="progress-bar progress-bar-striped bg-success slider" role="progressbar" aria-label="Success striped example" style="width: 0%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
         </div>
-        <img id="helpBtn" src="/images/icons/help.svg" class="svgGame mx-4">
+        <img id="helpBtn" src="/images/icons/help.svg" class="svgGame mx-4" alt="Botón de ayuda">
       </div>
       <%-include('partials/playground') %>
       <div id="divResultados" class="mx-auto box rounded-4 p-4 d-none flex-column text-center mt-5" >

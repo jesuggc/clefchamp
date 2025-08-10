@@ -9,7 +9,7 @@
         <div class="row align-items-center g-3">
           <div class="col-auto">
             <div id="profileIcon" class="rounded-circle d-flex align-items-center justify-content-center" style="background-color: <%=user.bgColor%>; width: 80px; height: 80px;">  
-              <img src="/images/svg/<%=user.path%>" class="userIcon" style="max-width: 60px; max-height: 60px;">
+              <img src="/images/svg/<%=user.path%>" class="userIcon" style="max-width: 60px; max-height: 60px;" alt="Icono de perfil del usuario">
             </div>
           </div>
           <div class="col">
@@ -36,7 +36,7 @@
                 <h5 class="mb-0" id="friendCode"><%=locals.user.friendCode%></h5>
               </div>
               <a id="copyFriendCode" class="cursorPointer justify-content-start mt-2">
-                <img src="/images/icons/copy.svg" class="friendCodeImg">
+                <img src="/images/icons/copy.svg" class="friendCodeImg" alt="Icono de copiar código de amigo">
               </a>
             </div>
           </div>
@@ -48,7 +48,7 @@
         <div class="phoneHidden col-md-4 px-4">
           <div class="bg-15 rounded-4 p-2 text-center d-flex flex-column align-items-center mb-1">
             <div id="bgDiv" class="p-sm-4 p-2 rounded-circle" style="background-color: <%=user.bgColor%>">
-              <img id="imgDiv" src="/images/svg/<%=user.path%>" class="rounded-circle userIcon">
+              <img id="imgDiv" src="/images/svg/<%=user.path%>" class="rounded-circle userIcon" alt="Icono de perfil del usuario">
             </div>
             <h5 class="my-sm-4">Pincha en el icono para cambiarlo</h5>
             <div class="rounded-circle svgIcons editIcon" style="background-image: url('/images/editIcon.svg'); height:10em; width: 10em;"></div>
@@ -75,7 +75,7 @@
               </div>
             </div>
             <div class="col-2 d-flex align-items-center justify-content-center">
-              <a id="copyFriendCode" class="cursorPointer;"><img src="/images/icons/copy.svg" class="friendCodeImg"></a>
+              <a id="copyFriendCode" class="cursorPointer;"><img src="/images/icons/copy.svg" class="friendCodeImg" alt="Icono de copiar código de amigo"></a>
             </div>
           </div>
         </div>
@@ -129,7 +129,7 @@
             <% } %>
             <% if(records.length > 4) { %>
               <div id="seeMoreDiv" class="row bg-15 rounded-4 mx-1 mt-1 cursorPointer">
-                <img id="seeMore" src="/images/icons/seemore.svg" class="my-3" style="max-height: 1.5em;">
+                <img id="seeMore" src="/images/icons/seemore.svg" class="my-3" style="max-height: 1.5em;" alt="Icono de ver más">
               </div>
             
             <% } %>

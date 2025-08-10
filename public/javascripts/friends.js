@@ -227,7 +227,7 @@ function createSentRequestDiv(id, bgColor, path, tagname) {
     
     const col1 = $('<div>', { class: 'col d-flex justify-content-center' });
     const innerDiv = $('<div>', { style: 'background-color: ' + bgColor + ';', class: 'p-2 rounded-circle' });
-    const img = $('<img>', { class: 'friendIcon', src: '/images/svg/' + path });
+    const img = $('<img>', { class: 'friendIcon', src: '/images/svg/' + path, alt: 'Icono de perfil del amigo' });
     innerDiv.append(img);
     col1.append(innerDiv);
     
@@ -236,10 +236,11 @@ function createSentRequestDiv(id, bgColor, path, tagname) {
     col2.append(h3);
     
     const col3 = $('<div>', { class: 'col d-flex align-items-center justify-content-center' });
-    const acceptBtn = $('<button>', { 'data-action': 'accept', style: 'display: none;', class: 'friend-btn', title: 'Aceptar solicitud' }).append($('<img>', { src: '/images/icons/accept.svg' }));
-    const rejectBtn = $('<button>', { 'data-action': 'reject', style: 'display: none;', class: 'friend-btn', title: 'Rechazar solicitud' }).append($('<img>', { src: '/images/icons/reject.svg' }));
-    const cancelBtn = $('<button>', { 'data-action': 'cancel', class: 'friend-btn', title: 'Cancelar petición' }).append($('<img>', { src: '/images/icons/cancel.svg' }));
-    const deleteBtn = $('<button>', { 'data-action': 'delete', style: 'display: none;', class: 'friend-btn', title: 'Eliminar amigo' }).append($('<img>', { src: '/images/icons/delete.svg' }));
+    const acceptBtn = $('<button>', { 'data-action': 'accept', style: 'display: none;', class: 'friend-btn', title: 'Aceptar solicitud' }).append($('<img>', { src: '/images/icons/accept.svg', alt: 'Icono de aceptar'}));
+    const rejectBtn = $('<button>', { 'data-action': 'reject', style: 'display: none;', class: 'friend-btn', title: 'Rechazar solicitud' }).append($('<img>', { src: '/images/icons/reject.svg', alt: 'Icono de rechazar'}));
+    const cancelBtn = $('<button>', { 'data-action': 'cancel', class: 'friend-btn', title: 'Cancelar petición' }).append($('<img>', { src: '/images/icons/cancel.svg', alt: 'Icono de cancelar'}));
+    const deleteBtn = $('<button>', { 'data-action': 'delete', style: 'display: none;', class: 'friend-btn', title: 'Eliminar amigo' }).append($('<img>', { src: '/images/icons/delete.svg', alt: 'Icono de eliminar' }));
+
     col3.append(acceptBtn, rejectBtn, cancelBtn, deleteBtn);
     
     div.append(col1, col2, col3);

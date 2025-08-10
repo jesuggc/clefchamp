@@ -5,7 +5,7 @@
               <h3 class="modal-title mx-auto">Buscar amigo</h3>
             </div>
               <div class="row">
-                <div class="col">
+                <div class="col-3">
                   <p>Codigo de amigo</p>
                 </div>
                 <div class="col">
@@ -14,8 +14,8 @@
                     <input id="myFriendCode" type="text" class="form-control">
                   </div>
                 </div>
-                <div class="col">
-                  <button class="btn btn-primary" id="friendBtn">Buscar amigo</button>
+                <div class="col-3">
+                  <button class="acceptButton-sm" id="friendBtn">Buscar</button>
                 </div>
               </div>
               <div id="noResultDiv" class="row mt-4 bg-10 p-2 rounded-3 px-5">
@@ -24,18 +24,18 @@
               <div id="resultDiv" class="row mt-4 py-1 bg-10 rounded-3">
                 <div class="col d-flex justify-content-center">
                   <div id="resultBg" class="p-2 rounded-circle">
-                    <img id="resultImg" class="friendIcon">
+                    <img id="resultImg" class="friendIcon" alt="Icono de perfil del usuario encontrado">
                   </div>
                 </div>
                 <div class="col d-flex align-items-center justify-content-center">
                   <h3 id="resultName" class="col"></h3>
                 </div>
                 <div class="col d-flex align-items-center justify-content-center">
-                    <button data-action="add" class="friend-btn" title="Añadir amigo"><img src="/images/icons/add.svg"></button>
-                    <button data-action="accept" class="friend-btn" title="Aceptar solicitud"><img src="/images/icons/accept.svg"></button>
-                    <button data-action="reject" class="friend-btn" title="Rechazar solicitud"><img src="/images/icons/reject.svg"></button>
-                    <button data-action="cancel" class="friend-btn" title="Cancelar petición"><img src="/images/icons/cancel.svg"></button>
-                    <button data-action="delete" class="friend-btn" title="Eliminar amigo"><img src="/images/icons/delete.svg"></button>
+                    <button data-action="add" class="friend-btn" title="Añadir amigo"><img src="/images/icons/add.svg" alt="Icono de añadir amigo"></button>
+                    <button data-action="accept" class="friend-btn" title="Aceptar solicitud"><img src="/images/icons/accept.svg" alt="Icono de aceptar"></button>
+                    <button data-action="reject" class="friend-btn" title="Rechazar solicitud"><img src="/images/icons/reject.svg" alt="Icono de rechazar"></button>
+                    <button data-action="cancel" class="friend-btn" title="Cancelar petición"><img src="/images/icons/cancel.svg" alt="Icono de cancelar"></button>
+                    <button data-action="delete" class="friend-btn" title="Eliminar amigo"><img src="/images/icons/delete.svg" alt="Icono de eliminar"></button>
                 </div>
               </div>
           </div>

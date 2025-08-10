@@ -11,7 +11,7 @@
         <p class="mb-2">Puntuación más alta</p>
         <div class="d-flex flex-column align-items-center gap-2">
           <div class="d-flex align-items-center gap-2">
-            <img class="statsSvg" src="/images/icons/trophy.svg">
+            <img class="statsSvg" src="/images/icons/trophy.svg" alt="">
             <span id="bestScore<%=difficulty.charAt(0).toUpperCase() + difficulty.slice(1)%>" class="h3 mb-0"></span>
           </div>
           <small id="bestDate<%=difficulty.charAt(0).toUpperCase() + difficulty.slice(1)%>" class="text-muted"></small>
@@ -21,7 +21,7 @@
       <div class="bg-15 rounded-4 p-2 d-flex flex-column align-items-center col-sm-2 col-12 mb-sm-0 mb-1">
         <p class="mb-2">Partidas jugadas</p>
         <div class="d-flex align-items-center gap-2">
-          <img src="/images/icons/treble.svg" style="max-height: 4em;">
+          <img src="/images/icons/treble.svg" style="max-height: 4em;" alt="">
           <span class="h3 mb-0"><%=stats[difficulty].gamesPlayed%></span>
         </div>
       </div>
@@ -29,7 +29,7 @@
       <div class="bg-15 rounded-4 p-2 d-flex flex-column align-items-center col-sm-2 col-12 mb-sm-0 mb-1">
         <p class="mb-2">Posición en el ranking</p>
         <div class="d-flex align-items-center justify-content-center gap-2 h-100">
-          <img class="statsSvg" src="/images/icons/ranking.svg">
+          <img class="statsSvg" src="/images/icons/ranking.svg" alt="">
           <span class="h3 mb-0"><%=stats[difficulty].rank || '-'%></span>
         </div>
       </div>
@@ -37,7 +37,7 @@
       <div class="bg-15 rounded-4 p-2 d-flex flex-column align-items-center col-sm-2 col-12 mb-sm-0 mb-1">
         <p class="mb-2">Última partida</p>
         <div class="d-flex align-items-center gap-2 justify-content-center h-100">
-          <img class="statsSvg" src="/images/icons/lastPlayed.svg">
+          <img class="statsSvg" src="/images/icons/lastPlayed.svg" alt="">
           <span id="lastPlayed<%=difficulty.charAt(0).toUpperCase() + difficulty.slice(1)%>" class="h4 my-auto"></span>
         </div>
       </div>
