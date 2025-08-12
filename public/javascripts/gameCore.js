@@ -501,7 +501,7 @@ const GameState = {
         this.elements.$experienceDiv.css('opacity', 0);
         this.elements.$totalExpDiv.css('opacity', 0);
         this.elements.$playAgainDiv.css('opacity', 0);
-        
+        this.elements.$totalPointsDiv.css('opacity', 0)
         // Reiniciar estado del juego
         this.current.contador = 0;
         this.current.expectedNote = "";
