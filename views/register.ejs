@@ -102,10 +102,22 @@
       $("#togglePassword").on("mouseup", function() {
           $("#password").attr("type", "password");
       });
+      $("#togglePassword").on("touchstart", function() {
+        $("#password").attr("type", "text");
+      });
+      $("#togglePassword").on("touchend", function() {
+          $("#password").attr("type", "password");
+      });
       $("#toggleConfirmPassword").on("mousedown", function() {
         $("#confirmPassword").attr("type", "text");
       });
       $("#toggleConfirmPassword").on("mouseup", function() {
+          $("#confirmPassword").attr("type", "password");
+      });
+      $("#toggleConfirmPassword").on("touchstart", function() {
+        $("#confirmPassword").attr("type", "text");
+      });
+      $("#toggleConfirmPassword").on("touchend", function() {
           $("#confirmPassword").attr("type", "password");
       });
     </script>
