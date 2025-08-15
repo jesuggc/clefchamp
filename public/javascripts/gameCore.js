@@ -315,7 +315,7 @@ const GameState = {
         let percentage = Math.round((this.current.aciertos / this.config.ROUNDS) * 100);
         let winExp = percentage >= 50;
         let experienceToAdd = winExp ? this.config.EXPERIENCE : 0;
-        this.elements.$totalPointsSpan.text(this.current.points + ' puntos');
+        this.elements.$totalPointsSpan.text(Math.round(this.current.points) + ' puntos');
         this.elements.$totalPointsDiv.css('opacity', 1)
         let levelUp = await this.handleExperience(winExp, experienceToAdd);
         
