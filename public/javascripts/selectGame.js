@@ -23,7 +23,8 @@ $("#playBtn").prop("disabled", true);
 
 function changeImageWithFade(src) {
   $("#gameImage").fadeOut(150, function () {
-      $(this).attr("src", src).fadeIn(150);
+      if(src=== null) $(this).removeAttr("src").fadeIn(150); 
+      else $(this).attr("src", src).fadeIn(150);
   });
 }
 
