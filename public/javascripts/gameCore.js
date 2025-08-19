@@ -353,7 +353,6 @@ const GameState = {
         let percentage = Math.round((this.current.aciertos / this.config.ROUNDS) * 100);
         this.elements.$resultSpan.html(`¡Nivel completado! Obtuviste un ${percentage}%`);
         this.elements.$experienceSpan.html(`Registrate para guardar tu progreso y poder acceder a más niveles`);
-        console.log("Puntuacion " + this.current.points)
         setTimeout(() => this.elements.$resultDiv.css('opacity', 1), 500);
         setTimeout(() => this.elements.$experienceDiv.css('opacity', 1), 1000);
         setTimeout(() => this.elements.$createAccountDiv.css('opacity', 1), 1500);

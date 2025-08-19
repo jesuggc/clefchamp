@@ -212,13 +212,11 @@
     <% if(user) { %> <script src="/javascripts/musicPlayer.js"></script> <% } %>
     <script>
       $(document).ready(function() {
-        let difficulty = localStorage.getItem("lastPlayed") || "EASY"; // Valor por defecto si es null
+        let difficulty = localStorage.getItem("lastPlayed") || "EASY"; 
         
-        // Configurar enlace dinámico
         $("#lastPlayed").attr("href", "/play/atrapado/" + difficulty.toLowerCase());
-        
-        // Determinar el texto de la dificultad
-        let dificultad = "Fácil"; // Valor por defecto
+
+        let dificultad = "Fácil";
         if (difficulty === "NORMAL") dificultad = "Normal";
         if (difficulty === "HARD") dificultad = "Difícil";
         

@@ -23,7 +23,7 @@ function dibujarNota(nota, clef) {
 
     vf.draw()
   } catch(e) {
-    console.log("Si peta ni caso")
+    console.log("Excepción capturada en la generación de notas")
   }  
 }
 

@@ -6,7 +6,7 @@ function crearGraficoAreaspline(divId, datos) {
       type: 'areaspline',
       backgroundColor: '#dccfca',
       borderRadius: 10,
-      zoomType: '' // Desactiva zoom manual
+      zoomType: ''
     },
     title: { text: '' },
     xAxis: {

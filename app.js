@@ -7,7 +7,6 @@ const mysqlConfig = require('./config/db');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
-var applicationRouter = require('./routes/application');
 var playRouter = require('./routes/play');
 
 const session = require('express-session')
@@ -38,7 +37,7 @@ app.use(morgan('dev'));
 app.use((req,res,next) => {
   const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
   const date = new Date();
-  date.setHours(date.getHours() + 2); 
+  date.setHours(date.getHours()); 
   const formattedDate = date.toLocaleString('es-ES', {
     day: '2-digit',
     month: '2-digit',
@@ -54,7 +53,6 @@ app.use((req,res,next) => {
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-app.use('/application', applicationRouter);
 app.use('/play', playRouter);
 
 

@@ -51,7 +51,7 @@
               <img id="imgDiv" src="/images/svg/<%=user.path%>" class="rounded-circle userIcon" alt="Icono de perfil del usuario">
             </div>
             <h5 class="my-sm-4">Pincha en el icono para cambiarlo</h5>
-            <div class="rounded-circle svgIcons editIcon" style="background-image: url('/images/editIcon.svg'); height:10em; width: 10em;"></div>
+            <div class="rounded-circle svgIcons editIcon cursorPointer"></div>
             <h3 class="mt-sm-1"><%=locals.user.name%></h3>
             <h3>Nivel <%=locals.user.level%></h3>
             <div id="profileProgress" class="progress rounded-5 w-75" role="progressbar" aria-label="Success striped example" aria-valuenow="<%=user.experience%>" aria-valuemin="0" aria-valuemax="<%=user.experience + user.experienceToNext%>">

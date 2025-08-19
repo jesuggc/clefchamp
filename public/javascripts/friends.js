@@ -1,6 +1,5 @@
 let userId = null;
 
-// Initialize user ID when document is ready
 $(document).ready(async function() {
     userId = await getSelfId();
 });
@@ -38,7 +37,6 @@ $("#friendBtn").on("click", async function() {
     $('#noResultDiv').hide();
     $('#resultDiv').hide();
     const friendCode = $("#myFriendCode").val().replace('#', ''); 
-    console.log("El codigo es", friendCode);
     
     if(friendCode === "") {
         $('#noResultDiv').show();
@@ -48,7 +46,6 @@ $("#friendBtn").on("click", async function() {
             if (result.length === 0) {
                 $('#noResultDiv').show();
             } else {
-                console.log(result[0]);
                 $("#resultDiv").find('.friend-btn').hide(); // Hide all buttons
                 
                 if(result[0].state === null) {
@@ -127,7 +124,6 @@ $("#recivedRequestBtn").on("click", function() {
     $("#recivedRequestBtn").addClass("bg-10");
 })
 
-// Friend request functions
 function acceptFriendRequest(friendId) {
     return fetch('/users/acceptRequest', {
         method: 'POST',
@@ -174,8 +170,6 @@ function sendFriendRequest(friendId) {
     });
 }
 
-
-// Check number of children in #friendsParent
 function checkCount() {
     const friendsCount = $('#friendsParent').children('.friendsDiv').length;
     const sentRequestsCount = $('#friendsParent').children('.sentRequestDiv').length;
@@ -201,20 +195,20 @@ observer.observe(document.getElementById('friendsParent'), { childList: true });
 
 
 function changeToNothingState(element) {
-    element.find('.friend-btn').hide(); // Hide all buttons
+    element.find('.friend-btn').hide();
     element.find('[data-action="add"]').show();
 }
 function changeToPendingState(element) {
-    element.find('.friend-btn').hide(); // Hide all buttons
+    element.find('.friend-btn').hide();
     element.find('[data-action="cancel"]').show();
 }
 function changeToDecisionState(element) {
-    element.find('.friend-btn').hide(); // Hide all buttons
+    element.find('.friend-btn').hide();
     element.find('[data-action="accept"]').show();
     element.find('[data-action="reject"]').show();
 }
 function changeToFriendState(element) {
-    element.find('.friend-btn').hide(); // Hide all buttons
+    element.find('.friend-btn').hide(); 
     element.find('[data-action="delete"]').show();
 }
 
@@ -286,7 +280,6 @@ $('.friend-btn').on('click', function () {
         case 'cancel':
             element = $(this).closest("#resultDiv");
             requestId = element.length > 0 ? element.data("id") : $(this).closest(".sentRequestDiv").data("id");
-            console.log(requestId)
             if (element.length > 0) {
                 changeToNothingState(element);
             } 

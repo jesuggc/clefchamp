@@ -18,7 +18,6 @@ $("#cancelBtn").on("click", function() {
 })
 
 $("#confirmBtn").on("click", function() {
-  console.log("Algo hago")
   fetch("/users/logout", {
     method: "GET",
     headers: {

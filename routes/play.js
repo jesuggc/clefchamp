@@ -24,7 +24,6 @@ router.use((req, res, next) => {
 })
 
 router.get("/", isLoggedIn, (request,response) => {
-  console.log(lastPlayed)
   response.render('home', {lastPlayed} )
 })
 

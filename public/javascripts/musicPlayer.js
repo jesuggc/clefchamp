@@ -100,7 +100,6 @@ $(function() {
       $("#soundSvg").attr("src", loudSoundImg);
       currentSoundImg = loudSoundImg
     }
-    console.log(audio.volume)
   });
 
   rewindBtn.on('click', function() {

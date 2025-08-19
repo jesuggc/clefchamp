@@ -217,11 +217,11 @@
 .profileIcon {
   background-size: cover;
 }
-.editIcon:hover {
+/* .editIcon:hover {
   opacity: 0.6;
   background-color: white;
   cursor:pointer;
-}
+} */
 .editIcon {
   background-repeat: no-repeat;
   background-position: center;
