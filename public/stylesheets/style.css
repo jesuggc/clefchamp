@@ -272,8 +272,12 @@ select {
 header {
   height: 10vh;
   position: sticky;
+  z-index: 1050;
 }
-
+.dropdown-menu {
+  position: absolute;
+  z-index: 2000;
+}
 a[href] {
   text-decoration: none;
 }
@@ -998,6 +1002,10 @@ input[type="color"]::-webkit-color-swatch {
   font-size: 1.8em;
   font-weight:600;
 }
+
+
+
+
 @media (max-width: 576px) {
   .notesDescriptor {
     font-size: 0.75em;

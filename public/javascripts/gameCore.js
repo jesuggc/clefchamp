@@ -181,7 +181,6 @@ const GameState = {
         this.elements.$startAgain.on("click", () => this.resetGame());
     },
 
-    // Manejar evento de tecla presionada
     handleKeyDown(event) {
         const key = event.key.toLowerCase();
         if (this.keyMapping.visualKeyMap[key]) {
@@ -206,7 +205,6 @@ const GameState = {
         }
     },
 
-    // Manejar evento de tecla liberada
     handleKeyUp(event) {
         const key = event.key.toLowerCase();
         if (this.keyMapping.visualKeyMap[key]) {
@@ -214,7 +212,6 @@ const GameState = {
         }
     },
 
-    // Iniciar el juego
     startGame() {
         growAndBack(this.elements.$divFeedback);
         this.elements.$startBtn.removeClass("d-flex").addClass("d-none");
@@ -223,7 +220,6 @@ const GameState = {
         this.current.gameStarted = true;
     },
 
-    // Actualizar el estado del juego
     updateGame() {
         if (this.current.contador === this.config.ROUNDS) {
             this.endGame();
@@ -236,7 +232,6 @@ const GameState = {
         this.current.notes.push(getNote(note,clef) + getOctave(note,clef))
     },
 
-    // Verificar si la nota presionada es correcta
     checkCorrect(keyEvent) {
         const pressedNote = this.keyMapping.keyMap[keyEvent];
         $(`.note${this.current.expectedNote}`).each((_, ele) => flashBackground(ele, this.config.COLOR_CORRECT));
@@ -248,7 +243,6 @@ const GameState = {
         }
     },
 
-    // Manejar nota correcta
     handleCorrectNote() {
         this.current.results.push(true)
         this.current.aciertos++;
@@ -261,7 +255,6 @@ const GameState = {
         fadeOut(this.elements.$successMessage);
     },
 
-    // Obtener feedback basado en tiempo de respuesta
     getFeedback(time) {
         if (time < this.config.PERFORMANCE.PERFECT.THRESHOLD) {
             this.current.perfectCounter++
@@ -283,7 +276,6 @@ const GameState = {
         return this.config.PERFORMANCE.OK;
     },
 
-    // Manejar nota incorrecta
     handleWrongNote(pressedNote) {
         this.current.results.push(false)
         this.current.fallos++;
@@ -292,7 +284,6 @@ const GameState = {
         this.current.pointsToAdd = 0
     },
 
-    // Finalizar el juego
     endGame() {
         this.elements.$divFeedback.removeClass("d-flex").addClass("d-none")
         this.cronometro.pause();
@@ -310,7 +301,6 @@ const GameState = {
         this.elements.$divResultados.css("height", this.elements.$divFeedback.css("height")).addClass('show');
     },
 
-    // Mostrar resultados
     async showResults() {
         let percentage = Math.round((this.current.aciertos / this.config.ROUNDS) * 100);
         let winExp = percentage >= 50;
@@ -323,7 +313,6 @@ const GameState = {
             winExp ? `+ ${this.config.EXPERIENCE} exp.` : `Para conseguir experiencia supera el ${this.config.experienceThreshold}%`
         );
         this.elements.$resultSpan.text("Has acertado un " + percentage + "%");
-        // this.elements.$resultSpan.css("color", winExp ? this.config.COLOR_CORRECT : this.config.COLOR_WRONG);
         
         let experiencePercentage = (this.userData.locals.experience / (this.userData.locals.experience + this.userData.locals.experienceToNext)) * 100;
         
@@ -346,7 +335,6 @@ const GameState = {
             setTimeout(() => this.elements.$playAgainDiv.css('opacity', 1), 3000);
         }
         
-        // Mostrar el botón para volver a jugar
     },
 
     showFidelization() {
@@ -358,7 +346,6 @@ const GameState = {
         setTimeout(() => this.elements.$createAccountDiv.css('opacity', 1), 1500);
     },
 
-    // Manejar la experiencia ganada
     async handleExperience(winExp, experienceToAdd) {
         await this.getLocals();
         let locals = this.userData.locals
@@ -383,7 +370,6 @@ const GameState = {
         return levelUp;
     },
 
-    // Obtener datos locales del usuario
     async getLocals() {
         try {
             const response = await fetch('/users/api/getLocals');
@@ -394,7 +380,6 @@ const GameState = {
         }
     },
 
-    // Obtener experiencia necesaria para el siguiente nivel
     async getExpNextLevel() {
         try {
             const response = await fetch(`/play/getExperienceRequired/${(this.userData.locals.level + 2)}`);
@@ -405,7 +390,6 @@ const GameState = {
         }
     },
 
-    // Actualizar nivel de usuario en el servidor
     async updateUserLevel(userId, level, experience, experienceToNext) {
         try {
             await fetch('/play/addExperience', {
@@ -469,7 +453,6 @@ const GameState = {
         }
     },
 
-    // Actualizar interfaz de usuario
     updateUI() {
         this.elements.$progressBar.css("width", ((this.current.contador / this.config.ROUNDS) * 100) + "%");
         
@@ -531,7 +514,6 @@ const GameState = {
         emptyClef();
     }
 };
-// Inicializar el juego cuando el documento esté listo
 $(function() {
     GameState.initialize();
 });
