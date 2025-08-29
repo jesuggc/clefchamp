@@ -18,7 +18,7 @@ $("#cancelBtn").on("click", function() {
 })
 
 $("#confirmBtn").on("click", function() {
-  fetch("/users/logout", {
+  fetch("/users/deleteAccount", {
     method: "GET",
     headers: {
       "Content-Type": "application/json"

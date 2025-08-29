@@ -58,6 +58,21 @@ router.get("/logout", isLoggedIn, (req, res) => {
   });
 });
 
+router.get("/deleteAccount", isLoggedIn, (req, res) => {
+  let id = res.locals.user.id
+  req.session.destroy((err) => {
+    if (err) return res.status(500).json({ message: "Error al borrar cuenta" });
+    dao.deleteUser(id, (err, user) => {
+      if (err) {
+        console.error("Error en login:", err);
+        return res.status(500).json({ message: "Error en el inicio de sesión" });
+      }
+      res.clearCookie("connect.sid"); 
+      res.redirect("/");
+    });
+  });
+});
+
 router.get("/login", alreadyLoggedIn, (req, res) => {
   res.render("login");
 });

@@ -330,7 +330,6 @@ class DAO {
             }
         });
     }
-
     getTopRecordsByDifficulty(difficulty, callback) {
         this.pool.getConnection((err, connection) => {
             if (err) callback(err, null);
@@ -397,6 +396,19 @@ class DAO {
         });
     }
 
+    deleteUser(id, callback) {
+        this.pool.getConnection((err, connection) => {
+            if (err) callback(err, null);
+            else {
+                let query = `CALL deleteUser(?);`
+                connection.query(query, [id], (err, resultado) => {
+                    connection.release();
+                    if (err) callback(err, null);
+                    else callback(null, resultado);
+                });
+            }
+        });
+    }
     setEmptySelectedIcon(id, callback) {
         this.pool.getConnection((err, connection) => {
             if (err) callback(err, null);
